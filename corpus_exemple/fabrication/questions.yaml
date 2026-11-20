@@ -1,0 +1,839 @@
+# Questions du corpus d'exemple, écrites comme le ferait le métier (document 1, section 4).
+# Chaque passage est copié depuis la source (texte, tableau, fiche), recopié (scan) ou décrit (schéma).
+# remplir_excel.py vérifie chaque passage contre la source, puis remplit le fichier Excel.
+# Valeurs : libellés exacts de la feuille Listes du modèle Excel.
+
+# ---------- Procédures : consignation ----------
+- id: Q-001
+  question: "comment on consigne une armoire électrique basse tension ?"
+  type_reponse: Liste
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "En cinq étapes, dans l'ordre : séparation, condamnation, identification, vérification d'absence de tension (VAT), puis mise à la terre et en court-circuit (MALT-CC)."
+  points_cles: "séparation ; condamnation ; identification ; vérification d'absence de tension ; mise à la terre et en court-circuit"
+  difficulte: Facile
+  frequence: Fréquente
+  gravite: Forte
+  passages:
+    - {reference: PR-1101, page: 2, type: Texte, repond: Entièrement, passage: "La consignation comporte cinq étapes, toujours exécutées dans l'ordre : séparation, condamnation, identification, vérification d'absence de tension (VAT), puis mise à la terre et en court-circuit (MALT-CC)."}
+    - {reference: PR-1101, page: 2, type: Image ou schéma, repond: Entièrement, passage: "Figure 1 : les cinq opérations de consignation dans l'ordre, séparation, condamnation, identification, VAT et MALT-CC, avec la condition à remplir avant de passer à l'étape suivante."}
+
+- id: Q-002
+  question: "il faut combien de temps en moyenne pour consigner une armoire divisionnaire ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "20 minutes en moyenne."
+  points_cles: "20 minutes"
+  difficulte: Facile
+  frequence: Occasionnelle
+  gravite: Faible
+  passages:
+    - {reference: PR-1101, page: 2, type: Texte, repond: Entièrement, passage: "La consignation d'une armoire divisionnaire demande en moyenne 20 minutes."}
+
+- id: Q-003
+  question: "et pour un TGBT ?"
+  precedente: Q-002
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "90 minutes en moyenne pour la consignation d'un TGBT."
+  points_cles: "90 minutes"
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Faible
+  reservee: true
+  passages:
+    - {reference: PR-1101, page: 3, type: Tableau, repond: Entièrement, passage: "Point | Armoire divisionnaire BT | TGBT\nDurée moyenne | 20 minutes | 90 minutes"}
+
+- id: Q-004
+  question: "quelle section doivent avoir les câbles de mise à la terre et en court-circuit quand on consigne un TGBT ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "95 mm² sur le jeu de barres (25 mm² seulement pour une armoire divisionnaire)."
+  points_cles: "95 mm²"
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Forte
+  passages:
+    - {reference: PR-1101, page: 3, type: Tableau, repond: Entièrement, passage: "Point | Armoire divisionnaire BT | TGBT\nSection MALT-CC | 25 mm² | 95 mm² sur jeu de barres"}
+    - {reference: PR-1101, page: 1, type: Tableau, repond: Piège, passage: "Matériel | Caractéristique | Quantité\nDispositif de MALT-CC basse tension | câbles cuivre 25 mm², pinces de barres | 1"}
+
+- id: Q-005
+  question: "quelle habilitation faut-il pour consigner un poste HTA ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "Un chargé de consignation habilité HC, assisté d'un second intervenant habilité H2V."
+  points_cles: "HC ; second intervenant H2V"
+  difficulte: Facile
+  frequence: Occasionnelle
+  gravite: Forte
+  passages:
+    - {reference: PR-1112, page: 2, type: Texte, repond: Entièrement, passage: "La consignation d'un poste HTA exige un chargé de consignation habilité HC, assisté d'un second intervenant habilité H2V (PR-1102)."}
+    - {reference: NT-057, page: 1, type: Texte, repond: Entièrement, passage: "Les interventions sur le poste HTA relèvent de la procédure PR-1102 et sont réservées à un chargé de consignation habilité HC, assisté d'un second intervenant H2V."}
+
+# ---------- Droits d'accès ----------
+- id: Q-006
+  question: "combien de temps dure la séquence de consignation HTA d'un transformateur ?"
+  profil: Maintenance
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "Environ 2 heures pour un transformateur."
+  points_cles: "2 heures"
+  difficulte: Facile
+  frequence: Rare
+  gravite: Moyenne
+  reservee: true
+  passages:
+    - {reference: PR-1102, page: 2, type: Texte, repond: Entièrement, passage: "La séquence complète dure environ 2 heures pour un transformateur."}
+
+- id: Q-007
+  question: "quels sont les réglages du relais de protection générale du poste HTA du site A ?"
+  profil: Exploitation
+  type_reponse: Liste
+  reponse_dans_documents: Non accessible à ce profil
+  reponse_attendue: "Information réservée au profil Maintenance (note NT-051) ; le RAG doit répondre qu'il ne peut pas donner cette information."
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Forte
+  passages:
+    - {reference: NT-051, page: 2, type: Tableau, repond: Entièrement, passage: "Fonction | Code ANSI | Seuil | Temporisation\nMaximum de courant phase | 51 | 72 A | 500 ms"}
+
+- id: Q-008
+  question: "à quelle valeur est réglé le maximum de courant phase du relais de protection générale du site A ?"
+  profil: Maintenance
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "72 A, avec une temporisation de 500 ms (fonction 51)."
+  points_cles: "72 A ; 500 ms"
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Forte
+  passages:
+    - {reference: NT-051, page: 2, type: Tableau, repond: Entièrement, passage: "Fonction | Code ANSI | Seuil | Temporisation\nMaximum de courant phase | 51 | 72 A | 500 ms"}
+
+- id: Q-009
+  question: "qu'est-ce qui a été remplacé lors de la maintenance du poste HTA du site B en juin 2026 ?"
+  profil: Exploitation
+  type_reponse: Liste
+  reponse_dans_documents: Non accessible à ce profil
+  reponse_attendue: "Information réservée au profil Maintenance (fiche OT-24114) ; le RAG doit répondre qu'il ne peut pas donner cette information."
+  difficulte: Facile
+  frequence: Rare
+  gravite: Moyenne
+  reservee: true
+  passages:
+    - {reference: OT-24114, page: Pièces remplacées, type: Texte, repond: Entièrement, passage: "1 thermomètre à cadran avec contacts d'alarme (165 €) ; 1 pile lithium 3,6 V pour relais (14 €)"}
+
+- id: Q-010
+  question: "quelle résistance de contact a-t-on obtenue sur le disjoncteur HTA de TR-A1 après la maintenance de janvier 2026 ?"
+  profil: Maintenance
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "72 µΩ après nettoyage et graissage des contacts (180 µΩ avant)."
+  points_cles: "72 µΩ"
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Faible
+  passages:
+    - {reference: OT-24109, page: Actions réalisées, type: Texte, repond: Entièrement, passage: "nettoyage et graissage des contacts : résistance de contact ramenée à 72 µΩ"}
+
+- id: Q-011
+  question: "combien de temps à l'avance faut-il demander au distributeur de consigner la cellule arrivée du poste ?"
+  profil: Exploitation
+  type_reponse: Fait
+  reponse_dans_documents: Non accessible à ce profil
+  reponse_attendue: "Information réservée au profil Maintenance (procédure PR-1102) ; le RAG doit répondre qu'il ne peut pas donner cette information."
+  difficulte: Facile
+  frequence: Rare
+  gravite: Moyenne
+  reservee: true
+  passages:
+    - {reference: PR-1102, page: 1, type: Texte, repond: Entièrement, passage: "elle est demandée au gestionnaire du réseau public au moins 15 jours à l'avance."}
+
+- id: Q-012
+  question: "à quelle fréquence l'Exploitation doit-elle contrôler les blocs d'éclairage de sécurité ?"
+  profil: Exploitation
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "Tous les mois, lors des rondes : contrôle visuel du voyant de charge de chaque bloc."
+  points_cles: "mensuel ; voyant de charge"
+  difficulte: Facile
+  frequence: Fréquente
+  gravite: Faible
+  passages:
+    - {reference: NT-042, page: 3, type: Texte scanné, repond: Entièrement, passage: "Contrôle visuel mensuel : voyant de charge allumé sur chaque bloc."}
+    - {reference: NT-042, page: 4, type: Texte scanné, repond: Entièrement, passage: "Le service Exploitation réalise le contrôle visuel mensuel lors des rondes."}
+
+# ---------- Contrôles périodiques (version en vigueur et version remplacée) ----------
+- id: Q-013
+  question: "tous les combien doit-on faire la thermographie des armoires électriques ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "Tous les 12 mois, sur les deux sites (procédure PR-1104-C ; l'ancien indice B prévoyait 24 mois)."
+  points_cles: "12 mois"
+  difficulte: Facile
+  frequence: Fréquente
+  gravite: Moyenne
+  passages:
+    - {reference: PR-1104-C, page: 2, type: Tableau, repond: Entièrement, passage: "Contrôle | Périodicité | Critère ou condition | Procédure\nThermographie infrarouge des armoires | tous les 12 mois | classement des échauffements par ΔT | PR-1106"}
+    - {reference: PR-1106, page: 1, type: Texte, repond: Entièrement, passage: "Conformément à la PR-1104-C, elle est réalisée tous les 12 mois (et non plus tous les 24 mois comme le prévoyait l'indice B)."}
+    - {reference: PR-1104-B, page: 2, type: Tableau, repond: Piège, passage: "Contrôle | Périodicité | Critère ou condition | Procédure\nThermographie infrarouge des armoires | tous les 24 mois | classement des échauffements par ΔT | PR-1106"}
+
+- id: Q-014
+  question: "la thermo infrarouge des tableaux, c'est quelle périodicité maintenant ?"
+  variante_de: Q-013
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "Tous les 12 mois, sur les deux sites (procédure PR-1104-C ; l'ancien indice B prévoyait 24 mois)."
+  points_cles: "12 mois"
+  difficulte: Moyenne
+  frequence: Fréquente
+  gravite: Moyenne
+  reservee: true
+  passages:
+    - {reference: PR-1104-C, page: 2, type: Tableau, repond: Entièrement, passage: "Contrôle | Périodicité | Critère ou condition | Procédure\nThermographie infrarouge des armoires | tous les 12 mois | classement des échauffements par ΔT | PR-1106"}
+    - {reference: PR-1106, page: 1, type: Texte, repond: Entièrement, passage: "Conformément à la PR-1104-C, elle est réalisée tous les 12 mois (et non plus tous les 24 mois comme le prévoyait l'indice B)."}
+    - {reference: PR-1104-B, page: 2, type: Tableau, repond: Piège, passage: "Contrôle | Périodicité | Critère ou condition | Procédure\nThermographie infrarouge des armoires | tous les 24 mois | classement des échauffements par ΔT | PR-1106"}
+
+- id: Q-015
+  question: "combien de temps dure l'essai mensuel du groupe électrogène, et avec quelle charge ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "30 minutes, à au moins 50 % de la puissance du groupe ; l'essai à vide de 15 minutes n'est plus admis."
+  points_cles: "30 minutes ; au moins 50 % de la puissance"
+  difficulte: Facile
+  frequence: Fréquente
+  gravite: Moyenne
+  passages:
+    - {reference: PR-1105, page: 1, type: Texte, repond: Entièrement, passage: "Conformément à la PR-1104-C, l'essai dure 30 minutes et se fait à au moins 50 % de la puissance du groupe"}
+    - {reference: PR-1104-B, page: 2, type: Tableau, repond: Piège, passage: "Contrôle | Périodicité | Critère ou condition | Procédure\nEssai du groupe électrogène (GE-A, GE-B) | mensuel | 15 minutes, à vide | PR-1105"}
+
+- id: Q-016
+  question: "quelle est la valeur limite de la prise de terre sur le site B ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "30 Ω au plus sur le site B (régime IT), avec un seuil d'alerte à 24 Ω."
+  points_cles: "30 Ω"
+  difficulte: Facile
+  frequence: Occasionnelle
+  gravite: Forte
+  passages:
+    - {reference: PR-1109, page: 1, type: Tableau, repond: Entièrement, passage: "Site | Régime de neutre | Valeur limite | Seuil d'alerte | Périodicité\nSite B (Brévannes) | IT avec CPI-B | 30 Ω | 24 Ω | 12 mois"}
+    - {reference: NT-068, page: 1, type: Tableau, repond: Entièrement, passage: "Mesure | Site A | Site B\nRésistance de la prise de terre | 10 Ω au plus | 30 Ω au plus"}
+    - {reference: PR-1104-B, page: 2, type: Tableau, repond: Piège, passage: "Contrôle | Périodicité | Critère ou condition | Procédure\nMesure de la prise de terre | tous les 24 mois | ≤ 10 Ω (les deux sites) | PR-1109"}
+
+- id: Q-017
+  question: "et sur le site A ?"
+  precedente: Q-016
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "10 Ω au plus sur le site A (régime TN-S), avec un seuil d'alerte à 8 Ω."
+  points_cles: "10 Ω"
+  difficulte: Moyenne
+  frequence: Occasionnelle
+  gravite: Forte
+  passages:
+    - {reference: PR-1109, page: 1, type: Tableau, repond: Entièrement, passage: "Site | Régime de neutre | Valeur limite | Seuil d'alerte | Périodicité\nSite A (Lavernay) | TN-S | 10 Ω | 8 Ω | 12 mois"}
+
+- id: Q-018
+  question: "pourquoi accepte-t-on une prise de terre plus résistante sur le site B que sur le site A ?"
+  type_reponse: Explication
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "Le site B est en régime IT, neutre isolé : au premier défaut, le courant de fuite reste très faible (quelques centaines de milliampères), donc la tension de contact reste sous 50 V même avec une prise de terre plus résistante."
+  points_cles: "régime IT ; courant de premier défaut très faible ; tension de contact sous 50 V"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Moyenne
+  reservee: true
+  passages:
+    - {reference: NT-068, page: 1, type: Texte, repond: Entièrement, passage: "Au premier défaut, le courant de fuite reste très faible, de l'ordre de quelques centaines de milliampères. La tension de contact, produit de la résistance de terre par ce courant, reste donc sous 50 V même avec une prise de terre plus résistante."}
+
+# ---------- TGBT et thermographie ----------
+- id: Q-019
+  question: "à quel couple faut-il serrer les connexions des barres de 12 mm du TGBT ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "70 N·m (visserie M12, classe 8.8)."
+  points_cles: "70 N·m"
+  difficulte: Facile
+  frequence: Occasionnelle
+  gravite: Moyenne
+  passages:
+    - {reference: PR-1114, page: 2, type: Tableau, repond: Entièrement, passage: "Connexion | Visserie | Couple de serrage\nBarres de 12 mm | M12, classe 8.8 | 70 N·m"}
+    - {reference: NT-053, page: 2, type: Texte, repond: Entièrement, passage: "au couple de 50 N·m pour les barres de 10 mm et de 70 N·m pour les barres de 12 mm."}
+
+- id: Q-020
+  question: "et sur le TGBT-B, on serre à combien ?"
+  precedente: Q-019
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages à combiner
+  reponse_attendue: "50 N·m, car toutes les barres du TGBT-B sont de 10 mm."
+  points_cles: "50 N·m"
+  difficulte: Difficile
+  frequence: Occasionnelle
+  gravite: Moyenne
+  passages:
+    - {reference: PR-1114, page: 2, type: Texte, repond: En partie, passage: "sur le TGBT-B, toutes les barres sont de 10 mm."}
+    - {reference: PR-1114, page: 2, type: Tableau, repond: En partie, passage: "Connexion | Visserie | Couple de serrage\nBarres de 10 mm | M10, classe 8.8 | 50 N·m"}
+
+- id: Q-021
+  question: "quels sont les seuils d'échauffement en thermographie et les délais d'intervention associés ?"
+  type_reponse: Liste
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "ΔT inférieur à 10 °C, surveiller ; de 10 à 30 °C, intervenir sous 1 mois ; au-delà de 30 °C, intervenir sous 48 heures."
+  points_cles: "moins de 10 °C, surveiller ; 10 à 30 °C, sous 1 mois ; plus de 30 °C, sous 48 heures"
+  difficulte: Moyenne
+  frequence: Fréquente
+  gravite: Moyenne
+  reservee: true
+  passages:
+    - {reference: PR-1106, page: 2, type: Tableau, repond: Entièrement, passage: "Écart ΔT | Action | Délai d'intervention\nΔT < 10 °C | surveiller ; contrôle à la campagne suivante | aucun délai\n10 °C ≤ ΔT ≤ 30 °C | intervenir : resserrage ou remplacement | sous 1 mois\nΔT > 30 °C | intervenir en priorité ; information immédiate du responsable Exploitation | sous 48 heures"}
+
+# ---------- Coupures et coûts (calculs) ----------
+- id: Q-022
+  question: "quelle a été la durée totale des coupures sur le site A en 2025 ?"
+  type_reponse: Calcul
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "162 minutes au total, en 5 coupures (42 + 18 + 65 + 12 + 25)."
+  points_cles: "162 min"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Faible
+  passages:
+    - {reference: NT-062, page: 1, type: Tableau, repond: Entièrement, passage: "Date | Site | Durée (min) | Cause\n14/01/2025 | Site A | 42 | Défaut sur le réseau du distributeur 20 kV\n06/03/2025 | Site A | 18 | Déclenchement intempestif d'un différentiel, départ AD-A05\n23/06/2025 | Site A | 65 | Orage, défaut sur la ligne 20 kV du distributeur\n11/08/2025 | Site A | 12 | Déclenchement de l'arrivée TR-A2 sur surcharge\n27/11/2025 | Site A | 25 | Défaut sur le réseau du distributeur 20 kV"}
+
+- id: Q-023
+  question: "et pour le site B ?"
+  precedente: Q-022
+  type_reponse: Calcul
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "312 minutes au total, en 6 coupures (95 + 47 + 30 + 80 + 22 + 38)."
+  points_cles: "312 min"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Faible
+  passages:
+    - {reference: NT-062, page: 2, type: Tableau, repond: Entièrement, passage: "Date | Site | Durée (min) | Cause\n03/02/2025 | Site B | 95 | Double défaut d'isolement, armoire AD-B06\n18/03/2025 | Site B | 47 | Double défaut d'isolement, armoire AD-B05\n17/04/2025 | Site B | 30 | Défaut sur le réseau du distributeur 20 kV\n23/06/2025 | Site B | 80 | Orage, défaut sur la ligne 20 kV du distributeur\n21/10/2025 | Site B | 22 | Coupure réseau, démarrage du GE-B au troisième essai\n15/12/2025 | Site B | 38 | Échauffement d'une connexion du TGBT-B, mise hors tension pour réparation"}
+
+- id: Q-024
+  question: "quelle a été la plus longue coupure de courant de 2025, et pourquoi ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages à combiner
+  reponse_attendue: "Celle du 3 février 2025 sur le site B : 95 minutes, à cause d'un double défaut d'isolement sur l'armoire AD-B06."
+  points_cles: "3 février 2025 ; site B ; 95 minutes ; double défaut d'isolement"
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Faible
+  reservee: true
+  passages:
+    - {reference: NT-062, page: 2, type: Texte, repond: En partie, passage: "La coupure la plus longue de l'année est celle du 3 février 2025 sur le site B."}
+    - {reference: NT-062, page: 2, type: Tableau, repond: En partie, passage: "Date | Site | Durée (min) | Cause\n03/02/2025 | Site B | 95 | Double défaut d'isolement, armoire AD-B06"}
+
+- id: Q-025
+  question: "combien ont coûté au total les pièces changées sur le groupe électrogène GE-A ?"
+  type_reponse: Calcul
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages à combiner
+  reponse_attendue: "620 € HT : 490 € de batteries de démarrage (OT-24103, juin 2025) et 130 € de filtres à gasoil (OT-24117, octobre 2026)."
+  points_cles: "620 €"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Faible
+  reservee: true
+  passages:
+    - {reference: OT-24103, page: Coût des pièces (€ HT), type: Texte, repond: En partie, passage: "490"}
+    - {reference: OT-24117, page: Coût des pièces (€ HT), type: Texte, repond: En partie, passage: "130"}
+
+- id: Q-026
+  question: "combien coûte le remplacement complet des batteries de l'onduleur OND-A, pièces et main-d'œuvre comprises ?"
+  type_reponse: Calcul
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages à combiner
+  reponse_attendue: "1 384 € HT : 32 batteries à 27 € (864 €) et 2 techniciens pendant 4 heures à 65 € de l'heure (520 €)."
+  points_cles: "1384 €"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Faible
+  reservee: true
+  passages:
+    - {reference: NT-060, page: 2, type: Texte, repond: En partie, passage: "Le remplacement est toujours complet, soit 32 batteries."}
+    - {reference: NT-060, page: 2, type: Texte, repond: En partie, passage: "il mobilise 2 techniciens pendant 4 heures"}
+    - {reference: NT-060, page: 2, type: Texte, repond: En partie, passage: "Le prix d'une batterie 12 V 9 Ah est de 27 € HT. Le coût de main-d'œuvre est calculé au coût horaire interne de 65 € HT par technicien."}
+
+# ---------- Onduleur, différentiels, groupes (fiches GMAO) ----------
+- id: Q-027
+  question: "à partir de quelle autonomie faut-il remplacer les batteries de l'onduleur ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "Quand l'autonomie mesurée passe sous 8 minutes (autonomie nominale de 15 minutes) ; le jeu complet est alors remplacé."
+  points_cles: "8 minutes"
+  difficulte: Facile
+  frequence: Occasionnelle
+  gravite: Moyenne
+  passages:
+    - {reference: NT-060, page: 2, type: Tableau, repond: Entièrement, passage: "Critère | Seuil | Action\nAutonomie mesurée à l'essai | Moins de 8 minutes | Remplacement complet sous 1 mois"}
+    - {reference: PR-1107, page: 1, type: Texte, repond: Entièrement, passage: "Le remplacement est déclenché avant cette échéance si l'autonomie mesurée devient inférieure à 8 minutes, pour une autonomie nominale de 15 minutes."}
+
+- id: Q-028
+  question: "et après le remplacement de février 2026, quelle autonomie a-t-on mesurée ?"
+  precedente: Q-027
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "16 minutes à 60 % de charge (contre 6 minutes avant le remplacement)."
+  points_cles: "16 minutes"
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Faible
+  passages:
+    - {reference: OT-24110, page: Actions réalisées, type: Texte, repond: Entièrement, passage: "test d'autonomie : 16 minutes à 60 % de charge"}
+
+- id: Q-029
+  question: "pourquoi le différentiel des prises de l'atelier usinage sautait tout le temps en avril 2025 ?"
+  redigee_par: Question réelle (production)
+  type_reponse: Explication
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "Un courant de fuite permanent de 19 mA, dû aux filtres CEM de 4 postes de soudage branchés sur le même différentiel 30 mA ; le départ a été séparé en deux circuits."
+  points_cles: "courant de fuite de 19 mA ; filtres CEM ; postes de soudage"
+  difficulte: Moyenne
+  frequence: Occasionnelle
+  gravite: Faible
+  reservee: true
+  passages:
+    - {reference: OT-24101, page: Diagnostic, type: Texte, repond: Entièrement, passage: "Courant de fuite permanent de 19 mA mesuré à la pince de fuite sur le départ, dû aux filtres CEM de 4 postes de soudage raccordés sur le même différentiel 30 mA"}
+
+- id: Q-030
+  question: "quelles interventions a-t-on faites sur l'armoire AD-A07, et qu'est-ce qui a été fait à chaque fois ?"
+  type_reponse: Explication
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages à combiner
+  reponse_attendue: "Deux interventions : en avril 2025 (OT-24101), séparation du départ prises en deux circuits avec un second différentiel 30 mA ; en avril 2026 (OT-24112), remplacement du différentiel d'origine, trop sensible (déclenchement à 13 mA)."
+  points_cles: "avril 2025, séparation du départ en deux circuits ; avril 2026, remplacement du différentiel trop sensible"
+  difficulte: Difficile
+  frequence: Occasionnelle
+  gravite: Faible
+  passages:
+    - {reference: OT-24101, page: Actions réalisées, type: Texte, repond: En partie, passage: "Séparation du départ en deux circuits et ajout d'un second interrupteur différentiel 30 mA"}
+    - {reference: OT-24112, page: Actions réalisées, type: Texte, repond: En partie, passage: "Remplacement du différentiel d'origine."}
+
+- id: Q-031
+  question: "quelles pièces a-t-on changées sur le groupe GE-B en mars 2026 ?"
+  type_reponse: Liste
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "La résistance de préchauffage de 2 kW et son thermostat (349 € HT)."
+  points_cles: "résistance de préchauffage ; thermostat de préchauffage"
+  difficulte: Facile
+  frequence: Rare
+  gravite: Faible
+  passages:
+    - {reference: OT-24111, page: Pièces remplacées, type: Texte, repond: Entièrement, passage: "1 résistance de préchauffage 2 kW (285 €) ; 1 thermostat de préchauffage (64 €)"}
+
+# ---------- Schémas unifilaires ----------
+- id: Q-032
+  question: "combien de départs sont secourus par le groupe électrogène du site A ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "9 départs, par un inverseur de source de 800 A."
+  points_cles: "9 départs"
+  difficulte: Difficile
+  frequence: Occasionnelle
+  gravite: Moyenne
+  passages:
+    - {reference: NT-057, page: 2, type: Image ou schéma, repond: Entièrement, passage: "Figure 1 : le groupe électrogène GE-A est raccordé au TGBT-A par un inverseur de source de 800 A qui secourt 9 départs."}
+
+- id: Q-033
+  question: "et sur le site B ?"
+  precedente: Q-032
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "5 départs, par un inverseur de source de 630 A."
+  points_cles: "5 départs"
+  difficulte: Difficile
+  frequence: Occasionnelle
+  gravite: Moyenne
+  reservee: true
+  passages:
+    - {reference: NT-058, page: 2, type: Image ou schéma, repond: Entièrement, passage: "Figure 1 : le groupe électrogène GE-B est raccordé au TGBT-B par un inverseur de source de 630 A qui secourt 5 départs."}
+
+- id: Q-034
+  question: "avec quels câbles le TGBT-A est-il raccordé aux transformateurs ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "Par 4 câbles de 240 mm² en cuivre par phase."
+  points_cles: "4 câbles par phase ; 240 mm² cuivre"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Faible
+  passages:
+    - {reference: NT-057, page: 2, type: Image ou schéma, repond: Entièrement, passage: "Figure 1 : les transformateurs TR-A1 et TR-A2 sont raccordés au TGBT-A par 4 câbles de 240 mm² cuivre par phase."}
+
+# ---------- Notes anciennes (scannées) ----------
+- id: Q-035
+  question: "quel est le courant de court-circuit maximal au jeu de barres du TGBT-A ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "36 kA (étude de sélectivité de 2009)."
+  points_cles: "36 kA"
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Moyenne
+  passages:
+    - {reference: NT-031, page: 2, type: Texte scanné, repond: Entièrement, passage: "Le courant de court-circuit maximal calculé au jeu de barres du TGBT-A est de 36 kA"}
+
+- id: Q-036
+  question: "quelle est la section des câbles qui alimentent l'armoire AD-B04 ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "120 mm² par phase, pour 140 m de longueur."
+  points_cles: "120 mm²"
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Moyenne
+  reservee: true
+  passages:
+    - {reference: NT-034, page: 3, type: Tableau, repond: Entièrement, passage: "Armoire | Puissance | Longueur | Section par phase\nAD-B04 (traitement de surface) | 120 kW | 140 m | 120 mm²"}
+
+- id: Q-037
+  question: "pourquoi le site B est-il exploité en régime de neutre IT ?"
+  type_reponse: Explication
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages à combiner
+  reponse_attendue: "Pour la continuité de service des fours de traitement thermique : le régime IT est le seul qui ne coupe pas l'alimentation au premier défaut d'isolement."
+  points_cles: "continuité de service ; pas de coupure au premier défaut ; fours de traitement thermique"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Faible
+  passages:
+    - {reference: NT-038, page: 1, type: Texte scanné, repond: En partie, passage: "La continuité de service est donc le critère principal du choix pour le site B."}
+    - {reference: NT-038, page: 2, type: Texte scanné, repond: En partie, passage: "Le régime IT est le seul qui permet de ne pas couper l'alimentation au premier défaut d'isolement."}
+
+- id: Q-038
+  question: "en combien d'années la compensation de l'énergie réactive du site A est-elle rentabilisée ?"
+  type_reponse: Calcul
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages à combiner
+  reponse_attendue: "Environ 2,3 ans : 42 000 € HT d'investissement pour 18 400 € HT de pénalités évitées par an."
+  points_cles: "2,3 ans ± 0,1"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Faible
+  passages:
+    - {reference: NT-040, page: 3, type: Texte scanné, repond: En partie, passage: "Le coût de l'installation, matériel et pose compris, est estimé à 42 000 € HT pour les deux batteries."}
+    - {reference: NT-040, page: 3, type: Texte scanné, repond: En partie, passage: "L'économie annuelle attendue est égale aux pénalités évitées, soit 18 400 € HT par an sur la base de l'année 2012."}
+
+- id: Q-039
+  question: "combien de BAES y a-t-il sur le site A ?"
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "186 BAES au 1er janvier 2014 (122 sur le site B)."
+  points_cles: "186"
+  difficulte: Facile
+  frequence: Rare
+  gravite: Faible
+  reservee: true
+  passages:
+    - {reference: NT-042, page: 1, type: Texte scanné, repond: Entièrement, passage: "Au 1er janvier 2014, le site A compte 186 BAES et le site B en compte 122."}
+
+- id: Q-040
+  question: "quelles sont les causes d'échauffement qui reviennent en thermographie ?"
+  type_reponse: Liste
+  reponse_dans_documents: Oui
+  reponse_est_dans: Un seul passage
+  reponse_attendue: "Quatre causes : le desserrage des connexions (5 cas sur 9), les cosses défectueuses, l'usure des appareils de coupure en fin de vie et le déséquilibre de charge entre phases."
+  points_cles: "desserrage des connexions ; cosses défectueuses ; usure des appareils de coupure ; déséquilibre de charge entre phases"
+  difficulte: Moyenne
+  frequence: Occasionnelle
+  gravite: Moyenne
+  passages:
+    - {reference: NT-055, page: 2, type: Texte, repond: Entièrement, passage: "Quatre causes reviennent d'une campagne à l'autre : – le desserrage des connexions, première cause avec 5 cas sur 9, sur les TGBT comme sur les armoires ; – les cosses défectueuses (mal serties ou sous-dimensionnées), 2 cas, tous sur le site B ; – l'usure des appareils de coupure en fin de vie, 1 cas ; – le déséquilibre de charge entre phases, 1 cas."}
+
+# ---------- Synthèses (sur l'ensemble des documents) ----------
+- id: Q-041
+  question: "quels problèmes électriques reviennent le plus souvent dans les interventions des deux usines ?"
+  type_reponse: Synthèse
+  reponse_dans_documents: Oui
+  reponse_est_dans: L'ensemble des documents (synthèse)
+  reponse_attendue: "Les échauffements de connexions relevés en thermographie, les défauts d'isolement sur le site B, les déclenchements intempestifs de différentiels, le démarrage difficile des groupes électrogènes et les batteries d'onduleur en fin de vie."
+  points_cles: "échauffements de connexions ; défauts d'isolement sur le site B ; déclenchements intempestifs de différentiels ; démarrage difficile des groupes électrogènes ; batteries d'onduleur en fin de vie"
+  difficulte: Difficile
+  frequence: Occasionnelle
+  gravite: Moyenne
+  passages:
+    - {reference: NT-055, page: 2, type: Texte, repond: En partie, passage: "Quatre causes reviennent d'une campagne à l'autre"}
+    - {reference: OT-24116, page: Symptôme constaté, type: Texte, repond: En partie, passage: "troisième alerte d'isolement sur le site B depuis mai 2025"}
+    - {reference: OT-24112, page: Symptôme constaté, type: Texte, repond: En partie, passage: "L'Exploitation signale de nouveau des déclenchements intempestifs malgré la séparation des circuits faite en avril 2025 (OT-24101)."}
+    - {reference: OT-24117, page: Symptôme constaté, type: Texte, repond: En partie, passage: "prise de charge en 19 s (critère de 15 s)"}
+    - {reference: OT-24107, page: Diagnostic, type: Texte, repond: En partie, passage: "Batteries en fin de durée de vie prévue (5 ans)."}
+
+- id: Q-042
+  question: "quel bilan peut-on faire des défauts d'isolement sur le site B ?"
+  type_reponse: Synthèse
+  reponse_dans_documents: Oui
+  reponse_est_dans: L'ensemble des documents (synthèse)
+  reponse_attendue: "Trois alarmes du CPI-B depuis mai 2025 (câble de pompe blessé sur AD-B04, infiltration d'eau dans une boîte de jonction sur AD-B07, moteur de ventilation dégradé sur AD-B02), toutes éliminées ; en 2025, deux coupures par double défaut, parce que le premier défaut n'avait pas été éliminé à temps ; d'où la règle de traiter toute alarme du CPI-B dans la journée."
+  points_cles: "trois alarmes du CPI-B depuis mai 2025 ; câbles blessés, humidité et moteurs dégradés ; deux coupures par double défaut en 2025 ; traiter toute alarme dans la journée"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Moyenne
+  reservee: true
+  service: Maintenance électrique
+  passages:
+    - {reference: OT-24102, page: Diagnostic, type: Texte, repond: En partie, passage: "défaut localisé sur le câble d'alimentation du moteur de la pompe P3 (AD-B04)"}
+    - {reference: OT-24106, page: Diagnostic, type: Texte, repond: En partie, passage: "Infiltration d'eau dans une boîte de jonction au quai n° 3"}
+    - {reference: OT-24116, page: Diagnostic, type: Texte, repond: En partie, passage: "Enroulement du moteur 7,5 kW mesuré à 5 kΩ par rapport à la masse (vieillissement et humidité)."}
+    - {reference: NT-062, page: 2, type: Texte, repond: En partie, passage: "Les doubles défauts d'isolement sur le site B : 2 coupures, chaque fois parce que le premier défaut signalé par le CPI-B n'avait pas été éliminé à temps."}
+    - {reference: NT-062, page: 3, type: Texte, repond: En partie, passage: "Traiter toute alarme du CPI-B dans la journée, avec recherche du défaut selon la procédure PR-1108."}
+
+- id: Q-043
+  question: "quels enseignements tirer des campagnes de thermographie depuis 2023 ?"
+  type_reponse: Synthèse
+  reponse_dans_documents: Oui
+  reponse_est_dans: L'ensemble des documents (synthèse)
+  reponse_attendue: "Le desserrage des connexions est la première cause d'échauffement ; les points chauds reviennent sur les arrivées de transformateur du TGBT-A et sur l'armoire AD-B04 ; la thermographie est passée de 24 à 12 mois et un resserrage annuel de ces points a été ajouté au plan préventif."
+  points_cles: "desserrage des connexions, première cause ; points chauds récurrents sur les arrivées du TGBT-A et sur AD-B04 ; thermographie tous les 12 mois ; resserrage annuel ajouté"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Moyenne
+  passages:
+    - {reference: NT-055, page: 2, type: Texte, repond: En partie, passage: "Deux points chauds sont récurrents : les arrivées de transformateur du TGBT-A (TR-A1 en 2023, TR-A2 en 2025) sur le site A, et l'armoire AD-B04 sur le site B, relevée en 2024 et en 2025."}
+    - {reference: NT-055, page: 2, type: Texte, repond: En partie, passage: "Ajouter au plan préventif un resserrage annuel des arrivées du TGBT-A et de l'armoire AD-B04."}
+    - {reference: PR-1104-C, page: 3, type: Texte, repond: En partie, passage: "Ces évolutions font suite aux échauffements constatés lors des campagnes de thermographie 2023 et 2024"}
+    - {reference: OT-24104, page: Diagnostic, type: Texte, repond: En partie, passage: "Connexion desserrée et oxydée sur la barre de 12 mm de la phase L2."}
+
+- id: Q-044
+  question: "quelles sont les grandes différences entre les installations électriques du site A et du site B ?"
+  type_reponse: Synthèse
+  reponse_dans_documents: Oui
+  reponse_est_dans: L'ensemble des documents (synthèse)
+  reponse_attendue: "Le site A est en TN-S avec deux transformateurs de 1 000 kVA, un onduleur centralisé et un groupe de 500 kVA à basculement automatique ; le site B est en IT avec un seul transformateur de 1 250 kVA, sans onduleur centralisé, un groupe de 400 kVA à basculement manuel ; la limite de terre est de 10 Ω sur A et 30 Ω sur B."
+  points_cles: "TN-S sur A, IT sur B ; deux transformateurs sur A, un seul sur B ; onduleur centralisé sur A seulement ; basculement automatique sur A, manuel sur B ; limite de terre 10 Ω sur A, 30 Ω sur B"
+  difficulte: Difficile
+  frequence: Occasionnelle
+  gravite: Moyenne
+  passages:
+    - {reference: NT-058, page: 1, type: Texte, repond: En partie, passage: "Le poste alimente un seul transformateur, TR-B1, de 1 250 kVA, 20 kV / 400 V."}
+    - {reference: NT-058, page: 1, type: Texte, repond: En partie, passage: "Contrairement au site A, le site B n'a pas d'onduleur centralisé"}
+    - {reference: NT-038, page: 1, type: Texte scanné, repond: En partie, passage: "La présente note explique pourquoi l'installation basse tension de l'usine de Brévannes (site B) est exploitée en régime de neutre IT, alors que l'usine de Lavernay (site A) reste en régime TN-S."}
+    - {reference: PR-1111, page: 1, type: Texte, repond: En partie, passage: "le basculement sur GE-B (400 kVA) est manuel et demande environ 2 minutes."}
+    - {reference: NT-068, page: 1, type: Tableau, repond: En partie, passage: "Mesure | Site A | Site B\nRésistance de la prise de terre | 10 Ω au plus | 30 Ω au plus"}
+
+- id: Q-045
+  question: "quels sont les points faibles de la fiabilité de l'alimentation électrique des usines ?"
+  type_reponse: Synthèse
+  reponse_dans_documents: Oui
+  reponse_est_dans: L'ensemble des documents (synthèse)
+  reponse_attendue: "La ligne 20 kV du distributeur (première cause de coupure), les doubles défauts d'isolement du site B, le démarrage des groupes électrogènes, l'unique transformateur du site B sans secours, et la sélectivité seulement partielle des départs 250 A du TGBT-A."
+  points_cles: "réseau 20 kV du distributeur ; doubles défauts d'isolement sur le site B ; démarrage des groupes électrogènes ; un seul transformateur sur le site B ; sélectivité partielle des départs 250 A du TGBT-A"
+  difficulte: Difficile
+  frequence: Rare
+  gravite: Moyenne
+  reservee: true
+  passages:
+    - {reference: NT-062, page: 2, type: Texte, repond: En partie, passage: "Le réseau du distributeur, orages compris, est la première cause : 6 coupures sur 11"}
+    - {reference: NT-058, page: 1, type: Texte, repond: En partie, passage: "Il n'y a pas de transformateur de secours : une indisponibilité de TR-B1 arrête tout le site, hors départs secourus par le groupe électrogène."}
+    - {reference: NT-031, page: 4, type: Texte scanné, repond: En partie, passage: "Le seul point faible relevé concerne les départs de 250 A, dont la sélectivité avec les départs terminaux s'arrête à 6 kA."}
+    - {reference: OT-24103, page: Symptôme constaté, type: Texte, repond: En partie, passage: "démarrage obtenu à la troisième tentative et prise de charge en 28 s, au-delà du critère de 15 s."}
+
+- id: Q-046
+  question: "quelles règles de sécurité retrouve-t-on dans toutes les interventions électriques ?"
+  type_reponse: Synthèse
+  reponse_dans_documents: Oui
+  reponse_est_dans: L'ensemble des documents (synthèse)
+  reponse_attendue: "Une habilitation adaptée et à jour pour chaque intervenant, la consignation en cinq étapes avec vérification d'absence de tension avant tout travail, jamais de manœuvre HTA seul, et l'attente de la décharge des condensateurs (variateurs, onduleur) avant de toucher."
+  points_cles: "habilitation adaptée et à jour ; consignation avant travaux ; vérification d'absence de tension ; jamais seul en HTA ; attendre la décharge des condensateurs"
+  difficulte: Difficile
+  frequence: Occasionnelle
+  gravite: Forte
+  passages:
+    - {reference: PR-1112, page: 2, type: Texte, repond: En partie, passage: "Un intervenant dont l'habilitation est échue ou suspendue ne peut être affecté à aucun ordre de travail électrique."}
+    - {reference: PR-1101, page: 2, type: Texte, repond: En partie, passage: "Aucune étape ne peut être omise ni intervertie."}
+    - {reference: PR-1102, page: 1, type: Texte, repond: En partie, passage: "Une manœuvre HTA n'est jamais réalisée par une personne seule."}
+    - {reference: PR-1113, page: 2, type: Texte, repond: En partie, passage: "Attendre 15 minutes la décharge des condensateurs du bus continu, quel que soit l'état du voyant de charge."}
+
+# ---------- Sans réponse dans les documents ----------
+- id: Q-047
+  question: "quel est le budget de la maintenance électrique pour 2027 ?"
+  redigee_par: Question réelle (production)
+  type_reponse: Fait
+  reponse_dans_documents: Non
+  reponse_attendue: "Pas de réponse dans les documents."
+  difficulte: Facile
+  frequence: Rare
+  gravite: Moyenne
+
+- id: Q-048
+  question: "de quelle marque sont les disjoncteurs du TGBT-A ?"
+  type_reponse: Fait
+  reponse_dans_documents: Non
+  reponse_attendue: "Pas de réponse dans les documents."
+  difficulte: Facile
+  frequence: Rare
+  gravite: Faible
+  reservee: true
+
+- id: Q-049
+  question: "combien de techniciens sont d'astreinte le week-end sur le site B ?"
+  type_reponse: Fait
+  reponse_dans_documents: Non
+  reponse_attendue: "Pas de réponse dans les documents."
+  difficulte: Moyenne
+  frequence: Occasionnelle
+  gravite: Moyenne
+
+- id: Q-050
+  question: "quel est le délai pour obtenir un transformateur de rechange de 1 250 kVA ?"
+  type_reponse: Fait
+  reponse_dans_documents: Non
+  reponse_attendue: "Pas de réponse dans les documents."
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Forte
+
+- id: Q-051
+  question: "quand est prévue la campagne de thermographie du site A en 2027 ?"
+  type_reponse: Fait
+  reponse_dans_documents: Non
+  reponse_attendue: "Pas de réponse dans les documents."
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Faible
+  reservee: true
+
+- id: Q-052
+  question: "combien d'électricité l'atelier de presses a-t-il consommé en 2023 ?"
+  redigee_par: Question réelle (production)
+  type_reponse: Fait
+  reponse_dans_documents: Non
+  reponse_attendue: "Pas de réponse dans les documents."
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Faible
+
+- id: Q-053
+  question: "quel est le prix d'un BAES d'ambiance ?"
+  type_reponse: Fait
+  reponse_dans_documents: Non
+  reponse_attendue: "Pas de réponse dans les documents."
+  difficulte: Moyenne
+  frequence: Rare
+  gravite: Faible
+
+- id: Q-054
+  question: "qui est le fournisseur d'électricité des usines ?"
+  type_reponse: Fait
+  reponse_dans_documents: Non
+  reponse_attendue: "Pas de réponse dans les documents."
+  difficulte: Facile
+  frequence: Rare
+  gravite: Faible
+  reservee: true
+
+- id: Q-055
+  question: "tous les combien faut-il nettoyer les filtres d'aération des variateurs de vitesse ?"
+  type_reponse: Fait
+  reponse_dans_documents: Non
+  reponse_attendue: "Pas de réponse dans les documents."
+  difficulte: Moyenne
+  frequence: Occasionnelle
+  gravite: Faible
+
+# ---------- Variantes ----------
+- id: Q-056
+  question: "la terre du site de Brévannes, elle doit faire combien d'ohms au maximum ?"
+  variante_de: Q-016
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "30 Ω au plus sur le site B (régime IT), avec un seuil d'alerte à 24 Ω."
+  points_cles: "30 Ω"
+  difficulte: Moyenne
+  frequence: Occasionnelle
+  gravite: Forte
+  passages:
+    - {reference: PR-1109, page: 1, type: Tableau, repond: Entièrement, passage: "Site | Régime de neutre | Valeur limite | Seuil d'alerte | Périodicité\nSite B (Brévannes) | IT avec CPI-B | 30 Ω | 24 Ω | 12 mois"}
+    - {reference: NT-068, page: 1, type: Tableau, repond: Entièrement, passage: "Mesure | Site A | Site B\nRésistance de la prise de terre | 10 Ω au plus | 30 Ω au plus"}
+    - {reference: PR-1104-B, page: 2, type: Tableau, repond: Piège, passage: "Contrôle | Périodicité | Critère ou condition | Procédure\nMesure de la prise de terre | tous les 24 mois | ≤ 10 Ω (les deux sites) | PR-1109"}
+
+- id: Q-057
+  question: "en dessous de combien de minutes d'autonomie on change les batteries de l'OND-A ?"
+  variante_de: Q-027
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "Quand l'autonomie mesurée passe sous 8 minutes (autonomie nominale de 15 minutes) ; le jeu complet est alors remplacé."
+  points_cles: "8 minutes"
+  difficulte: Facile
+  frequence: Occasionnelle
+  gravite: Moyenne
+  passages:
+    - {reference: NT-060, page: 2, type: Tableau, repond: Entièrement, passage: "Critère | Seuil | Action\nAutonomie mesurée à l'essai | Moins de 8 minutes | Remplacement complet sous 1 mois"}
+    - {reference: PR-1107, page: 1, type: Texte, repond: Entièrement, passage: "Le remplacement est déclenché avant cette échéance si l'autonomie mesurée devient inférieure à 8 minutes, pour une autonomie nominale de 15 minutes."}
+
+- id: Q-058
+  question: "qui a le droit de consigner le poste 20 kV ?"
+  variante_de: Q-005
+  type_reponse: Fait
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "Un chargé de consignation habilité HC, assisté d'un second intervenant habilité H2V."
+  points_cles: "HC ; second intervenant H2V"
+  difficulte: Moyenne
+  frequence: Occasionnelle
+  gravite: Forte
+  reservee: true
+  passages:
+    - {reference: PR-1112, page: 2, type: Texte, repond: Entièrement, passage: "La consignation d'un poste HTA exige un chargé de consignation habilité HC, assisté d'un second intervenant habilité H2V (PR-1102)."}
+    - {reference: NT-057, page: 1, type: Texte, repond: Entièrement, passage: "Les interventions sur le poste HTA relèvent de la procédure PR-1102 et sont réservées à un chargé de consignation habilité HC, assisté d'un second intervenant H2V."}
+
+- id: Q-059
+  question: "on a quel budget pour la maintenance électrique l'an prochain ?"
+  variante_de: Q-047
+  type_reponse: Fait
+  reponse_dans_documents: Non
+  reponse_attendue: "Pas de réponse dans les documents."
+  difficulte: Facile
+  frequence: Rare
+  gravite: Moyenne
+
+- id: Q-060
+  question: "c'est quoi les étapes d'une consignation BT ?"
+  variante_de: Q-001
+  type_reponse: Liste
+  reponse_dans_documents: Oui
+  reponse_est_dans: Plusieurs passages, un seul suffit
+  reponse_attendue: "En cinq étapes, dans l'ordre : séparation, condamnation, identification, vérification d'absence de tension (VAT), puis mise à la terre et en court-circuit (MALT-CC)."
+  points_cles: "séparation ; condamnation ; identification ; vérification d'absence de tension ; mise à la terre et en court-circuit"
+  difficulte: Facile
+  frequence: Fréquente
+  gravite: Forte
+  passages:
+    - {reference: PR-1101, page: 2, type: Texte, repond: Entièrement, passage: "La consignation comporte cinq étapes, toujours exécutées dans l'ordre : séparation, condamnation, identification, vérification d'absence de tension (VAT), puis mise à la terre et en court-circuit (MALT-CC)."}
+    - {reference: PR-1101, page: 2, type: Image ou schéma, repond: Entièrement, passage: "Figure 1 : les cinq opérations de consignation dans l'ordre, séparation, condamnation, identification, VAT et MALT-CC, avec la condition à remplir avant de passer à l'étape suivante."}
