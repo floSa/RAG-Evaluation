@@ -88,3 +88,23 @@ Profils d'accès : `Tous les utilisateurs`, `Maintenance`, `Exploitation`.
 Thèmes à faire revenir sur plusieurs fiches (pour les questions de synthèse) : échauffement de connexions repéré en thermographie ; déclenchements intempestifs de différentiels ; défauts d'isolement sur le site B ; batteries d'onduleur en fin de vie ; démarrage difficile d'un groupe électrogène.
 
 Deux fiches sont réservées au profil **Maintenance** : OT-24109 et OT-24114 (interventions sur le poste HTA).
+
+## Faits de référence (à respecter dans tous les documents)
+
+| Sujet | Valeur en vigueur (PR-1104-C, 2025) | Ancienne valeur (PR-1104-B, 2021, remplacée) |
+| --- | --- | --- |
+| Thermographie des armoires | tous les 12 mois | tous les 24 mois |
+| Test des dispositifs différentiels (DDR) | tous les 3 mois (bouton test) et mesure du temps de déclenchement tous les 12 mois | tous les 6 mois |
+| Vérification réglementaire par organisme agréé | tous les 12 mois | tous les 12 mois |
+| Essai du groupe électrogène | mensuel, 30 minutes, à au moins 50 % de sa puissance | mensuel, 15 minutes, à vide |
+| Mesure de la prise de terre | tous les 12 mois ; valeur limite 10 Ω (site A), 30 Ω (site B) | tous les 24 mois ; valeur limite 10 Ω (les deux sites) |
+
+| Sujet | Valeur |
+| --- | --- |
+| Écart de température en thermographie | ΔT < 10 °C : surveiller ; 10 à 30 °C : intervenir sous 1 mois ; > 30 °C : intervenir sous 48 heures |
+| Couple de serrage des connexions du TGBT | 50 N·m pour les barres de 10 mm, 70 N·m pour les barres de 12 mm |
+| Batteries de l'onduleur OND-A | 32 batteries 12 V 9 Ah ; durée de vie prévue 5 ans ; remplacement si autonomie < 8 minutes (autonomie nominale 15 minutes) |
+| Seuil d'alarme du contrôleur d'isolement CPI-B (site B) | 50 kΩ (préalarme 100 kΩ) |
+| Habilitation pour consigner en HTA | HC (chargé de consignation), avec un second intervenant H2V |
+| Délai d'appel du groupe électrogène GE-A | démarrage et prise de charge en moins de 15 secondes |
+| Coût horaire interne d'un technicien | 65 € HT |
