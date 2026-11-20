@@ -1,5 +1,7 @@
 # Corpus d'exemple — maintenance électrique de Valtéra Industries (fictif)
 
+Retour : [Partie 1 — le corpus](../README.md).
+
 Un corpus d'évaluation complet, annoté selon le document 1, sur une entreprise **entièrement fictive** : aucune donnée réelle. Il atteint la configuration minimale du document 1 sur toutes les lignes du tableau de bord.
 
 | Élément | Contenu |
@@ -8,7 +10,6 @@ Un corpus d'évaluation complet, annoté selon le document 1, sur une entreprise
 | `Corpus_evaluation_RAG.xlsx` | le fichier du métier rempli : 50 documents, 60 questions, 97 passages, 20 pages OCR retapées |
 | `questions_pour_relecture.md` | les 60 questions, sur une page, pour relecture |
 | `fabrication/` | de quoi tout refabriquer : le monde fictif, les contenus JSON, les scripts |
-| `ontologie/` | ontologie et règles SHACL (étape 9) |
 
 ## Ce que le corpus couvre
 
@@ -25,11 +26,11 @@ Un corpus d'évaluation complet, annoté selon le document 1, sur une entreprise
 ## Refabriquer le corpus
 
 ```bash
-uv run --group fabrication python corpus_exemple/fabrication/fabriquer_pdf.py
+uv run --group fabrication python corpus/exemple/fabrication/fabriquer_pdf.py
 ```
 
 ```bash
-uv run python corpus_exemple/fabrication/remplir_excel.py
+uv run python corpus/exemple/fabrication/remplir_excel.py
 ```
 
 Le premier script dessine les PDF à partir de `fabrication/contenus/*.json` ; le second vérifie chaque passage de `fabrication/questions.yaml` contre sa source (texte copié de la bonne page, ligne de tableau, schéma présent, valeur du champ d'une fiche), remplit le fichier Excel et recalcule le tableau de bord.
