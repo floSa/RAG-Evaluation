@@ -1,5 +1,5 @@
-# Configuration du RAG de démonstration — volontairement minimal : il ne sert qu'à montrer
-# comment un RAG se branche sur le kit. Aucune clé ici : elles sont lues dans .env.
+# Configuration du RAG d'exemple — volontairement minimal : le sujet du dépôt est l'évaluation.
+# Aucune clé ici : elles sont lues dans .env.
 # Changer de fournisseur = changer « adresse » et les noms de modèles, sans toucher au code.
 
 nom: rag-demo
@@ -9,7 +9,7 @@ type_rag: vectoriel
 # (référence, version, droits d'accès, format). Le dernier corpus exporté est pris.
 documents: evaluation/corpus_exemple/sources
 catalogue: sorties/corpus
-travail: sorties/rag_demo           # cache d'extraction et index
+travail: sorties/rag                # cache d'extraction et index
 sorties: sorties/sorties_rag        # sorties du contrat, une version du RAG par dossier
 
 extraction:

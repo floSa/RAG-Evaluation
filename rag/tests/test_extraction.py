@@ -1,8 +1,9 @@
-"""Tests de l'extraction et du découpage du RAG de démonstration (sans réseau)."""
+"""Tests des étapes 1 (extraction) et 2 (découpage), sans réseau."""
 
 from pathlib import Path
 
-from rag_demo import extraction
+from rag.pipeline import etape_1_extraction as extraction
+from rag.pipeline import etape_2_decoupage as decoupage
 
 SOURCES = Path("evaluation/corpus_exemple/sources")
 
@@ -37,14 +38,14 @@ def test_fiche_de_base_un_couple_par_champ():
 def test_chunks_d_une_fiche_page_egale_nom_du_champ():
     doc = {**DOC_NATIF, "reference_source": "OT-24101", "titre": "Déclenchements intempestifs", "version": "1",
            "format": "fiche_base", "type_document": "Compte rendu d'intervention"}
-    chunks = extraction.chunks_du_document(doc, {"fiche": extraction.fiche(SOURCES / "OT-24101.pdf")}, 1500)
+    chunks = decoupage.chunks_du_document(doc, {"fiche": extraction.fiche(SOURCES / "OT-24101.pdf")}, 1500)
     piece = next(c for c in chunks if c["page"] == "Pièces remplacées")
     assert piece["texte"].endswith("Pièces remplacées : 1 interrupteur différentiel 4P 40 A 30 mA type A (186 €)")
     assert piece["type_element"] == "texte" and piece["ordre"] == 0
 
 
 def test_page_native_texte_figure_tableau():
-    chunks = extraction.chunks_du_document(DOC_NATIF, {"pages": ["", PAGE_NATIVE]}, 1500)
+    chunks = decoupage.chunks_du_document(DOC_NATIF, {"pages": ["", PAGE_NATIVE]}, 1500)
     types = [(c["page"], c["ordre"], c["type_element"]) for c in chunks]
     assert types == [("2", 0, "texte"), ("2", 1, "image_schema"), ("2", 2, "tableau")]
     assert chunks[0]["texte"].startswith("PR-1101 — Consignation d'une armoire basse tension > 5. Déroulement\n")
@@ -56,7 +57,7 @@ def test_page_native_texte_figure_tableau():
 
 def test_page_scannee_reste_du_texte():
     doc = {**DOC_NATIF, "format": "pdf_scanne"}
-    chunks = extraction.chunks_du_document(doc, {"pages": [PAGE_NATIVE]}, 1500)
+    chunks = decoupage.chunks_du_document(doc, {"pages": [PAGE_NATIVE]}, 1500)
     assert {c["type_element"] for c in chunks} == {"texte_scanne", "image_schema"}
     assert "Durée moyenne | 20 minutes | 90 minutes" in chunks[-1]["texte"]
 
@@ -69,5 +70,5 @@ def test_texte_de_page_pour_le_taux_d_erreur_ocr():
 
 def test_section_trop_longue_recoupee():
     page = "## 1. Objet\n\n" + "\n\n".join(f"Paragraphe {i} " + "x" * 400 for i in range(6))
-    chunks = extraction.chunks_du_document(DOC_NATIF, {"pages": [page]}, 1000)
+    chunks = decoupage.chunks_du_document(DOC_NATIF, {"pages": [page]}, 1000)
     assert len(chunks) == 3 and [c["ordre"] for c in chunks] == [0, 1, 2]
