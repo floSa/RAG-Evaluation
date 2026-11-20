@@ -287,7 +287,8 @@ def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=Fal
     for x in r["ecarts"]:
         marge = "" if x["marge"] is None else f"± {x['marge']:.2f}"
         signe = "" if x["significatif_seul"] is None else ("  > marge" if x["significatif_seul"] else "  < marge : ne prouve rien seul")
-        typer.echo(f"  {x['score']:<28} {x['a']:>8.3g} {x['b']:>8.3g} {x['ecart']:>+8.3g}  "
+        nombre = lambda v, signe="": f"{v:{signe}.0f}" if abs(v) >= 100 else f"{v:{signe}.3f}"  # noqa: E731
+        typer.echo(f"  {x['score']:<28} {nombre(x['a']):>8} {nombre(x['b']):>8} {nombre(x['ecart'], '+'):>8}  "
                    f"{marge}{signe}")
     questions = {}
     dossier_corpus = Path(config["chemins"]["sorties"]) / "corpus" / json.loads(
