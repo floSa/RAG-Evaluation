@@ -1,4 +1,4 @@
-# 3. Brancher un RAG
+# 0b. Branchement du RAG
 
 Le kit ne connaît aucun RAG. Pour être évalué, un RAG n'a pas à changer sa façon de travailler : il lui faut seulement **quatre prises**, par lesquelles le kit voit ce qu'il fait. Elles s'ajoutent à côté du RAG, dans un seul fichier.
 
@@ -25,20 +25,25 @@ flowchart LR
     F --> K["kit evaluer"]
 ```
 
-Exemple complet : [`rag/branchement_evaluation.py`](../rag/branchement_evaluation.py), le branchement du RAG d'exemple. C'est le **seul** fichier de `rag/` écrit pour l'évaluation : le RAG marche sans lui.
+| Où | Quoi |
+| --- | --- |
+| [`reference/contrat_des_fichiers.md`](reference/contrat_des_fichiers.md) | le contrat, champ par champ |
+| [`reference/schemas/`](reference/schemas/) | les schémas JSON de chaque fichier |
+| [`../../rag/src/rag/utils/branchement_evaluation.py`](../../rag/src/rag/utils/branchement_evaluation.py) | un exemple complet : le branchement du RAG d'exemple. C'est le **seul** fichier du RAG écrit pour l'évaluation : le RAG marche sans lui |
+| [`../src/kit/etape_0b_branchement/`](../src/kit/etape_0b_branchement/) | le code du kit : vérification du contrat, lancement d'un connecteur |
 
-## Les quatre prises, et ce que le kit en fait
+## 1. Les quatre prises, et ce que le kit en fait
 
-| Prise | Ce que le RAG doit donner | Pourquoi le kit en a besoin | Niveau |
+| Prise | Ce que le RAG doit donner | Pourquoi le kit en a besoin | Évaluation |
 | --- | --- | --- | --- |
-| ① Ingérer avec métadonnées | chaque morceau de l'index (chunk) avec la **référence du document, sa version, la page, le type d'élément, les droits d'accès, l'ordre dans la page** ; et le texte de chaque page lue, avant découpage | retrouver dans l'index les passages annotés par le métier, page par page ; mesurer les erreurs de lecture des scans | 1 |
-| ② Rechercher | pour une question et un profil, les k morceaux retrouvés, **dans l'ordre**, avant toute génération | savoir si le bon passage est retrouvé et bien classé, et si un document interdit au profil remonte | 2 |
-| ③ Répondre | la réponse, **si le RAG s'abstient**, les morceaux cités, ceux donnés au modèle, la durée, le coût, les tokens | juger la réponse, vérifier qu'elle s'appuie sur les morceaux, mesurer temps et coût | 3, 4 |
-| ④ Tracer | l'identifiant de la trace (Langfuse) de chaque réponse, et la version exacte du RAG : k, modèles, prompt, index | relier un score à ce qui s'est passé ; comparer deux versions sans ambiguïté | tous |
+| ① Ingérer avec métadonnées | chaque morceau de l'index (chunk) avec la **référence du document, sa version, la page, le type d'élément, les droits d'accès, l'ordre dans la page** ; et le texte de chaque page lue, avant découpage | retrouver dans l'index les passages annotés par le métier, page par page ; mesurer les erreurs de lecture des scans | [1](1_evaluation_ingestion.md) |
+| ② Rechercher | pour une question et un profil, les k morceaux retrouvés, **dans l'ordre**, avant toute génération | savoir si le bon passage est retrouvé et bien classé, et si un document interdit au profil remonte | [2](2_evaluation_recherche.md) |
+| ③ Répondre | la réponse, **si le RAG s'abstient**, les morceaux cités, ceux donnés au modèle, la durée, le coût, les tokens | juger la réponse, vérifier qu'elle s'appuie sur les morceaux, mesurer temps et coût | [3](3_evaluation_reponse.md), [4](4_evaluation_bout_en_bout.md) |
+| ④ Tracer | l'identifiant de la trace (Langfuse) de chaque réponse, et la version exacte du RAG : k, modèles, prompt, index | relier un score à ce qui s'est passé ; comparer deux versions sans ambiguïté | toutes |
 
 Ce que le RAG **ne reçoit jamais** : les réponses attendues, les points clés, les passages annotés. Il reçoit les documents, leurs métadonnées, et les questions avec leur profil. C'est ce qui garantit que l'évaluation ne triche pas.
 
-## Ce que le RAG reçoit
+## 2. Ce que le RAG reçoit
 
 | Quoi | Où, pour le corpus d'exemple | Ce que le RAG en fait |
 | --- | --- | --- |
@@ -46,9 +51,9 @@ Ce que le RAG **ne reçoit jamais** : les réponses attendues, les points clés,
 | leurs métadonnées | `sorties/corpus/<version>/documents.jsonl` | référence, version, droits d'accès, format : il les garde sur chaque morceau |
 | les questions | `sorties/corpus/<version>/questions.jsonl` | il n'en lit que `question_id`, `question`, `profil` et, pour une question de suite, la question précédente et sa réponse attendue (l'historique) |
 
-## Ce que le RAG rend : les fichiers du contrat
+## 3. Ce que le RAG rend : les fichiers du contrat
 
-Le RAG écrit un dossier par version, `sorties/sorties_rag/<version_rag>/`. Le détail champ par champ est dans [CONTRAT.md](methode/CONTRAT.md) ; les schémas JSON, dans [`methode/schemas/`](methode/schemas/).
+Le RAG écrit un dossier par version, `sorties/sorties_rag/<version_rag>/`.
 
 | Fichier | Une ligne = | Prise | Obligatoire |
 | --- | --- | --- | --- |
@@ -59,7 +64,7 @@ Le RAG écrit un dossier par version, `sorties/sorties_rag/<version_rag>/`. Le d
 | `recherches.jsonl` | une question : les k morceaux retrouvés, dans l'ordre | ② | oui |
 | `reponses.jsonl` | une question : la réponse et tout ce qui l'accompagne, avec l'identifiant de trace | ③ ④ | oui |
 
-## Les règles d'appel
+## 4. Les règles d'appel
 
 | Règle | Pourquoi |
 | --- | --- |
@@ -69,7 +74,7 @@ Le RAG écrit un dossier par version, `sorties/sorties_rag/<version_rag>/`. Le d
 | **toutes** les questions sont posées, y compris les réservées | seul l'affichage des résultats diffère |
 | le RAG dit lui-même s'il s'abstient (champ `abstention`) | mesurer l'abstention sans deviner à partir du texte |
 
-## Deux façons de brancher
+## 5. Deux façons de brancher
 
 **Par connecteur**, pour un RAG en Python : un objet avec six méthodes, que le kit appelle par leur nom. Le kit pose lui-même les questions et écrit les fichiers.
 
@@ -84,7 +89,7 @@ class Connecteur:
 ```
 
 ```bash
-uv run kit lancer rag.branchement_evaluation:Connecteur --corpus sorties/corpus/2026-11-20.1 -p k=5
+uv run kit lancer rag.utils.branchement_evaluation:Connecteur --corpus sorties/corpus/2026-11-20.1 -p k=5
 ```
 
 Le connecteur ne doit rien importer du kit : un test le vérifie pour le RAG d'exemple.
@@ -99,7 +104,13 @@ uv run rag exporter
 uv run rag repondre sorties/corpus/2026-11-20.1/questions.jsonl
 ```
 
-## Vérifier le branchement
+**Dans votre propre projet**, le kit s'installe comme une dépendance, à côté de votre RAG :
+
+```bash
+uv add --editable <chemin du dépôt>/evaluation
+```
+
+## 6. Vérifier le branchement
 
 Avant toute évaluation, le kit vérifie les fichiers du RAG contre les schémas du contrat. Il dit **précisément ce qui manque**, fichier par fichier et ligne par ligne :
 
@@ -116,4 +127,4 @@ sorties/sorties_rag/mon-rag : 3 problème(s).
 
 Quand la commande répond « conforme au contrat », le RAG est branché.
 
-**Étape suivante** : [4. Évaluer le RAG](4_Evaluer_le_RAG.md).
+**Étape suivante** : [1. Évaluation de l'ingestion](1_evaluation_ingestion.md).
