@@ -76,6 +76,42 @@ Comparer le texte retapé et le texte extrait d'une page (NT-031, page 2) montre
 
 Sur une autre page (NT-040, page 3), il **mélange l'ordre des lignes**. Les passages restent retrouvés, car le rattachement tolère 10 % d'écart, mais une valeur mal lue peut fausser une réponse.
 
+## Si le RAG a un graphe
+
+Un RAG de type `graphe` ou `hybride` rend aussi `graphe.ttl` ([branchement, prise ①](0b_branchement_du_rag.md)). Le kit vérifie alors deux choses de plus.
+
+```mermaid
+flowchart LR
+    G["<b>graphe.ttl</b><br/>du RAG"] --> V{"<b>pySHACL</b><br/>règles de l'ontologie<br/>du projet"}
+    F["ontologie_formes.ttl"] --> V
+    V --> S1["n1_graphe_violations"]
+    G --> T["<b>50 relations</b> au hasard,<br/>avec leur passage source"]
+    T --> L["Langfuse, file<br/>justesse-graphe<br/>le métier juge"]
+    L --> S2["n1_graphe_justesse"]
+```
+
+| Score | Ce qu'il mesure | Si c'est mauvais |
+| --- | --- | --- |
+| `n1_graphe_violations` | le nombre de règles de l'ontologie non respectées : une classe fausse (une personne « située sur » un site), une relation inconnue, trop de valeurs (un équipement sur deux sites), une provenance manquante | contraindre davantage l'extraction : consigne, exemples, contrôle par l'ontologie avant d'écrire le graphe |
+| `n1_graphe_justesse` | la part des relations jugées justes par le métier, d'après leur passage source | une relation conforme à l'ontologie peut être fausse : meilleur modèle d'extraction, relecture |
+
+Les règles sont celles du projet, pas celles du RAG : le chemin de `ontologie_formes.ttl` est dans [`../config/kit.yaml`](../config/kit.yaml) (`graphe.formes`). Pour le corpus d'exemple : [`../corpus_exemple/ontologie/`](../corpus_exemple/ontologie/). Le code : [`../src/kit/etape_1_evaluation_ingestion/graphe.py`](../src/kit/etape_1_evaluation_ingestion/graphe.py).
+
+Les violations sont calculées par `kit evaluer-ingestion`. La justesse demande le métier :
+
+1. Envoyer 50 relations au métier :
+   ```bash
+   uv run kit verifier-graphe --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-<empreinte> --envoyer
+   ```
+2. Dans Langfuse, **Annotation Queues → `justesse-graphe`** : chaque élément montre la relation, sa source et le passage. Le métier choisit `justesse_relation` : juste ou fausse.
+3. Voir où en est la relecture, puis inscrire le score dans les résultats :
+   ```bash
+   uv run kit verifier-graphe --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-<empreinte>
+   ```
+   ```bash
+   uv run kit evaluer-ingestion --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-<empreinte>
+   ```
+
 ## Si c'est mauvais
 
 Extraction, OCR, tableaux, images, découpage : le [document 2](../../rag/documentation/reference/techniques_rag.md), sections 3 et 4.
