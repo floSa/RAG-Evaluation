@@ -97,6 +97,7 @@ Le juge est un modèle de langage : il peut se tromper. Avant de s'en servir pou
    ```bash
    uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/rag-demo-k5-80032dcd
    ```
+   Exemple de sortie (valeurs d'illustration : le métier n'a pas encore noté l'échantillon de la démonstration) :
    ```
    Notes du métier : 30 sur 30.
    Accord juge / métier : 93 % (seuil 90 %) ; kappa de Cohen : 0.85. Juge VALIDÉ.
