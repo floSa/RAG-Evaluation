@@ -1,7 +1,7 @@
-"""Le contrat entre un RAG et le kit (corpus/contrat/CONTRAT.md) : lecture des fichiers, règles communes, vérification.
+"""Le contrat entre un RAG et le kit (evaluation/methode/CONTRAT.md) : lecture des fichiers, règles communes, vérification.
 
 `verifier_dossier` contrôle un dossier corpus/<version>/ ou sorties_rag/<version>/ contre les schémas
-JSON de corpus/contrat/schemas/, puis, si on lui donne le corpus, la cohérence entre les fichiers
+JSON de evaluation/methode/schemas/, puis, si on lui donne le corpus, la cohérence entre les fichiers
 (toutes les questions ont une recherche et une réponse, les chunks cités existent…).
 """
 
@@ -10,8 +10,8 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-RACINE = Path(__file__).resolve().parents[2]
-SCHEMAS = RACINE / "corpus" / "contrat" / "schemas"
+EVALUATION = Path(__file__).resolve().parents[2]  # le dossier evaluation/
+SCHEMAS = EVALUATION / "methode" / "schemas"
 VERSIONS_CONNUES = {"1"}  # versions majeures du contrat que ce kit sait lire
 
 FICHIERS_CORPUS = {"corpus.json": "corpus", "documents.jsonl": "documents", "questions.jsonl": "questions",
@@ -30,7 +30,7 @@ def autorise(droits_acces: str, profil: str) -> bool:
 
 def historique(question: dict, par_id: dict[str, dict]) -> list[dict]:
     """L'historique envoyé au RAG : les questions précédentes et leurs réponses attendues, de la plus ancienne
-    à la plus récente (corpus/contrat/CONTRAT.md, règles d'appel)."""
+    à la plus récente (evaluation/methode/CONTRAT.md, règles d'appel)."""
     chaine, q = [], question
     while q.get("question_precedente") and q["question_precedente"] in par_id and len(chaine) < 20:
         q = par_id[q["question_precedente"]]

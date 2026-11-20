@@ -4,8 +4,17 @@ from pathlib import Path
 
 import typer
 
-from kit import base, contrat, import_corpus, comparaison, lanceur, niveau1, niveau2, niveau3, niveau4, publication, relecture
+from kit import base
+from kit.branchement import contrat, lanceur
 from kit.config import charger_config, client_langfuse
+from kit.corpus import importer as import_corpus
+from kit.niveau_1_ingestion import scores as niveau1
+from kit.niveau_2_recherche import scores as niveau2
+from kit.niveau_3_reponse import relecture
+from kit.niveau_3_reponse import scores as niveau3
+from kit.niveau_4_bout_en_bout import scores as niveau4
+from kit.resultats import comparaison
+from kit.resultats import publication
 
 app = typer.Typer(help="Kit d'évaluation de RAG : corpus, contrat, niveaux 1 à 4, rapport.", no_args_is_help=True)
 
@@ -26,7 +35,7 @@ def init_base():
 @app.command("verifier-modeles")
 def verifier_modeles():
     """Teste le point d'accès et les modèles de evaluation/config/kit.yaml (juge, embeddings) et Langfuse."""
-    from kit import juge
+    from kit.niveau_3_reponse import juge
 
     config = charger_config()
     m = config["modeles"]
@@ -76,7 +85,7 @@ def verifier_contrat(dossier: Path = typer.Argument(..., exists=True, file_okay=
                                                     help="corpus/<version>/ ou sorties_rag/<version>/"),
                      corpus: Path = typer.Option(None, exists=True, file_okay=False,
                                                  help="le corpus, pour vérifier que chaque question a sa réponse")):
-    """Valide les fichiers d'un dossier contre corpus/contrat/schemas/ et dit précisément ce qui manque."""
+    """Valide les fichiers d'un dossier contre evaluation/methode/schemas/ et dit précisément ce qui manque."""
     erreurs = contrat.verifier_dossier(dossier, corpus)
     if erreurs:
         typer.echo(f"{dossier} : {len(erreurs)} problème(s).", err=True)
@@ -89,7 +98,7 @@ def verifier_contrat(dossier: Path = typer.Argument(..., exists=True, file_okay=
 
 
 @app.command()
-def lancer(connecteur: str = typer.Argument(..., help="module:Classe, par exemple rag_demo.connecteur:Connecteur"),
+def lancer(connecteur: str = typer.Argument(..., help="module:Classe, par exemple rag.branchement_evaluation:Connecteur"),
            corpus: Path = typer.Option(..., exists=True, file_okay=False, help="le dossier corpus/<version>/"),
            parametre: list[str] = typer.Option([], "--parametre", "-p",
                                                help="paramètre du connecteur, cle=valeur (répétable), ex. -p k=3")):

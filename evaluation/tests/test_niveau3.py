@@ -7,9 +7,12 @@ from pathlib import Path
 import pytest
 import yaml
 
-from kit import contrat, juge, niveau3, relecture
-from kit.import_corpus import importer
-from kit.publication import Evaluation
+from kit.branchement import contrat
+from kit.corpus.importer import importer
+from kit.niveau_3_reponse import juge
+from kit.niveau_3_reponse import relecture
+from kit.niveau_3_reponse import scores as niveau3
+from kit.resultats.publication import Evaluation
 
 
 # --- Valeurs et calculs ----------------------------------------------------------------------
@@ -80,7 +83,7 @@ def ev(tmp_path_factory):
     tmp = tmp_path_factory.mktemp("n3")
     config = yaml.safe_load(Path("evaluation/config/kit.yaml").read_text(encoding="utf-8"))
     config["chemins"] = {"base": f"sqlite:///{tmp}/base.sqlite", "sorties": str(tmp), "seuils": "evaluation/config/seuils.json"}
-    corpus = importer(Path("corpus/exemple/Corpus_evaluation_RAG.xlsx"), config["chemins"]["base"], tmp,
+    corpus = importer(Path("evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx"), config["chemins"]["base"], tmp,
                       "test").dossier
     questions = contrat.lire_jsonl(corpus / "questions.jsonl")
     rag = tmp / "rag"

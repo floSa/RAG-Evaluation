@@ -5,10 +5,10 @@ from pathlib import Path
 
 import pytest
 
-from kit import contrat
-from kit.import_corpus import importer
+from kit.branchement import contrat
+from kit.corpus.importer import importer
 
-EXEMPLE = Path("corpus/exemple/Corpus_evaluation_RAG.xlsx")
+EXEMPLE = Path("evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx")
 
 
 @pytest.fixture(scope="module")

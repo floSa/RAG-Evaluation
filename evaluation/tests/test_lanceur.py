@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from kit import contrat, lanceur
-from kit.import_corpus import importer
+from kit.branchement import contrat, lanceur
+from kit.corpus.importer import importer
 
 
 class FauxConnecteur:
@@ -42,7 +42,7 @@ class FauxConnecteur:
 @pytest.fixture(scope="module")
 def corpus(tmp_path_factory) -> Path:
     tmp = tmp_path_factory.mktemp("corpus")
-    return importer(Path("corpus/exemple/Corpus_evaluation_RAG.xlsx"), f"sqlite:///{tmp}/base.sqlite",
+    return importer(Path("evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx"), f"sqlite:///{tmp}/base.sqlite",
                     tmp / "sorties", "test", aujourd_hui="2026-11-20").dossier
 
 
@@ -62,4 +62,4 @@ def test_sorties_conformes_et_regles_d_appel(tmp_path, corpus):
 def test_charger_connecteur_par_son_nom():
     assert lanceur.charger_connecteur("collections:Counter", {"a": 2})["a"] == 2
     with pytest.raises(ValueError, match="module:Classe"):
-        lanceur.charger_connecteur("rag_demo.connecteur", {})
+        lanceur.charger_connecteur("rag.branchement_evaluation", {})

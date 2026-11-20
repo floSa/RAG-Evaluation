@@ -8,12 +8,14 @@ import openpyxl
 import pytest
 import yaml
 
-from kit import contrat, niveau1
-from kit.import_corpus import importer
-from kit.publication import Evaluation
+from kit.branchement import contrat
+from kit.corpus.importer import importer
+from kit.niveau_1_ingestion import rattachement
+from kit.niveau_1_ingestion import scores as niveau1
+from kit.resultats.publication import Evaluation
 
 SEUILS = {"texte_approche": 0.95, "tableau_mots": 0.90, "scanne_partiel": 0.90}
-EXEMPLE = Path("corpus/exemple/Corpus_evaluation_RAG.xlsx")
+EXEMPLE = Path("evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx")
 
 
 def passage(texte, type_element="texte", page="2", passage_id=1):
@@ -27,24 +29,24 @@ def chunk(texte, page="2", ordre=0, type_element="texte"):
 
 
 def test_normalisation():
-    assert niveau1.normaliser("L’armoire  «AD-A07»\nest con-\nsignée") == "l'armoire \"ad-a07\" est consignée"
+    assert rattachement.normaliser("L’armoire  «AD-A07»\nest con-\nsignée") == "l'armoire \"ad-a07\" est consignée"
 
 
 def test_texte_exact_et_approche():
     p = passage("La consignation d'une armoire divisionnaire demande en moyenne 20 minutes.")
-    assert niveau1.comparer(p, "5. Déroulement\nLa consignation d’une armoire divisionnaire demande en moyenne "
+    assert rattachement.comparer(p, "5. Déroulement\nLa consignation d’une armoire divisionnaire demande en moyenne "
                                "20 minutes. Aucune étape…", SEUILS) == ("exact", 1.0)
-    mode, s = niveau1.comparer(p, "La consignation d'une armoire divisionaire demande en moyenne 20 minutes.", SEUILS)
+    mode, s = rattachement.comparer(p, "La consignation d'une armoire divisionaire demande en moyenne 20 minutes.", SEUILS)
     assert mode == "approche" and s >= 0.95
-    assert niveau1.comparer(p, "La consignation d'un TGBT demande 90 minutes.", SEUILS)[0] is None
+    assert rattachement.comparer(p, "La consignation d'un TGBT demande 90 minutes.", SEUILS)[0] is None
 
 
 def test_tableau_memes_mots_dans_un_autre_ordre():
     # passage réel de Q-003 (PR-1101 page 3), chunk rendu en « colonne : valeur » par le RAG de démonstration
     p = passage("Point | Armoire divisionnaire BT | TGBT\nDurée moyenne | 20 minutes | 90 minutes", "tableau", "3")
     rendu = "Tableau 2\nPoint : Durée moyenne ; Armoire divisionnaire BT : 20 minutes ; TGBT : 90 minutes"
-    assert niveau1.comparer(p, rendu, SEUILS)[0] == "approche"
-    assert niveau1.comparer(p, "Point : Section MALT-CC ; Armoire divisionnaire BT : 25 mm²", SEUILS)[0] is None
+    assert rattachement.comparer(p, rendu, SEUILS)[0] == "approche"
+    assert rattachement.comparer(p, "Point : Section MALT-CC ; Armoire divisionnaire BT : 25 mm²", SEUILS)[0] is None
 
 
 def test_texte_scanne_avec_erreurs_d_ocr():
@@ -52,12 +54,12 @@ def test_texte_scanne_avec_erreurs_d_ocr():
     p = passage("Le courant de court-circuit maximal calculé au jeu de barres du TGBT-A est de 36 kA",
                 "texte_scanne")
     ocr = "3. Données d'entrée\nLe courant de court-circuit maximal calculé au jeu de barres du TGBT-Aest de 36 kA, un"
-    assert niveau1.comparer(p, ocr, SEUILS)[0] == "approche"
+    assert rattachement.comparer(p, ocr, SEUILS)[0] == "approche"
 
 
 def test_image_rattachee_a_un_chunk_image_de_la_meme_page():
     p = passage("Figure 1 : les cinq opérations de consignation", "image_schema")
-    liens, _ = niveau1.rattacher(p, [chunk("texte", ordre=0), chunk("Figure 1 - Ordre des opérations", ordre=1,
+    liens, _ = rattachement.rattacher(p, [chunk("texte", ordre=0), chunk("Figure 1 - Ordre des opérations", ordre=1,
                                                                     type_element="image_schema")], False, SEUILS)
     assert [(l.chunk_id, l.mode) for l in liens] == [("PR-1101#2#1", "image")]
 
@@ -69,15 +71,15 @@ def test_fiche_de_base_par_nom_de_champ():
                                 "(186 €)", page="Pièces remplacées")]
     une_fiche_entiere = [chunk("Numéro OT : OT-24101\nPièces remplacées : 1 interrupteur différentiel 4P 40 A 30 mA "
                                "type A (186 €)\nCoût : 186", page="1")]
-    assert niveau1.rattacher(p, un_chunk_par_champ, True, SEUILS)[0][0].mode == "exact"
-    assert niveau1.rattacher(p, une_fiche_entiere, True, SEUILS)[0][0].mode == "exact"
+    assert rattachement.rattacher(p, un_chunk_par_champ, True, SEUILS)[0][0].mode == "exact"
+    assert rattachement.rattacher(p, une_fiche_entiere, True, SEUILS)[0][0].mode == "exact"
 
 
 def test_passage_coupe_entre_deux_chunks():
     p = passage("Aucune étape ne peut être omise ni intervertie. La consignation demande 20 minutes.")
     chunks = [chunk("… dans l'ordre. Aucune étape ne peut être omise", ordre=0),
               chunk("ni intervertie. La consignation demande 20 minutes.", ordre=1)]
-    liens, _ = niveau1.rattacher(p, chunks, False, SEUILS)
+    liens, _ = rattachement.rattacher(p, chunks, False, SEUILS)
     assert [(l.chunk_id, l.mode) for l in liens] == [("PR-1101#2#0", "coupe"), ("PR-1101#2#1", "coupe")]
 
 

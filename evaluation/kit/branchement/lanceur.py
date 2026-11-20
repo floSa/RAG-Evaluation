@@ -1,6 +1,6 @@
 """Le lanceur : fait tourner un RAG écrit en Python par son connecteur, et écrit lui-même les fichiers du contrat.
 
-Le connecteur est désigné par son chemin d'import (« rag_demo.connecteur:Connecteur ») : le kit ne l'importe
+Le connecteur est désigné par son chemin d'import (« rag.branchement_evaluation:Connecteur ») : le kit ne l'importe
 qu'au moment de l'exécution, par son nom ; il ne dépend d'aucun RAG. Un RAG écrit dans un autre langage
 produit lui-même les fichiers de sorties_rag/<version_rag>/ et passe directement à `kit verifier-contrat`.
 """
@@ -10,14 +10,14 @@ import json
 import time
 from pathlib import Path
 
-from kit import contrat
+from kit.branchement import contrat
 
 
 def charger_connecteur(chemin: str, parametres: dict):
     """« module:Classe » → une instance de la classe, construite avec les paramètres donnés."""
     module, _, classe = chemin.partition(":")
     if not classe:
-        raise ValueError(f"Connecteur « {chemin} » : écrire « module:Classe », par exemple rag_demo.connecteur:Connecteur.")
+        raise ValueError(f"Connecteur « {chemin} » : écrire « module:Classe », par exemple rag.branchement_evaluation:Connecteur.")
     return getattr(importlib.import_module(module), classe)(**parametres)
 
 

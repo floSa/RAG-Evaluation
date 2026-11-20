@@ -10,8 +10,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from kit import base
-from kit.juge import VALEUR_VERDICT
-from kit.publication import Evaluation, Ligne
+from kit.niveau_3_reponse.juge import VALEUR_VERDICT
+from kit.resultats.publication import Evaluation, Ligne
 
 FREQUENCE = {"frequente": 3, "occasionnelle": 2, "rare": 1}
 GRAVITE = {"forte": 3, "moyenne": 2, "faible": 1}

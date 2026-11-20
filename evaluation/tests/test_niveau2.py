@@ -9,9 +9,10 @@ from pathlib import Path
 import pytest
 import yaml
 
-from kit import contrat, niveau2
-from kit.import_corpus import importer
-from kit.publication import Evaluation, calculer_scores
+from kit.branchement import contrat
+from kit.corpus.importer import importer
+from kit.niveau_2_recherche import scores as niveau2
+from kit.resultats.publication import Evaluation, calculer_scores
 
 # Liens du niveau 1, écrits à la main (passage_id → chunks), pour les passages des questions testées :
 # Q-001 (plusieurs, un seul suffit) : passages 2 (texte) et 3 (schéma) de PR-1101 page 2
@@ -27,7 +28,7 @@ def ev(tmp_path_factory):
     tmp = tmp_path_factory.mktemp("n2")
     config = yaml.safe_load(Path("evaluation/config/kit.yaml").read_text(encoding="utf-8"))
     config["chemins"] = {"base": f"sqlite:///{tmp}/base.sqlite", "sorties": str(tmp), "seuils": "evaluation/config/seuils.json"}
-    corpus = importer(Path("corpus/exemple/Corpus_evaluation_RAG.xlsx"), config["chemins"]["base"], tmp,
+    corpus = importer(Path("evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx"), config["chemins"]["base"], tmp,
                       "test").dossier
     docs = {d["reference_source"]: d for d in contrat.lire_jsonl(corpus / "documents.jsonl")}
     chunks = [{"chunk_id": c, "reference_source": c.split("#")[0], "droits_acces": docs[c.split("#")[0]]["droits_acces"]}

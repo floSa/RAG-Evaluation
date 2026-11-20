@@ -1,4 +1,8 @@
-"""Séparation stricte : kit/ n'importe rien de rag_demo/, et rag_demo/ n'importe rien de kit/ (CLAUDE.md, règle 2)."""
+"""Séparation stricte : le kit n'importe rien du RAG, et le RAG n'importe rien du kit.
+
+Ils ne se parlent que par les fichiers du contrat, ou par le connecteur que le kit charge par son nom
+(rag/branchement_evaluation.py).
+"""
 
 import ast
 from pathlib import Path
@@ -18,9 +22,9 @@ def modules_importes(dossier: str) -> set[str]:
     return noms
 
 
-def test_kit_n_importe_pas_rag_demo():
-    assert "rag_demo" not in modules_importes("evaluation/kit")
+def test_le_kit_n_importe_pas_le_rag():
+    assert "rag" not in modules_importes("evaluation/kit")
 
 
-def test_rag_demo_n_importe_pas_kit():
-    assert "kit" not in modules_importes("rag/rag_demo")
+def test_le_rag_n_importe_pas_le_kit():
+    assert "kit" not in modules_importes("rag")

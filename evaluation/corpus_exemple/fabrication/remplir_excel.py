@@ -1,4 +1,4 @@
-"""Remplit le fichier Excel du métier (copie du modèle docs/Corpus_evaluation_RAG.xlsx) pour le corpus d'exemple.
+"""Remplit le fichier Excel du métier (copie du modèle evaluation/methode/Corpus_evaluation_RAG.xlsx) pour le corpus d'exemple.
 
 Lit :
 - contenus/*.json : les documents (feuille Documents) et le texte de chaque page ;
@@ -10,7 +10,7 @@ texte et tableau copiés depuis la bonne page, schéma présent sur la page, fic
 Il recalcule enfin le tableau de bord du fichier (les formules ne sont calculées qu'à l'ouverture
 dans Excel) et affiche chaque ligne avec son statut.
 
-Usage : uv run python corpus/exemple/fabrication/remplir_excel.py
+Usage : uv run python evaluation/corpus_exemple/fabrication/remplir_excel.py
 """
 
 import json
@@ -24,8 +24,8 @@ import openpyxl
 import yaml
 
 ICI = Path(__file__).resolve().parent
-RACINE = ICI.parents[2]
-MODELE = RACINE / "docs" / "Corpus_evaluation_RAG.xlsx"
+RACINE = ICI.parents[1]  # le dossier evaluation/
+MODELE = RACINE / "methode" / "Corpus_evaluation_RAG.xlsx"
 SORTIE = ICI.parent / "Corpus_evaluation_RAG.xlsx"
 
 # Pages de référence OCR : les 4 pages de chacune des 5 notes scannées (20 pages, configuration minimale)
@@ -255,6 +255,6 @@ if __name__ == "__main__":
         sys.exit(1)
     remplir(docs, questions)
     (ICI.parent / "questions_pour_relecture.md").write_text(liste_pour_relecture(questions), encoding="utf-8")
-    print(f"Écrit : {SORTIE.relative_to(RACINE)} et corpus/exemple/questions_pour_relecture.md\n\nTableau de bord (recalculé) :")
+    print(f"Écrit : {SORTIE.relative_to(RACINE)} et corpus_exemple/questions_pour_relecture.md\n\nTableau de bord (recalculé) :")
     for nom, valeur, statut in tableau_de_bord(docs, questions):
         print(f"  {nom:<45} {valeur!s:>5}  {statut}")

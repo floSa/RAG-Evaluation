@@ -1,6 +1,6 @@
 """Import du fichier Excel du métier (document 1) dans le kit.
 
-Étapes : lire les feuilles, convertir les libellés en codes (corpus/contrat/CONTRAT.md, section 1),
+Étapes : lire les feuilles, convertir les libellés en codes (evaluation/methode/CONTRAT.md, section 1),
 contrôler chaque ligne (section 2), puis, si aucune ligne n'est rejetée :
 écrire dans la base, exporter corpus/<version_corpus>/ et créer le jeu de données Langfuse.
 
@@ -20,7 +20,8 @@ import openpyxl
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from kit import base, contrat
+from kit import base
+from kit.branchement import contrat
 
 VERSION_CONTRAT = "1.0"
 
@@ -240,7 +241,7 @@ def convertir(ligne: Ligne, listes: dict, erreurs: list[str]) -> None:
 
 def controler(documents: list[Ligne], questions: list[Ligne], passages: list[Ligne], pages_ocr: list[Ligne],
               erreurs: list[str]) -> None:
-    """Contrôles de cohérence entre feuilles (corpus/contrat/CONTRAT.md, section 2)."""
+    """Contrôles de cohérence entre feuilles (evaluation/methode/CONTRAT.md, section 2)."""
     docs = {d.champs["reference_source"]: d.champs for d in documents}
     vus = {}
     for d in documents:
@@ -381,7 +382,7 @@ def nouvelle_version(session: Session, aujourd_hui: str) -> str:
 # --- Écritures -----------------------------------------------------------------------------
 
 def sans_vide(objet: dict) -> dict:
-    """Un champ facultatif absent est omis (corpus/contrat/CONTRAT.md, section 1)."""
+    """Un champ facultatif absent est omis (evaluation/methode/CONTRAT.md, section 1)."""
     return {k: v for k, v in objet.items() if v is not None and v != {}}
 
 
@@ -404,7 +405,7 @@ def ecrire_base(session: Session, corpus: dict, documents, questions, passages, 
 
 
 def creer_jeu_langfuse(langfuse, corpus: dict, questions: list[dict]) -> str:
-    """Jeu de données `corpus-<projet>-<version_corpus>` : un élément par question (corpus/contrat/CONTRAT.md, section 4)."""
+    """Jeu de données `corpus-<projet>-<version_corpus>` : un élément par question (evaluation/methode/CONTRAT.md, section 4)."""
     nom = f"corpus-{corpus['projet']}-{corpus['version_corpus']}"
     langfuse.create_dataset(name=nom, description=f"Corpus importé de {corpus['fichier_source']}",
                             metadata={"contrat": corpus["contrat"], "version_corpus": corpus["version_corpus"]})

@@ -7,8 +7,8 @@ n'y apparaît en détail.
 
 import html
 
-from kit import contrat
-from kit.publication import SCORES, Evaluation
+from kit.branchement import contrat
+from kit.resultats.publication import SCORES, Evaluation
 
 LIBELLES = {
     "n1_documents_indexes": ("Documents indexés", "part des documents du corpus qui ont au moins un chunk"),

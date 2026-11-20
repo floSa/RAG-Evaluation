@@ -4,9 +4,9 @@ import math
 
 import pytest
 
-from kit.comparaison import mcnemar_exact
-from kit.niveau4 import FREQUENCE, GRAVITE
-from kit.publication import Ligne, agreger, calculer_scores, marge
+from kit.niveau_4_bout_en_bout.scores import FREQUENCE, GRAVITE
+from kit.resultats.comparaison import mcnemar_exact
+from kit.resultats.publication import Ligne, agreger, calculer_scores, marge
 
 SEUILS = {"n4_score_pondere": {"seuil": 0.8, "sens": "min", "bloquant": False},
           "n3_erreurs_graves": {"seuil": 0, "sens": "max", "bloquant": True},

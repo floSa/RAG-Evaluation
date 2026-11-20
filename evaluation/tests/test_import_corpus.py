@@ -6,10 +6,10 @@ from pathlib import Path
 import openpyxl
 import pytest
 
-from kit import contrat
-from kit.import_corpus import importer, lire_points_cles
+from kit.branchement import contrat
+from kit.corpus.importer import importer, lire_points_cles
 
-EXEMPLE = Path("corpus/exemple/Corpus_evaluation_RAG.xlsx")
+EXEMPLE = Path("evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx")
 
 
 def lancer(tmp_path: Path, fichier: Path = EXEMPLE, jour: str = "2026-11-20"):

@@ -1,7 +1,7 @@
 """La base relationnelle du kit (document 1, section 5), décrite avec SQLAlchemy.
 
 SQLite pour le bac à sable ; PostgreSQL en changeant seulement l'adresse dans evaluation/config/kit.yaml.
-Les tables reprennent les champs de corpus/contrat/CONTRAT.md. Chaque ligne du corpus porte sa
+Les tables reprennent les champs de evaluation/methode/CONTRAT.md. Chaque ligne du corpus porte sa
 version_corpus : plusieurs versions du corpus cohabitent, et une évaluation renvoie à la sienne.
 Écart assumé avec le schéma du document 1 : une table « corpus » (une ligne par version importée),
 qui garde le contenu de corpus.json.
