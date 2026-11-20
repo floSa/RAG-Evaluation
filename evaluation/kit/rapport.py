@@ -8,7 +8,7 @@ n'y apparaît en détail.
 import html
 
 from kit import contrat
-from kit.publication import Evaluation
+from kit.publication import SCORES, Evaluation
 
 LIBELLES = {
     "n1_documents_indexes": ("Documents indexés", "part des documents du corpus qui ont au moins un chunk"),
@@ -58,15 +58,20 @@ def e(x) -> str:
     return html.escape(str(x))
 
 
+def proportion(score: str) -> bool:
+    """Un score entre 0 et 1, affiché en pourcentage (et non un nombre, un temps ou un coût)."""
+    return SCORES[score][1] or score in ("n1_erreur_caracteres", "n1_erreur_mots", "n3_synthese")
+
+
 def format_valeur(s: dict) -> str:
     v = s["valeur"]
     if v is None:
         return "—"
-    if s["score"].startswith(("n4_temps", "n2_fuite", "n3_erreurs", "n4_erreurs", "n1_graphe_violations")):
-        return f"{v:.0f}"
     if s["score"] == "n4_cout_moyen":
-        return f"{v:.4f}"
-    texte = f"{v:.0%}" if 0 <= v <= 1 else f"{v:.2f}"
+        return f"{v:.4f} €"
+    if not proportion(s["score"]):
+        return f"{v:.0f}"
+    texte = f"{v:.0%}"
     return texte + (f" <small>± {s['marge']:.0%}</small>" if s.get("marge") else "")
 
 
@@ -80,8 +85,7 @@ def seuil(s: dict) -> str:
         return "—"
     sens = "≥" if s.get("sens", "min") == "min" else "≤"
     v = s["seuil"]
-    return f"{sens} {v:.0%}" if 0 < v <= 1 and not s["score"].startswith(("n2_fuite", "n3_err", "n4_err")) \
-        else f"{sens} {v:g}"
+    return f"{sens} {v:.0%}" if proportion(s["score"]) else f"{sens} {v:g}"
 
 
 def ecrire(ev: Evaluation, resultat: dict, lignes_base) -> None:
@@ -102,10 +106,12 @@ def ecrire(ev: Evaluation, resultat: dict, lignes_base) -> None:
     possible = d["mise_en_production_possible"]
     p.append(f"<h2>1. La décision</h2><div class='decision {'oui' if possible else 'non'}'><b>"
              f"{'Mise en production possible' if possible else 'Mise en production non recommandée'}</b>")
-    if d["criteres_bloquants_declenches"]:
+    bloquants = {LIBELLES.get(b["score"], (b["score"],))[0]: b["valeur"] for b in d["criteres_bloquants_declenches"]}
+    if bloquants:
         p.append("<br>Critère(s) bloquant(s) déclenché(s), quel que soit le score : " + ", ".join(
-            f"{e(LIBELLES.get(b['score'], (b['score'],))[0])} = {b['valeur']:g}" for b in d["criteres_bloquants_declenches"]))
-    manquants = [x for x in d["seuils"] if x["atteint"] is False]
+            f"{e(nom)} = {v:g}" for nom, v in bloquants.items()))
+    manquants = [x for x in d["seuils"] if x["atteint"] is False
+                 and LIBELLES.get(x["score"], (x["score"],))[0] not in bloquants]
     if manquants:
         p.append("<br>Seuil(s) non atteint(s) sur les questions réservées : " + ", ".join(
             e(LIBELLES.get(x["score"], (x["score"],))[0]) for x in manquants))
@@ -184,7 +190,7 @@ def ecrire(ev: Evaluation, resultat: dict, lignes_base) -> None:
     if principaux:
         types = sorted({t for s in principaux for t in s["ventilation"].get("type_document", {})})
         p.append("<h2>5. Par type de document</h2><table><tr><th>Score</th>" +
-                 "".join(f"<th>{e(t)}</th>" for t in types) + "</tr>")
+                 "".join(f"<th>{e('questions sans passage' if t == 'aucun' else t)}</th>" for t in types) + "</tr>")
         for s in principaux:
             cases = []
             for t in types:
