@@ -115,7 +115,7 @@ uv add --editable <chemin du dépôt>/evaluation
 Avant toute évaluation, le kit vérifie les fichiers du RAG contre les schémas du contrat. Il dit **précisément ce qui manque**, fichier par fichier et ligne par ligne :
 
 ```bash
-uv run kit verifier-contrat sorties/sorties_rag/rag-demo-k5-80032dcd --corpus sorties/corpus/2026-11-20.1
+uv run kit verifier-contrat sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd --corpus sorties/corpus/2026-11-20.1
 ```
 
 ```
