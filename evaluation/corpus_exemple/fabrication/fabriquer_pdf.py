@@ -4,11 +4,14 @@
 - PDF scanné : la page est d'abord dessinée, puis rendue en image, abîmée (rotation, bruit, flou,
   compression) et remise en PDF : il ne contient plus aucun texte, seulement des images.
 - Fiche de base de données : export « champ : valeur » sur une page.
+Il écrit aussi sources/export_ged.csv : la liste des documents et de leurs métadonnées, telle que la donnerait
+la gestion documentaire de l'entreprise. C'est elle que lit un RAG ; il ne voit jamais le fichier Excel du métier.
 
 Chaque page du JSON donne exactement une page du PDF (le contenu est réduit s'il déborde).
 Usage : uv run --group fabrication python evaluation/corpus_exemple/fabrication/fabriquer_pdf.py
 """
 
+import csv
 import io
 import json
 import random
@@ -207,8 +210,27 @@ def fabriquer(chemin_json: Path) -> Path:
     return sortie
 
 
+COLONNES_GED = ["reference", "titre", "type_document", "version", "date", "format", "droits_acces", "en_vigueur",
+                "remplace_par", "fichier"]
+
+
+def ecrire_export_ged() -> Path:
+    """sources/export_ged.csv : une ligne par document, avec les libellés de la gestion documentaire."""
+    sortie = SOURCES / "export_ged.csv"
+    with sortie.open("w", encoding="utf-8", newline="") as f:
+        ecrivain = csv.writer(f, delimiter=";")
+        ecrivain.writerow(COLONNES_GED)
+        for chemin_json in sorted(CONTENUS.glob("*.json")):
+            d = json.loads(chemin_json.read_text(encoding="utf-8"))
+            ecrivain.writerow([d["reference_source"], d["titre"], d["type_document"], d["version"], d["date"],
+                               d["format"], d["droits_acces"], "oui" if d["en_vigueur"] else "non",
+                               d["remplace_par"] or "", f"{d['reference_source']}.pdf"])
+    return sortie
+
+
 if __name__ == "__main__":
     SOURCES.mkdir(parents=True, exist_ok=True)
     fichiers = sorted(CONTENUS.glob("*.json")) if len(sys.argv) == 1 else [Path(a) for a in sys.argv[1:]]
     for f in fichiers:
         print(fabriquer(f).relative_to(ICI.parent.parent))
+    print(ecrire_export_ged().relative_to(ICI.parent.parent))
