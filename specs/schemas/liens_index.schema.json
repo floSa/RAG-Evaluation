@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "liens_index.jsonl (une ligne)",
+  "description": "Un lien passage ↔ chunk, écrit par le kit.",
+  "type": "object",
+  "properties": {
+    "passage_id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "chunk_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version_index": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "exact",
+        "approche",
+        "image",
+        "coupe"
+      ]
+    },
+    "similarite": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "required": [
+    "passage_id",
+    "chunk_id",
+    "version_index",
+    "mode",
+    "similarite"
+  ],
+  "additionalProperties": false
+}

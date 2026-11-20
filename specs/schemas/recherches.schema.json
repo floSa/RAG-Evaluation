@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "recherches.jsonl (une ligne)",
+  "description": "La recherche faite pour une question.",
+  "type": "object",
+  "properties": {
+    "question_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profil": {
+      "type": "string",
+      "minLength": 1
+    },
+    "k": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "resultats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "chunk_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rang": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "score": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "chunk_id",
+          "rang"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "duree_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "resultats_avant_reranking": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "chunk_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "rang": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "score": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "chunk_id",
+              "rang"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "question_id",
+    "profil",
+    "k",
+    "resultats",
+    "duree_ms"
+  ],
+  "additionalProperties": false
+}
