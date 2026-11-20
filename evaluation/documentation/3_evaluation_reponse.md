@@ -44,7 +44,7 @@ uv run kit verifier-modeles
 ## La commande
 
 ```bash
-uv run kit evaluer-reponse --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/rag-demo-k5-80032dcd
+uv run kit evaluer-reponse --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd
 ```
 
 Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluation_recherche.md), et de `reponses.jsonl` ([branchement, prise ③](0b_branchement_du_rag.md)). Elle prend environ 3 minutes, le temps que le juge lise chaque réponse.
@@ -61,15 +61,15 @@ Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluatio
 
 | Score | Ce qu'il mesure | Exemple | Si c'est mauvais |
 | --- | --- | --- | --- |
-| `n3_exactitude` | juste = 1, partielle = 0,5, fausse = 0, selon le juge. Les abstentions ne sont pas notées ici | **79 %** ± 15 % (seuil 80 %) | lire la justification du juge dans le CSV ; regarder le croisement ci-dessous |
+| `n3_exactitude` | juste = 1, partielle = 0,5, fausse = 0, selon le juge. Les abstentions ne sont pas notées ici | **80 %** ± 15 % (seuil 80 %) | lire la justification du juge dans le CSV ; regarder le croisement ci-dessous |
 | `n3_completude_listes` | pour une question « liste » : part des éléments attendus présents | 100 % | graphe et ontologie pour les listes |
 | `n3_valeurs` | les valeurs chiffrées attendues sont-elles dans la réponse, avec la bonne unité et dans la tolérance ? | 91 % | calcul délégué à un outil plutôt qu'au modèle |
 | `n3_abstention_correcte` | sur les questions sans réponse ou interdites au profil : part des fois où le RAG dit ne pas savoir | 100 % | consigne d'abstention ; vérifier que le contexte suffit avant de répondre |
 | `n3_abstention_a_tort` | part des questions où le RAG ne répond pas alors qu'il avait le bon passage | 6 % | consigne d'abstention trop stricte |
-| `n3_fidelite` | (Ragas) part des affirmations de la réponse appuyées par les chunks donnés au modèle | 92 % | citations obligatoires ; LLM juge garde-fou |
+| `n3_fidelite` | (Ragas) part des affirmations de la réponse appuyées par les chunks donnés au modèle | 93 % | citations obligatoires ; LLM juge garde-fou |
 | `n3_citations` | au moins une source citée est la bonne, sans piège ni document interdit | 89 % | — |
-| **`n3_erreurs_graves`** | réponses fausses, non fidèles (une seule affirmation non appuyée suffit), ou données au lieu de s'abstenir, **sur une question de gravité forte** | **2** | **bloquant** ; chaque cas est relu par le métier |
-| `n3_synthese` | (Ragas) note de 1 à 5 sur la grille du prompt du juge, ramenée sur 100 % | 50 % | un RAG vectoriel synthétise mal : graphe |
+| **`n3_erreurs_graves`** | réponses fausses, non fidèles (une seule affirmation non appuyée suffit), ou données au lieu de s'abstenir, **sur une question de gravité forte** | **1** | **bloquant** ; chaque cas est relu par le métier |
+| `n3_synthese` | (Ragas) note de 1 à 5 sur la grille du prompt du juge, ramenée sur 100 % | 45 % | un RAG vectoriel synthétise mal : graphe |
 | `n3_questions_suite` | exactitude des questions de suite | 100 % | — |
 | `n3_variantes` | part des groupes de reformulations dont les réponses diffèrent | 0 % | robustesse aux reformulations |
 
@@ -82,9 +82,9 @@ Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluatio
 
 Verdict : **partielle**. La réponse donne le courant de réglage, mais oublie la temporisation.
 
-**Les deux erreurs graves du RAG d'exemple :**
-- **Q-004** n'est pas fidèle (0,5) : une affirmation de la réponse n'est appuyée par aucun extrait.
-- **Q-046** est une synthèse fausse.
+**L'erreur grave du RAG d'exemple** : **Q-046**, une synthèse fausse, sur une question de gravité forte.
+
+> **Une même version ne répond pas toujours pareil.** Sur une exécution précédente du même RAG (mêmes réglages, même index), Q-004 était aussi une erreur grave : une affirmation non appuyée par les extraits. Le modèle de génération n'est pas parfaitement déterministe, même à température 0. C'est une raison de plus pour lire les marges d'erreur, et pour faire relire chaque erreur grave par le métier.
 
 ## Le croisement recherche × réponse : où est la faute ?
 
@@ -98,7 +98,7 @@ Pour chaque question dont la réponse est dans les documents, le kit croise deux
 | non, et aucun passage rattaché | — | **ingestion** : l'information n'est même pas dans l'index | extraction, OCR, tableaux, images |
 | non | juste | juste **sans le bon passage** : le modèle sait de lui-même, ou le corpus a oublié un passage | vérifier l'annotation |
 
-Pour le RAG d'exemple, sur 32 questions : 20 ok, 6 « génération » (le bon chunk était retrouvé), 4 « recherche », 2 « abstention à tort ». La moitié des erreurs vient de la génération : on commence donc par le prompt et le modèle, pas par la recherche.
+Pour le RAG d'exemple, sur 32 questions : 21 ok, 5 « génération » (le bon chunk était retrouvé), 4 « recherche », 2 « abstention à tort ». La moitié des erreurs vient de la génération : on commence donc par le prompt et le modèle, pas par la recherche.
 
 ## La relecture par le métier
 
@@ -118,12 +118,12 @@ flowchart LR
 
 1. Envoyer 30 réponses au métier (hors questions réservées) :
    ```bash
-   uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/rag-demo-k5-80032dcd --envoyer
+   uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd --envoyer
    ```
 2. Dans Langfuse, **Annotation Queues → `verification-juge`** : le métier lit chaque réponse avec sa question, et choisit `verdict_metier`, **sans regarder la note du juge**.
 3. Calculer l'accord :
    ```bash
-   uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/rag-demo-k5-80032dcd
+   uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd
    ```
    Exemple de sortie (valeurs d'illustration : le métier n'a pas encore noté l'échantillon du corpus d'exemple) :
    ```
