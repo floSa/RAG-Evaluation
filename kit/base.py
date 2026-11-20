@@ -126,12 +126,17 @@ class Resultat(Base):
     __tablename__ = "resultats"
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     evaluation_id: Mapped[str] = mapped_column(ForeignKey("evaluations.evaluation_id"))
-    question_id: Mapped[str] = mapped_column(String)
+    question_id: Mapped[str | None] = mapped_column(String, nullable=True)  # vide pour un score de document ou de chunk
     niveau: Mapped[int] = mapped_column(Integer)
     score: Mapped[str] = mapped_column(String)
     valeur: Mapped[float | None] = mapped_column(Float, nullable=True)       # un nombre…
     verdict: Mapped[str | None] = mapped_column(String, nullable=True)      # …ou un texte (juste, partielle, fausse)
     detail: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # Pour recalculer les scores globaux et leur ventilation depuis la base (écart assumé : colonnes en plus)
+    objet: Mapped[str | None] = mapped_column(String, nullable=True)        # passage, document, chunk ou page évalué
+    attributs: Mapped[dict | None] = mapped_column(JSON, nullable=True)    # axes de ventilation
+    poids: Mapped[float | None] = mapped_column(Float, nullable=True)       # pour un score pondéré
+    reservee: Mapped[bool] = mapped_column(Boolean, default=False)          # question réservée à la décision
 
 
 def moteur(adresse: str):
