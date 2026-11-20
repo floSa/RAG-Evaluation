@@ -7,7 +7,7 @@ flowchart LR
     D["Documents<br/>PDF natifs, scannés,<br/>fiches de base"] --> E1["<b>1. Extraction</b><br/>lire le texte<br/>page par page"]
     E1 --> E2["<b>2. Découpage</b><br/>des morceaux qui<br/>gardent leurs<br/>métadonnées"]
     E2 --> E3["<b>3. Index</b><br/>sens (vecteurs)<br/>et mots (BM25)"]
-    E2 -.-> E4["<b>4. Graphe</b><br/>(optionnel,<br/>à venir)"]
+    E2 -.-> E4["<b>4. Graphe</b><br/>(optionnel)<br/>entités et relations<br/>contraintes par<br/>l'ontologie"]
     Q["Question<br/>+ profil"] --> E5["<b>5. Recherche</b><br/>k meilleurs morceaux<br/>autorisés au profil"]
     E3 --> E5
     E4 -.-> E5
@@ -15,7 +15,7 @@ flowchart LR
     E6 --> R["Réponse<br/>+ sources"]
 ```
 
-Le graphe (étape 4) sera optionnel : on pourra le couper dans `config/config.yaml` sans rien changer d'autre. Il n'est pas encore écrit ; les autres étapes marchent sans lui.
+Le graphe (étape 4) est **optionnel**. Sans lui, le RAG est **vectoriel** ; avec lui, il est **hybride** : il cherche à la fois dans les morceaux de texte et dans le graphe. On l'allume dans `config/config.yaml` (`graphe.actif`) ou avec `--graphe` sur la ligne de commande, sans rien changer d'autre.
 
 ## Les fichiers
 
@@ -32,6 +32,7 @@ rag/
 │   │   ├── etape_1_extraction.py
 │   │   ├── etape_2_decoupage.py
 │   │   ├── etape_3_index.py
+│   │   ├── etape_4_graphe.py           (optionnelle)
 │   │   ├── etape_5_recherche.py
 │   │   └── etape_6_generation.py
 │   ├── assistant.py                    enchaîne les étapes pour répondre à une question
@@ -113,13 +114,35 @@ Chaque morceau garde **la référence du document, sa version, sa page, son type
 
 Rendre les morceaux cherchables de deux façons : par le **sens** (un vecteur par morceau, modèle d'embeddings) et par les **mots** (BM25). Les vecteurs sont gardés dans un fichier, pas dans une base vectorielle : quelques milliers de morceaux tiennent en mémoire. L'index est écrit dans `sorties/rag/index/`.
 
-### 4. Graphe — optionnel, à venir
+### 4. Graphe, optionnel — [`pipeline/etape_4_graphe.py`](../src/rag/pipeline/etape_4_graphe.py)
 
-Une petite ontologie du domaine, des entités et relations extraites des documents par un modèle de langage, chacune avec sa source (document et page). La recherche pourra alors suivre les relations, en plus des morceaux.
+Relier les équipements, les sites et les personnes cités dans les documents, pour répondre aux questions qui demandent de suivre des liens (« qu'est-ce que le groupe GE-A secourt ? ») ou de faire une liste.
+
+```mermaid
+flowchart LR
+    O["<b>Ontologie</b><br/>3 classes, 5 relations"] --> L
+    P["Une page<br/>(un champ, pour une fiche)"] --> L["<b>Modèle de langage</b><br/>entités et relations<br/>de la page"]
+    L --> C{"Contrainte :<br/>classe ou relation<br/>inconnue → écartée"}
+    C --> G["<b>graphe.ttl</b><br/>chaque nœud, chaque relation<br/>avec sa provenance<br/>(document, page)"]
+    C --> N["<b>Éléments « noeud »</b><br/>dans l'index, avec les<br/>métadonnées de la page"]
+```
+
+| Quoi | Comment |
+| --- | --- |
+| L'ontologie | [`evaluation/corpus_exemple/ontologie/ontologie.ttl`](../../evaluation/corpus_exemple/ontologie/ontologie.ttl) : les classes Site, Equipement, Personne ; les relations situeSur, alimente, secourt, protege, intervientSur. Elle appartient au projet, pas au RAG : le kit contrôle le graphe avec ses règles (`ontologie_formes.ttl`) |
+| L'extraction | le modèle de génération lit chaque page, avec l'ontologie et un exemple dans sa consigne. Ce qui n'est pas dans l'ontologie est écarté. Les entités de même nom (« TGBT-A », « TGBT A ») sont fusionnées. Les réponses sont gardées en cache dans `sorties/rag/graphe/` |
+| La provenance | chaque nœud et chaque relation (réifiée en RDF) porte `kit:referenceSource` et `kit:page`, comme le demande le contrat |
+| Dans l'index | pour chaque entité et chaque page, un élément « noeud » qui résume ses relations : « GE-A (Equipement) : GE-A secourt TGBT-A ; GE-A est situé sur Site A. » Il porte la référence, la version, la page et les droits de la page : il est filtré et cité exactement comme un morceau |
+
+```bash
+uv run rag indexer --graphe
+```
+
+Sur le corpus d'exemple : 367 pages lues en 5 minutes environ, 377 relations, 525 éléments ajoutés à l'index. Le graphe est écrit à part (`sorties/rag/graphe/`) : on passe du RAG vectoriel au RAG hybride sans tout réindexer.
 
 ### 5. Recherche — [`pipeline/etape_5_recherche.py`](../src/rag/pipeline/etape_5_recherche.py)
 
-Trouver les k morceaux les plus utiles. Deux recherches, par le sens et par les mots, fusionnées par rang : un morceau bien classé par les deux remonte en tête. **Le filtre des droits s'applique pendant la recherche** : un morceau interdit au profil n'est jamais classé, donc jamais montré au modèle. Pour une question de suite, on cherche avec la question précédente et la nouvelle.
+Trouver les k morceaux les plus utiles. Deux recherches, par le sens et par les mots, fusionnées par rang : un morceau bien classé par les deux remonte en tête. Avec le graphe, une troisième recherche classe les éléments des **entités nommées dans la question** (« GE-A », « TGBT-B »), celles qui ont le plus de relations en tête ; elle entre dans la même fusion. **Le filtre des droits s'applique pendant la recherche** : un morceau interdit au profil n'est jamais classé, donc jamais montré au modèle. Pour une question de suite, on cherche avec la question précédente et la nouvelle.
 
 ### 6. Génération — [`pipeline/etape_6_generation.py`](../src/rag/pipeline/etape_6_generation.py)
 
@@ -137,6 +160,8 @@ Tout est dans [`config/config.yaml`](../config/config.yaml) ; seule la clé est 
 | `recherche.k` | 5 | ou `--k 3` sur la ligne de commande |
 | `documents` | les PDF du corpus d'exemple | le dossier de vos documents |
 | `liste_des_documents` | `export_ged.csv` du corpus d'exemple | l'export de votre gestion documentaire, avec les mêmes colonnes |
+| `graphe.actif` | `false` (RAG vectoriel) | `true`, ou `--graphe` sur la ligne de commande (RAG hybride) |
+| `graphe.ontologie` | l'ontologie du corpus d'exemple | l'ontologie de votre domaine |
 
 ## Le brancher sur l'évaluation — [`utils/branchement_evaluation.py`](../src/rag/utils/branchement_evaluation.py)
 
@@ -177,6 +202,8 @@ Pour évaluer ce RAG, deux façons :
 uv run kit lancer rag.utils.branchement_evaluation:Connecteur --corpus sorties/corpus/2026-11-20.1 -p k=5
 ```
 
+Avec le graphe, ajouter `-p graphe=oui` : le RAG se déclare alors `hybride`, et exporte aussi `graphe.ttl`.
+
 ou, par fichiers :
 
 ```bash
@@ -187,7 +214,7 @@ uv run rag exporter
 uv run rag repondre sorties/corpus/2026-11-20.1/questions.jsonl
 ```
 
-La **version du RAG** (`rag-demo-k5-80032dcd`) se calcule à partir de k, des modèles, du prompt et de l'index. Changer un réglage donne une nouvelle version, dans un nouveau dossier de `sorties/sorties_rag/`. Deux versions se comparent avec `kit comparer`.
+La **version du RAG** (`graphrag-vectoriel-k5-80032dcd`, ou `graphrag-hybride-k5-…` avec le graphe) se calcule à partir de k, des modèles, du prompt et de l'index, graphe compris. Changer un réglage donne une nouvelle version, dans un nouveau dossier de `sorties/sorties_rag/`. Deux versions se comparent avec `kit comparer`.
 
 ## Ses limites connues, et ce que l'évaluation en dit
 
@@ -198,5 +225,6 @@ La **version du RAG** (`rag-demo-k5-80032dcd`) se calcule à partir de k, des mo
 | Toutes les versions des documents sont indexées, même celles qui ne sont plus en vigueur | évaluation 2 (recherche) : « périmé ou piège avant le bon passage » |
 | Recherche simple, sans reranker ni décomposition de la question | évaluation 2 (recherche) : les questions qui combinent plusieurs passages échouent plus souvent |
 | Un seul prompt, petit modèle (4 milliards de paramètres) | évaluation 3 (réponse) : les synthèses sur l'ensemble des documents sont fausses |
+| Graphe extrait par un petit modèle, page par page : il range parfois une personne « sur » un site, ou fait « secourir » un site par un onduleur | évaluation 1 (ingestion) : violations des règles de l'ontologie (25 sur le corpus d'exemple), et justesse des relations jugée par le métier |
 
 Pour aller plus loin, le [document 2](reference/techniques_rag.md) décrit les techniques d'un RAG selon les cas, et ce qu'il faut corriger quand un score est mauvais.
