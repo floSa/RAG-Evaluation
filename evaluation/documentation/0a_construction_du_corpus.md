@@ -69,7 +69,7 @@ Le dossier [`../corpus_exemple/`](../corpus_exemple/) contient un corpus complet
 
 | Élément | Contenu |
 | --- | --- |
-| `corpus_exemple/sources/` | 50 documents PDF : 17 procédures (PDF natifs), 16 notes techniques (11 natives, 5 scannées et bruitées), 17 comptes rendus d'intervention (fiches de base de données exportées en « champ : valeur ») |
+| `corpus_exemple/sources/` | l'export de la gestion documentaire, `export_ged.csv` (une ligne par document, avec ses métadonnées), et 50 documents PDF : 17 procédures (PDF natifs), 16 notes techniques (11 natives, 5 scannées et bruitées), 17 comptes rendus d'intervention (fiches de base de données exportées en « champ : valeur ») |
 | `corpus_exemple/Corpus_evaluation_RAG.xlsx` | le fichier du métier, rempli : 50 documents, 60 questions, 97 passages, 20 pages OCR retapées |
 | `corpus_exemple/questions_pour_relecture.md` | les 60 questions sur une page, pour les relire |
 | `corpus_exemple/fabrication/` | de quoi tout refabriquer : le monde fictif, le contenu de chaque document, les scripts |
@@ -102,7 +102,7 @@ uv run --group fabrication python evaluation/corpus_exemple/fabrication/fabrique
 uv run python evaluation/corpus_exemple/fabrication/remplir_excel.py
 ```
 
-Le premier script dessine les PDF à partir de `fabrication/contenus/*.json`. Le second vérifie chaque passage de `fabrication/questions.yaml` contre sa source, remplit le fichier Excel et recalcule le tableau de bord.
+Le premier script dessine les PDF à partir de `fabrication/contenus/*.json`, et écrit `export_ged.csv`. Le second vérifie chaque passage de `fabrication/questions.yaml` contre sa source, remplit le fichier Excel et recalcule le tableau de bord.
 
 ## 3. Importer le corpus
 
@@ -132,7 +132,7 @@ Si la configuration minimale du document 1 n'est pas atteinte (moins de 50 quest
 | Fichier | Une ligne = | Donné au RAG ? |
 | --- | --- | --- |
 | `corpus.json` | la description du corpus : version, projet, date, fichier source | non |
-| `documents.jsonl` | un document : référence, titre, type, version, date, format, droits d'accès, en vigueur | **oui** : ce sont les métadonnées que le RAG doit garder sur chaque morceau |
+| `documents.jsonl` | un document : référence, titre, type, version, date, format, droits d'accès, en vigueur | non : le RAG lit les mêmes métadonnées dans la gestion documentaire, comme en production. Le kit s'en sert pour vérifier ses chunks |
 | `questions.jsonl` | une question, avec ses annotations | **en partie** : le RAG n'en lit que la question, le profil, et l'historique d'une question de suite |
 | `passages.jsonl` | un passage annoté | **jamais** |
 | `pages_ocr.jsonl` | une page scannée retapée | **jamais** |
