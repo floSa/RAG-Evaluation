@@ -10,7 +10,8 @@ Ce document fixe, avant toute ligne de code, l'arborescence, les commandes et le
 | Autre LiteLLM | `harness-litellm` (port 4100) : propre au Harness-Test-Bench | non utilisé |
 | Carte graphique | RTX 4060 Ti, 16 Go | modèles locaux, coût nul |
 | Docker | disponible ; port 3000 pris par `rag-open-webui` ; 8080 et 8081 pris par LLM-Service | Langfuse publié sur le port **3100** |
-| Tesseract | absent (paquets `tesseract-ocr`, `tesseract-ocr-fra` disponibles, `sudo` requis) | à installer avant l'étape 4 |
+| Tesseract | absent (`sudo` requis pour l'installer) | non utilisé : l'extraction passe par Docling |
+| Docling | image `quay.io/docling-project/docling-serve-cpu:v1.38.2` déjà présente (conteneur `rag-docling-serve` de l'OpenWebUI-Test-Bench, sans port publié) ; moteurs OCR EasyOCR et RapidOCR inclus | une instance propre au bac à sable dans `infra/`, port **5101**, même image (aucun téléchargement) |
 | Python | 3.12.13 géré par `uv` | Python 3.12 (minimum du document ; règle de la machine) |
 
 ## 2. Arborescence détaillée
@@ -30,7 +31,7 @@ RAG-Evaluation/
 │   ├── kit.yaml               point d'accès, modèles du juge et des embeddings, seuils de ressemblance, chemins
 │   └── seuils.json            seuil, sens, bloquant pour chaque score (document 3, section 9)
 ├── infra/
-│   ├── docker-compose.yml     Langfuse v3 auto-hébergé (web, worker, PostgreSQL, ClickHouse, Redis, MinIO)
+│   ├── docker-compose.yml     Langfuse v3 auto-hébergé (web, worker, PostgreSQL, ClickHouse, Redis, MinIO) et Docling-serve
 │   └── .env.example
 ├── corpus_exemple/
 │   ├── fabrication/           scripts qui fabriquent le corpus fictif (contenus, PDF, scan bruité, fiche)
@@ -54,7 +55,7 @@ RAG-Evaluation/
 ├── rag_demo/
 │   ├── config.yaml            point d'accès, modèles, k, découpage, droits
 │   ├── cli.py                 la commande `rag-demo`
-│   ├── extraction.py          PDF natif (pdfplumber), OCR (pytesseract), tableaux, images (vision)
+│   ├── extraction.py          un appel à Docling-serve par PDF : texte, titres, tableaux, OCR des scans ; images décrites par le modèle de vision
 │   ├── decoupage.py           par section, chemin de titres, métadonnées du contrat
 │   ├── index.py               embeddings (numpy) + BM25, filtre des droits
 │   ├── generation.py          réponse citée, abstention
@@ -94,7 +95,7 @@ RAG-Evaluation/
 | --- | --- | --- |
 | Fabrication des PDF natifs, du schéma | reportlab | BSD |
 | Rendu des pages scannées, bruit | pypdfium2, Pillow | Apache 2.0 / BSD, HPND |
-| Lecture des PDF dans le RAG | pdfplumber (texte, tableaux) ; pypdfium2 (images de page pour l'OCR et la vision) | MIT ; Apache 2.0 |
+| Lecture des PDF dans le RAG | Docling-serve (mise en page, tableaux, OCR EasyOCR en français), appelé en HTTP : aucune dépendance Python lourde dans le RAG | MIT ; EasyOCR Apache 2.0 |
 | BM25 | rank-bm25 | Apache 2.0 |
 | Base vectorielle du RAG de démonstration | tableau numpy en mémoire, enregistré sur disque ; filtre des droits appliqué avant le classement | BSD |
 | Schémas JSON | jsonschema | MIT |
@@ -116,6 +117,7 @@ RAG-Evaluation/
 | 8 | Fiche de base de données | pas de type d'élément dédié | passage de type `texte`, nom du champ dans « Page » (comme l'exemple du modèle) |
 | 9 | Taille du corpus d'exemple | CLAUDE.md : 12 documents, 30 questions, 3 pages OCR ; configuration minimale : 10 documents par type, 50 questions, 20 pages OCR | on suit CLAUDE.md ; le tableau de bord montrera « À compléter » sur ces lignes et l'import émettra l'avertissement prévu (sans rejet) |
 | 10 | Juge différent du RAG | « de préférence un autre modèle que celui du RAG » | génération et vision du RAG : `gemma-4-e4b` ; juge et Ragas : `chat` (qwen3.5-4b) ; embeddings : `embed` (bge-m3) ; réflexion désactivée pour la génération et le juge (validé le 2026-11-20) |
+| 11 | Outil d'OCR du RAG de démonstration | CLAUDE.md : `pytesseract` ; document 2 : « analyse de mise en page (Docling, Marker) » | **écart à CLAUDE.md** : Docling-serve en conteneur fait l'extraction complète (texte natif, tableaux, OCR des scans) ; rien à installer sur la machine, et c'est l'outil cité par le document 2. Le kit n'en dépend pas : il mesure l'OCR avec `jiwer` sur `pages_extraites.jsonl`, quel que soit l'outil |
 
 ## 6. Risques repérés
 
@@ -123,4 +125,4 @@ RAG-Evaluation/
 | --- | --- |
 | Des modèles de 4 milliards de paramètres comme juge : sorties JSON parfois invalides, notes Ragas instables | sortie redemandée une fois (JUGE.md) ; vérification du juge sur 30 réponses ; activer un modèle en ligne dans LLM-Service si l'accord est sous 90 % |
 | Files de relecture de Langfuse par l'API | vérifié à l'étape 1 sur la version installée ; sinon, création manuelle documentée |
-| Tesseract absent | installation par l'utilisateur avant l'étape 4 |
+| OCR de Docling insuffisant sur le scan bruité | le taux d'erreur de caractères le montrera (c'est son rôle) ; repli : lecture des pages difficiles par le modèle de vision |
