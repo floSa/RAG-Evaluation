@@ -232,6 +232,9 @@ def publier(ev: Evaluation, niveau: int, lignes: list[Ligne], langfuse=None) -> 
         enregistrement.seuils, enregistrement.scores = ev.seuils, resultat
         session.commit()
         ecrire_fichiers(ev, description, resultat, toutes)
+        from kit import rapport  # ici, pour éviter une importation circulaire
+
+        rapport.ecrire(ev, resultat, toutes)
     if langfuse is not None:
         publier_langfuse(ev, langfuse, lignes, resultat)
     return resultat
