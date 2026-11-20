@@ -118,12 +118,12 @@ uv run kit lancer rag.utils.branchement_evaluation:Connecteur --corpus sorties/c
 **6. Évaluer** : les évaluations 1 à 4 d'un coup, en 5 minutes environ ([guides 1 à 4](evaluation/documentation/1_evaluation_ingestion.md)) :
 
 ```bash
-uv run kit evaluer --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/rag-demo-k5-80032dcd
+uv run kit evaluer --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd
 ```
 
 **7. Lire le résultat** ([guide 5](evaluation/documentation/5_resultats_et_comparaison.md)) : ouvrir `sorties/resultats/<évaluation>/rapport.html`, puis l'expérience dans Langfuse.
 
-Les noms `2026-11-20.1` (version du corpus) et `rag-demo-k5-80032dcd` (version du RAG) sont affichés par les commandes précédentes.
+Les noms `2026-11-20.1` (version du corpus) et `graphrag-vectoriel-k5-80032dcd` (version du RAG) sont affichés par les commandes précédentes.
 
 ## Toutes les commandes
 
