@@ -1,7 +1,7 @@
 """La commande `rag`.
 
 Pour se servir du RAG :            rag indexer, puis rag demander "…" --profil maintenance
-Pour l'évaluer, par fichiers :     rag exporter, puis rag repondre <questions.jsonl>   (branchement_evaluation.py)
+Pour l'évaluer, par fichiers :     rag exporter, puis rag repondre <questions.jsonl>   (utils/branchement_evaluation.py)
 """
 
 from pathlib import Path

@@ -1,7 +1,7 @@
 """Séparation stricte : le kit n'importe rien du RAG, et le RAG n'importe rien du kit.
 
 Ils ne se parlent que par les fichiers du contrat, ou par le connecteur que le kit charge par son nom
-(rag/branchement_evaluation.py).
+(rag/src/rag/utils/branchement_evaluation.py).
 """
 
 import ast
