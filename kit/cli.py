@@ -4,7 +4,7 @@ from pathlib import Path
 
 import typer
 
-from kit import base, contrat, import_corpus, lanceur, niveau1, publication
+from kit import base, contrat, import_corpus, lanceur, niveau1, niveau2, publication
 from kit.config import charger_config, client_langfuse
 
 app = typer.Typer(help="Kit d'évaluation de RAG : corpus, contrat, niveaux 1 à 4, rapport.", no_args_is_help=True)
@@ -124,6 +124,19 @@ def niveau_1(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse
         for p in non_rattaches:
             typer.echo(f"    - passage {p['passage_id']} ({p['question_id']}, {p['reference_source']} p. {p['page']}, "
                        f"{p['type_element']}) : {p['cause_probable']}")
+
+
+@app.command("niveau2")
+def niveau_2(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
+    """Niveau 2 — recherche : réussite à k, rappel, rang du premier bon chunk, fuite de droits."""
+    config, ev = preparer(corpus, rag)
+    lignes = niveau2.evaluer(ev, niveau1.lire_liens(ev))
+    resultat = publication.publier(ev, 2, lignes, None if sans_langfuse else client_langfuse(config))
+    typer.echo(f"Niveau 2 — {ev.evaluation_id} → {ev.dossier}")
+    afficher_niveau(resultat, 2)
+    fuites = [l for l in lignes if l.score == "n2_fuite_droits" and l.valeur]
+    for l in fuites:
+        typer.echo(f"  FUITE DE DROITS — {l.question_id} : {l.detail}")
 
 
 if __name__ == "__main__":
