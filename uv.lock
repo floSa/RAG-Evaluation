@@ -13,6 +13,13 @@ resolution-markers = [
     "python_full_version < '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32'",
 ]
 
+[manifest]
+members = [
+    "kit-evaluation-rag",
+    "rag-evaluation",
+    "rag-exemple",
+]
+
 [[package]]
 name = "aiohappyeyeballs"
 version = "2.7.1"
@@ -896,6 +903,39 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/19/74/a633ee74eb36c44aa6d1095e7cc5569bebf04342ee146178e2d36600708b/jsonschema_specifications-2025.9.1.tar.gz", hash = "sha256:b540987f239e745613c7a9176f3edb72b832a4ac465cf02712288397832b5e8d", size = 32855, upload-time = "2025-09-08T01:34:59.186Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/41/45/1a4ed80516f02155c51f51e8cedb3c1902296743db0bbc66608a0db2814f/jsonschema_specifications-2025.9.1-py3-none-any.whl", hash = "sha256:98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe", size = 18437, upload-time = "2025-09-08T01:34:57.871Z" },
+]
+
+[[package]]
+name = "kit-evaluation-rag"
+version = "0.1.0"
+source = { editable = "evaluation" }
+dependencies = [
+    { name = "jiwer" },
+    { name = "jsonschema" },
+    { name = "langfuse" },
+    { name = "openai" },
+    { name = "openpyxl" },
+    { name = "python-dotenv" },
+    { name = "pyyaml" },
+    { name = "ragas" },
+    { name = "rapidfuzz" },
+    { name = "sqlalchemy" },
+    { name = "typer" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "jiwer", specifier = ">=4.0.0" },
+    { name = "jsonschema", specifier = ">=4.26.0" },
+    { name = "langfuse", specifier = ">=5.2.0" },
+    { name = "openai", specifier = ">=2,<3" },
+    { name = "openpyxl", specifier = ">=3.1.5" },
+    { name = "python-dotenv", specifier = ">=1.0" },
+    { name = "pyyaml", specifier = ">=6.0" },
+    { name = "ragas", specifier = ">=0.4" },
+    { name = "rapidfuzz", specifier = ">=3.14.6" },
+    { name = "sqlalchemy", specifier = ">=2.0" },
+    { name = "typer", specifier = ">=0.12" },
 ]
 
 [[package]]
@@ -2341,22 +2381,10 @@ wheels = [
 [[package]]
 name = "rag-evaluation"
 version = "0.1.0"
-source = { editable = "." }
+source = { virtual = "." }
 dependencies = [
-    { name = "jiwer" },
-    { name = "jsonschema" },
-    { name = "langfuse" },
-    { name = "numpy" },
-    { name = "openai" },
-    { name = "openpyxl" },
-    { name = "pypdf" },
-    { name = "python-dotenv" },
-    { name = "pyyaml" },
-    { name = "ragas" },
-    { name = "rank-bm25" },
-    { name = "rapidfuzz" },
-    { name = "sqlalchemy" },
-    { name = "typer" },
+    { name = "kit-evaluation-rag" },
+    { name = "rag-exemple" },
 ]
 
 [package.dev-dependencies]
@@ -2371,20 +2399,8 @@ fabrication = [
 
 [package.metadata]
 requires-dist = [
-    { name = "jiwer", specifier = ">=4.0.0" },
-    { name = "jsonschema", specifier = ">=4.26.0" },
-    { name = "langfuse", specifier = ">=5.2.0" },
-    { name = "numpy", specifier = ">=2.5.5" },
-    { name = "openai", specifier = ">=2,<3" },
-    { name = "openpyxl", specifier = ">=3.1.5" },
-    { name = "pypdf", specifier = ">=7.1.1" },
-    { name = "python-dotenv", specifier = ">=1.0" },
-    { name = "pyyaml", specifier = ">=6.0" },
-    { name = "ragas", specifier = ">=0.4" },
-    { name = "rank-bm25", specifier = ">=0.2.2" },
-    { name = "rapidfuzz", specifier = ">=3.14.6" },
-    { name = "sqlalchemy", specifier = ">=2.0" },
-    { name = "typer", specifier = ">=0.12" },
+    { name = "kit-evaluation-rag", editable = "evaluation" },
+    { name = "rag-exemple", editable = "rag" },
 ]
 
 [package.metadata.requires-dev]
@@ -2393,6 +2409,35 @@ fabrication = [
     { name = "pillow", specifier = ">=13.0.0" },
     { name = "pypdfium2", specifier = ">=5.15.2" },
     { name = "reportlab", specifier = ">=5.1.0" },
+]
+
+[[package]]
+name = "rag-exemple"
+version = "0.1.0"
+source = { editable = "rag" }
+dependencies = [
+    { name = "httpx" },
+    { name = "langfuse" },
+    { name = "numpy" },
+    { name = "openai" },
+    { name = "pypdf" },
+    { name = "python-dotenv" },
+    { name = "pyyaml" },
+    { name = "rank-bm25" },
+    { name = "typer" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "httpx", specifier = ">=0.27" },
+    { name = "langfuse", specifier = ">=5.2.0" },
+    { name = "numpy", specifier = ">=2.5.5" },
+    { name = "openai", specifier = ">=2" },
+    { name = "pypdf", specifier = ">=7.1.1" },
+    { name = "python-dotenv", specifier = ">=1.0" },
+    { name = "pyyaml", specifier = ">=6.0" },
+    { name = "rank-bm25", specifier = ">=0.2.2" },
+    { name = "typer", specifier = ">=0.12" },
 ]
 
 [[package]]

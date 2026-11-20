@@ -1,44 +1,32 @@
+# Le dépôt réunit deux paquets indépendants, installés ensemble par un seul « uv sync » :
+#   rag/         le RAG d'exemple, commande « rag »   (il n'a besoin de rien de l'évaluation)
+#   evaluation/  le kit d'évaluation, commande « kit » (il ne connaît aucun RAG)
+
 [project]
 name = "rag-evaluation"
 version = "0.1.0"
-description = "Bac à sable d'évaluation de RAG : le kit d'évaluation standard et un RAG de démonstration, séparés"
+description = "Évaluer un RAG de bout en bout : un corpus annoté, un kit d'évaluation, et un RAG d'exemple"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "pyyaml>=6.0",
-    "python-dotenv>=1.0",
-    "sqlalchemy>=2.0",
-    "typer>=0.12",
-    "openpyxl>=3.1.5",
-    "langfuse>=5.2.0",
-    "jsonschema>=4.26.0",
-    "openai>=2,<3",
-    "pypdf>=7.1.1",
-    "rank-bm25>=0.2.2",
-    "numpy>=2.5.5",
-    "rapidfuzz>=3.14.6",
-    "jiwer>=4.0.0",
-    "ragas>=0.4",
-]
+dependencies = ["rag-exemple", "kit-evaluation-rag"]
 
-[project.scripts]
-kit = "kit.cli:app"
-rag-demo = "rag_demo.cli:app"
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["rag", "evaluation"]
+
+[tool.uv.sources]
+rag-exemple = { workspace = true }
+kit-evaluation-rag = { workspace = true }
 
 [dependency-groups]
 dev = ["pytest>=8.0"]
-fabrication = [
+fabrication = [           # seulement pour refabriquer le corpus d'exemple (evaluation/corpus_exemple/fabrication/)
     "pillow>=13.0.0",
     "pypdfium2>=5.15.2",
     "reportlab>=5.1.0",
 ]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.hatch.build.targets.wheel]
-packages = ["evaluation/kit", "rag/rag_demo"]
 
 [tool.pytest.ini_options]
 testpaths = ["evaluation/tests", "rag/tests"]
