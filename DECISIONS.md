@@ -27,6 +27,10 @@ Les documents de référence ([document 1](evaluation/documentation/reference/me
 | Deux dossiers, `evaluation/` et `rag/`, rangés comme des projets Python classiques (`src/`, `config/`, `documentation/`, `tests/`), au lieu de `kit/`, `rag_demo/`, `config/`, `specs/`, `docs/`, `corpus_exemple/` à la racine | lisibilité : on comprend le dépôt en lisant l'arborescence. Dans `evaluation/`, les guides et le code portent le même nom d'étape : 0a construction du corpus, 0b branchement du RAG, puis 1 à 4 l'évaluation de l'ingestion, de la recherche, de la réponse, de bout en bout (les niveaux 1 à 4 du document 3), et 5 les résultats. Un dossier de code Python ne pouvant pas commencer par un chiffre, ceux du kit s'appellent `etape_0a_corpus` … `etape_5_resultats`. `rag/` est un RAG autonome, une étape du pipeline par fichier, et un seul fichier pour le branchement (`src/rag/utils/branchement_evaluation.py`). Un seul README, à la racine |
 | Commandes `kit evaluer-ingestion`, `evaluer-recherche`, `evaluer-reponse`, `evaluer-bout-en-bout` au lieu de `kit niveau1` à `kit niveau4` | le nom dit ce qui est évalué ; les anciens noms marchent toujours (cachés dans l'aide) |
 | Le RAG d'exemple lit ses documents dans un export de la gestion documentaire (`corpus_exemple/sources/export_ged.csv`), et non dans `documents.jsonl` | un RAG ne doit rien recevoir de l'évaluation, sauf les questions : il lit ses documents comme en production. Le kit compare ensuite les métadonnées de ses chunks à celles du corpus |
+| L'ontologie du corpus d'exemple est dans `evaluation/corpus_exemple/ontologie/`, et le kit lit le chemin de ses règles SHACL dans `kit.yaml` (`graphe.formes`) | le contrat dit que « le projet fournit à côté `ontologie_formes.ttl` » : les règles appartiennent au projet, pas au RAG, qui ne doit pas fournir lui-même ce qui le contrôle |
+| Le graphe entre dans l'index comme des éléments `noeud` (un par entité et par page, qui résume ses relations sur la page), et non comme un élément par relation | le contrat donne k éléments par recherche : un élément qui réunit les relations d'une entité en apporte plus au modèle pour la même place ; il garde la provenance d'une page, donc le filtre des droits et les citations marchent comme pour un chunk |
+| Un passage coupé se cherche entre deux chunks de texte consécutifs, sans les éléments du graphe | un élément du graphe n'est pas un morceau du document : il casserait la suite des chunks |
+| La version du RAG s'appelle `graphrag-<type_rag>-k<k>-<empreinte>` | on lit dans le nom si le graphe était allumé |
 | Docling (conteneur) au lieu de `pytesseract` pour l'OCR du RAG d'exemple | rien à installer sur la machine ; c'est l'outil cité par le document 2. Le kit n'en dépend pas : il mesure l'OCR de n'importe quel RAG avec jiwer |
 | Pas de modèle de vision dans le RAG d'exemple : une figure est connue par sa légende | le RAG est un prétexte ; le kit montre la perte (question Q-034) |
 | Langfuse v4 au lieu de v3 | v3 n'est plus la version courante ; le client Python actuel exige v4 |
@@ -39,9 +43,10 @@ Les documents de référence ([document 1](evaluation/documentation/reference/me
 
 | Point | État |
 | --- | --- |
-| Graphe du RAG (étape 4 du pipeline, optionnelle) et ses scores (`n1_graphe_violations`, `n1_graphe_justesse`) | non commencé |
 | `n2_ndcg_k` (ranx), `n3_second_avis` (FactualCorrectness), marge par rééchantillonnage | configuration recommandée ; non faits |
 | Vérification réelle du juge par le métier | le mécanisme est prêt (`kit verifier-juge`) ; il faut que le métier note les 30 réponses dans Langfuse |
+| Justesse réelle du graphe (`n1_graphe_justesse`) | le mécanisme est prêt (`kit verifier-graphe`) ; il faut que le métier juge les 50 relations dans Langfuse |
+| GraphRAG au sens de Microsoft (communautés et résumés, type_objet `resume`) | non fait : le graphe d'exemple relie des entités, il ne résume pas le corpus |
 
 ## 4. Environnement du bac à sable
 
