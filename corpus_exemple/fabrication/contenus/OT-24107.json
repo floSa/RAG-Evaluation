@@ -1,0 +1,91 @@
+{
+  "reference_source": "OT-24107",
+  "titre": "Test d'autonomie de l'onduleur OND-A",
+  "type_document": "Compte rendu d'intervention",
+  "source": "GMAO Atlas",
+  "version": "—",
+  "date": "2025-10-21",
+  "format": "Fiche de base de données",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site A",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "fiche",
+          "champs": [
+            [
+              "Numéro OT",
+              "OT-24107"
+            ],
+            [
+              "Date de l'intervention",
+              "21/10/2025"
+            ],
+            [
+              "Site",
+              "Site A"
+            ],
+            [
+              "Équipement",
+              "OND-A (onduleur 60 kVA, 32 batteries 12 V 9 Ah installées en octobre 2020)"
+            ],
+            [
+              "Type d'intervention",
+              "Préventive"
+            ],
+            [
+              "Demandeur",
+              "Hélène Morvan"
+            ],
+            [
+              "Intervenant(s)",
+              "Karim Benali"
+            ],
+            [
+              "Durée (heures)",
+              "2"
+            ],
+            [
+              "Symptôme constaté",
+              "Test d'autonomie annuel : 9 minutes à 60 % de charge, contre 15 minutes d'autonomie nominale."
+            ],
+            [
+              "Diagnostic",
+              "Batteries en fin de durée de vie prévue (5 ans). Autonomie encore au-dessus du critère de remplacement de 8 minutes, mais 3 blocs sur 32 présentent une tension inférieure à 12 V en fin de décharge."
+            ],
+            [
+              "Actions réalisées",
+              "Mesure de la tension des 32 blocs, relevé de l'historique de l'onduleur, test d'autonomie. Aucun remplacement effectué."
+            ],
+            [
+              "Pièces remplacées",
+              "Aucune"
+            ],
+            [
+              "Procédure appliquée",
+              "aucune"
+            ],
+            [
+              "Coût des pièces (€ HT)",
+              "0"
+            ],
+            [
+              "Remise en service",
+              "Le 21/10/2025 à 10 h 00 (pas d'interruption)"
+            ],
+            [
+              "Suite à donner",
+              "Commander les 32 batteries et planifier leur remplacement selon PR-1107 avant février 2026."
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

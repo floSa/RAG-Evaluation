@@ -1,0 +1,91 @@
+{
+  "reference_source": "OT-24108",
+  "titre": "Déclenchements du différentiel du départ convoyeur de l'armoire AD-B04",
+  "type_document": "Compte rendu d'intervention",
+  "source": "GMAO Atlas",
+  "version": "—",
+  "date": "2025-11-25",
+  "format": "Fiche de base de données",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site B",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "fiche",
+          "champs": [
+            [
+              "Numéro OT",
+              "OT-24108"
+            ],
+            [
+              "Date de l'intervention",
+              "25/11/2025"
+            ],
+            [
+              "Site",
+              "Site B"
+            ],
+            [
+              "Équipement",
+              "AD-B04 (armoire divisionnaire atelier traitement de surface, départ convoyeur C2 avec variateur de vitesse)"
+            ],
+            [
+              "Type d'intervention",
+              "Corrective"
+            ],
+            [
+              "Demandeur",
+              "Sophie Lenoir (Exploitation, site B)"
+            ],
+            [
+              "Intervenant(s)",
+              "Lucie Ferrand"
+            ],
+            [
+              "Durée (heures)",
+              "3"
+            ],
+            [
+              "Symptôme constaté",
+              "Le différentiel 300 mA du départ convoyeur C2 déclenche à chaque démarrage du convoyeur depuis le remplacement de son variateur de vitesse."
+            ],
+            [
+              "Diagnostic",
+              "Courants de fuite haute fréquence dus au filtre CEM du nouveau variateur ; le différentiel en place, de type AC, n'est pas adapté aux variateurs. Aucun défaut d'isolement relevé sur le CPI-B."
+            ],
+            [
+              "Actions réalisées",
+              "Consignation du départ, remplacement du bloc différentiel par un modèle de type B, contrôle des réglages du variateur (PR-1113). Test de déclenchement selon PR-1115 : conforme ; 10 démarrages sans déclenchement."
+            ],
+            [
+              "Pièces remplacées",
+              "1 bloc différentiel 4P 63 A 300 mA type B (438 €)"
+            ],
+            [
+              "Procédure appliquée",
+              "PR-1115"
+            ],
+            [
+              "Coût des pièces (€ HT)",
+              "438"
+            ],
+            [
+              "Remise en service",
+              "Le 25/11/2025 à 17 h 00"
+            ],
+            [
+              "Suite à donner",
+              "Aucune."
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

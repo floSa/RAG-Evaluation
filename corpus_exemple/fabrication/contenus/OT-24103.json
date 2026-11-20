@@ -1,0 +1,91 @@
+{
+  "reference_source": "OT-24103",
+  "titre": "Démarrage difficile du groupe électrogène GE-A",
+  "type_document": "Compte rendu d'intervention",
+  "source": "GMAO Atlas",
+  "version": "—",
+  "date": "2025-06-10",
+  "format": "Fiche de base de données",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site A",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "fiche",
+          "champs": [
+            [
+              "Numéro OT",
+              "OT-24103"
+            ],
+            [
+              "Date de l'intervention",
+              "10/06/2025"
+            ],
+            [
+              "Site",
+              "Site A"
+            ],
+            [
+              "Équipement",
+              "GE-A (groupe électrogène 500 kVA)"
+            ],
+            [
+              "Type d'intervention",
+              "Préventive"
+            ],
+            [
+              "Demandeur",
+              "Hélène Morvan"
+            ],
+            [
+              "Intervenant(s)",
+              "Karim Benali"
+            ],
+            [
+              "Durée (heures)",
+              "3"
+            ],
+            [
+              "Symptôme constaté",
+              "Lors de l'essai mensuel, démarrage obtenu à la troisième tentative et prise de charge en 28 s, au-delà du critère de 15 s."
+            ],
+            [
+              "Diagnostic",
+              "Batteries de démarrage 24 V âgées de 6 ans : tension chutant à 16,8 V pendant le lancement du démarreur. Circuit de gasoil et préchauffage contrôlés sans anomalie."
+            ],
+            [
+              "Actions réalisées",
+              "Remplacement des deux batteries de démarrage 12 V 180 Ah, contrôle du chargeur. Nouvel essai de 30 minutes à 260 kW (52 % de la puissance) : démarrage et prise de charge en 11 s."
+            ],
+            [
+              "Pièces remplacées",
+              "2 batteries 12 V 180 Ah (2 x 245 € = 490 €)"
+            ],
+            [
+              "Procédure appliquée",
+              "PR-1105"
+            ],
+            [
+              "Coût des pièces (€ HT)",
+              "490"
+            ],
+            [
+              "Remise en service",
+              "Le 10/06/2025 à 14 h 00"
+            ],
+            [
+              "Suite à donner",
+              "Aucune."
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "reference_source": "OT-24115",
+  "titre": "Resserrage de la connexion du départ AD-B06 sur le TGBT-B",
+  "type_document": "Compte rendu d'intervention",
+  "source": "GMAO Atlas",
+  "version": "—",
+  "date": "2026-06-11",
+  "format": "Fiche de base de données",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site B",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "fiche",
+          "champs": [
+            [
+              "Numéro OT",
+              "OT-24115"
+            ],
+            [
+              "Date de l'intervention",
+              "11/06/2026"
+            ],
+            [
+              "Site",
+              "Site B"
+            ],
+            [
+              "Équipement",
+              "TGBT-B (connexion du départ AD-B06, barre de 10 mm)"
+            ],
+            [
+              "Type d'intervention",
+              "Corrective"
+            ],
+            [
+              "Demandeur",
+              "Hélène Morvan"
+            ],
+            [
+              "Intervenant(s)",
+              "Lucie Ferrand"
+            ],
+            [
+              "Durée (heures)",
+              "2,5"
+            ],
+            [
+              "Symptôme constaté",
+              "Point chaud relevé lors de la thermographie du 19/05/2026 (suite à donner de l'OT-24113) : ΔT de 22 °C."
+            ],
+            [
+              "Diagnostic",
+              "Connexion desserrée, surface de contact légèrement noircie, rondelle élastique écrasée."
+            ],
+            [
+              "Actions réalisées",
+              "Consignation du départ AD-B06, nettoyage des surfaces de contact, remplacement de la boulonnerie, serrage au couple de 50 N·m (barre de 10 mm). Contrôle thermographique en charge : ΔT de 5 °C. Suite à donner de l'OT-24113 soldée."
+            ],
+            [
+              "Pièces remplacées",
+              "1 jeu de boulonnerie M10 et rondelles élastiques (28 €)"
+            ],
+            [
+              "Procédure appliquée",
+              "PR-1114"
+            ],
+            [
+              "Coût des pièces (€ HT)",
+              "28"
+            ],
+            [
+              "Remise en service",
+              "Le 11/06/2026 à 10 h 00"
+            ],
+            [
+              "Suite à donner",
+              "Aucune."
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

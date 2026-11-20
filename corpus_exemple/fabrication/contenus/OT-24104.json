@@ -1,0 +1,91 @@
+{
+  "reference_source": "OT-24104",
+  "titre": "Point chaud en thermographie sur l'arrivée TR-A2 du TGBT-A",
+  "type_document": "Compte rendu d'intervention",
+  "source": "GMAO Atlas",
+  "version": "—",
+  "date": "2025-07-08",
+  "format": "Fiche de base de données",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site A",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "fiche",
+          "champs": [
+            [
+              "Numéro OT",
+              "OT-24104"
+            ],
+            [
+              "Date de l'intervention",
+              "08/07/2025"
+            ],
+            [
+              "Site",
+              "Site A"
+            ],
+            [
+              "Équipement",
+              "TGBT-A (arrivée transformateur TR-A2, jeu de barres 12 mm)"
+            ],
+            [
+              "Type d'intervention",
+              "Corrective"
+            ],
+            [
+              "Demandeur",
+              "Hélène Morvan"
+            ],
+            [
+              "Intervenant(s)",
+              "Karim Benali, Thomas Rigaud"
+            ],
+            [
+              "Durée (heures)",
+              "6"
+            ],
+            [
+              "Symptôme constaté",
+              "Thermographie annuelle du 07/07/2025 (Électrotech Conseil, PR-1106) : point chaud sur la connexion de la phase L2 de l'arrivée TR-A2, ΔT de 34 °C. Second point sur AD-A03, ΔT de 14 °C."
+            ],
+            [
+              "Diagnostic",
+              "ΔT supérieur à 30 °C : intervention sous 48 heures. Connexion desserrée et oxydée sur la barre de 12 mm de la phase L2."
+            ],
+            [
+              "Actions réalisées",
+              "Consignation du TGBT-A côté TR-A2 (charge reportée sur TR-A1), nettoyage des surfaces de contact, remplacement de la boulonnerie, resserrage au couple de 70 N·m. Contrôle thermographique en charge : ΔT ramené à 4 °C."
+            ],
+            [
+              "Pièces remplacées",
+              "1 kit de boulonnerie M12 classe 8.8 avec rondelles élastiques (42 €)"
+            ],
+            [
+              "Procédure appliquée",
+              "PR-1114"
+            ],
+            [
+              "Coût des pièces (€ HT)",
+              "42"
+            ],
+            [
+              "Remise en service",
+              "Le 08/07/2025 à 18 h 00"
+            ],
+            [
+              "Suite à donner",
+              "Traiter le point chaud de l'armoire AD-A03 (ΔT 14 °C) sous 1 mois."
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

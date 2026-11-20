@@ -1,0 +1,91 @@
+{
+  "reference_source": "OT-24101",
+  "titre": "Déclenchements intempestifs du différentiel de l'armoire AD-A07",
+  "type_document": "Compte rendu d'intervention",
+  "source": "GMAO Atlas",
+  "version": "—",
+  "date": "2025-04-14",
+  "format": "Fiche de base de données",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site A",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "fiche",
+          "champs": [
+            [
+              "Numéro OT",
+              "OT-24101"
+            ],
+            [
+              "Date de l'intervention",
+              "14/04/2025"
+            ],
+            [
+              "Site",
+              "Site A"
+            ],
+            [
+              "Équipement",
+              "AD-A07 (armoire divisionnaire atelier usinage, départ prises de courant)"
+            ],
+            [
+              "Type d'intervention",
+              "Corrective"
+            ],
+            [
+              "Demandeur",
+              "Paul Verdier (Exploitation, site A)"
+            ],
+            [
+              "Intervenant(s)",
+              "Thomas Rigaud"
+            ],
+            [
+              "Durée (heures)",
+              "2,5"
+            ],
+            [
+              "Symptôme constaté",
+              "Le dispositif différentiel 30 mA du départ prises de l'atelier usinage déclenche trois fois par semaine sans défaut apparent, ce qui arrête les postes de soudage."
+            ],
+            [
+              "Diagnostic",
+              "Courant de fuite permanent de 19 mA mesuré à la pince de fuite sur le départ, dû aux filtres CEM de 4 postes de soudage raccordés sur le même différentiel 30 mA (déclenchement possible dès 15 mA)."
+            ],
+            [
+              "Actions réalisées",
+              "Séparation du départ en deux circuits et ajout d'un second interrupteur différentiel 30 mA ; courant de fuite résiduel mesuré à 9 mA et 10 mA par circuit. Test de déclenchement selon PR-1115 : conforme."
+            ],
+            [
+              "Pièces remplacées",
+              "1 interrupteur différentiel 4P 40 A 30 mA type A (186 €)"
+            ],
+            [
+              "Procédure appliquée",
+              "PR-1115"
+            ],
+            [
+              "Coût des pièces (€ HT)",
+              "186"
+            ],
+            [
+              "Remise en service",
+              "Le 14/04/2025 à 16 h 30"
+            ],
+            [
+              "Suite à donner",
+              "Surveiller le nombre de déclenchements pendant 1 mois (Exploitation)."
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

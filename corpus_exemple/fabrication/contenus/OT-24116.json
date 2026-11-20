@@ -1,0 +1,91 @@
+{
+  "reference_source": "OT-24116",
+  "titre": "Défaut d'isolement sur le moteur de ventilation de la cabine de peinture (AD-B02)",
+  "type_document": "Compte rendu d'intervention",
+  "source": "GMAO Atlas",
+  "version": "—",
+  "date": "2026-08-25",
+  "format": "Fiche de base de données",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site B",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "fiche",
+          "champs": [
+            [
+              "Numéro OT",
+              "OT-24116"
+            ],
+            [
+              "Date de l'intervention",
+              "25/08/2026"
+            ],
+            [
+              "Site",
+              "Site B"
+            ],
+            [
+              "Équipement",
+              "AD-B02 (armoire divisionnaire atelier peinture, départ ventilateur d'extraction de la cabine) ; alarme CPI-B"
+            ],
+            [
+              "Type d'intervention",
+              "Corrective"
+            ],
+            [
+              "Demandeur",
+              "Sophie Lenoir (Exploitation, site B)"
+            ],
+            [
+              "Intervenant(s)",
+              "Lucie Ferrand"
+            ],
+            [
+              "Durée (heures)",
+              "5,5"
+            ],
+            [
+              "Symptôme constaté",
+              "Alarme du CPI-B : résistance d'isolement du réseau à 31 kΩ (seuil d'alarme 50 kΩ), troisième alerte d'isolement sur le site B depuis mai 2025."
+            ],
+            [
+              "Diagnostic",
+              "Recherche selon PR-1108 : défaut sur le départ ventilateur d'extraction. Enroulement du moteur 7,5 kW mesuré à 5 kΩ par rapport à la masse (vieillissement et humidité)."
+            ],
+            [
+              "Actions réalisées",
+              "Consignation du départ, remplacement du moteur 7,5 kW 4 pôles, contrôle du câble (isolement supérieur à 500 MΩ). Résistance d'isolement du réseau remontée à 920 kΩ."
+            ],
+            [
+              "Pièces remplacées",
+              "1 moteur asynchrone 7,5 kW 4 pôles (690 €)"
+            ],
+            [
+              "Procédure appliquée",
+              "PR-1108"
+            ],
+            [
+              "Coût des pièces (€ HT)",
+              "690"
+            ],
+            [
+              "Remise en service",
+              "Le 25/08/2026 à 17 h 30"
+            ],
+            [
+              "Suite à donner",
+              "Aucune."
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "reference_source": "OT-24105",
+  "titre": "Remplacement du disjoncteur du départ compresseur de l'armoire AD-A03",
+  "type_document": "Compte rendu d'intervention",
+  "source": "GMAO Atlas",
+  "version": "—",
+  "date": "2025-07-29",
+  "format": "Fiche de base de données",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Choisi par le métier",
+  "service": "Maintenance électrique",
+  "site": "Site A",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "fiche",
+          "champs": [
+            [
+              "Numéro OT",
+              "OT-24105"
+            ],
+            [
+              "Date de l'intervention",
+              "29/07/2025"
+            ],
+            [
+              "Site",
+              "Site A"
+            ],
+            [
+              "Équipement",
+              "AD-A03 (armoire divisionnaire, départ compresseur d'air CP2)"
+            ],
+            [
+              "Type d'intervention",
+              "Corrective"
+            ],
+            [
+              "Demandeur",
+              "Hélène Morvan"
+            ],
+            [
+              "Intervenant(s)",
+              "Thomas Rigaud"
+            ],
+            [
+              "Durée (heures)",
+              "3"
+            ],
+            [
+              "Symptôme constaté",
+              "Point chaud relevé lors de la thermographie du 07/07/2025 (suite à donner de l'OT-24104) : ΔT de 14 °C sur la borne aval du disjoncteur du départ compresseur."
+            ],
+            [
+              "Diagnostic",
+              "ΔT entre 10 et 30 °C : intervention sous 1 mois. Borne du disjoncteur 160 A déformée par l'échauffement, cosse de 50 mm² oxydée."
+            ],
+            [
+              "Actions réalisées",
+              "Consignation de l'armoire AD-A03, remplacement du disjoncteur de départ et des cosses, serrage au couple constructeur. Contrôle thermographique en charge : ΔT de 3 °C. Suite à donner de l'OT-24104 soldée."
+            ],
+            [
+              "Pièces remplacées",
+              "1 disjoncteur 3P 160 A (612 €) ; 3 cosses cuivre 50 mm² (3 x 3 € = 9 €)"
+            ],
+            [
+              "Procédure appliquée",
+              "PR-1103"
+            ],
+            [
+              "Coût des pièces (€ HT)",
+              "621"
+            ],
+            [
+              "Remise en service",
+              "Le 29/07/2025 à 12 h 00"
+            ],
+            [
+              "Suite à donner",
+              "Aucune."
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

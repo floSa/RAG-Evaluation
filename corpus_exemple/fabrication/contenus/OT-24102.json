@@ -1,0 +1,91 @@
+{
+  "reference_source": "OT-24102",
+  "titre": "Défaut d'isolement sur le départ pompe de lavage de l'armoire AD-B04",
+  "type_document": "Compte rendu d'intervention",
+  "source": "GMAO Atlas",
+  "version": "—",
+  "date": "2025-05-20",
+  "format": "Fiche de base de données",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site B",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "fiche",
+          "champs": [
+            [
+              "Numéro OT",
+              "OT-24102"
+            ],
+            [
+              "Date de l'intervention",
+              "20/05/2025"
+            ],
+            [
+              "Site",
+              "Site B"
+            ],
+            [
+              "Équipement",
+              "AD-B04 (armoire divisionnaire atelier traitement de surface, départ pompe de lavage P3) ; alarme CPI-B"
+            ],
+            [
+              "Type d'intervention",
+              "Corrective"
+            ],
+            [
+              "Demandeur",
+              "Sophie Lenoir (Exploitation, site B)"
+            ],
+            [
+              "Intervenant(s)",
+              "Lucie Ferrand"
+            ],
+            [
+              "Durée (heures)",
+              "4"
+            ],
+            [
+              "Symptôme constaté",
+              "Alarme du contrôleur permanent d'isolement CPI-B : résistance d'isolement du réseau à 38 kΩ (seuil d'alarme 50 kΩ)."
+            ],
+            [
+              "Diagnostic",
+              "Recherche de défaut par injection et pince de détection selon PR-1108 : défaut localisé sur le câble d'alimentation du moteur de la pompe P3 (AD-B04), gaine écrasée au passage d'un caniveau, isolement du câble mesuré à 12 kΩ."
+            ],
+            [
+              "Actions réalisées",
+              "Consignation du départ, remplacement du câble moteur sur 15 m et du presse-étoupe, remise sous tension. Résistance d'isolement du réseau remontée à 850 kΩ, alarme CPI-B acquittée."
+            ],
+            [
+              "Pièces remplacées",
+              "15 m de câble U1000 R2V 4G2,5 (68 €) ; 1 presse-étoupe IP68 (12 €)"
+            ],
+            [
+              "Procédure appliquée",
+              "PR-1108"
+            ],
+            [
+              "Coût des pièces (€ HT)",
+              "80"
+            ],
+            [
+              "Remise en service",
+              "Le 20/05/2025 à 15 h 00"
+            ],
+            [
+              "Suite à donner",
+              "Aucune."
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
