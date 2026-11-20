@@ -1,6 +1,6 @@
 # Décisions et écarts
 
-Les documents de référence ([`docs/`](docs/README.md), le [contrat](corpus/contrat/CONTRAT.md), le [juge](evaluation/juge/JUGE.md)) font foi et ne sont jamais modifiés. Quand ils laissent un choix ouvert, ou quand la mise en œuvre s'en écarte, la décision est écrite ici, avec sa raison.
+Les documents de référence ([document 1](evaluation/methode/RAG_1_Constituer_le_corpus_d_evaluation.md), [document 2](rag/methode/RAG_2_Construire_le_pipeline.md), [document 3](evaluation/methode/RAG_3_Evaluer_le_RAG.md), le [contrat](evaluation/methode/CONTRAT.md), le [juge](evaluation/methode/JUGE.md)) font foi. Ils ne sont jamais modifiés, sauf le chemin de leurs images quand on les a rangés. Quand ils laissent un choix ouvert, ou quand la mise en œuvre s'en écarte, la décision est écrite ici, avec sa raison.
 
 ## 1. Décisions sur les points que la méthode laisse ouverts
 
@@ -12,7 +12,7 @@ Les documents de référence ([`docs/`](docs/README.md), le [contrat](corpus/con
 | 4 | Marge d'erreur | formule écrite pour une proportion | appliquée aux scores entre 0 et 1 (pour une moyenne de valeurs entre 0 et 1, la variance est au plus p(1−p) : la marge est prudente) ; pas de marge pour les nombres, temps et coûts. La formule ne sait pas estimer l'incertitude à 0 % et 100 % : l'intervalle de Wilson ou le rééchantillonnage relèvent de la configuration recommandée |
 | 5 | Questions réservées à la décision | « l'équipe technique n'en voit que les scores globaux » | le rapport, le CSV, Langfuse et les scores de `scores.json` portent sur les questions non réservées. Le bloc `decision` donne les scores des questions réservées, sans détail. Les critères bloquants se jugent sur toutes les questions. Le détail des réservées reste dans la base |
 | 6 | Coût | en euros | prix au million de tokens d'entrée et de sortie dans la configuration du RAG ; 0 pour un modèle local. Générique, quel que soit le fournisseur |
-| 7 | Fiche de base de données | « page » = nom du champ (document 1) ; « un chunk par fiche » (document 2) | le rattachement accepte un chunk du même document dont la page est le nom du champ, **ou** dont le texte contient ce nom : un RAG qui fait un chunk par fiche est donc bien évalué. Le RAG de démonstration fait un chunk par champ |
+| 7 | Fiche de base de données | « page » = nom du champ (document 1) ; « un chunk par fiche » (document 2) | le rattachement accepte un chunk du même document dont la page est le nom du champ, **ou** dont le texte contient ce nom : un RAG qui fait un chunk par fiche est donc bien évalué. Le RAG d'exemple fait un chunk par champ |
 | 8 | Taille du corpus d'exemple | `CLAUDE.md` : 12 documents, 30 questions ; document 1, configuration minimale : 10 documents par type, 50 questions, 20 pages OCR | **la configuration minimale du document 1 est atteinte** : 50 documents, 60 questions, 20 pages OCR. Un banc d'essai qui servira à d'autres doit être réaliste |
 | 9 | Juge et RAG | « de préférence un autre modèle » | RAG : `gemma-4-e4b` ; juge et Ragas : `chat` (qwen3.5-4b), réflexion désactivée ; embeddings : `embed` (bge-m3) |
 | 10 | Vérification du juge | accord d'au moins 90 % | appliqué tel quel ; le kit affiche aussi le kappa de Cohen, qui repère un juge qui dit presque toujours « juste » (Thakur et al., 2024) |
@@ -24,9 +24,9 @@ Les documents de référence ([`docs/`](docs/README.md), le [contrat](corpus/con
 
 | Écart | Raison |
 | --- | --- |
-| Trois dossiers `corpus/`, `rag/`, `evaluation/` au lieu de `kit/`, `rag_demo/`, `config/`, `specs/` à la racine | lisibilité : chaque partie a son dossier et son guide. Le contrat est rangé avec le corpus (`corpus/contrat/`) ; le prompt du juge avec l'évaluation (`evaluation/juge/`) |
-| Docling (conteneur) au lieu de `pytesseract` pour l'OCR du RAG de démonstration | rien à installer sur la machine ; c'est l'outil cité par le document 2. Le kit n'en dépend pas : il mesure l'OCR de n'importe quel RAG avec jiwer |
-| Pas de modèle de vision dans le RAG de démonstration : une figure est connue par sa légende | le RAG est un prétexte ; le kit montre la perte (question Q-034) |
+| Deux dossiers, `evaluation/` et `rag/`, au lieu de `kit/`, `rag_demo/`, `config/`, `specs/`, `docs/`, `corpus_exemple/` à la racine | lisibilité : on comprend le dépôt en lisant l'arborescence. `evaluation/` réunit tout ce qui sert à évaluer (corpus d'exemple, méthode, contrat, juge, configuration, code par étape et par niveau) avec des guides numérotés ; `rag/` est un RAG autonome, une étape du pipeline par fichier, et un seul fichier pour le branchement (`branchement_evaluation.py`). Un seul README, à la racine |
+| Docling (conteneur) au lieu de `pytesseract` pour l'OCR du RAG d'exemple | rien à installer sur la machine ; c'est l'outil cité par le document 2. Le kit n'en dépend pas : il mesure l'OCR de n'importe quel RAG avec jiwer |
+| Pas de modèle de vision dans le RAG d'exemple : une figure est connue par sa légende | le RAG est un prétexte ; le kit montre la perte (question Q-034) |
 | Langfuse v4 au lieu de v3 | v3 n'est plus la version courante ; le client Python actuel exige v4 |
 | Expérience Langfuse créée en rejouant les réponses du RAG (`run_experiment`), au lieu de relier les traces du RAG au jeu de données | Langfuse v4 ne permet plus de relier une trace existante à un jeu de données. Chaque ligne de l'expérience garde l'identifiant de la trace du RAG (`trace_rag`) |
 | La table `resultats` a quatre colonnes de plus (objet évalué, axes de ventilation, poids, réservée) ; une table `corpus` en plus | recalculer tous les scores et leurs ventilations depuis la base, niveau par niveau |
@@ -37,7 +37,7 @@ Les documents de référence ([`docs/`](docs/README.md), le [contrat](corpus/con
 
 | Point | État |
 | --- | --- |
-| Variante graphe du RAG (étape 9) et ses scores (`n1_graphe_violations`, `n1_graphe_justesse`) | non commencée |
+| Graphe du RAG (étape 4 du pipeline, optionnelle) et ses scores (`n1_graphe_violations`, `n1_graphe_justesse`) | non commencé |
 | `n2_ndcg_k` (ranx), `n3_second_avis` (FactualCorrectness), marge par rééchantillonnage | configuration recommandée ; non faits |
 | Vérification réelle du juge par le métier | le mécanisme est prêt (`kit verifier-juge`) ; il faut que le métier note les 30 réponses dans Langfuse |
 
@@ -48,5 +48,5 @@ Les documents de référence ([`docs/`](docs/README.md), le [contrat](corpus/con
 | Modèles | LLM-Service (LiteLLM local, `http://127.0.0.1:8080/v1`) ; une clé pour le kit, une pour le RAG |
 | Langfuse | auto-hébergé, v4, port 3100 (`infra/`) |
 | Docling | conteneur `docling-serve-cpu`, port 5101 (`infra/`) |
-| Python | 3.12, géré par uv ; un seul projet, deux paquets (`kit`, `rag_demo`), deux commandes |
+| Python | 3.12, géré par uv ; un espace de travail, deux paquets indépendants (`evaluation/` : commande `kit` ; `rag/` : commande `rag`), installés par un seul `uv sync` |
 | Licences | uniquement MIT, Apache 2.0, BSD : reportlab, pypdfium2, Pillow, pypdf, rank-bm25, numpy, openai, jsonschema, rapidfuzz, jiwer, ragas, langfuse, typer, SQLAlchemy, openpyxl |
