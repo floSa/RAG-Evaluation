@@ -4,7 +4,7 @@ from pathlib import Path
 
 import typer
 
-from kit import base, contrat, import_corpus, lanceur, niveau1, niveau2, publication
+from kit import base, contrat, import_corpus, lanceur, niveau1, niveau2, niveau3, publication, relecture
 from kit.config import charger_config, client_langfuse
 
 app = typer.Typer(help="Kit d'évaluation de RAG : corpus, contrat, niveaux 1 à 4, rapport.", no_args_is_help=True)
@@ -137,6 +137,80 @@ def niveau_2(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse
     fuites = [l for l in lignes if l.score == "n2_fuite_droits" and l.valeur]
     for l in fuites:
         typer.echo(f"  FUITE DE DROITS — {l.question_id} : {l.detail}")
+
+
+@app.command("niveau3")
+def niveau_3(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
+    """Niveau 3 — réponse : juge (exactitude), Ragas (fidélité, synthèse), abstention, citations, valeurs."""
+    config, ev = preparer(corpus, rag)
+    typer.echo("Niveau 3 : le juge et Ragas notent les réponses (quelques minutes)…")
+    lignes, croisement, file = niveau3.evaluer(ev, niveau1.lire_liens(ev))
+    langfuse = None if sans_langfuse else client_langfuse(config)
+    resultat = publication.publier(ev, 3, lignes, langfuse)
+    visibles = lambda objets: [o for o in objets if not ev.reservee(o["question_id"])]  # noqa: E731
+    contrat.ecrire_jsonl(ev.dossier / "croisement.jsonl", visibles(croisement))
+    contrat.ecrire_jsonl(ev.dossier / "relecture.jsonl", visibles(file))
+    typer.echo(f"Niveau 3 — {ev.evaluation_id} → {ev.dossier}")
+    afficher_niveau(resultat, 3)
+    diagnostics: dict[str, int] = {}
+    for c in visibles(croisement):
+        diagnostics[c["diagnostic"]] = diagnostics.get(c["diagnostic"], 0) + 1
+    typer.echo("  Croisement recherche × réponse (questions non réservées) :")
+    for d, n in sorted(diagnostics.items(), key=lambda x: -x[1]):
+        typer.echo(f"    {n:>3}  {d}")
+    if langfuse:
+        traces = publication.experience_langfuse(ev, langfuse).get("traces", {})
+        n = relecture.envoyer(langfuse, "relecture-reponses", "Réponses à relire par le métier (document 3, section 8)",
+                              [traces.get(f["question_id"]) for f in file])
+        typer.echo(f"  File « relecture-reponses » : {len(file)} réponse(s) à relire, {n} ajoutée(s) dans Langfuse.")
+
+
+@app.command("verifier-juge")
+def verifier_juge(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
+                  envoyer: bool = typer.Option(False, help="tirer l'échantillon et l'envoyer au métier dans Langfuse")):
+    """Vérification du juge : --envoyer pour faire noter l'échantillon, puis sans option pour calculer l'accord."""
+    import json
+
+    from sqlalchemy import select
+    from sqlalchemy.orm import Session
+
+    config, ev = preparer(corpus, rag)
+    langfuse = client_langfuse(config)
+    traces = publication.experience_langfuse(ev, langfuse).get("traces", {})
+    chemin = ev.dossier / "verification_juge.json"
+    with Session(base.moteur(config["chemins"]["base"])) as session:
+        verdicts = {r.question_id: r.verdict for r in session.scalars(select(base.Resultat).where(
+            base.Resultat.evaluation_id == ev.evaluation_id, base.Resultat.score == "n3_exactitude",
+            base.Resultat.reservee.is_(False)))}
+    if not verdicts:
+        typer.echo("Aucun verdict du juge : lancer d'abord « kit niveau3 ».", err=True)
+        raise typer.Exit(1)
+    v = config["verification_juge"]
+    if envoyer:
+        ids = relecture.echantillon(verdicts, v["taille_echantillon"])
+        chemin.write_text(json.dumps({"juge": config["modeles"]["juge"], "questions": ids}, ensure_ascii=False,
+                                     indent=2) + "\n", encoding="utf-8")
+        n = relecture.envoyer(langfuse, "verification-juge", "Vérification du juge : noter juste, partielle ou fausse, "
+                              "sans regarder la note du juge (JUGE.md)", [traces[q] for q in ids])
+        typer.echo(f"{len(ids)} réponses envoyées dans la file « verification-juge » ({n} nouvelles). Le métier les "
+                   f"note avec le score « {relecture.CONFIG_VERDICT} », puis relancer cette commande sans --envoyer.")
+        return
+    if not chemin.exists():
+        typer.echo("Pas d'échantillon : lancer d'abord « kit verifier-juge --envoyer ».", err=True)
+        raise typer.Exit(1)
+    ids = json.loads(chemin.read_text(encoding="utf-8"))["questions"]
+    par_trace = relecture.notes_metier(langfuse, [traces[q] for q in ids])
+    metier = {q: par_trace[traces[q]] for q in ids if traces[q] in par_trace}
+    r = relecture.accord({q: verdicts[q] for q in ids}, metier)
+    r["valide"] = r["accord"] is not None and len(metier) == len(ids) and r["accord"] >= v["accord_minimum"]
+    (ev.dossier / "verification_juge_resultat.json").write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n",
+                                                                 encoding="utf-8")
+    typer.echo(f"Notes du métier : {len(metier)} sur {len(ids)}.")
+    if r["n"]:
+        typer.echo(f"Accord juge / métier : {r['accord']:.0%} (seuil {v['accord_minimum']:.0%}) ; kappa de Cohen : "
+                   f"{r['kappa']}. Juge {'VALIDÉ' if r['valide'] else 'NON validé'}.")
+        for d in r["desaccords"]:
+            typer.echo(f"  - {d['question_id']} : juge « {d['juge']} », métier « {d['metier']} »")
 
 
 if __name__ == "__main__":
