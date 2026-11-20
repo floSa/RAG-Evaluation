@@ -4,7 +4,7 @@ from pathlib import Path
 
 import typer
 
-from kit import base, contrat, import_corpus, lanceur
+from kit import base, contrat, import_corpus, lanceur, niveau1, publication
 from kit.config import charger_config, client_langfuse
 
 app = typer.Typer(help="Kit d'évaluation de RAG : corpus, contrat, niveaux 1 à 4, rapport.", no_args_is_help=True)
@@ -81,6 +81,49 @@ def lancer(connecteur: str = typer.Argument(..., help="module:Classe, par exempl
     typer.echo(f"Sorties écrites dans {dossier} ; contrat : {'conforme' if not erreurs else f'{len(erreurs)} problème(s)'}.")
     for e in erreurs[:20]:
         typer.echo(f"  - {e}", err=True)
+
+
+# --- Les niveaux de l'évaluation ------------------------------------------------------------
+
+OPTION_CORPUS = typer.Option(..., exists=True, file_okay=False, help="le dossier corpus/<version>/")
+OPTION_RAG = typer.Option(..., exists=True, file_okay=False, help="le dossier sorties_rag/<version_rag>/")
+OPTION_LANGFUSE = typer.Option(False, help="ne pas publier dans Langfuse")
+
+
+def preparer(corpus: Path, rag: Path, ingestion_seule: bool = False):
+    """Vérifie le contrat avant toute mesure, puis ouvre l'évaluation (corpus × version du RAG)."""
+    config = charger_config()
+    erreurs = contrat.verifier_dossier(rag, corpus, ingestion_seule)
+    if erreurs:
+        typer.echo(f"Sorties du RAG non conformes au contrat ({len(erreurs)} problème(s)) :", err=True)
+        for e in erreurs[:20]:
+            typer.echo(f"  - {e}", err=True)
+        raise typer.Exit(1)
+    return config, publication.Evaluation(config, corpus, rag)
+
+
+def afficher_niveau(resultat: dict, niveau: int) -> None:
+    for s in resultat["scores"]:
+        if s["niveau"] == niveau:
+            marge = f" ± {s['marge']:.2f}" if s["marge"] is not None else ""
+            seuil = "" if s["atteint"] is None else (" ✔ seuil atteint" if s["atteint"] else f" ✘ seuil {s['seuil']}")
+            typer.echo(f"  {s['score']:<28} {s['valeur']}{marge}  (n = {s['n']}){seuil}")
+
+
+@app.command("niveau1")
+def niveau_1(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
+    """Niveau 1 — ingestion : rattachement des passages, liens_index, scores, passages non rattachés."""
+    config, ev = preparer(corpus, rag, ingestion_seule=True)
+    lignes, liens, non_rattaches = niveau1.evaluer(ev)
+    niveau1.enregistrer(ev, liens, non_rattaches)
+    resultat = publication.publier(ev, 1, lignes, None if sans_langfuse else client_langfuse(config))
+    typer.echo(f"Niveau 1 — {ev.evaluation_id} → {ev.dossier}")
+    afficher_niveau(resultat, 1)
+    if non_rattaches:
+        typer.echo(f"  {len(non_rattaches)} passage(s) non rattaché(s) (passages_non_rattaches.jsonl) :")
+        for p in non_rattaches:
+            typer.echo(f"    - passage {p['passage_id']} ({p['question_id']}, {p['reference_source']} p. {p['page']}, "
+                       f"{p['type_element']}) : {p['cause_probable']}")
 
 
 if __name__ == "__main__":
