@@ -5,6 +5,7 @@
 Le résultat est mis en cache sur disque : Docling prend quelques secondes par document.
 """
 
+import csv
 import json
 import re
 from pathlib import Path
@@ -17,17 +18,26 @@ SAUT_DE_PAGE = "<!-- page -->"
 
 # --- La liste des documents à lire ------------------------------------------------------------
 
-def liste_des_documents(config: dict) -> list[dict]:
-    """Les documents à indexer, avec leurs métadonnées (référence, titre, version, droits d'accès, format).
+# Les libellés de la gestion documentaire, traduits dans les codes du RAG.
+FORMATS = {"PDF natif": "pdf_natif", "PDF scanné": "pdf_scanne", "Fiche de base de données": "fiche_base"}
 
-    Pour l'instant : le documents.jsonl du dernier corpus exporté par le kit.
+
+def profil(droits: str) -> str:
+    """« Tous les utilisateurs » → tous ; « Maintenance » → maintenance."""
+    return "tous" if droits == "Tous les utilisateurs" else droits.strip().lower()
+
+
+def liste_des_documents(config: dict) -> list[dict]:
+    """Les documents à indexer, avec leurs métadonnées, lus dans l'export de la gestion documentaire (un CSV).
+
+    Le RAG garde sur chaque chunk la référence, la version et les droits d'accès : c'est ce qui lui permet de
+    citer ses sources et de filtrer les droits pendant la recherche.
     """
-    versions = sorted(Path(config["catalogue"]).glob("*/documents.jsonl"))
-    if not versions:
-        raise FileNotFoundError(f"Aucun documents.jsonl dans {config['catalogue']} : importer d'abord le corpus "
-                                f"(kit importer).")
-    with versions[-1].open(encoding="utf-8") as f:
-        return [json.loads(l) for l in f if l.strip()]
+    with Path(config["liste_des_documents"]).open(encoding="utf-8", newline="") as f:
+        return [{"reference_source": l["reference"], "titre": l["titre"], "type_document": l["type_document"],
+                 "version": l["version"], "format": FORMATS[l["format"]], "droits_acces": profil(l["droits_acces"]),
+                 "fichier": l["fichier"]}
+                for l in csv.DictReader(f, delimiter=";")]
 
 
 # --- Lire un document ---------------------------------------------------------------------------
@@ -63,7 +73,7 @@ def extraire(document: dict, dossier_sources: Path, dossier_cache: Path, adresse
     cache = dossier_cache / f"{document['reference_source']}.json"
     if cache.exists():
         return json.loads(cache.read_text(encoding="utf-8"))
-    chemin = dossier_sources / f"{document['reference_source']}.pdf"
+    chemin = dossier_sources / document["fichier"]
     if document["format"] == "fiche_base":
         extrait = {"fiche": fiche(chemin)}
     else:

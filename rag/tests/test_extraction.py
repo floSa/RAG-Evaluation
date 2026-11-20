@@ -72,3 +72,15 @@ def test_section_trop_longue_recoupee():
     page = "## 1. Objet\n\n" + "\n\n".join(f"Paragraphe {i} " + "x" * 400 for i in range(6))
     chunks = decoupage.chunks_du_document(DOC_NATIF, {"pages": [page]}, 1000)
     assert len(chunks) == 3 and [c["ordre"] for c in chunks] == [0, 1, 2]
+
+
+def test_liste_des_documents_lue_dans_l_export_ged():
+    """Le RAG lit sa propre liste (export de la gestion documentaire), pas le corpus du kit."""
+    documents = extraction.liste_des_documents({"liste_des_documents": str(SOURCES / "export_ged.csv")})
+    assert len(documents) == 50
+    par_ref = {d["reference_source"]: d for d in documents}
+    assert par_ref["NT-051"]["droits_acces"] == "maintenance"                 # réservé au profil Maintenance
+    assert par_ref["NT-031"]["format"] == "pdf_scanne"
+    assert par_ref["OT-24101"]["format"] == "fiche_base"
+    assert par_ref["PR-1104-B"]["version"] != par_ref["PR-1104-C"]["version"]
+    assert all((SOURCES / d["fichier"]).exists() for d in documents)
