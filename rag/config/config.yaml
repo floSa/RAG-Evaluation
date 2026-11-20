@@ -2,7 +2,7 @@
 # Aucune clé ici : elles sont lues dans .env.
 # Changer de fournisseur = changer « adresse » et les noms de modèles, sans toucher au code.
 
-nom: rag-demo
+nom: graphrag                       # la version évaluée s'appelle graphrag-<vectoriel|hybride>-k<k>-<empreinte>
 
 # Les documents à indexer, et leur liste avec leurs métadonnées (référence, version, format, droits d'accès),
 # telle que l'exporte la gestion documentaire.

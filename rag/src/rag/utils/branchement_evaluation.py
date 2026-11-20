@@ -47,7 +47,7 @@ class Connecteur:
         k = self.assistant.k
         type_rag = "hybride" if self.assistant.index.graphe_ttl else "vectoriel"
         return {"contrat": "1.0", "nom": config["nom"],
-                "version_rag": f"{config['nom']}-k{k}-{empreinte([versions, m['generation'], SYSTEME])}",
+                "version_rag": f"{config['nom']}-{type_rag}-k{k}-{empreinte([versions, m['generation'], SYSTEME])}",
                 "type_rag": type_rag, "date": time.strftime("%Y-%m-%d"), "k": k,
                 "versions": versions, "filtre_droits": True}
 
