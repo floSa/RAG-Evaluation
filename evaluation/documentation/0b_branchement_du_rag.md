@@ -60,7 +60,7 @@ Le RAG écrit un dossier par version, `sorties/sorties_rag/<version_rag>/`.
 | `rag.json` | la version évaluée : nom, type, k, versions de l'index, du modèle, du prompt | ④ | oui |
 | `chunks.jsonl` | un morceau de l'index, avec ses métadonnées | ① | oui |
 | `pages_extraites.jsonl` | une page telle que lue, avant découpage | ① | si des documents sont scannés |
-| `graphe.ttl` | le graphe, en RDF | ① | si le RAG utilise un graphe |
+| `graphe.ttl` | le graphe, en RDF ; chaque nœud et chaque relation réifiée porte `kit:referenceSource` et `kit:page` | ① | si `type_rag` vaut `graphe` ou `hybride` |
 | `recherches.jsonl` | une question : les k morceaux retrouvés, dans l'ordre | ② | oui |
 | `reponses.jsonl` | une question : la réponse et tout ce qui l'accompagne, avec l'identifiant de trace | ③ ④ | oui |
 
