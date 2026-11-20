@@ -4,7 +4,7 @@ from pathlib import Path
 
 import typer
 
-from kit import base, contrat, import_corpus, lanceur, niveau1, niveau2, niveau3, publication, relecture
+from kit import base, contrat, import_corpus, comparaison, lanceur, niveau1, niveau2, niveau3, niveau4, publication, relecture
 from kit.config import charger_config, client_langfuse
 
 app = typer.Typer(help="Kit d'évaluation de RAG : corpus, contrat, niveaux 1 à 4, rapport.", no_args_is_help=True)
@@ -211,6 +211,75 @@ def verifier_juge(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
                    f"{r['kappa']}. Juge {'VALIDÉ' if r['valide'] else 'NON validé'}.")
         for d in r["desaccords"]:
             typer.echo(f"  - {d['question_id']} : juge « {d['juge']} », métier « {d['metier']} »")
+
+
+def afficher_decision(resultat: dict, ev) -> None:
+    d = resultat["decision"]
+    typer.echo(f"  DÉCISION : {'mise en production possible' if d['mise_en_production_possible'] else 'mise en production non recommandée'}")
+    for b in d["criteres_bloquants_declenches"]:
+        typer.echo(f"    critère bloquant déclenché : {b['score']} = {b['valeur']:g} (seuil {b['seuil']})")
+    bloquants = {b["score"] for b in d["criteres_bloquants_declenches"]}
+    for x in d["seuils"]:
+        if x["atteint"] is False and x["score"] not in bloquants:
+            typer.echo(f"    seuil non atteint : {x['score']} = {x['valeur']} (seuil {x['seuil']})")
+    typer.echo(f"  Rapport : {ev.dossier / 'rapport.html'}")
+
+
+@app.command("niveau4")
+def niveau_4(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
+    """Niveau 4 — bout en bout : score pondéré, erreurs graves, temps, coût, puis décision et rapport."""
+    config, ev = preparer(corpus, rag)
+    resultat = publication.publier(ev, 4, niveau4.evaluer(ev), None if sans_langfuse else client_langfuse(config))
+    typer.echo(f"Niveau 4 — {ev.evaluation_id} → {ev.dossier}")
+    afficher_niveau(resultat, 4)
+    afficher_decision(resultat, ev)
+
+
+@app.command()
+def evaluer(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
+    """Enchaîne les niveaux 1 à 4 sur les sorties d'un RAG ; écrit scores, rapport.html, et publie dans Langfuse."""
+    niveau_1(corpus, rag, sans_langfuse)
+    niveau_2(corpus, rag, sans_langfuse)
+    niveau_3(corpus, rag, sans_langfuse)
+    niveau_4(corpus, rag, sans_langfuse)
+
+
+@app.command()
+def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=False, help="resultats/<evaluation_a>/"),
+             evaluation_b: Path = typer.Argument(..., exists=True, file_okay=False, help="resultats/<evaluation_b>/")):
+    """Compare deux évaluations du même corpus : écarts de scores, questions gagnées et perdues, test de McNemar."""
+    import json
+
+    config = charger_config()
+    try:
+        r = comparaison.comparer(config, evaluation_a, evaluation_b)
+    except ValueError as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(1)
+    (evaluation_b / f"comparaison_avec_{evaluation_a.name}.json").write_text(
+        json.dumps(r, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    typer.echo(f"A = {r['a']}\nB = {r['b']}\n")
+    typer.echo(f"  {'score':<28} {'A':>8} {'B':>8} {'écart':>8}  marge")
+    for x in r["ecarts"]:
+        marge = "" if x["marge"] is None else f"± {x['marge']:.2f}"
+        signe = "" if x["significatif_seul"] is None else ("  > marge" if x["significatif_seul"] else "  < marge : ne prouve rien seul")
+        typer.echo(f"  {x['score']:<28} {x['a']:>8.3g} {x['b']:>8.3g} {x['ecart']:>+8.3g}  "
+                   f"{marge}{signe}")
+    questions = {}
+    dossier_corpus = Path(config["chemins"]["sorties"]) / "corpus" / json.loads(
+        (evaluation_a / "evaluation.json").read_text(encoding="utf-8"))["version_corpus"]
+    if (dossier_corpus / "questions.jsonl").exists():
+        questions = {q["question_id"]: q for q in contrat.lire_jsonl(dossier_corpus / "questions.jsonl")}
+    for score, q in r["questions"].items():
+        p = "—" if q["mcnemar_p"] is None else f"{q['mcnemar_p']:.3f}"
+        typer.echo(f"\n  {score} : {len(q['gagnees'])} question(s) gagnée(s), {len(q['perdues'])} perdue(s) sur {q['n']} "
+                   f"(McNemar p = {p}{' : écart probablement dû au hasard' if q['mcnemar_p'] and q['mcnemar_p'] > 0.05 else ''})")
+        if q["gagnees"]:
+            typer.echo(f"    gagnées : {', '.join(q['gagnees'])}")
+        if q["perdues"]:
+            graves = [x for x in q["perdues"] if questions.get(x, {}).get("gravite") == "forte"]
+            typer.echo(f"    perdues : {', '.join(q['perdues'])}"
+                       + (f"  — RÉGRESSION sur une question grave : {', '.join(graves)}" if graves else ""))
 
 
 if __name__ == "__main__":
