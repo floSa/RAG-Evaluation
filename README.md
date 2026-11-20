@@ -24,48 +24,54 @@ Le RAG et le kit ne se connaissent pas : ils ne se parlent que par les fichiers 
 
 ```
 RAG-Evaluation/
-├── README.md                          vous êtes ici
-├── DECISIONS.md                       les choix faits là où la méthode laissait une liberté
+├── README.md                                vous êtes ici
+├── DECISIONS.md                             les choix faits là où la méthode laissait une liberté
+├── pyproject.toml                           installe les deux paquets d'un coup (uv sync)
 │
-├── evaluation/                        ÉVALUER UN RAG : le corpus annoté et le kit (commande kit)
-│   ├── 1_Construire_le_corpus_annote.md
-│   ├── 2_Importer_le_corpus.md
-│   ├── 3_Brancher_un_RAG.md
-│   ├── 4_Evaluer_le_RAG.md
-│   ├── 5_Lire_les_resultats.md
-│   ├── corpus_exemple/                50 documents fictifs et leur fichier Excel annoté
-│   ├── methode/                       les documents de référence 1 et 3, le contrat, le prompt du juge
-│   ├── config/                        le modèle juge (kit.yaml) et les seuils du métier (seuils.json)
-│   ├── kit/                           le code, un dossier par étape :
-│   │   ├── corpus/                      importer le fichier Excel
-│   │   ├── branchement/                 le contrat, le lancement d'un RAG
-│   │   ├── niveau_1_ingestion/          le passage est-il dans l'index ?
-│   │   ├── niveau_2_recherche/          est-il retrouvé ?
-│   │   ├── niveau_3_reponse/            la réponse est-elle juste ? (juge, relecture)
-│   │   ├── niveau_4_bout_en_bout/       utile, sûr, rapide, pas cher ?
-│   │   └── resultats/                   scores, rapport, comparaison
+├── evaluation/                              ÉVALUER UN RAG : le kit (commande kit) et le corpus annoté
+│   ├── documentation/                       les guides, dans l'ordre :
+│   │   ├── 0a_construction_du_corpus.md       annoter le corpus, l'importer
+│   │   ├── 0b_branchement_du_rag.md           brancher un RAG : les 4 prises
+│   │   ├── 1_evaluation_ingestion.md          le passage est-il dans l'index ?
+│   │   ├── 2_evaluation_recherche.md          est-il retrouvé ?
+│   │   ├── 3_evaluation_reponse.md            la réponse est-elle juste ? (juge, relecture)
+│   │   ├── 4_evaluation_bout_en_bout.md       utile, sûr, rapide, pas cher ? la décision
+│   │   ├── 5_resultats_et_comparaison.md      lire les résultats, comparer deux versions
+│   │   └── reference/                         la méthode, le contrat, le prompt du juge, les schémas
+│   ├── config/                              le modèle juge (kit.yaml), les seuils du métier (seuils.json)
+│   ├── corpus_exemple/                      50 documents fictifs et leur fichier Excel annoté
+│   ├── src/kit/                             le code, un dossier par étape, mêmes noms que les guides :
+│   │   ├── etape_0a_corpus/
+│   │   ├── etape_0b_branchement/
+│   │   ├── etape_1_evaluation_ingestion/
+│   │   ├── etape_2_evaluation_recherche/
+│   │   ├── etape_3_evaluation_reponse/
+│   │   ├── etape_4_evaluation_bout_en_bout/
+│   │   └── etape_5_resultats/
 │   └── tests/
 │
-├── rag/                               UN RAG D'EXEMPLE, autonome (commande rag)
-│   ├── Guide_du_GraphRAG.md
-│   ├── pipeline/                      une étape par fichier : extraction … génération
-│   ├── branchement_evaluation.py      la seule partie écrite pour l'évaluation : les 4 prises
-│   └── …
+├── rag/                                     UN RAG D'EXEMPLE, autonome (commande rag)
+│   ├── documentation/                       le guide du RAG, et les techniques d'un RAG (document 2)
+│   ├── config/                              config.yaml : point d'accès, modèles, k, chemins
+│   ├── src/rag/
+│   │   ├── pipeline/                          une étape par fichier : extraction … génération
+│   │   └── utils/branchement_evaluation.py    la seule partie écrite pour l'évaluation : les 4 prises
+│   └── tests/
 │
-├── infra/                             les services : Langfuse et Docling (Guide_des_services.md)
-└── sorties/                           tout ce qui est produit (non versionné)
+├── infra/                                   les services : Langfuse et Docling (Guide_des_services.md)
+└── sorties/                                 tout ce qui est produit (non versionné)
 ```
 
 ## Par où commencer
 
 | Je veux… | Lire |
 | --- | --- |
-| comprendre la méthode | le [document 3](evaluation/methode/RAG_3_Evaluer_le_RAG.md), sections 1 à 5, puis le [document 1](evaluation/methode/RAG_1_Constituer_le_corpus_d_evaluation.md) |
-| constituer le corpus de mon projet | [1. Construire le corpus annoté](evaluation/1_Construire_le_corpus_annote.md), puis [2. Importer le corpus](evaluation/2_Importer_le_corpus.md) |
-| brancher mon RAG sur le kit | [3. Brancher un RAG](evaluation/3_Brancher_un_RAG.md), avec l'exemple [`rag/branchement_evaluation.py`](rag/branchement_evaluation.py) |
-| évaluer, vérifier le juge, comparer deux versions | [4. Évaluer le RAG](evaluation/4_Evaluer_le_RAG.md) |
-| savoir où sont les résultats et quoi corriger | [5. Lire les résultats](evaluation/5_Lire_les_resultats.md) |
-| voir comment le RAG d'exemple est construit | [Guide du GraphRAG](rag/Guide_du_GraphRAG.md), et le [document 2](rag/methode/RAG_2_Construire_le_pipeline.md) pour les techniques |
+| comprendre la méthode | le [document 3](evaluation/documentation/reference/methode_evaluation.md), sections 1 à 5, puis le [document 1](evaluation/documentation/reference/methode_corpus_annote.md) |
+| constituer le corpus de mon projet | [0a. Construction du corpus](evaluation/documentation/0a_construction_du_corpus.md) |
+| brancher mon RAG sur le kit | [0b. Branchement du RAG](evaluation/documentation/0b_branchement_du_rag.md), avec l'exemple [`branchement_evaluation.py`](rag/src/rag/utils/branchement_evaluation.py) |
+| comprendre chaque évaluation | [1. Ingestion](evaluation/documentation/1_evaluation_ingestion.md), [2. Recherche](evaluation/documentation/2_evaluation_recherche.md), [3. Réponse](evaluation/documentation/3_evaluation_reponse.md), [4. Bout en bout](evaluation/documentation/4_evaluation_bout_en_bout.md) |
+| savoir où sont les résultats, quoi corriger, comparer deux versions | [5. Résultats et comparaison](evaluation/documentation/5_resultats_et_comparaison.md) |
+| voir comment le RAG d'exemple est construit | [Guide du GraphRAG](rag/documentation/guide_du_graphrag.md), et le [document 2](rag/documentation/reference/techniques_rag.md) pour les techniques |
 
 ## Démarrer
 
@@ -77,7 +83,7 @@ Prérequis : Docker, [uv](https://docs.astral.sh/uv/), et un point d'accès à d
 uv sync
 ```
 
-**2. Renseigner les clés** : copier `.env.example` en `.env` et y mettre les clés du point d'accès. L'adresse et les noms des modèles sont dans `evaluation/config/kit.yaml` (le juge) et `rag/config.yaml` (le RAG).
+**2. Renseigner les clés** : copier `.env.example` en `.env` et y mettre les clés du point d'accès. L'adresse et les noms des modèles sont dans `evaluation/config/kit.yaml` (le juge) et `rag/config/config.yaml` (le RAG).
 
 **3. Démarrer les services** : Langfuse (http://127.0.0.1:3100) et Docling (port 5101). Détails : [infra/Guide_des_services.md](infra/Guide_des_services.md).
 
@@ -93,31 +99,52 @@ docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
 uv run kit verifier-modeles
 ```
 
-**4. Importer le corpus annoté** ([guide 2](evaluation/2_Importer_le_corpus.md)) :
+**4. Importer le corpus annoté** ([guide 0a](evaluation/documentation/0a_construction_du_corpus.md)) :
 
 ```bash
 uv run kit importer evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx
 ```
 
-**5. Faire tourner le RAG** ([guide 3](evaluation/3_Brancher_un_RAG.md)) : indexer les documents, puis répondre aux questions par le connecteur.
+**5. Faire tourner le RAG** ([guide 0b](evaluation/documentation/0b_branchement_du_rag.md)) : indexer les documents, puis répondre aux questions par le connecteur.
 
 ```bash
 uv run rag indexer
 ```
 
 ```bash
-uv run kit lancer rag.branchement_evaluation:Connecteur --corpus sorties/corpus/2026-11-20.1 -p k=5
+uv run kit lancer rag.utils.branchement_evaluation:Connecteur --corpus sorties/corpus/2026-11-20.1 -p k=5
 ```
 
-**6. Évaluer** ([guide 4](evaluation/4_Evaluer_le_RAG.md)), en 5 minutes environ :
+**6. Évaluer** : les évaluations 1 à 4 d'un coup, en 5 minutes environ ([guides 1 à 4](evaluation/documentation/1_evaluation_ingestion.md)) :
 
 ```bash
 uv run kit evaluer --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/rag-demo-k5-80032dcd
 ```
 
-**7. Lire le résultat** ([guide 5](evaluation/5_Lire_les_resultats.md)) : ouvrir `sorties/resultats/<évaluation>/rapport.html`, puis l'expérience dans Langfuse.
+**7. Lire le résultat** ([guide 5](evaluation/documentation/5_resultats_et_comparaison.md)) : ouvrir `sorties/resultats/<évaluation>/rapport.html`, puis l'expérience dans Langfuse.
 
 Les noms `2026-11-20.1` (version du corpus) et `rag-demo-k5-80032dcd` (version du RAG) sont affichés par les commandes précédentes.
+
+## Toutes les commandes
+
+| Commande | Ce qu'elle fait | Guide |
+| --- | --- | --- |
+| `kit verifier-modeles` | teste le point d'accès, le juge, les embeddings et Langfuse | [3](evaluation/documentation/3_evaluation_reponse.md) |
+| `kit importer <fichier.xlsx>` | contrôle le fichier du métier, l'écrit en base, l'exporte, crée le jeu Langfuse | [0a](evaluation/documentation/0a_construction_du_corpus.md) |
+| `kit init-base` | crée les tables de la base (fait aussi par `importer`) | [0a](evaluation/documentation/0a_construction_du_corpus.md) |
+| `kit lancer <module:Classe> --corpus <corpus>` | fait tourner un RAG Python par son connecteur, et écrit ses fichiers du contrat | [0b](evaluation/documentation/0b_branchement_du_rag.md) |
+| `kit verifier-contrat <dossier> [--corpus <corpus>]` | dit précisément ce qui manque dans les fichiers d'un RAG | [0b](evaluation/documentation/0b_branchement_du_rag.md) |
+| `kit evaluer-ingestion` | évaluation 1 : le passage est-il dans l'index ? | [1](evaluation/documentation/1_evaluation_ingestion.md) |
+| `kit evaluer-recherche` | évaluation 2 : est-il retrouvé ? | [2](evaluation/documentation/2_evaluation_recherche.md) |
+| `kit evaluer-reponse` | évaluation 3 : la réponse est-elle juste ? | [3](evaluation/documentation/3_evaluation_reponse.md) |
+| `kit verifier-juge [--envoyer]` | fait noter 30 réponses par le métier, puis mesure l'accord avec le juge | [3](evaluation/documentation/3_evaluation_reponse.md) |
+| `kit evaluer-bout-en-bout` | évaluation 4 : score pondéré, temps, coût, décision, rapport | [4](evaluation/documentation/4_evaluation_bout_en_bout.md) |
+| `kit evaluer` | les évaluations 1 à 4 d'un coup | [4](evaluation/documentation/4_evaluation_bout_en_bout.md) |
+| `kit comparer <résultats A> <résultats B>` | compare deux versions du RAG | [5](evaluation/documentation/5_resultats_et_comparaison.md) |
+| `rag indexer`, `rag demander "…"` | le RAG d'exemple, seul | [GraphRAG](rag/documentation/guide_du_graphrag.md) |
+| `rag exporter`, `rag repondre <questions.jsonl>` | le RAG d'exemple écrit lui-même ses fichiers du contrat | [0b](evaluation/documentation/0b_branchement_du_rag.md) |
+
+Les évaluations 1 à 4 prennent `--corpus` et `--rag`, et `--sans-langfuse` pour ne rien publier. Chaque commande a son aide : `uv run kit <commande> --help`.
 
 ## Tests
 
