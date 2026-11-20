@@ -252,7 +252,8 @@ def ecrire_fichiers(ev: Evaluation, description: dict, resultat: dict, toutes) -
         for r in sorted(toutes, key=lambda r: (r.question_id or "", r.niveau, r.score, r.objet or "")):
             if r.question_id and not r.reservee:  # une ligne par question et par score, hors questions réservées
                 w.writerow([ev.evaluation_id, r.question_id, r.niveau, r.score,
-                            r.verdict if r.verdict is not None else arrondi(r.valeur), r.detail or ""])
+                            r.verdict if r.verdict is not None else arrondi(r.valeur),
+                            " — ".join(x for x in (r.objet, r.detail) if x)])  # « passage 12 — exact : … »
 
 
 # --- Langfuse -------------------------------------------------------------------------------
