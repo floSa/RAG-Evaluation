@@ -4,7 +4,7 @@ from pathlib import Path
 
 import typer
 
-from kit import base, contrat, import_corpus
+from kit import base, contrat, import_corpus, lanceur
 from kit.config import charger_config, client_langfuse
 
 app = typer.Typer(help="Kit d'évaluation de RAG : corpus, contrat, niveaux 1 à 4, rapport.", no_args_is_help=True)
@@ -62,6 +62,25 @@ def verifier_contrat(dossier: Path = typer.Argument(..., exists=True, file_okay=
             typer.echo(f"  … et {len(erreurs) - 200} autres.", err=True)
         raise typer.Exit(1)
     typer.echo(f"{dossier} : conforme au contrat {', '.join(v + '.x' for v in contrat.VERSIONS_CONNUES)}.")
+
+
+@app.command()
+def lancer(connecteur: str = typer.Argument(..., help="module:Classe, par exemple rag_demo.connecteur:Connecteur"),
+           corpus: Path = typer.Option(..., exists=True, file_okay=False, help="le dossier corpus/<version>/"),
+           parametre: list[str] = typer.Option([], "--parametre", "-p",
+                                               help="paramètre du connecteur, cle=valeur (répétable), ex. -p k=3")):
+    """Fait tourner un RAG Python par son connecteur et écrit ses sorties du contrat."""
+    config = charger_config()
+    parametres = {}
+    for p in parametre:
+        cle_, _, valeur = p.partition("=")
+        parametres[cle_] = int(valeur) if valeur.isdigit() else valeur
+    dossier = lanceur.lancer(lanceur.charger_connecteur(connecteur, parametres), corpus,
+                             Path(config["chemins"]["sorties"]), afficher=typer.echo)
+    erreurs = contrat.verifier_dossier(dossier, corpus)
+    typer.echo(f"Sorties écrites dans {dossier} ; contrat : {'conforme' if not erreurs else f'{len(erreurs)} problème(s)'}.")
+    for e in erreurs[:20]:
+        typer.echo(f"  - {e}", err=True)
 
 
 if __name__ == "__main__":
