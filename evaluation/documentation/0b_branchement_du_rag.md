@@ -48,8 +48,8 @@ Ce que le RAG **ne reçoit jamais** : les réponses attendues, les points clés,
 | Quoi | Où, pour le corpus d'exemple | Ce que le RAG en fait |
 | --- | --- | --- |
 | les documents | `evaluation/corpus_exemple/sources/` | il les indexe comme en production |
-| leurs métadonnées | `sorties/corpus/<version>/documents.jsonl` | référence, version, droits d'accès, format : il les garde sur chaque morceau |
-| les questions | `sorties/corpus/<version>/questions.jsonl` | il n'en lit que `question_id`, `question`, `profil` et, pour une question de suite, la question précédente et sa réponse attendue (l'historique) |
+| leurs métadonnées | l'export de la gestion documentaire, `evaluation/corpus_exemple/sources/export_ged.csv` | référence, version, droits d'accès, format : il les garde sur chaque morceau. C'est la même source qu'en production : le RAG ne lit rien de ce que le kit exporte, sauf les questions |
+| les questions | `sorties/corpus/<version>/questions.jsonl`, exporté par le kit | il n'en lit que `question_id`, `question`, `profil` et, pour une question de suite, la question précédente et sa réponse attendue (l'historique) |
 
 ## 3. Ce que le RAG rend : les fichiers du contrat
 
