@@ -23,7 +23,7 @@ modeles:
     modele: embed                # bge-m3, utile aux scores Ragas qui en demandent
 
 langfuse:
-  variable_hote: LANGFUSE_HOST
+  variable_adresse: LANGFUSE_BASE_URL
   variable_cle_publique: LANGFUSE_PUBLIC_KEY
   variable_cle_secrete: LANGFUSE_SECRET_KEY
 
