@@ -42,7 +42,7 @@ def test_texte_exact_et_approche():
 
 
 def test_tableau_memes_mots_dans_un_autre_ordre():
-    # passage réel de Q-003 (PR-1101 page 3), chunk rendu en « colonne : valeur » par le RAG de démonstration
+    # passage réel de Q-003 (PR-1101 page 3), chunk rendu en « colonne : valeur » par le RAG d'exemple
     p = passage("Point | Armoire divisionnaire BT | TGBT\nDurée moyenne | 20 minutes | 90 minutes", "tableau", "3")
     rendu = "Tableau 2\nPoint : Durée moyenne ; Armoire divisionnaire BT : 20 minutes ; TGBT : 90 minutes"
     assert rattachement.comparer(p, rendu, SEUILS)[0] == "approche"

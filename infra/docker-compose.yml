@@ -1,7 +1,7 @@
 # Services du bac à sable, tous en local :
 #   - Langfuse v4 auto-hébergé (suivi : jeux de questions, expériences, scores, files de relecture)
 #     d'après https://github.com/langfuse/langfuse/blob/main/docker-compose.yml (sans la passerelle IA)
-#   - Docling-serve (extraction des PDF et OCR pour le RAG de démonstration)
+#   - Docling-serve (extraction des PDF et OCR pour le RAG d'exemple)
 # Démarrage : infra/initialiser.sh (une fois, crée infra/.env), puis
 #   docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
 # Interface Langfuse : http://127.0.0.1:3100 ; Docling : http://127.0.0.1:5101
