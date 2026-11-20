@@ -25,18 +25,18 @@ def config_verdict(langfuse) -> str:
         description="Verdict du métier sur une réponse du RAG : juste, partielle ou fausse (JUGE.md)").id
 
 
-def file(langfuse, nom: str, description: str) -> str:
-    """La file de relecture, créée si elle n'existe pas ; rend son identifiant."""
+def file(langfuse, nom: str, description: str, score_config_id: str | None = None) -> str:
+    """La file de relecture, créée si elle n'existe pas ; rend son identifiant. Par défaut, on y note « verdict_metier »."""
     for q in langfuse.api.annotation_queues.list_queues(limit=100).data:
         if q.name == nom:
             return q.id
-    return langfuse.api.annotation_queues.create_queue(name=nom, description=description,
-                                                       score_config_ids=[config_verdict(langfuse)]).id
+    return langfuse.api.annotation_queues.create_queue(
+        name=nom, description=description, score_config_ids=[score_config_id or config_verdict(langfuse)]).id
 
 
-def envoyer(langfuse, nom: str, description: str, trace_ids: list[str]) -> int:
+def envoyer(langfuse, nom: str, description: str, trace_ids: list[str], score_config_id: str | None = None) -> int:
     """Ajoute des traces à une file, sans doublon ; rend le nombre d'ajouts."""
-    queue_id = file(langfuse, nom, description)
+    queue_id = file(langfuse, nom, description, score_config_id)
     deja, page = set(), 1
     while True:
         r = langfuse.api.annotation_queues.list_queue_items(queue_id, page=page, limit=100)
@@ -56,12 +56,13 @@ def echantillon(verdicts_juge: dict[str, str], taille: int, graine: int = 0) -> 
     return sorted(random.Random(graine).sample(ids, min(taille, len(ids))))
 
 
-def notes_metier(langfuse, trace_ids: list[str]) -> dict[str, str]:
-    """Les verdicts saisis par le métier dans Langfuse, par trace (le plus récent si plusieurs)."""
+def notes_metier(langfuse, trace_ids: list[str], nom: str = CONFIG_VERDICT,
+                 categories: dict = CATEGORIES) -> dict[str, str]:
+    """Les notes saisies par le métier dans Langfuse, par trace (la plus récente si plusieurs)."""
     notes = {}
     for t in trace_ids:
-        r = langfuse.api.scores.get_many(name=CONFIG_VERDICT, trace_id=t, limit=10)
-        humains = sorted((s for s in r.data if libelle(s) in CATEGORIES), key=lambda s: s.timestamp)
+        r = langfuse.api.scores.get_many(name=nom, trace_id=t, limit=10)
+        humains = sorted((s for s in r.data if libelle(s) in categories), key=lambda s: s.timestamp)
         if humains:
             notes[t] = libelle(humains[-1])
     return notes

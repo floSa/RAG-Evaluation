@@ -105,7 +105,8 @@ def rattacher(passage: dict, chunks_du_doc: list[dict], fiche: bool, seuils: dic
     if liens:
         return liens, meilleure
     # passage coupé : deux chunks qui se suivent dans le document, dont l'un au moins sur la page du passage
-    ordonnes = sorted(chunks_du_doc, key=cle_ordre)
+    # (seulement des chunks de texte : un élément du graphe n'est pas un morceau du document)
+    ordonnes = sorted((c for c in chunks_du_doc if c.get("type_objet", "chunk") == "chunk"), key=cle_ordre)
     sur_la_page = {c["chunk_id"] for c in candidats(passage, chunks_du_doc, fiche)}
     for a, b in zip(ordonnes, ordonnes[1:]):
         if a["chunk_id"] in sur_la_page or b["chunk_id"] in sur_la_page:

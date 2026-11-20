@@ -33,6 +33,11 @@ rattachement:
   tableau_mots: 0.90         # tableau : mêmes mots, dans n'importe quel ordre
   scanne_partiel: 0.90       # texte scanné : une partie du chunk ressemble au passage
 
+# Niveau 1, si le RAG a un graphe (document 3, section 6)
+graphe:
+  formes: evaluation/corpus_exemple/ontologie/ontologie_formes.ttl   # les règles SHACL de l'ontologie du projet
+  taille_echantillon: 50     # relations envoyées au métier (file justesse-graphe)
+
 # Niveau 3
 reponse:
   seuil_non_fidele: 1.0      # fidélité Ragas sous ce seuil = réponse non fidèle (erreurs graves) ; 1.0 = une seule affirmation non appuyée suffit

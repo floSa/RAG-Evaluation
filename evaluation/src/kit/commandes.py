@@ -8,6 +8,7 @@ from kit import base
 from kit.etape_0b_branchement import contrat, lanceur
 from kit.config import charger_config, client_langfuse
 from kit.etape_0a_corpus import importer as import_corpus
+from kit.etape_1_evaluation_ingestion import graphe as graphe_n1
 from kit.etape_1_evaluation_ingestion import scores as niveau1
 from kit.etape_2_evaluation_recherche import scores as niveau2
 from kit.etape_3_evaluation_reponse import relecture
@@ -148,9 +149,12 @@ def afficher_niveau(resultat: dict, niveau: int) -> None:
 def niveau_1(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
     """Niveau 1 — ingestion : rattachement des passages, liens_index, scores, passages non rattachés."""
     config, ev = preparer(corpus, rag, ingestion_seule=True)
+    langfuse = None if sans_langfuse else client_langfuse(config)
     lignes, liens, non_rattaches = niveau1.evaluer(ev)
     niveau1.enregistrer(ev, liens, non_rattaches)
-    resultat = publication.publier(ev, 1, lignes, None if sans_langfuse else client_langfuse(config))
+    if graphe_n1.a_un_graphe(ev):
+        lignes += graphe_n1.lignes_violations(ev) + graphe_n1.lignes_justesse(ev, langfuse)
+    resultat = publication.publier(ev, 1, lignes, langfuse)
     typer.echo(f"Niveau 1 — {ev.evaluation_id} → {ev.dossier}")
     afficher_niveau(resultat, 1)
     if non_rattaches:
@@ -158,6 +162,36 @@ def niveau_1(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse
         for p in non_rattaches:
             typer.echo(f"    - passage {p['passage_id']} ({p['question_id']}, {p['reference_source']} p. {p['page']}, "
                        f"{p['type_element']}) : {p['cause_probable']}")
+
+
+@app.command("verifier-graphe")
+def verifier_graphe(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
+                    envoyer: bool = typer.Option(False, help="tirer les relations et les envoyer au métier dans Langfuse")):
+    """Justesse du graphe : --envoyer pour faire juger 50 relations par le métier, puis sans option pour voir où il en est."""
+    import json
+
+    config, ev = preparer(corpus, rag, ingestion_seule=True)
+    if not graphe_n1.a_un_graphe(ev):
+        typer.echo(f"Le RAG est de type « {ev.rag.get('type_rag')} » : il n'a pas de graphe.", err=True)
+        raise typer.Exit(1)
+    langfuse = client_langfuse(config)
+    if envoyer:
+        n = graphe_n1.envoyer(ev, langfuse)
+        typer.echo(f"Relations envoyées dans la file « {graphe_n1.FILE} » ({n} nouvelles). Le métier juge chacune avec "
+                   f"le score « {graphe_n1.CONFIG_JUSTESSE} » (juste ou fausse), puis relancer « kit evaluer-ingestion ».")
+        return
+    if not (ev.dossier / graphe_n1.ECHANTILLON).exists():
+        typer.echo("Pas d'échantillon : lancer d'abord « kit verifier-graphe --envoyer ».", err=True)
+        raise typer.Exit(1)
+    lignes = graphe_n1.lignes_justesse(ev, langfuse)
+    total = len(json.loads((ev.dossier / graphe_n1.ECHANTILLON).read_text(encoding="utf-8")))
+    typer.echo(f"Relations jugées par le métier : {len(lignes)} sur {total}.")
+    if lignes:
+        typer.echo(f"Justesse du graphe : {sum(l.valeur for l in lignes) / len(lignes):.0%}. "
+                   f"Relancer « kit evaluer-ingestion » pour l'inscrire dans les résultats.")
+        for l in lignes:
+            if not l.valeur:
+                typer.echo(f"  - fausse : {l.objet} ({l.detail})")
 
 
 @app.command("evaluer-recherche")
