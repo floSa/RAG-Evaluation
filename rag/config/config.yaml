@@ -3,7 +3,6 @@
 # Changer de fournisseur = changer « adresse » et les noms de modèles, sans toucher au code.
 
 nom: rag-demo
-type_rag: vectoriel
 
 # Les documents à indexer, et leur liste avec leurs métadonnées (référence, version, format, droits d'accès),
 # telle que l'exporte la gestion documentaire.
@@ -30,6 +29,12 @@ modeles:
     prix_sortie_eur_par_million: 0
   embeddings:
     modele: embed
+
+graphe:                             # étape 4, optionnelle : sans elle, le RAG est vectoriel ; avec, hybride
+  actif: false                      # ou --graphe sur la ligne de commande
+  ontologie: evaluation/corpus_exemple/ontologie/ontologie.ttl
+  appels_paralleles: 4              # appels simultanés au modèle pendant l'extraction
+  sans_reflexion: true              # chat_template_kwargs.enable_thinking = false (2 à 3 fois plus rapide)
 
 recherche:
   k: 5                              # chunks donnés au modèle

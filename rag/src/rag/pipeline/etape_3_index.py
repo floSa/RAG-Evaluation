@@ -4,6 +4,8 @@
   .npy, pas dans une base vectorielle : quelques milliers de chunks tiennent en mémoire.
 - Par les mots : un index BM25, recalculé au chargement.
 L'index est écrit dans le dossier de travail (config.yaml, « travail ») : chunks.jsonl, pages.jsonl, vecteurs.npy.
+- Avec le graphe (étape 4, optionnelle) : ses éléments « noeud » s'ajoutent aux chunks, cherchables de la même façon.
+  Ils sont écrits à part (travail/graphe/) : on passe d'un RAG vectoriel à un RAG hybride sans tout réindexer.
 """
 
 import hashlib
@@ -16,7 +18,7 @@ import numpy as np
 from openai import OpenAI
 from rank_bm25 import BM25Okapi
 
-from rag.pipeline import etape_1_extraction, etape_2_decoupage
+from rag.pipeline import etape_1_extraction, etape_2_decoupage, etape_4_graphe
 
 
 def empreinte(objet) -> str:
@@ -54,31 +56,57 @@ def construire(config: dict, client: OpenAI, afficher=print) -> dict:
         c["chunk_id"] = f"{c['reference_source']}#{c['page']}#{c['ordre']}"
         c["type_objet"] = "chunk"
         c["version_index"] = version_index
-    vecteurs = embeddings(client, modele, [c["texte"] for c in chunks])
-    dossier = travail / "index"
+    ecrire(travail / "index", chunks, embeddings(client, modele, [c["texte"] for c in chunks]), pages=pages)
+    resultat = {"chunks": len(chunks), "pages": len(pages), "version_index": version_index}
+    if config["graphe"]["actif"]:                                  # étape 4, optionnelle
+        noeuds, graphe = etape_4_graphe.construire(chunks, config, client, empreinte, afficher)
+        version_graphe = f"{etape_4_graphe.VERSION_EXTRACTION}-{empreinte(noeuds)}"
+        for n in noeuds:
+            n["version_index"] = version_graphe
+        dossier = travail / "graphe"
+        ecrire(dossier, noeuds, embeddings(client, modele, [n["texte"] for n in noeuds]))
+        graphe.serialize(dossier / "graphe.ttl", format="turtle")
+        resultat |= {"noeuds": len(noeuds), "triplets": len(graphe)}
+    return resultat
+
+
+def ecrire(dossier: Path, objets: list[dict], vecteurs: np.ndarray, pages: list[dict] | None = None) -> None:
     dossier.mkdir(parents=True, exist_ok=True)
     np.save(dossier / "vecteurs.npy", vecteurs)
-    for nom, objets in (("chunks.jsonl", chunks), ("pages.jsonl", pages)):
+    fichiers = [("chunks.jsonl", objets)] + ([("pages.jsonl", pages)] if pages is not None else [])
+    for nom, lignes in fichiers:
         with (dossier / nom).open("w", encoding="utf-8") as f:
-            f.writelines(json.dumps(o, ensure_ascii=False) + "\n" for o in objets)
-    return {"chunks": len(chunks), "pages": len(pages), "version_index": version_index}
+            f.writelines(json.dumps(o, ensure_ascii=False) + "\n" for o in lignes)
 
 
 @dataclass
 class Index:
-    chunks: list[dict]
+    chunks: list[dict]                 # les chunks, puis les éléments du graphe s'il est actif
     pages: list[dict]
     vecteurs: np.ndarray
     bm25: BM25Okapi
+    graphe_ttl: Path | None = None     # le graphe en RDF, s'il est actif
+
+
+def lire_jsonl(chemin: Path) -> list[dict]:
+    with chemin.open(encoding="utf-8") as f:
+        return [json.loads(l) for l in f]
 
 
 def charger(config: dict) -> Index:
-    """Relit l'index écrit par `construire`."""
+    """Relit l'index écrit par `construire` ; avec le graphe actif, y ajoute ses éléments."""
     dossier = Path(config["travail"]) / "index"
     if not (dossier / "chunks.jsonl").exists():
         raise FileNotFoundError("Index absent : lancer d'abord « rag indexer ».")
-    with (dossier / "chunks.jsonl").open(encoding="utf-8") as f:
-        chunks = [json.loads(l) for l in f]
-    with (dossier / "pages.jsonl").open(encoding="utf-8") as f:
-        pages = [json.loads(l) for l in f]
-    return Index(chunks, pages, np.load(dossier / "vecteurs.npy"), BM25Okapi([mots(c["texte"]) for c in chunks]))
+    chunks, pages, vecteurs = lire_jsonl(dossier / "chunks.jsonl"), lire_jsonl(dossier / "pages.jsonl"), np.load(dossier / "vecteurs.npy")
+    graphe_ttl = None
+    if config["graphe"]["actif"]:
+        dossier_graphe = Path(config["travail"]) / "graphe"
+        if not (dossier_graphe / "graphe.ttl").exists():
+            raise FileNotFoundError("Graphe absent : lancer d'abord « rag indexer --graphe ».")
+        noeuds = lire_jsonl(dossier_graphe / "chunks.jsonl")
+        version = f"{chunks[0]['version_index']}+{noeuds[0]['version_index']}"   # une version pour tout l'index
+        chunks = [{**c, "version_index": version} for c in chunks + noeuds]
+        vecteurs = np.vstack([vecteurs, np.load(dossier_graphe / "vecteurs.npy")])
+        graphe_ttl = dossier_graphe / "graphe.ttl"
+    return Index(chunks, pages, vecteurs, BM25Okapi([mots(c["texte"]) for c in chunks]), graphe_ttl)

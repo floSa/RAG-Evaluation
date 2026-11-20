@@ -1,6 +1,6 @@
 """L'assistant : il enchaîne les étapes du pipeline pour répondre à une question.
 
-    rag indexer   →  étapes 1, 2, 3 (et 4, le graphe, quand il sera là) : pipeline/etape_3_index.construire
+    rag indexer   →  étapes 1, 2, 3, et 4 si le graphe est actif       : pipeline/etape_3_index.construire
     rag demander  →  étape 5 (recherche) puis étape 6 (génération)       : Assistant.demander
 
 Il lit sa configuration dans rag/config/config.yaml et ses clés dans .env. Il marche seul : il ne sait rien de l'évaluation.
@@ -43,15 +43,27 @@ def client_langfuse(config: dict):
                     secret_key=os.environ[lf["variable_cle_secrete"]], base_url=os.environ[lf["variable_adresse"]])
 
 
+def oui(valeur) -> bool:
+    """true, oui, 1 → vrai : un réglage peut venir de la ligne de commande sous forme de texte."""
+    return str(valeur).strip().lower() in ("true", "oui", "1", "yes")
+
+
+def regler(config: dict, k: int | None = None, graphe=None) -> dict:
+    """Applique les réglages donnés en plus de config.yaml (ligne de commande, connecteur)."""
+    if k is not None:
+        config["recherche"]["k"] = int(k)
+    if graphe is not None:
+        config["graphe"]["actif"] = oui(graphe)
+    return config
+
+
 def indexer(config: dict, afficher=print) -> dict:
     return etape_3_index.construire(config, client_llm(config), afficher)
 
 
 class Assistant:
-    def __init__(self, config: dict | None = None, k: int | None = None):
-        self.config = config or charger_config()
-        if k is not None:
-            self.config["recherche"]["k"] = k
+    def __init__(self, config: dict | None = None, k: int | None = None, graphe=None):
+        self.config = regler(config or charger_config(), k, graphe)
         self.index = etape_3_index.charger(self.config)
         self.client = client_llm(self.config)
         self.langfuse = client_langfuse(self.config)

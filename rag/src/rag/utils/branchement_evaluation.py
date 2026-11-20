@@ -16,6 +16,7 @@ Les quatre prises :
 """
 
 import json
+import shutil
 import time
 import uuid
 from pathlib import Path
@@ -32,8 +33,8 @@ CHAMPS_CHUNK = ("chunk_id", "type_objet", "reference_source", "version_document"
 class Connecteur:
     """Les six méthodes que le kit appelle par leur nom (CONTRAT.md, « Le connecteur »)."""
 
-    def __init__(self, k: int | None = None):
-        self.assistant = Assistant(k=k)
+    def __init__(self, k: int | None = None, graphe=None):
+        self.assistant = Assistant(k=k, graphe=graphe)
         self.derniere_recherche = None
 
     # --- Prise 4 : la version exacte du RAG évalué -----------------------------------------------
@@ -44,9 +45,10 @@ class Connecteur:
                     "embedding": m["embeddings"]["modele"], "generation": m["generation"]["modele"],
                     "prompt": VERSION_PROMPT, "reranker": "aucun"}
         k = self.assistant.k
+        type_rag = "hybride" if self.assistant.index.graphe_ttl else "vectoriel"
         return {"contrat": "1.0", "nom": config["nom"],
                 "version_rag": f"{config['nom']}-k{k}-{empreinte([versions, m['generation'], SYSTEME])}",
-                "type_rag": config["type_rag"], "date": time.strftime("%Y-%m-%d"), "k": k,
+                "type_rag": type_rag, "date": time.strftime("%Y-%m-%d"), "k": k,
                 "versions": versions, "filtre_droits": True}
 
     # --- Prise 1 : ingérer avec métadonnées -------------------------------------------------------
@@ -58,7 +60,9 @@ class Connecteur:
         return iter(self.assistant.index.pages)
 
     def exporter_graphe(self, chemin):
-        return None  # pas encore de graphe
+        """Copie le graphe en RDF (graphe.ttl) s'il est actif ; sinon, ne fait rien."""
+        if self.assistant.index.graphe_ttl:
+            shutil.copyfile(self.assistant.index.graphe_ttl, chemin)
 
     # --- Prise 2 : rechercher -----------------------------------------------------------------------
 
@@ -107,7 +111,9 @@ def exporter(c: Connecteur) -> str:
     (dossier / "rag.json").write_text(json.dumps(c.decrire(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     n = ecrire_jsonl(dossier / "chunks.jsonl", c.exporter_index())
     p = ecrire_jsonl(dossier / "pages_extraites.jsonl", c.exporter_pages())
-    return f"{dossier} : rag.json, {n} chunks, {p} pages extraites."
+    c.exporter_graphe(dossier / "graphe.ttl")
+    graphe = ", graphe.ttl" if (dossier / "graphe.ttl").exists() else ""
+    return f"{dossier} : rag.json, {n} chunks, {p} pages extraites{graphe}."
 
 
 def repondre_aux_questions(c: Connecteur, questions: Path, afficher=print) -> str:
