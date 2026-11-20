@@ -19,7 +19,7 @@ La commande crée `infra/.env` avec des secrets tirés au hasard, le compte Lang
 docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
 ```
 
-Connexion à Langfuse : l'adresse `evaluation@valtera.example`, le mot de passe se trouve dans `infra/.env` (`LANGFUSE_INIT_USER_PASSWORD`).
+Connexion à Langfuse : l'adresse `evaluation@valtera.example`, le mot de passe se trouve dans `infra/.env` (`LANGFUSE_USER_PASSWORD`).
 
 ## Vérifier
 
