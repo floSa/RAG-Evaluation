@@ -27,7 +27,7 @@ flowchart LR
 ## La commande
 
 ```bash
-uv run kit evaluer-bout-en-bout --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/rag-demo-k5-80032dcd
+uv run kit evaluer-bout-en-bout --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd
 ```
 
 Elle a besoin de l'[évaluation 3](3_evaluation_reponse.md). Elle écrit la décision et le rapport.
@@ -37,7 +37,7 @@ Elle a besoin de l'[évaluation 3](3_evaluation_reponse.md). Elle écrit la déc
 En pratique, on lance les quatre évaluations d'un coup, en 5 minutes environ (dont 3 pour le juge) :
 
 ```bash
-uv run kit evaluer --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/rag-demo-k5-80032dcd
+uv run kit evaluer --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd
 ```
 
 Le kit vérifie d'abord le contrat : si un fichier est faux, il s'arrête et dit pourquoi. Puis il enchaîne les évaluations 1 à 4, dans l'ordre. Une évaluation s'appelle `<version du corpus>_<version du RAG>`. Relancer une étape remplace ses résultats. Évaluer une autre version du RAG crée une autre évaluation.
@@ -46,9 +46,9 @@ Le kit vérifie d'abord le contrat : si un fichier est faux, il s'arrête et dit
 
 | Score | Ce qu'il mesure | Exemple |
 | --- | --- | --- |
-| `n4_score_pondere` | réponses justes, pondérées par **fréquence × gravité** (de 1 à 9). Une question fréquente et grave compte 9 fois plus qu'une question rare et sans gravité. Une abstention compte juste sur une question sans réponse, et fausse sur une question qui en a une | 80 % ± 12 % |
-| `n4_erreurs_graves` | repris de l'évaluation 3 | 2 |
-| `n4_temps_median`, `n4_temps_p95` | temps de réponse médian, et temps sous lequel répondent 95 % des questions | 7,8 s et 13,3 s |
+| `n4_score_pondere` | réponses justes, pondérées par **fréquence × gravité** (de 1 à 9). Une question fréquente et grave compte 9 fois plus qu'une question rare et sans gravité. Une abstention compte juste sur une question sans réponse, et fausse sur une question qui en a une | 81 % ± 12 % |
+| `n4_erreurs_graves` | repris de l'évaluation 3 | 1 |
+| `n4_temps_median`, `n4_temps_p95` | temps de réponse médian, et temps sous lequel répondent 95 % des questions | 7,5 s et 12,4 s |
 | `n4_cout_moyen` | coût moyen par question, en euros | 0 € (modèles locaux) |
 
 Le score pondéré dit ce que vivront les utilisateurs. Un RAG à 90 % d'exactitude qui se trompe sur les questions fréquentes et graves sera moins bon ici.
@@ -78,7 +78,7 @@ Deux règles la décident :
 2. **Les seuils** se jugent sur les **questions réservées à la décision** : celles qui n'ont jamais servi à régler le RAG.
 
 Pour le RAG d'exemple, la décision est **« mise en production non recommandée »** :
-- 2 erreurs graves, ce qui déclenche un critère bloquant ;
+- 1 erreur grave (Q-046, une synthèse fausse), ce qui déclenche un critère bloquant ;
 - l'OCR à 15 %, pour un seuil de 2 % ;
 - le bon passage retrouvé dans 69 % des cas sur les questions réservées, pour un seuil de 90 %.
 
