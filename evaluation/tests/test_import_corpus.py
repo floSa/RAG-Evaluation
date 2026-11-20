@@ -6,8 +6,8 @@ from pathlib import Path
 import openpyxl
 import pytest
 
-from kit.branchement import contrat
-from kit.corpus.importer import importer, lire_points_cles
+from kit.etape_0b_branchement import contrat
+from kit.etape_0a_corpus.importer import importer, lire_points_cles
 
 EXEMPLE = Path("evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx")
 

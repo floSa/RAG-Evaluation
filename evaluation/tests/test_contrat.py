@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from kit.branchement import contrat
-from kit.corpus.importer import importer
+from kit.etape_0b_branchement import contrat
+from kit.etape_0a_corpus.importer import importer
 
 EXEMPLE = Path("evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx")
 

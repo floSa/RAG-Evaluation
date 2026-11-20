@@ -8,11 +8,11 @@ import openpyxl
 import pytest
 import yaml
 
-from kit.branchement import contrat
-from kit.corpus.importer import importer
-from kit.niveau_1_ingestion import rattachement
-from kit.niveau_1_ingestion import scores as niveau1
-from kit.resultats.publication import Evaluation
+from kit.etape_0b_branchement import contrat
+from kit.etape_0a_corpus.importer import importer
+from kit.etape_1_evaluation_ingestion import rattachement
+from kit.etape_1_evaluation_ingestion import scores as niveau1
+from kit.etape_5_resultats.publication import Evaluation
 
 SEUILS = {"texte_approche": 0.95, "tableau_mots": 0.90, "scanne_partiel": 0.90}
 EXEMPLE = Path("evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx")

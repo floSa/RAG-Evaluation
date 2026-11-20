@@ -4,7 +4,7 @@ import numpy as np
 from rank_bm25 import BM25Okapi
 
 from rag import assistant as module_assistant
-from rag import branchement_evaluation
+from rag.utils import branchement_evaluation
 from rag.pipeline import etape_5_recherche, etape_6_generation
 from rag.pipeline.etape_3_index import Index, mots
 

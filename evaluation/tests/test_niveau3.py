@@ -7,12 +7,12 @@ from pathlib import Path
 import pytest
 import yaml
 
-from kit.branchement import contrat
-from kit.corpus.importer import importer
-from kit.niveau_3_reponse import juge
-from kit.niveau_3_reponse import relecture
-from kit.niveau_3_reponse import scores as niveau3
-from kit.resultats.publication import Evaluation
+from kit.etape_0b_branchement import contrat
+from kit.etape_0a_corpus.importer import importer
+from kit.etape_3_evaluation_reponse import juge
+from kit.etape_3_evaluation_reponse import relecture
+from kit.etape_3_evaluation_reponse import scores as niveau3
+from kit.etape_5_resultats.publication import Evaluation
 
 
 # --- Valeurs et calculs ----------------------------------------------------------------------

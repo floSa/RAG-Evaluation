@@ -23,8 +23,8 @@ def modules_importes(dossier: str) -> set[str]:
 
 
 def test_le_kit_n_importe_pas_le_rag():
-    assert "rag" not in modules_importes("evaluation/kit")
+    assert "rag" not in modules_importes("evaluation/src/kit")
 
 
 def test_le_rag_n_importe_pas_le_kit():
-    assert "kit" not in modules_importes("rag")
+    assert "kit" not in modules_importes("rag/src/rag")

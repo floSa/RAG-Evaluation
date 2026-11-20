@@ -1,7 +1,7 @@
 [project]
 name = "rag-exemple"
 version = "0.1.0"
-description = "RAG d'exemple : il marche seul, et se branche sur l'évaluation par branchement_evaluation.py"
+description = "RAG d'exemple : il marche seul, et se branche sur l'évaluation par utils/branchement_evaluation.py"
 requires-python = ">=3.12"
 dependencies = [
     "pyyaml>=6.0",
@@ -22,10 +22,5 @@ rag = "rag.commandes:app"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-# Le dossier rag/ est lui-même le paquet « rag » : on installe son dossier parent dans le chemin de Python.
 [tool.hatch.build.targets.wheel]
-only-include = ["__init__.py", "assistant.py", "branchement_evaluation.py", "commandes.py", "config.yaml", "pipeline"]
-sources = {"" = "rag"}
-
-[tool.hatch.build]
-dev-mode-dirs = [".."]
+packages = ["src/rag"]

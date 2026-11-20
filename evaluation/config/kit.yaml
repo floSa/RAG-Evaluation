@@ -16,7 +16,7 @@ modeles:
   juge:
     modele: chat                 # qwen3.5-4b ; différent du modèle de génération du RAG (JUGE.md)
     temperature: 0
-    version_prompt: "1.0"        # version du prompt de evaluation/methode/JUGE.md
+    version_prompt: "1.0"        # version du prompt de evaluation/documentation/reference/prompt_du_juge.md
     sans_reflexion: true         # chat_template_kwargs.enable_thinking = false
     max_tokens: 2048
   embeddings:

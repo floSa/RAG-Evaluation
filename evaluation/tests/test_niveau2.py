@@ -9,10 +9,10 @@ from pathlib import Path
 import pytest
 import yaml
 
-from kit.branchement import contrat
-from kit.corpus.importer import importer
-from kit.niveau_2_recherche import scores as niveau2
-from kit.resultats.publication import Evaluation, calculer_scores
+from kit.etape_0b_branchement import contrat
+from kit.etape_0a_corpus.importer import importer
+from kit.etape_2_evaluation_recherche import scores as niveau2
+from kit.etape_5_resultats.publication import Evaluation, calculer_scores
 
 # Liens du niveau 1, écrits à la main (passage_id → chunks), pour les passages des questions testées :
 # Q-001 (plusieurs, un seul suffit) : passages 2 (texte) et 3 (schéma) de PR-1101 page 2

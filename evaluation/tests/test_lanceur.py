@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from kit.branchement import contrat, lanceur
-from kit.corpus.importer import importer
+from kit.etape_0b_branchement import contrat, lanceur
+from kit.etape_0a_corpus.importer import importer
 
 
 class FauxConnecteur:
@@ -62,4 +62,4 @@ def test_sorties_conformes_et_regles_d_appel(tmp_path, corpus):
 def test_charger_connecteur_par_son_nom():
     assert lanceur.charger_connecteur("collections:Counter", {"a": 2})["a"] == 2
     with pytest.raises(ValueError, match="module:Classe"):
-        lanceur.charger_connecteur("rag.branchement_evaluation", {})
+        lanceur.charger_connecteur("rag.utils.branchement_evaluation", {})

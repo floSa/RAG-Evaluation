@@ -1,4 +1,4 @@
-"""Remplit le fichier Excel du métier (copie du modèle evaluation/methode/Corpus_evaluation_RAG.xlsx) pour le corpus d'exemple.
+"""Remplit le fichier Excel du métier (copie du modèle evaluation/documentation/reference/modele_corpus_vierge.xlsx) pour le corpus d'exemple.
 
 Lit :
 - contenus/*.json : les documents (feuille Documents) et le texte de chaque page ;
@@ -25,7 +25,7 @@ import yaml
 
 ICI = Path(__file__).resolve().parent
 RACINE = ICI.parents[1]  # le dossier evaluation/
-MODELE = RACINE / "methode" / "Corpus_evaluation_RAG.xlsx"
+MODELE = RACINE / "documentation" / "reference" / "modele_corpus_vierge.xlsx"
 SORTIE = ICI.parent / "Corpus_evaluation_RAG.xlsx"
 
 # Pages de référence OCR : les 4 pages de chacune des 5 notes scannées (20 pages, configuration minimale)
