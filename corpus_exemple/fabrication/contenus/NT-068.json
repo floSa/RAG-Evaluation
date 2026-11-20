@@ -1,0 +1,115 @@
+{
+  "reference_source": "NT-068",
+  "titre": "Mise à la terre des masses : règles et valeurs limites",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2025-06-20",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note rappelle les règles de mise à la terre des masses des installations électriques des deux usines, et les valeurs limites de résistance de prise de terre applicables depuis la procédure PR-1104-C (indice C, 2025)."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Rôle de la prise de terre selon le régime de neutre"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Sur le site A, en régime TN-S, les masses sont reliées au conducteur de protection PE, lui-même relié au neutre du transformateur. Un défaut d'isolement devient un court-circuit, coupé par les disjoncteurs. Une prise de terre de faible valeur reste nécessaire pour limiter la tension des masses par rapport au sol."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Sur le site B, en régime IT, le neutre du transformateur TR-B1 est isolé de la terre. Au premier défaut, le courant de fuite reste très faible, de l'ordre de quelques centaines de milliampères. La tension de contact, produit de la résistance de terre par ce courant, reste donc sous 50 V même avec une prise de terre plus résistante. C'est ce qui justifie une valeur limite plus élevée sur le site B."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Valeurs limites"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Valeurs limites et périodicités",
+          "entetes": [
+            "Mesure",
+            "Site A",
+            "Site B"
+          ],
+          "lignes": [
+            [
+              "Résistance de la prise de terre",
+              "10 Ω au plus",
+              "30 Ω au plus"
+            ],
+            [
+              "Périodicité de la mesure",
+              "12 mois",
+              "12 mois"
+            ],
+            [
+              "Continuité des conducteurs de protection",
+              "2 Ω au plus",
+              "2 Ω au plus"
+            ],
+            [
+              "Ancienne limite (PR-1104-B, 2021)",
+              "10 Ω",
+              "10 Ω"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Mesure et seuils d'action"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La résistance de la prise de terre est mesurée selon la procédure PR-1109, tous les 12 mois. L'ancienne procédure PR-1104-B prévoyait une mesure tous les 24 mois et une limite unique de 10 Ω pour les deux sites."
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Valeur inférieure à 80 % de la limite : conforme, prochaine mesure à 12 mois.",
+            "Valeur comprise entre 80 % et 100 % de la limite (seuil d'alerte : 8 Ω sur le site A, 24 Ω sur le site B) : surveillance renforcée, nouvelle mesure dans les 3 mois.",
+            "Valeur supérieure à la limite : non-conformité, ordre de travail correctif dans la GMAO Atlas, cheffe de service informée sous 24 heures, puis amélioration de la prise de terre."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Règles de raccordement"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Toute masse métallique accessible est reliée au conducteur de protection : armoires, chemins de câbles, bâtis de machines.",
+            "La section du conducteur de protection est au moins égale à la moitié de la section de phase, avec un minimum de 16 mm² pour les départs des TGBT.",
+            "La barrette de mesure de chaque site reste accessible et repérée.",
+            "Sur le site B, le contrôleur CPI-B est raccordé à la même prise de terre que les masses."
+          ]
+        }
+      ]
+    }
+  ]
+}

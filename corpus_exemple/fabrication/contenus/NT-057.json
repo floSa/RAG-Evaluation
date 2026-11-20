@@ -1,0 +1,155 @@
+{
+  "reference_source": "NT-057",
+  "titre": "Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1)",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2024-05-14",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site A",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note décrit l'architecture électrique de l'usine de Lavernay (site A). Elle sert de document d'accueil pour les nouveaux techniciens et de support lors de la préparation des consignations."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Alimentation HTA"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le site est raccordé au réseau public de distribution par un poste de livraison 20 kV. Le poste alimente deux transformateurs, TR-A1 et TR-A2, de 1 000 kVA chacun, 20 kV / 400 V. Chaque transformateur alimente un demi-jeu de barres ; le disjoncteur de couplage, ouvert en fonctionnement normal, permet d'alimenter tout le TGBT-A par un seul transformateur en cas d'indisponibilité de l'autre, avec délestage des charges non prioritaires."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les interventions sur le poste HTA relèvent de la procédure PR-1102 et sont réservées à un chargé de consignation habilité HC, assisté d'un second intervenant H2V."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Distribution basse tension"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le régime de neutre du site A est TN-S. Le TGBT-A distribue l'énergie vers 14 armoires divisionnaires, repérées AD-A01 à AD-A14, qui alimentent les ateliers d'usinage et d'assemblage, ainsi que les utilités (air comprimé, éclairage, chauffage)."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Sources de secours"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le groupe électrogène GE-A, de 500 kVA, prend le relais en cas de perte du réseau : il démarre et prend la charge en moins de 15 secondes. Il ne secourt qu'une partie des départs du TGBT-A. Les essais mensuels suivent la procédure PR-1105 et la manœuvre de basculement la procédure PR-1111."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "L'onduleur OND-A, de 60 kVA, assure une alimentation sans coupure aux équipements les plus sensibles pendant le démarrage du groupe. Son autonomie nominale est de 15 minutes, avec 32 batteries 12 V 9 Ah."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Schéma unifilaire simplifié"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La figure 1 représente les principales liaisons du site A, du poste de livraison jusqu'aux armoires divisionnaires."
+        },
+        {
+          "type": "figure",
+          "numero": 1,
+          "legende": "Figure 1 — Schéma unifilaire simplifié du site A : le poste de livraison 20 kV alimente les transformateurs TR-A1 et TR-A2, qui alimentent le TGBT-A ; le TGBT-A distribue vers les armoires AD-A01 à AD-A14 et vers l'onduleur OND-A ; le groupe électrogène GE-A est raccordé au TGBT-A par un inverseur de source.",
+          "boites": [
+            {
+              "id": "a",
+              "texte": "Poste de livraison 20 kV"
+            },
+            {
+              "id": "b",
+              "texte": "TR-A1 et TR-A2 — 2 x 1 000 kVA, 20 kV / 400 V"
+            },
+            {
+              "id": "c",
+              "texte": "TGBT-A — jeu de barres 3 200 A"
+            },
+            {
+              "id": "d",
+              "texte": "GE-A — 500 kVA"
+            },
+            {
+              "id": "e",
+              "texte": "OND-A — 60 kVA"
+            },
+            {
+              "id": "f",
+              "texte": "Armoires AD-A01 à AD-A14"
+            }
+          ],
+          "liens": [
+            [
+              "a",
+              "b",
+              "câbles HTA 3 x 95 mm² alu, 60 m"
+            ],
+            [
+              "b",
+              "c",
+              "4 câbles de 240 mm² cuivre par phase"
+            ],
+            [
+              "d",
+              "c",
+              "inverseur de source 800 A, 9 départs secourus"
+            ],
+            [
+              "c",
+              "e",
+              "départ 125 A, câble 5 x 35 mm²"
+            ],
+            [
+              "c",
+              "f",
+              "14 départs de 250 A à 400 A"
+            ],
+            [
+              "e",
+              "f",
+              "secours de AD-A13 et AD-A14"
+            ]
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Repères utiles"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Chaque armoire divisionnaire porte son repère sur la porte et sur le départ correspondant du TGBT-A.",
+            "Les schémas détaillés sont disponibles au bureau de maintenance du site A.",
+            "Responsable Exploitation du site A : Paul Verdier."
+          ]
+        }
+      ]
+    }
+  ]
+}

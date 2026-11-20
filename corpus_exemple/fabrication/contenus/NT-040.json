@@ -1,0 +1,151 @@
+{
+  "reference_source": "NT-040",
+  "titre": "Compensation de l'énergie réactive, site A (2013)",
+  "type_document": "Note technique",
+  "source": "Archives techniques",
+  "version": "v1",
+  "date": "2013-11-05",
+  "format": "PDF scanné",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site A",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note étudie l'installation de batteries de condensateurs au TGBT-A de l'usine de Lavernay (site A), afin de réduire l'énergie réactive facturée par le fournisseur d'électricité."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Constat"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les relevés de l'hiver 2012-2013 montrent une tangente phi moyenne de 0,62 sur le site A. Au-delà de 0,40, l'énergie réactive est facturée en supplément."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le montant des pénalités d'énergie réactive payées en 2012 s'élève à 18 400 € HT."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La consommation d'énergie réactive provient surtout des moteurs asynchrones de l'atelier d'usinage et des compresseurs d'air."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Solution proposée"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Il est proposé d'installer une batterie de condensateurs automatique sur chaque demi-jeu de barres du TGBT-A, soit une batterie par transformateur TR-A1 et TR-A2."
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Caractéristiques des batteries",
+          "entetes": [
+            "Caractéristique",
+            "Valeur"
+          ],
+          "lignes": [
+            [
+              "Puissance par batterie",
+              "250 kvar"
+            ],
+            [
+              "Nombre de gradins",
+              "5 gradins de 50 kvar"
+            ],
+            [
+              "Type",
+              "Automatique, avec selfs anti-harmoniques"
+            ],
+            [
+              "Fréquence d'accord des selfs",
+              "189 Hz"
+            ],
+            [
+              "Objectif de tangente phi",
+              "0,35"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les selfs anti-harmoniques sont nécessaires à cause des variateurs de vitesse des machines d'usinage."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Bilan économique"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le coût de l'installation, matériel et pose compris, est estimé à 42 000 € HT pour les deux batteries."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "L'économie annuelle attendue est égale aux pénalités évitées, soit 18 400 € HT par an sur la base de l'année 2012."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les batteries réduisent aussi le courant appelé sur les transformateurs, ce qui libère environ 8 % de leur puissance disponible."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La maintenance annuelle des batteries est estimée à une journée de technicien par an."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Exploitation et maintenance"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Vérifier une fois par an la capacité de chaque gradin.",
+            "Contrôler la température du local : elle ne doit pas dépasser 40 °C.",
+            "Remplacer un gradin dont la capacité a baissé de plus de 10 %.",
+            "Mettre hors tension la batterie au moins 5 minutes avant toute intervention, le temps de décharge des condensateurs."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Décision"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "L'installation est approuvée pour réalisation au premier trimestre 2014."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Visa : H. Morvan, service Maintenance électrique, et P. Verdier, Exploitation site A."
+        }
+      ]
+    }
+  ]
+}

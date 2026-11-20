@@ -1,0 +1,187 @@
+{
+  "reference_source": "NT-055",
+  "titre": "Retour d'expérience : échauffements constatés en thermographie 2023-2025",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v1",
+  "date": "2026-01-20",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Choisi par le métier",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note fait le bilan des échauffements relevés lors des campagnes de thermographie infrarouge des armoires électriques de 2023 à 2025, sur les deux usines. Les campagnes sont réalisées par Électrotech Conseil selon la procédure PR-1106."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Jusqu'en 2024, sous la procédure PR-1104-B, chaque site était contrôlé tous les 24 mois : le site A en 2023 et le site B en 2024. Depuis la procédure PR-1104-C de 2025, la périodicité est de 12 mois : les deux sites ont donc été contrôlés en 2025."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Critères de classement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le classement repose sur l'écart de température ΔT entre le point chaud et un point de référence identique à charge comparable : ΔT < 10 °C, surveiller ; 10 à 30 °C, intervenir sous 1 mois ; > 30 °C, intervenir sous 48 heures. Seuls les écarts de 10 °C et plus figurent dans les tableaux."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Constats du site A"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Échauffements relevés sur le site A",
+          "entetes": [
+            "Équipement",
+            "Année",
+            "ΔT",
+            "Cause",
+            "Action"
+          ],
+          "lignes": [
+            [
+              "TGBT-A, arrivée TR-A1",
+              "2023",
+              "42 °C",
+              "Connexion desserrée sur barre de 12 mm",
+              "Resserrage à 70 N·m sous 48 h"
+            ],
+            [
+              "AD-A07",
+              "2023",
+              "18 °C",
+              "Borne de disjoncteur 63 A desserrée",
+              "Resserrage sous 1 mois"
+            ],
+            [
+              "AD-A11",
+              "2023",
+              "35 °C",
+              "Contacts usés d'un disjoncteur 63 A",
+              "Remplacement du disjoncteur (PR-1103) sous 48 h"
+            ],
+            [
+              "TGBT-A, arrivée TR-A2",
+              "2025",
+              "34 °C",
+              "Connexion desserrée et oxydée sur barre de 12 mm",
+              "Nettoyage, boulonnerie neuve, resserrage à 70 N·m sous 48 h"
+            ],
+            [
+              "AD-A03, départ compresseur",
+              "2025",
+              "14 °C",
+              "Borne de disjoncteur 160 A desserrée et déformée",
+              "Remplacement du disjoncteur et des cosses sous 1 mois"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Constats du site B"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 2 — Échauffements relevés sur le site B",
+          "entetes": [
+            "Équipement",
+            "Année",
+            "ΔT",
+            "Cause",
+            "Action"
+          ],
+          "lignes": [
+            [
+              "AD-B04",
+              "2024",
+              "24 °C",
+              "Cosse mal sertie sur départ pompe de lavage",
+              "Remplacement de la cosse sous 1 mois"
+            ],
+            [
+              "TGBT-B",
+              "2024",
+              "12 °C",
+              "Déséquilibre de charge entre phases",
+              "Rééquilibrage des départs"
+            ],
+            [
+              "AD-B07",
+              "2024",
+              "31 °C",
+              "Cosse sous-dimensionnée",
+              "Remplacement du câble et de la cosse sous 48 h"
+            ],
+            [
+              "AD-B04",
+              "2025",
+              "16 °C",
+              "Connexion desserrée et oxydée",
+              "Nettoyage, resserrage et rondelles élastiques sous 1 mois"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Sur l'ensemble de la période, 9 échauffements de 10 °C et plus ont été relevés, dont 4 de plus de 30 °C."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Conclusion : causes récurrentes"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Quatre causes reviennent d'une campagne à l'autre :"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "le desserrage des connexions, première cause avec 5 cas sur 9, sur les TGBT comme sur les armoires ;",
+            "les cosses défectueuses (mal serties ou sous-dimensionnées), 2 cas, tous sur le site B ;",
+            "l'usure des appareils de coupure en fin de vie, 1 cas ;",
+            "le déséquilibre de charge entre phases, 1 cas."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Deux points chauds sont récurrents : les arrivées de transformateur du TGBT-A (TR-A1 en 2023, TR-A2 en 2025) sur le site A, et l'armoire AD-B04 sur le site B, relevée en 2024 et en 2025. Pour AD-B04, l'ambiance humide de l'atelier de traitement de surface favorise l'oxydation et le desserrage des connexions."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Actions décidées"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Maintenir la thermographie tous les 12 mois sur les deux sites.",
+            "Ajouter au plan préventif un resserrage annuel des arrivées du TGBT-A et de l'armoire AD-B04.",
+            "Vérifier systématiquement le marquage des vis après chaque resserrage.",
+            "Contrôler le sertissage des cosses lors de toute nouvelle installation sur le site B."
+          ]
+        }
+      ]
+    }
+  ]
+}

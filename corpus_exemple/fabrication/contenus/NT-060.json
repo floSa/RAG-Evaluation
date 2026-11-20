@@ -1,0 +1,115 @@
+{
+  "reference_source": "NT-060",
+  "titre": "Durée de vie et remplacement des batteries d'onduleur",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2025-09-15",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site A",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note fixe les règles de suivi et de remplacement des batteries de l'onduleur OND-A (60 kVA) de l'usine de Lavernay (site A). Le site B n'a pas d'onduleur centralisé ; ses petits onduleurs locaux sont hors du champ de cette note."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Composition du parc"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "L'onduleur OND-A est équipé de 32 batteries au plomb étanches de 12 V 9 Ah, montées en série, soit une tension nominale de batterie de 384 V. Son autonomie nominale à pleine charge est de 15 minutes, ce qui couvre largement le démarrage et la prise de charge du groupe électrogène GE-A, en moins de 15 secondes."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Durée de vie"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La durée de vie prévue des batteries est de 5 ans. Elle suppose une température du local onduleur maintenue à 20 °C, avec un maximum de 25 °C. Au-delà, la durée de vie diminue fortement : on estime qu'elle est divisée par deux pour chaque tranche de 10 °C au-dessus de 25 °C."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le jeu de batteries en service a été installé en octobre 2020. Il atteint donc sa durée de vie prévue en octobre 2025 : son remplacement doit être planifié dès maintenant, même si les essais restent satisfaisants."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Critères de remplacement"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Critères de remplacement des batteries",
+          "entetes": [
+            "Critère",
+            "Seuil",
+            "Action"
+          ],
+          "lignes": [
+            [
+              "Âge du jeu de batteries",
+              "5 ans",
+              "Remplacement complet planifié"
+            ],
+            [
+              "Autonomie mesurée à l'essai",
+              "Moins de 8 minutes",
+              "Remplacement complet sous 1 mois"
+            ],
+            [
+              "Tension d'une batterie au repos",
+              "Moins de 12,4 V",
+              "Contrôle approfondi, remplacement si confirmé"
+            ],
+            [
+              "Gonflement ou fuite d'un bloc",
+              "Tout constat",
+              "Remplacement complet sous 48 heures"
+            ],
+            [
+              "Température du local",
+              "Plus de 25 °C pendant 1 semaine",
+              "Alerte à la cheffe de service"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "On ne remplace jamais quelques batteries isolées dans un jeu de plus de 3 ans : les blocs neufs vieilliraient au rythme des anciens. Le remplacement est toujours complet, soit 32 batteries."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Essais et remplacement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "L'essai d'autonomie est réalisé tous les 12 mois, onduleur en charge réelle, en simulant une coupure du réseau. Le remplacement suit la procédure PR-1107 ; il mobilise 2 techniciens pendant 4 heures, l'onduleur étant mis en by-pass, puis demande 8 heures de recharge avant l'essai de contrôle."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le prix d'une batterie 12 V 9 Ah est de 27 € HT. Le coût de main-d'œuvre est calculé au coût horaire interne de 65 € HT par technicien. Les batteries usagées sont reprises par le fournisseur pour recyclage."
+        }
+      ]
+    }
+  ]
+}

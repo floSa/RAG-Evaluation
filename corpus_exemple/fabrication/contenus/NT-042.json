@@ -1,0 +1,153 @@
+{
+  "reference_source": "NT-042",
+  "titre": "Règles d'éclairage de sécurité des ateliers (2014)",
+  "type_document": "Note technique",
+  "source": "Archives techniques",
+  "version": "v1",
+  "date": "2014-02-17",
+  "format": "PDF scanné",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note fixe les règles internes d'éclairage de sécurité des ateliers des deux usines de Valtéra Industries : Lavernay (site A) et Brévannes (site B)."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "L'éclairage de sécurité est assuré par des blocs autonomes d'éclairage de sécurité, appelés BAES. Chaque bloc contient sa propre batterie."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Parc installé"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Au 1er janvier 2014, le site A compte 186 BAES et le site B en compte 122."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les BAES sont de deux types : les blocs d'évacuation, qui balisent les chemins de sortie, et les blocs d'ambiance, qui éclairent les grands locaux."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Règles d'implantation"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Règles d'implantation",
+          "entetes": [
+            "Local",
+            "Type de bloc",
+            "Règle"
+          ],
+          "lignes": [
+            [
+              "Chemins d'évacuation",
+              "Évacuation 45 lm",
+              "Un bloc tous les 15 m au plus"
+            ],
+            [
+              "Portes de sortie",
+              "Évacuation 45 lm",
+              "Un bloc au-dessus de chaque porte"
+            ],
+            [
+              "Ateliers de plus de 300 m²",
+              "Ambiance",
+              "5 lm par m² de surface"
+            ],
+            [
+              "Locaux électriques",
+              "Évacuation 45 lm",
+              "Un bloc près de chaque accès"
+            ],
+            [
+              "Changement de direction",
+              "Évacuation 45 lm",
+              "Un bloc visible à chaque angle"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Tout BAES doit assurer une autonomie d'au moins 1 heure après coupure du secteur."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Contrôles"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Contrôle visuel mensuel : voyant de charge allumé sur chaque bloc.",
+            "Essai de basculement tous les 6 mois : coupure de l'alimentation et vérification de l'allumage.",
+            "Essai d'autonomie de 1 heure une fois par an, par zone, en dehors des heures de production.",
+            "Tout bloc défaillant est remplacé dans un délai de 8 jours."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les résultats des contrôles sont consignés sur le registre de sécurité de chaque site."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La durée de vie des batteries des BAES est d'environ 4 ans. Un bloc dont l'autonomie est inférieure à 1 heure est remplacé en entier."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Responsabilités"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le service Exploitation réalise le contrôle visuel mensuel lors des rondes. Il signale tout bloc éteint au service Maintenance électrique."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le service Maintenance électrique réalise les essais de basculement et d'autonomie, et remplace les blocs défaillants."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Stock de rechange"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Chaque site conserve en magasin au moins 10 BAES d'évacuation de 45 lm, prêts à poser."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Visa : H. Morvan, service Maintenance électrique, février 2014."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "reference_source": "NT-062",
+  "titre": "Analyse des coupures de l'année 2025",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v1",
+  "date": "2026-02-12",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Choisi par le métier",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note analyse les coupures d'alimentation électrique survenues en 2025 sur les deux usines de Valtéra Industries. Une coupure est comptée lorsqu'au moins une armoire divisionnaire a été privée de tension pendant plus de 3 minutes. Les durées sont mesurées entre la perte de tension et la remise sous tension de la dernière armoire concernée."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les coupures du réseau public sont incluses, même lorsque le groupe électrogène a secouru une partie des départs : la durée retenue est celle de l'arrêt des départs non secourus."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Coupures du site A"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Coupures 2025 du site A",
+          "entetes": [
+            "Date",
+            "Site",
+            "Durée (min)",
+            "Cause"
+          ],
+          "lignes": [
+            [
+              "14/01/2025",
+              "Site A",
+              "42",
+              "Défaut sur le réseau du distributeur 20 kV"
+            ],
+            [
+              "06/03/2025",
+              "Site A",
+              "18",
+              "Déclenchement intempestif d'un différentiel, départ AD-A05"
+            ],
+            [
+              "23/06/2025",
+              "Site A",
+              "65",
+              "Orage, défaut sur la ligne 20 kV du distributeur"
+            ],
+            [
+              "11/08/2025",
+              "Site A",
+              "12",
+              "Déclenchement de l'arrivée TR-A2 sur surcharge"
+            ],
+            [
+              "27/11/2025",
+              "Site A",
+              "25",
+              "Défaut sur le réseau du distributeur 20 kV"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Coupures du site B"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 2 — Coupures 2025 du site B",
+          "entetes": [
+            "Date",
+            "Site",
+            "Durée (min)",
+            "Cause"
+          ],
+          "lignes": [
+            [
+              "03/02/2025",
+              "Site B",
+              "95",
+              "Double défaut d'isolement, armoire AD-B06"
+            ],
+            [
+              "18/03/2025",
+              "Site B",
+              "47",
+              "Double défaut d'isolement, armoire AD-B05"
+            ],
+            [
+              "17/04/2025",
+              "Site B",
+              "30",
+              "Défaut sur le réseau du distributeur 20 kV"
+            ],
+            [
+              "23/06/2025",
+              "Site B",
+              "80",
+              "Orage, défaut sur la ligne 20 kV du distributeur"
+            ],
+            [
+              "21/10/2025",
+              "Site B",
+              "22",
+              "Coupure réseau, démarrage du GE-B au troisième essai"
+            ],
+            [
+              "15/12/2025",
+              "Site B",
+              "38",
+              "Échauffement d'une connexion du TGBT-B, mise hors tension pour réparation"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le site B a connu 6 coupures en 2025, contre 5 pour le site A. La coupure la plus longue de l'année est celle du 3 février 2025 sur le site B."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Causes récurrentes"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Le réseau du distributeur, orages compris, est la première cause : 6 coupures sur 11, dont l'orage du 23 juin 2025 qui a touché les deux sites.",
+            "Les doubles défauts d'isolement sur le site B : 2 coupures, chaque fois parce que le premier défaut signalé par le CPI-B n'avait pas été éliminé à temps.",
+            "Les déclenchements intempestifs de différentiels et les surcharges sur le site A.",
+            "Le démarrage difficile du groupe électrogène GE-B."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Actions pour 2026"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Traiter toute alarme du CPI-B dans la journée, avec recherche du défaut selon la procédure PR-1108.",
+            "Appliquer strictement l'essai mensuel des groupes électrogènes selon PR-1105 : 30 minutes à au moins 50 % de la puissance.",
+            "Contrôler les dispositifs différentiels du site A selon PR-1115 : bouton test tous les 3 mois et mesure du temps de déclenchement tous les 12 mois.",
+            "Étudier avec le distributeur la fiabilité de la ligne 20 kV qui alimente les deux sites."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le coût des coupures n'est pas chiffré dans cette note. Il sera évalué avec le service Exploitation (Paul Verdier pour le site A, Sophie Lenoir pour le site B) à partir des pertes de production."
+        }
+      ]
+    }
+  ]
+}

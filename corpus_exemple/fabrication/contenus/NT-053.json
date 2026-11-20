@@ -1,0 +1,171 @@
+{
+  "reference_source": "NT-053",
+  "titre": "Plan de maintenance préventive électrique 2026",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v1",
+  "date": "2025-12-08",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note fixe le plan de maintenance préventive électrique de l'année 2026 pour les deux usines de Valtéra Industries : Lavernay (site A) et Brévannes (site B). Elle applique les périodicités de la procédure PR-1104-C (indice C, 2025), qui remplace l'indice B de 2021."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Principaux changements par rapport aux plans précédents : la thermographie des armoires passe de 24 mois à 12 mois, l'essai du groupe électrogène passe de 15 minutes à vide à 30 minutes à au moins 50 % de sa puissance, et la mesure de la prise de terre devient annuelle."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Activités planifiées"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Activités préventives 2026",
+          "entetes": [
+            "Activité",
+            "Périodicité",
+            "Procédure",
+            "Charge annuelle (h)"
+          ],
+          "lignes": [
+            [
+              "Thermographie des armoires",
+              "12 mois",
+              "PR-1106",
+              "64"
+            ],
+            [
+              "Test des DDR par bouton test",
+              "3 mois",
+              "PR-1115",
+              "96"
+            ],
+            [
+              "Mesure du temps de déclenchement des DDR",
+              "12 mois",
+              "PR-1115",
+              "48"
+            ],
+            [
+              "Essai des groupes électrogènes GE-A et GE-B",
+              "Mensuel, 30 min à 50 % au moins",
+              "PR-1105",
+              "72"
+            ],
+            [
+              "Mesure de la prise de terre",
+              "12 mois",
+              "PR-1109",
+              "16"
+            ],
+            [
+              "Nettoyage et resserrage des TGBT",
+              "12 mois",
+              "PR-1114",
+              "40"
+            ],
+            [
+              "Essai d'autonomie de l'onduleur OND-A",
+              "12 mois",
+              "PR-1107",
+              "4"
+            ],
+            [
+              "Préparation de la vérification réglementaire",
+              "12 mois",
+              "PR-1104-C",
+              "24"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La charge est exprimée en heures de technicien, pour les deux sites réunis."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Calendrier par site"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 2 — Dates clés 2026",
+          "entetes": [
+            "Opération",
+            "Site A",
+            "Site B"
+          ],
+          "lignes": [
+            [
+              "Campagne de thermographie",
+              "juillet 2026",
+              "mai 2026"
+            ],
+            [
+              "Vérification par l'organisme agréé",
+              "mars 2026",
+              "septembre 2026"
+            ],
+            [
+              "Resserrage du TGBT (arrêt technique)",
+              "août 2026",
+              "décembre 2026"
+            ],
+            [
+              "Mesure de la prise de terre",
+              "mai 2026",
+              "mai 2026"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le resserrage des TGBT se fait hors tension, pendant les arrêts techniques d'été (site A) et de fin d'année (site B), au couple de 50 N·m pour les barres de 10 mm et de 70 N·m pour les barres de 12 mm."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Valeurs de référence"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Thermographie : ΔT < 10 °C, surveiller ; 10 à 30 °C, intervenir sous 1 mois ; > 30 °C, intervenir sous 48 heures.",
+            "Prise de terre : valeur limite 10 Ω sur le site A et 30 Ω sur le site B.",
+            "Groupe électrogène GE-A : démarrage et prise de charge en moins de 15 secondes.",
+            "Contrôleur d'isolement CPI-B : préalarme à 100 kΩ, alarme à 50 kΩ."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Pilotage"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Chaque activité est déclenchée sous forme d'ordre de travail préventif dans la GMAO Atlas. Hélène Morvan suit chaque mois le taux de réalisation du plan ; l'objectif 2026 est de 95 % des ordres préventifs soldés dans le mois prévu. Le coût de main-d'œuvre se calcule au coût horaire interne de 65 € HT par heure de technicien."
+        }
+      ]
+    }
+  ]
+}

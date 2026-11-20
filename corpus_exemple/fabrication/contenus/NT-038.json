@@ -1,0 +1,159 @@
+{
+  "reference_source": "NT-038",
+  "titre": "Choix du régime de neutre IT pour le site B (2011)",
+  "type_document": "Note technique",
+  "source": "Archives techniques",
+  "version": "v1",
+  "date": "2011-04-08",
+  "format": "PDF scanné",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site B",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note explique pourquoi l'installation basse tension de l'usine de Brévannes (site B) est exploitée en régime de neutre IT, alors que l'usine de Lavernay (site A) reste en régime TN-S."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Contexte"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le site B abrite les fours de traitement thermique et l'atelier de presses. Un arrêt brutal des fours entraîne la perte de toutes les pièces en cours de traitement, soit en moyenne une charge de 4 heures de production."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "En régime TN-S, le premier défaut d'isolement provoque un courant de défaut élevé et l'ouverture immédiate du disjoncteur de départ. L'atelier concerné est alors arrêté."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La continuité de service est donc le critère principal du choix pour le site B."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Comparaison des régimes"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Comparaison des régimes de neutre",
+          "entetes": [
+            "Critère",
+            "TN-S",
+            "TT",
+            "IT"
+          ],
+          "lignes": [
+            [
+              "Coupure au premier défaut",
+              "Oui",
+              "Oui",
+              "Non"
+            ],
+            [
+              "Continuité de service",
+              "Moyenne",
+              "Moyenne",
+              "Élevée"
+            ],
+            [
+              "Surveillance de l'isolement",
+              "Non requise",
+              "Non requise",
+              "CPI permanent"
+            ],
+            [
+              "Personnel qualifié sur site",
+              "Souhaité",
+              "Souhaité",
+              "Indispensable"
+            ],
+            [
+              "Neutre distribué",
+              "Oui",
+              "Oui",
+              "Déconseillé"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le régime IT est le seul qui permet de ne pas couper l'alimentation au premier défaut d'isolement. Il impose en contrepartie de rechercher et d'éliminer rapidement ce premier défaut."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Principe retenu pour le site B"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le point neutre du transformateur TR-B1 est isolé de la terre. Un contrôleur permanent d'isolement, repéré CPI-B, surveille en continu la résistance d'isolement de l'installation."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le CPI-B donne une préalarme à 100 kΩ et une alarme à 50 kΩ. L'alarme est reportée au poste de conduite de l'Exploitation."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Au premier défaut, l'installation reste en service. Au second défaut, sur une autre phase, les disjoncteurs coupent comme en régime TN."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le neutre n'est pas distribué : les récepteurs monophasés sont alimentés par des transformateurs de séparation 400 V / 230 V placés dans les armoires."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Conséquences pour l'exploitation"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Toute alarme du CPI-B doit être traitée dans la journée par un technicien habilité.",
+            "La recherche du défaut se fait départ par départ, sans coupure générale.",
+            "Un second défaut non éliminé provoque l'arrêt d'au moins deux départs.",
+            "Le site A reste en TN-S, car ses ateliers d'usinage tolèrent un arrêt court."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Décision"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le régime IT est adopté pour le site B à compter de la mise en service du transformateur TR-B1, en avril 2011."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Visa : H. Morvan, service Maintenance électrique, et S. Lenoir, Exploitation site B."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "reference_source": "NT-058",
+  "titre": "Architecture électrique du site B (avec schéma unifilaire simplifié, figure 1)",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2024-06-03",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site B",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note décrit l'architecture électrique de l'usine de Brévannes (site B). Elle complète la note NT-057, qui décrit le site A ; les deux sites ont des architectures différentes."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Alimentation HTA"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le site est raccordé au réseau public par un poste de livraison 20 kV. Le poste alimente un seul transformateur, TR-B1, de 1 250 kVA, 20 kV / 400 V. Il n'y a pas de transformateur de secours : une indisponibilité de TR-B1 arrête tout le site, hors départs secourus par le groupe électrogène."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Distribution basse tension"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le TGBT-B distribue l'énergie vers 9 armoires divisionnaires, repérées AD-B01 à AD-B09, qui alimentent l'atelier de presses, les fours de traitement thermique, l'atelier de traitement de surface, l'atelier de peinture, la logistique et les utilités."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le site B est exploité en régime de neutre IT, choisi pour la continuité de service des fours (voir la note NT-038). Le contrôleur permanent d'isolement CPI-B surveille l'isolement de toute l'installation : préalarme à 100 kΩ, alarme à 50 kΩ. La recherche d'un défaut suit la procédure PR-1108."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Sources de secours"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le groupe électrogène GE-B, de 400 kVA, secourt une partie des départs du TGBT-B. Contrairement au site A, le site B n'a pas d'onduleur centralisé : les automates et les postes informatiques sont protégés par de petits onduleurs locaux."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Schéma unifilaire simplifié"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La figure 1 représente les principales liaisons du site B, du poste de livraison jusqu'aux armoires divisionnaires."
+        },
+        {
+          "type": "figure",
+          "numero": 1,
+          "legende": "Figure 1 — Schéma unifilaire simplifié du site B : le poste de livraison 20 kV alimente le transformateur TR-B1, qui alimente le TGBT-B ; le TGBT-B distribue vers les armoires AD-B01 à AD-B09 ; le groupe électrogène GE-B est raccordé au TGBT-B par un inverseur de source ; le contrôleur CPI-B est raccordé au point neutre de TR-B1.",
+          "boites": [
+            {
+              "id": "a",
+              "texte": "Poste de livraison 20 kV"
+            },
+            {
+              "id": "b",
+              "texte": "TR-B1 — 1 250 kVA, 20 kV / 400 V"
+            },
+            {
+              "id": "c",
+              "texte": "TGBT-B — jeu de barres 2 000 A"
+            },
+            {
+              "id": "d",
+              "texte": "GE-B — 400 kVA"
+            },
+            {
+              "id": "e",
+              "texte": "CPI-B — contrôleur permanent d'isolement"
+            },
+            {
+              "id": "f",
+              "texte": "Armoires AD-B01 à AD-B09"
+            }
+          ],
+          "liens": [
+            [
+              "a",
+              "b",
+              "câble HTA 3 x 95 mm² alu, 120 m"
+            ],
+            [
+              "b",
+              "c",
+              "canalisation préfabriquée 2 000 A, 15 m"
+            ],
+            [
+              "d",
+              "c",
+              "inverseur de source 630 A, 5 départs secourus"
+            ],
+            [
+              "e",
+              "b",
+              "raccordé au point neutre isolé"
+            ],
+            [
+              "c",
+              "f",
+              "9 départs de 100 A à 400 A"
+            ]
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Repères utiles"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "L'alarme du CPI-B est reportée au poste de conduite de l'Exploitation.",
+            "Les schémas détaillés sont disponibles au bureau de maintenance du site B.",
+            "Responsable Exploitation du site B : Sophie Lenoir."
+          ]
+        }
+      ]
+    }
+  ]
+}

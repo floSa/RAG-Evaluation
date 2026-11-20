@@ -1,0 +1,198 @@
+{
+  "reference_source": "NT-031",
+  "titre": "Étude de sélectivité du TGBT-A (2009)",
+  "type_document": "Note technique",
+  "source": "Archives techniques",
+  "version": "v1",
+  "date": "2009-06-15",
+  "format": "PDF scanné",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site A",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note rend compte de l'étude de sélectivité des protections basse tension du TGBT-A de l'usine de Lavernay (site A). L'étude a été réalisée en mai 2009 par le bureau d'études Électrotech Conseil, à la demande du service Maintenance électrique."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La sélectivité est obtenue lorsqu'un défaut sur un départ provoque l'ouverture du seul disjoncteur placé immédiatement en amont du défaut. Les autres départs doivent rester alimentés."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Installation étudiée"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le TGBT-A est alimenté par deux transformateurs TR-A1 et TR-A2 de 1 000 kVA chacun, 20 kV / 400 V. Chaque transformateur alimente un demi-jeu de barres. Un disjoncteur de couplage relie les deux demi-jeux de barres ; il reste ouvert en fonctionnement normal."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le TGBT-A alimente 14 armoires divisionnaires, repérées AD-A01 à AD-A14. Les armoires alimentent à leur tour les machines et l'éclairage des ateliers."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le courant nominal secondaire d'un transformateur de 1 000 kVA sous 400 V est de 1 443 A."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Données d'entrée"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le courant de court-circuit maximal calculé au jeu de barres du TGBT-A est de 36 kA, un seul transformateur étant en service sur chaque demi-jeu de barres."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le courant de court-circuit minimal en bout de départ terminal, retenu pour le contrôle des déclenchements, est de 1,2 kA."
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Protections étudiées",
+          "entetes": [
+            "Niveau",
+            "Appareil",
+            "Calibre",
+            "Réglage court retard"
+          ],
+          "lignes": [
+            [
+              "Arrivée TR-A1",
+              "Disjoncteur ouvert",
+              "1 600 A",
+              "8 kA, 300 ms"
+            ],
+            [
+              "Arrivée TR-A2",
+              "Disjoncteur ouvert",
+              "1 600 A",
+              "8 kA, 300 ms"
+            ],
+            [
+              "Départs AD-A01 à AD-A06",
+              "Boîtier moulé",
+              "400 A",
+              "4 kA, 100 ms"
+            ],
+            [
+              "Départs AD-A07 à AD-A14",
+              "Boîtier moulé",
+              "250 A",
+              "instantané"
+            ],
+            [
+              "Départs terminaux",
+              "Modulaire courbe C",
+              "63 A au plus",
+              "instantané"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les réglages du tableau 1 sont les réglages relevés sur site le 12 mai 2009."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Résultats"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La sélectivité a été vérifiée par comparaison des courbes de déclenchement fournies par le constructeur, pour chaque couple de disjoncteurs amont et aval."
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 2 — Résultats de sélectivité",
+          "entetes": [
+            "Couple amont / aval",
+            "Type de sélectivité",
+            "Limite"
+          ],
+          "lignes": [
+            [
+              "Arrivée 1 600 A / départ 400 A",
+              "Totale",
+              "36 kA"
+            ],
+            [
+              "Arrivée 1 600 A / départ 250 A",
+              "Totale",
+              "36 kA"
+            ],
+            [
+              "Départ 400 A / terminal 63 A",
+              "Totale",
+              "10 kA"
+            ],
+            [
+              "Départ 250 A / terminal 63 A",
+              "Partielle",
+              "6 kA"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La sélectivité est donc totale entre le TGBT-A et les armoires divisionnaires. Elle n'est que partielle entre les départs 250 A et les départs terminaux de 63 A."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "En pratique, un court-circuit franc de plus de 6 kA près d'une armoire AD-A07 à AD-A14 peut faire déclencher le départ 250 A du TGBT-A, et donc couper toute l'armoire."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Recommandations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Remplacer en priorité le départ de l'armoire AD-A09, qui alimente les machines de l'atelier d'usinage, par un disjoncteur 250 A à déclencheur électronique réglable.",
+            "Régler ce nouveau départ à 2,5 kA avec une temporisation de 100 ms.",
+            "Ne pas modifier les réglages des arrivées TR-A1 et TR-A2 sans nouvelle étude.",
+            "Refaire l'étude à chaque ajout de départ ou changement de transformateur."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Conclusion"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "L'installation du TGBT-A est sélective entre ses arrivées et ses départs. Le seul point faible relevé concerne les départs de 250 A, dont la sélectivité avec les départs terminaux s'arrête à 6 kA."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Visa : H. Morvan, service Maintenance électrique. Étude : Électrotech Conseil, mai 2009."
+        }
+      ]
+    }
+  ]
+}

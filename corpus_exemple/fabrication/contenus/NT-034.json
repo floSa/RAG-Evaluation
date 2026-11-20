@@ -1,0 +1,178 @@
+{
+  "reference_source": "NT-034",
+  "titre": "Dimensionnement des câbles des ateliers du site B (2010)",
+  "type_document": "Note technique",
+  "source": "Archives techniques",
+  "version": "v1",
+  "date": "2010-09-22",
+  "format": "PDF scanné",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site B",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note justifie la section des câbles qui relient le TGBT-B aux armoires divisionnaires des ateliers de l'usine de Brévannes (site B)."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Elle a été établie à l'occasion de l'extension de l'atelier de presses, en septembre 2010. Elle couvre les six premières armoires, AD-B01 à AD-B06."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Hypothèses"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Câbles en cuivre, type U1000 R2V, posés sur chemin de câbles perforé.",
+            "Température ambiante retenue : 35 °C dans les galeries techniques.",
+            "Facteur de correction pour le groupement : 0,82 (quatre circuits jointifs).",
+            "Facteur de correction pour la température : 0,94.",
+            "Régime de neutre IT, neutre non distribué : câbles à 3 conducteurs actifs et un conducteur de protection séparé."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La source est le transformateur TR-B1 de 1 250 kVA, 20 kV / 400 V."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Méthode"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La section de chaque câble est la plus grande des trois sections obtenues par les critères suivants."
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Échauffement : le courant admissible corrigé doit être supérieur au calibre du disjoncteur de départ.",
+            "Chute de tension : au plus 3 % entre le TGBT-B et l'armoire, pour laisser une marge de 2 % aux circuits terminaux (5 % au total).",
+            "Protection contre les contacts indirects au double défaut : longueur maximale protégée par le disjoncteur."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le facteur de puissance retenu est de 0,85 pour les ateliers de presses et de 0,95 pour les fours."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Pour les départs de forte longueur, c'est le critère de chute de tension qui fixe la section. Pour les départs courts, c'est le critère d'échauffement."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Résultats"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Sections retenues",
+          "entetes": [
+            "Armoire",
+            "Puissance",
+            "Longueur",
+            "Section par phase"
+          ],
+          "lignes": [
+            [
+              "AD-B01 (presses)",
+              "180 kW",
+              "85 m",
+              "150 mm²"
+            ],
+            [
+              "AD-B02 (peinture)",
+              "150 kW",
+              "110 m",
+              "150 mm²"
+            ],
+            [
+              "AD-B03 (fours)",
+              "220 kW",
+              "45 m",
+              "185 mm²"
+            ],
+            [
+              "AD-B04 (traitement de surface)",
+              "120 kW",
+              "140 m",
+              "120 mm²"
+            ],
+            [
+              "AD-B05 (expédition)",
+              "40 kW",
+              "60 m",
+              "25 mm²"
+            ],
+            [
+              "AD-B06 (utilités)",
+              "90 kW",
+              "35 m",
+              "50 mm²"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La chute de tension la plus forte est celle du départ AD-B04 : 2,7 % à pleine charge, du fait de sa longueur de 140 m."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le conducteur de protection est de section moitié de la section de phase, avec un minimum de 16 mm²."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Points d'attention"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "L'armoire AD-B04 est la plus éloignée du TGBT-B : toute extension de puissance sur cette armoire impose de revoir la section.",
+            "Les câbles des armoires AD-B01 et AD-B02 cheminent dans la même galerie : ne pas ajouter de circuit sans recalculer le facteur de groupement.",
+            "Les armoires AD-B07 à AD-B09, prévues pour une phase ultérieure, feront l'objet d'une note complémentaire."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Conclusion"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les sections du tableau 1 respectent les trois critères. Elles laissent une réserve de puissance d'environ 15 % sur chaque départ, sauf sur AD-B04 où la réserve est limitée à 5 %."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Visa : service Maintenance électrique, site B, septembre 2010."
+        }
+      ]
+    }
+  ]
+}

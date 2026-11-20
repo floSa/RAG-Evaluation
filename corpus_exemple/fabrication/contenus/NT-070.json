@@ -1,0 +1,101 @@
+{
+  "reference_source": "NT-070",
+  "titre": "Procédure de crise en cas de perte totale d'alimentation",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2024-10-01",
+  "format": "PDF natif",
+  "criticite": "C3",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet et domaine"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note décrit la conduite à tenir en cas de perte totale d'alimentation électrique d'une usine : perte du réseau 20 kV et absence de reprise par le groupe électrogène, ou perte du transformateur et du groupe. Elle s'applique aux deux sites : GE-A (500 kVA) et onduleur OND-A sur le site A, GE-B (400 kVA) sans onduleur centralisé sur le site B."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Chaîne d'alerte"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Le premier témoin, en général l'opérateur de l'Exploitation en ronde, appelle le responsable Exploitation du site : Paul Verdier pour le site A, Sophie Lenoir pour le site B.",
+            "Le responsable Exploitation appelle le technicien d'astreinte de la Maintenance électrique.",
+            "Le technicien d'astreinte appelle Hélène Morvan, cheffe du service Maintenance électrique, dès que la coupure dépasse 15 minutes.",
+            "Hélène Morvan appelle Nadia Coste, chargée de consignation HTA, si l'origine se situe dans le poste HTA.",
+            "Le responsable Exploitation appelle le centre de dépannage du distributeur si la cause est sur le réseau 20 kV."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Premières actions (0 à 15 minutes)"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Vérifier si le groupe électrogène a démarré : sur le site A, GE-A doit démarrer et prendre la charge en moins de 15 secondes.",
+            "Si le groupe n'a pas démarré après 2 minutes, tenter un démarrage manuel et le basculement selon la procédure PR-1111.",
+            "Mettre les ateliers en sécurité selon la procédure PR-1116 : arrêt des machines, ouverture des départs non prioritaires.",
+            "Site A : l'onduleur OND-A tient 15 minutes au nominal ; si le groupe n'est pas en charge après 10 minutes, arrêter proprement les serveurs et automates."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Actions suivantes"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Contrôler les BAES : l'éclairage de sécurité assure 1 heure d'autonomie pour l'évacuation éventuelle.",
+            "Site B : surveiller la température des fours de traitement thermique et décider avec Sophie Lenoir du sort des charges en cours.",
+            "Ne jamais intervenir dans le poste HTA sans un chargé de consignation habilité HC et un second intervenant H2V (procédure PR-1102).",
+            "Au-delà de 1 heure de coupure, Hélène Morvan réunit la cellule de crise technique avec les deux responsables Exploitation."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Retour à la normale"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Attendre la confirmation du distributeur ou la fin de la réparation avant toute remise sous tension.",
+            "Rebasculer du groupe électrogène vers le réseau selon PR-1111, puis remettre les départs sous tension un par un, par ordre de priorité.",
+            "Vérifier le CPI-B sur le site B après remise sous tension.",
+            "Rédiger un ordre de travail dans la GMAO Atlas sous 24 heures, avec horaires, durée et cause."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Autonomie en carburant"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Réservoir plein, le groupe GE-A tient 8 heures à 75 % de sa puissance et le groupe GE-B 6 heures. Au-delà de 4 heures de fonctionnement, le responsable Exploitation commande une livraison de gazole."
+        }
+      ]
+    }
+  ]
+}

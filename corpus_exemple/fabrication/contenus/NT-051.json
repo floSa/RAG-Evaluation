@@ -1,0 +1,201 @@
+{
+  "reference_source": "NT-051",
+  "titre": "Réglages des protections du poste HTA",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v3",
+  "date": "2025-03-10",
+  "format": "PDF natif",
+  "criticite": "C3",
+  "droits_acces": "Maintenance",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet et diffusion"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note donne les réglages en vigueur des protections des postes de livraison 20 kV des deux usines : Lavernay (site A) et Brévannes (site B). Elle sert de référence lors des essais par injection et après toute intervention sur un relais de protection."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Diffusion restreinte au profil Maintenance. Ces réglages ne doivent pas être communiqués à des tiers ni affichés dans les locaux. Toute modification de réglage est validée par Hélène Morvan, cheffe du service Maintenance électrique, sur la base d'une étude de sélectivité d'Électrotech Conseil, et doit rester compatible avec les réglages imposés par le distributeur au point de livraison."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Rappel des installations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Site A : poste de livraison 20 kV, deux transformateurs TR-A1 et TR-A2 de 1 000 kVA chacun, soit 2 000 kVA installés et un courant nominal HTA de 58 A.",
+            "Site B : poste de livraison 20 kV, un transformateur TR-B1 de 1 250 kVA, soit un courant nominal HTA de 36 A."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Chaque poste est équipé d'un relais de protection numérique sur la cellule de protection générale. Les transformateurs sont équipés d'un relais de protection interne DGPT2 (dégagement gazeux, pression, température)."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Principes de réglage"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le seuil de maximum de courant phase est réglé à environ 1,25 fois le courant nominal HTA. Le seuil instantané doit rester supérieur au courant d'enclenchement des transformateurs, tout en restant inférieur au courant de court-circuit minimal au secondaire ramené en HTA."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Réglages en vigueur"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Réglages du relais de protection générale, site A",
+          "entetes": [
+            "Fonction",
+            "Code ANSI",
+            "Seuil",
+            "Temporisation"
+          ],
+          "lignes": [
+            [
+              "Maximum de courant phase",
+              "51",
+              "72 A",
+              "500 ms"
+            ],
+            [
+              "Maximum de courant phase instantané",
+              "50",
+              "420 A",
+              "50 ms"
+            ],
+            [
+              "Maximum de courant homopolaire",
+              "51N",
+              "4 A",
+              "200 ms"
+            ],
+            [
+              "Retenue d'enclenchement (harmonique 2)",
+              "—",
+              "17 %",
+              "pendant 1 s"
+            ]
+          ]
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 2 — Réglages du relais de protection générale, site B",
+          "entetes": [
+            "Fonction",
+            "Code ANSI",
+            "Seuil",
+            "Temporisation"
+          ],
+          "lignes": [
+            [
+              "Maximum de courant phase",
+              "51",
+              "45 A",
+              "500 ms"
+            ],
+            [
+              "Maximum de courant phase instantané",
+              "50",
+              "300 A",
+              "50 ms"
+            ],
+            [
+              "Maximum de courant homopolaire",
+              "51N",
+              "4 A",
+              "200 ms"
+            ],
+            [
+              "Retenue d'enclenchement (harmonique 2)",
+              "—",
+              "17 %",
+              "pendant 1 s"
+            ]
+          ]
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 3 — Seuils du relais DGPT2 (TR-A1, TR-A2 et TR-B1)",
+          "entetes": [
+            "Grandeur",
+            "Alarme",
+            "Déclenchement"
+          ],
+          "lignes": [
+            [
+              "Température de l'huile",
+              "90 °C",
+              "100 °C"
+            ],
+            [
+              "Dégagement gazeux",
+              "—",
+              "Immédiat"
+            ],
+            [
+              "Pression interne",
+              "—",
+              "Immédiat"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Essais et contrôles"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Essai par injection secondaire des relais de protection générale : tous les 3 ans, et après chaque modification de réglage.",
+            "Essai de la chaîne de déclenchement du DGPT2 : tous les 12 mois, lors de la consignation annuelle du poste.",
+            "Relevé de la mémoire d'événements du relais : après chaque déclenchement."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Toute intervention sur un relais de protection impose la consignation du poste HTA selon la procédure PR-1102, par un chargé de consignation habilité HC (Nadia Coste), assisté d'un second intervenant habilité H2V."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Après un déclenchement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Ne jamais réarmer la protection générale sans avoir lu le motif de déclenchement sur le relais. Un déclenchement par le DGPT2 interdit toute remise sous tension du transformateur avant analyse de l'huile et accord de la cheffe de service."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le motif, les valeurs mesurées et l'heure du déclenchement sont reportés dans l'ordre de travail de la GMAO Atlas."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "reference_source": "NT-066",
+  "titre": "Pièces de rechange critiques : liste et stock minimal",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2025-11-04",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note fixe la liste des pièces de rechange électriques critiques et le stock minimal à conserver au magasin de chaque usine. Une pièce est critique lorsque son absence prolongerait un arrêt de production de plus de 24 heures."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Pièces basse tension"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Pièces basse tension, stock minimal par site",
+          "entetes": [
+            "Pièce",
+            "Équipement concerné",
+            "Stock minimal",
+            "Délai d'approvisionnement",
+            "Prix unitaire (€ HT)"
+          ],
+          "lignes": [
+            [
+              "Disjoncteur 63 A courbe C, 4 pôles",
+              "Armoires AD-A et AD-B",
+              "6",
+              "2 semaines",
+              "185"
+            ],
+            [
+              "Disjoncteur boîtier moulé 250 A",
+              "Départs des TGBT",
+              "2",
+              "6 semaines",
+              "1 240"
+            ],
+            [
+              "Interrupteur différentiel 40 A 30 mA",
+              "Armoires AD-A et AD-B",
+              "4",
+              "1 semaine",
+              "96"
+            ],
+            [
+              "Contacteur 40 A, bobine 230 V",
+              "Armoires de commande machines",
+              "5",
+              "1 semaine",
+              "78"
+            ],
+            [
+              "Carte de commande de variateur",
+              "Variateurs de vitesse des ateliers",
+              "2",
+              "10 semaines",
+              "1 650"
+            ],
+            [
+              "BAES d'évacuation 45 lm",
+              "Éclairage de sécurité",
+              "10",
+              "1 semaine",
+              "62"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Pièces propres à un site ou à la HTA"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 2 — Pièces spécifiques",
+          "entetes": [
+            "Pièce",
+            "Équipement concerné",
+            "Stock minimal",
+            "Délai d'approvisionnement",
+            "Prix unitaire (€ HT)"
+          ],
+          "lignes": [
+            [
+              "Fusible HTA 24 kV 43 A",
+              "Cellules de TR-A1 et TR-A2 (site A)",
+              "3",
+              "4 semaines",
+              "210"
+            ],
+            [
+              "Fusible HTA 24 kV 63 A",
+              "Cellule de TR-B1 (site B)",
+              "3",
+              "4 semaines",
+              "235"
+            ],
+            [
+              "Batterie 12 V 9 Ah",
+              "Onduleur OND-A (site A)",
+              "4",
+              "2 semaines",
+              "27"
+            ],
+            [
+              "Contrôleur permanent d'isolement",
+              "CPI-B (site B)",
+              "1",
+              "8 semaines",
+              "2 100"
+            ],
+            [
+              "Batterie de démarrage 12 V 180 Ah",
+              "Groupes électrogènes GE-A et GE-B",
+              "2 par site",
+              "1 semaine",
+              "245"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les 4 batteries 12 V 9 Ah en stock servent uniquement au dépannage ponctuel d'un bloc défaillant sur un jeu récent. Le remplacement complet des 32 batteries de l'OND-A fait l'objet d'une commande spécifique (voir la note NT-060)."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Gestion du stock"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Réapprovisionner dès que le stock atteint le stock minimal, sans attendre la sortie suivante.",
+            "Inventaire des pièces critiques tous les 6 mois, sous la responsabilité de Hélène Morvan.",
+            "Toute sortie de pièce est enregistrée sur l'ordre de travail de la GMAO Atlas.",
+            "Les fusibles HTA ne sont manipulés que dans le cadre d'une consignation selon PR-1102."
+          ]
+        }
+      ]
+    }
+  ]
+}

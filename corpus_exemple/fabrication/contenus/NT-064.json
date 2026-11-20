@@ -1,0 +1,137 @@
+{
+  "reference_source": "NT-064",
+  "titre": "Consommation électrique des ateliers et objectifs 2026",
+  "type_document": "Note technique",
+  "source": "GED Valtéra",
+  "version": "v1",
+  "date": "2026-03-05",
+  "format": "PDF natif",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La présente note présente la consommation d'électricité des ateliers des deux usines en 2024 et en 2025, et fixe les objectifs de réduction pour 2026. Les consommations sont relevées par les compteurs divisionnaires installés sur les départs des TGBT-A et TGBT-B."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Consommations 2024 et 2025"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Consommation par atelier et objectifs 2026",
+          "entetes": [
+            "Atelier",
+            "Site",
+            "2024 (MWh)",
+            "2025 (MWh)",
+            "Objectif 2026"
+          ],
+          "lignes": [
+            [
+              "Usinage",
+              "Site A",
+              "2 840",
+              "2 710",
+              "-4 %"
+            ],
+            [
+              "Assemblage",
+              "Site A",
+              "960",
+              "1 010",
+              "-3 %"
+            ],
+            [
+              "Air comprimé",
+              "Site A",
+              "780",
+              "820",
+              "-8 %"
+            ],
+            [
+              "Presses",
+              "Site B",
+              "2 150",
+              "2 230",
+              "-3 %"
+            ],
+            [
+              "Traitement thermique",
+              "Site B",
+              "3 300",
+              "3 120",
+              "-6 %"
+            ],
+            [
+              "Peinture",
+              "Site B",
+              "1 420",
+              "1 380",
+              "-5 %"
+            ],
+            [
+              "Air comprimé",
+              "Site B",
+              "610",
+              "640",
+              "-8 %"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les objectifs 2026 sont exprimés en pourcentage de la consommation 2025 de chaque atelier, à production égale."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Analyse"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La baisse de l'atelier d'usinage s'explique par le remplacement de deux centres d'usinage anciens. Celle du traitement thermique vient du nouveau calorifugeage des fours. La hausse de l'assemblage suit l'ouverture d'une seconde équipe en 2025."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "L'air comprimé augmente sur les deux sites. Les fuites du réseau d'air sont estimées à 25 % de la production d'air ; c'est pourquoi l'objectif le plus élevé, -8 %, porte sur l'air comprimé."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Actions prévues en 2026"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Campagne de recherche de fuites d'air comprimé, deux fois par an sur chaque site.",
+            "Variateurs de vitesse sur les compresseurs du site A.",
+            "Arrêt automatique de l'éclairage des ateliers hors présence.",
+            "Suivi mensuel des consommations par atelier, présenté en réunion de service."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le prix moyen de l'électricité payé en 2025 est de 0,145 € HT par kWh, tous postes compris. Il sert au chiffrage des économies attendues."
+        }
+      ]
+    }
+  ]
+}
