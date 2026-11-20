@@ -6,7 +6,7 @@ Règles de rattachement : un chunk de même référence et même page correspond
 - texte scanné : une partie du chunk ressemble au passage à 90 % (approché) ;
 - image ou schéma : c'est un chunk de type « image ou schéma » (image).
 Si aucun chunk ne convient seul, deux chunks qui se suivent peuvent contenir le passage à eux deux (coupé).
-Fiche de base (CADRAGE.md, constats) : la « page » d'un passage est le nom du champ ; on accepte un chunk de même
+Fiche de base (DECISIONS.md, décision 7) : la « page » d'un passage est le nom du champ ; on accepte un chunk de même
 référence dont la page est ce nom, ou dont le texte contient le nom du champ.
 """
 

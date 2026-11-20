@@ -343,7 +343,7 @@ def cle_passage(p: dict) -> tuple:
 
 
 def numeroter_passages(session: Session, projet: str, passages: list[Ligne]) -> list[dict]:
-    """Donne à chaque passage son passage_id, stable d'une version à l'autre (CADRAGE.md, décision 1).
+    """Donne à chaque passage son passage_id, stable d'une version à l'autre (DECISIONS.md, décision 1).
 
     Premier import : le numéro de ligne Excel. Ensuite : une ligne identique à un passage de la version
     précédente garde son identifiant ; une ligne nouvelle ou modifiée reçoit un identifiant jamais utilisé.

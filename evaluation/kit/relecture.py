@@ -77,7 +77,7 @@ def libelle(score) -> str | None:
 
 
 def accord(juge: dict[str, str], metier: dict[str, str]) -> dict:
-    """Taux d'accord (JUGE.md, ≥ 90 %) et kappa de Cohen (accord corrigé du hasard, CADRAGE.md décision 12)."""
+    """Taux d'accord (JUGE.md, ≥ 90 %) et kappa de Cohen (accord corrigé du hasard, DECISIONS.md, décision 10)."""
     communs = sorted(set(juge) & set(metier))
     n = len(communs)
     if not n:

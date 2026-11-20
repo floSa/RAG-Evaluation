@@ -4,7 +4,7 @@ Chaque niveau produit des « lignes » : un score pour un objet (une question, u
 une page OCR). La publication les range dans la base, puis recalcule depuis la base tous les scores globaux,
 leur marge, leur ventilation et la décision. On peut donc lancer les niveaux un par un, dans l'ordre.
 
-Questions réservées à la décision (CADRAGE.md, décision 5) : les scores de réglage (scores, CSV, Langfuse, rapport)
+Questions réservées à la décision (DECISIONS.md, décision 5) : les scores de réglage (scores, CSV, Langfuse, rapport)
 portent sur les questions non réservées ; le bloc `decision` de scores.json donne les scores globaux des questions
 réservées, sans détail ; leur détail question par question reste dans la base.
 """

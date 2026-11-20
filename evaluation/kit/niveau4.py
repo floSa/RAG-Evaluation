@@ -1,7 +1,7 @@
 """Niveau 4 — Bout en bout (document 3, section 9) : score pondéré, erreurs graves, temps, coût.
 
 Poids d'une question = fréquence × gravité d'une erreur (de 1 à 9).
-Valeur d'une question pour le score pondéré (CADRAGE.md, décision 3) :
+Valeur d'une question pour le score pondéré (DECISIONS.md, décision 3) :
 - réponse dans les documents : juste 1, partielle 0,5, fausse 0 ; une abstention vaut 0 ;
 - pas de réponse, ou réponse non accessible au profil : 1 si le RAG s'abstient, 0 sinon.
 """
