@@ -1,0 +1,157 @@
+{
+  "reference_source": "PR-1109",
+  "titre": "Mesure de la résistance de la prise de terre",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v3",
+  "date": "2025-02-24",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit la mesure annuelle de la résistance des prises de terre des deux sites. Une prise de terre de résistance trop élevée compromet la protection des personnes contre les contacts indirects et l'écoulement des surtensions."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Périodicité et valeurs limites"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Conformément à la PR-1104-C, la mesure est réalisée tous les 12 mois sur chaque site. Les valeurs limites diffèrent selon le site, car elles dépendent du régime de neutre. Jusqu'en janvier 2025, l'indice B de la PR-1104 imposait une mesure tous les 24 mois et une limite unique de 10 Ω : ces valeurs ne sont plus applicables."
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Valeurs limites par site",
+          "entetes": [
+            "Site",
+            "Régime de neutre",
+            "Valeur limite",
+            "Seuil d'alerte",
+            "Périodicité"
+          ],
+          "lignes": [
+            [
+              "Site A (Lavernay)",
+              "TN-S",
+              "10 Ω",
+              "8 Ω",
+              "12 mois"
+            ],
+            [
+              "Site B (Brévannes)",
+              "IT avec CPI-B",
+              "30 Ω",
+              "24 Ω",
+              "12 mois"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Au-delà du seuil d'alerte, la mesure est refaite dans les 3 mois. Au-delà de la valeur limite, un ordre de travail correctif est ouvert et la cheffe de service est informée sous 24 heures. Les règles de raccordement des masses à la terre sont données par la note NT-068."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Technicien habilité BR ou B2V ; deux personnes pour le déroulage des câbles.",
+            "Mesure réalisée en période sèche, de juillet à septembre, pour obtenir la valeur la plus défavorable.",
+            "Responsable Exploitation informé la veille ; aucune intervention en cours sur l'installation pendant l'ouverture de la barrette."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Telluromètre étalonné depuis moins de 12 mois, avec deux piquets auxiliaires et enrouleurs de 50 m.",
+            "Pince de mesure de boucle de terre, pour les cas où les piquets ne peuvent pas être plantés.",
+            "Masse, gants, plan de masse du site (NT-057 pour le site A, NT-058 pour le site B)."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.1 Méthode des trois piquets (méthode de référence)"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Repérer la barrette de mesure de la prise de terre principale, près du TGBT.",
+            "2. Planter le piquet de courant à 40 m de la prise de terre, puis le piquet de tension à 62 % de cette distance, soit 25 m, dans le même alignement.",
+            "3. Ouvrir la barrette de mesure ; la durée d'ouverture ne doit pas dépasser 15 minutes.",
+            "4. Réaliser la mesure, puis la refaire avec le piquet de tension à 21 m et à 29 m.",
+            "5. Si les trois valeurs diffèrent de plus de 10 %, éloigner le piquet de courant à 60 m et recommencer.",
+            "6. Refermer la barrette, la serrer et vérifier sa continuité."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.2 Méthode de la boucle"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Lorsque les piquets ne peuvent pas être plantés (zones bitumées), la mesure est faite à la pince de boucle de terre sans ouvrir la barrette. Cette méthode donne une valeur par excès ; si elle dépasse le seuil d'alerte, la méthode des trois piquets est appliquée."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "La valeur retenue est la plus élevée des trois mesures concordantes.",
+            "Elle est comparée à la limite du site concerné : 10 Ω sur le site A, 30 Ω sur le site B.",
+            "La barrette est refermée et sa continuité vérifiée avant de quitter les lieux."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le compte rendu saisi dans la GMAO Atlas indique la méthode utilisée, les distances des piquets, les trois valeurs mesurées, la valeur retenue, la météo des trois jours précédents et la comparaison avec la mesure de l'année précédente. Une hausse de plus de 30 % d'une année sur l'autre est signalée à la cheffe de service, même si la valeur reste sous la limite."
+        }
+      ]
+    }
+  ]
+}

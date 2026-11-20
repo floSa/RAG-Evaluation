@@ -1,0 +1,166 @@
+{
+  "reference_source": "PR-1115",
+  "titre": "Contrôle des dispositifs différentiels (DDR)",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v3",
+  "date": "2025-02-03",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit le contrôle périodique des dispositifs différentiels résiduels (DDR) des deux sites : interrupteurs et disjoncteurs différentiels de 30 mA protégeant les prises de courant et les circuits terminaux, et de 300 mA en tête des départs d'ateliers."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Périodicités"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Conformément à la PR-1104-C, chaque DDR est testé au bouton test tous les 3 mois, et son temps de déclenchement est mesuré tous les 12 mois. L'ancienne périodicité unique de 6 mois (PR-1104-B) n'est plus applicable."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Test au bouton test : agent d'Exploitation habilité BE Manœuvre ou technicien de maintenance.",
+            "Mesure du temps de déclenchement : technicien habilité BR.",
+            "Information préalable des utilisateurs des circuits concernés, le test provoquant une coupure.",
+            "Ne jamais tester un DDR protégeant un équipement qui ne supporte pas la coupure (serveurs, automates de sécurité) sans accord du responsable Exploitation."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Contrôleur d'installation avec fonction de test des différentiels (courant de test réglable, mesure du temps).",
+            "Pince ampèremétrique de fuite, de résolution 0,1 mA."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.1 Test trimestriel au bouton test"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Appuyer sur le bouton test du DDR : il doit déclencher immédiatement.",
+            "2. Réarmer le DDR et vérifier la remise sous tension des circuits.",
+            "3. Cocher le DDR sur la fiche de tournée."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.2 Mesure annuelle du temps de déclenchement"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Raccorder le contrôleur sur une prise ou en aval du DDR.",
+            "2. Mesurer le courant de déclenchement par rampe : il doit être compris entre 50 % et 100 % du courant différentiel assigné IΔn.",
+            "3. Mesurer le temps de déclenchement à IΔn puis à 5 × IΔn, et comparer au tableau 1."
+          ]
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Valeurs limites pour un DDR de type général",
+          "entetes": [
+            "Mesure",
+            "DDR 30 mA",
+            "DDR 300 mA"
+          ],
+          "lignes": [
+            [
+              "Courant de déclenchement",
+              "15 à 30 mA",
+              "150 à 300 mA"
+            ],
+            [
+              "Temps de déclenchement à IΔn",
+              "≤ 300 ms",
+              "≤ 300 ms"
+            ],
+            [
+              "Temps de déclenchement à 5 × IΔn",
+              "≤ 40 ms",
+              "≤ 40 ms"
+            ],
+            [
+              "Courant de fuite permanent admis",
+              "< 9 mA",
+              "< 90 mA"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Déclenchements intempestifs"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Un DDR qui déclenche sans défaut apparent n'est jamais remplacé par un appareil moins sensible. Mesurer à la pince le courant de fuite permanent du circuit : au-delà de 30 % de IΔn, répartir les charges sur plusieurs circuits ou rechercher l'appareil fuyant (variateurs, filtres, matériel informatique). Si le DDR lui-même est en cause, il est remplacé selon la PR-1103. Sur le site B, vérifier aussi la valeur du contrôleur d'isolement CPI-B : un défaut d'isolement se traite selon la PR-1108."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Chaque DDR de la liste du site a été testé ; les DDR non testés sont listés avec le motif.",
+            "Tout DDR qui ne déclenche pas au bouton test, ou hors des limites du tableau 1, est remplacé sous 48 heures."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "8. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les fiches de tournée trimestrielles et les résultats de mesure annuels sont saisis dans la GMAO Atlas, DDR par DDR, avec le courant et les temps de déclenchement mesurés."
+        }
+      ]
+    }
+  ]
+}

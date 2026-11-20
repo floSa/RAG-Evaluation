@@ -1,0 +1,294 @@
+{
+  "reference_source": "PR-1101",
+  "titre": "Consignation d'une armoire basse tension",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v3",
+  "date": "2025-02-14",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure définit les opérations de consignation d'une armoire basse tension (400 V) avant tout travail hors tension sur les sites de Lavernay (site A) et de Brévannes (site B). Elle s'applique aux techniciens du service Maintenance électrique et aux entreprises extérieures intervenant sous leur contrôle."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Domaine d'application"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Sont concernées les 14 armoires divisionnaires AD-A01 à AD-A14 du site A et les 9 armoires divisionnaires AD-B01 à AD-B09 du site B. La consignation complète d'un TGBT (TGBT-A ou TGBT-B) suit la même logique mais impose en plus la consignation côté HTA selon la PR-1102 ; les différences sont données au tableau 2. La consignation d'un seul départ à l'intérieur d'une armoire n'est pas admise : l'armoire entière est consignée."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "La consignation est réalisée par un chargé de consignation habilité BC, ou par un chargé d'intervention habilité BR pour sa propre intervention.",
+            "Les travaux qui suivent sont exécutés par du personnel habilité B1V au minimum, sous la conduite d'un chargé de travaux B2V.",
+            "Un bon de travail émis dans la GMAO Atlas et visé par le responsable Exploitation du site (Paul Verdier pour le site A, Sophie Lenoir pour le site B) est obligatoire avant toute manœuvre.",
+            "Le schéma unifilaire à jour de l'armoire est disponible sur place (NT-057 pour le site A, NT-058 pour le site B)."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Matériel requis pour la consignation",
+          "entetes": [
+            "Matériel",
+            "Caractéristique",
+            "Quantité"
+          ],
+          "lignes": [
+            [
+              "Vérificateur d'absence de tension (VAT)",
+              "bipolaire, 1 000 V, catégorie CAT IV",
+              "1"
+            ],
+            [
+              "Testeur de VAT",
+              "source de tension de contrôle",
+              "1"
+            ],
+            [
+              "Cadenas de consignation",
+              "personnels, à clé unique",
+              "1 par intervenant"
+            ],
+            [
+              "Pancarte « Ne pas manœuvrer — consignation en cours »",
+              "rigide, avec nom et date",
+              "1 par organe"
+            ],
+            [
+              "Dispositif de MALT-CC basse tension",
+              "câbles cuivre 25 mm², pinces de barres",
+              "1"
+            ],
+            [
+              "Gants isolants",
+              "classe 0 (1 000 V), vérifiés au gonflage",
+              "1 paire"
+            ],
+            [
+              "Écran facial anti-arc",
+              "classe 2",
+              "1"
+            ],
+            [
+              "Registre de consignation",
+              "papier, numéroté",
+              "1 par site"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La consignation comporte cinq étapes, toujours exécutées dans l'ordre : séparation, condamnation, identification, vérification d'absence de tension (VAT), puis mise à la terre et en court-circuit (MALT-CC). Aucune étape ne peut être omise ni intervertie. La consignation d'une armoire divisionnaire demande en moyenne 20 minutes."
+        },
+        {
+          "type": "figure",
+          "numero": 1,
+          "legende": "Figure 1 — Ordre des opérations de consignation : les cinq étapes successives, de la séparation de l'armoire de toute source jusqu'à la mise à la terre et en court-circuit, avec la condition à remplir pour passer à l'étape suivante.",
+          "boites": [
+            {
+              "id": "a",
+              "texte": "1. Séparation"
+            },
+            {
+              "id": "b",
+              "texte": "2. Condamnation"
+            },
+            {
+              "id": "c",
+              "texte": "3. Identification"
+            },
+            {
+              "id": "d",
+              "texte": "4. VAT"
+            },
+            {
+              "id": "e",
+              "texte": "5. MALT-CC"
+            }
+          ],
+          "liens": [
+            [
+              "a",
+              "b",
+              "organe ouvert, coupure visible"
+            ],
+            [
+              "b",
+              "c",
+              "cadenas et pancarte posés"
+            ],
+            [
+              "c",
+              "d",
+              "repère de l'armoire confirmé"
+            ],
+            [
+              "d",
+              "e",
+              "absence de tension sur tous les conducteurs"
+            ]
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.1 Séparation"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Ouvrir l'organe de séparation en amont de l'armoire : le départ correspondant au TGBT (disjoncteur débroché ou interrupteur-sectionneur ouvert). Vérifier la coupure visible ou la position « ouvert » de l'indicateur mécanique. Séparer aussi les sources de retour éventuelles (alimentation secourue par l'OND-A sur le site A, circuits de commande externes)."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.2 Condamnation et identification"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Poser le cadenas personnel de chaque intervenant sur l'organe de séparation et la pancarte de consignation. Sur le terrain, identifier l'armoire par son repère (par exemple AD-A07) et comparer avec le bon de travail et le schéma ; en cas de doute, la consignation est interrompue."
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.3 Vérification d'absence de tension (VAT)"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Tester le VAT sur une source connue avant la mesure.",
+            "2. Mesurer sur le site A (régime TN-S) entre phases, entre chaque phase et le neutre, et entre chaque conducteur actif et le PE, soit 10 mesures.",
+            "3. Sur le site B (régime IT), mesurer en plus entre chaque phase et la terre, même si le contrôleur d'isolement CPI-B n'indique aucun défaut.",
+            "4. Tester de nouveau le VAT sur la source connue après la mesure."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.4 Mise à la terre et en court-circuit (MALT-CC)"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Raccorder d'abord la pince de terre au collecteur de terre de l'armoire, puis les pinces sur chaque conducteur actif au plus près de la zone de travail. La MALT-CC est posée dans les 5 minutes qui suivent la VAT ; au-delà, la VAT est refaite."
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 2 — Variantes selon l'ouvrage consigné",
+          "entetes": [
+            "Point",
+            "Armoire divisionnaire BT",
+            "TGBT"
+          ],
+          "lignes": [
+            [
+              "Organe de séparation",
+              "départ du TGBT ou interrupteur de tête",
+              "disjoncteur général BT débroché et cellule HTA ouverte (PR-1102)"
+            ],
+            [
+              "Chargé de consignation",
+              "BC, ou BR pour sa propre intervention",
+              "BC en BT et HC côté HTA (Nadia Coste)"
+            ],
+            [
+              "Cadenas minimum",
+              "1 par intervenant",
+              "2 par organe (BT et HTA)"
+            ],
+            [
+              "Section MALT-CC",
+              "25 mm²",
+              "95 mm² sur jeu de barres"
+            ],
+            [
+              "Durée moyenne",
+              "20 minutes",
+              "90 minutes"
+            ],
+            [
+              "Délai de prévenance de l'Exploitation",
+              "24 heures",
+              "10 jours ouvrés"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Le bon de travail porte le numéro de l'armoire, le nom du chargé de consignation et l'heure de début.",
+            "Le VAT a été testé avant et après la mesure.",
+            "Chaque intervenant a posé son propre cadenas ; aucune clé n'est confiée à un tiers.",
+            "La MALT-CC est visible depuis la zone de travail."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Déconsignation"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La déconsignation suit l'ordre inverse : retrait de la MALT-CC, vérification que tout le personnel a quitté la zone et que les outils sont récupérés, retrait des cadenas par leurs propriétaires, puis remise sous tension par le chargé de consignation. Avant remise sous tension, le responsable Exploitation est prévenu. Un défaut d'isolement constaté sur le site B lors de la remise sous tension est traité selon la PR-1108."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "8. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le chargé de consignation remplit le registre de consignation (date, heure, armoire, intervenants) et remet une attestation de consignation au chargé de travaux. L'attestation est jointe au compte rendu dans la GMAO Atlas et conservée 5 ans. Procédures associées : PR-1102 (poste HTA), PR-1103 (remplacement de disjoncteur), PR-1114 (resserrage du TGBT), PR-1116 (mise hors tension d'urgence)."
+        }
+      ]
+    }
+  ]
+}

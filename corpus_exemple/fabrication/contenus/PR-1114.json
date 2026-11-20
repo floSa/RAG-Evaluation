@@ -1,0 +1,158 @@
+{
+  "reference_source": "PR-1114",
+  "titre": "Nettoyage et resserrage des connexions d'un TGBT",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v3",
+  "date": "2024-08-26",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit le nettoyage et le resserrage des connexions de puissance des tableaux généraux basse tension TGBT-A (site A) et TGBT-B (site B). Une connexion desserrée est la première cause d'échauffement relevée en thermographie."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Domaine d'application"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Opération préventive, réalisée pendant l'arrêt annuel des ateliers au mois d'août.",
+            "Opération corrective, à la suite d'un échauffement relevé en thermographie (PR-1106) : sous 1 mois pour un ΔT de 10 à 30 °C, sous 48 heures pour un ΔT supérieur à 30 °C.",
+            "Les armoires divisionnaires sont traitées de la même manière, avec la consignation d'armoire de la PR-1101."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "TGBT consigné en totalité selon la PR-1101 (variante TGBT), avec consignation côté HTA par une chargée de consignation HC selon la PR-1102.",
+            "Chargé de travaux habilité B2V et au moins un exécutant B1V.",
+            "Accord du responsable Exploitation 10 jours ouvrés à l'avance : la consignation du TGBT prive le site de toute alimentation, hors départs secourus par le groupe électrogène.",
+            "Durée prévue : 6 heures pour le TGBT-A, 5 heures pour le TGBT-B."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Clé dynamométrique étalonnée depuis moins de 12 mois, plage 20 à 100 N·m.",
+            "Aspirateur industriel, pinceaux, chiffons non pelucheux ; l'air comprimé et les solvants chlorés sont interdits.",
+            "Vernis témoin de serrage (couleur rouge), lampe frontale."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Couples de serrage"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les couples à appliquer dépendent de l'épaisseur des barres. Sur le TGBT-A, le jeu de barres principal est en barres de 12 mm et les dérivations vers les départs en barres de 10 mm ; sur le TGBT-B, toutes les barres sont de 10 mm."
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Couples de serrage des connexions du TGBT",
+          "entetes": [
+            "Connexion",
+            "Visserie",
+            "Couple de serrage"
+          ],
+          "lignes": [
+            [
+              "Barres de 10 mm",
+              "M10, classe 8.8",
+              "50 N·m"
+            ],
+            [
+              "Barres de 12 mm",
+              "M12, classe 8.8",
+              "70 N·m"
+            ],
+            [
+              "Raccordement du conducteur PE sur la barre de terre",
+              "M10",
+              "50 N·m"
+            ],
+            [
+              "Plages des disjoncteurs de départ",
+              "selon notice du fabricant",
+              "valeur de la notice"
+            ]
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Déroulement"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Consigner le TGBT et vérifier les attestations de consignation BT et HTA.",
+            "2. Dépoussiérer le tableau par aspiration, du haut vers le bas.",
+            "3. Contrôler visuellement chaque connexion : traces de chauffe, oxydation, isolants noircis.",
+            "4. Démonter, nettoyer et remplacer la visserie de toute connexion présentant une trace de chauffe.",
+            "5. Resserrer chaque connexion au couple du tableau 1, sans dépasser la valeur indiquée.",
+            "6. Marquer au vernis témoin chaque connexion contrôlée.",
+            "7. Retirer outillage et chiffons, contrôler l'absence de corps étranger, refermer les capots."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Toutes les connexions portent un trait de vernis témoin continu entre la tête de vis et la barre.",
+            "Le nombre de connexions resserrées est égal au nombre prévu sur la fiche du tableau (environ 180 pour le TGBT-A, 110 pour le TGBT-B).",
+            "Après remise sous tension et 1 heure de fonctionnement en charge, aucune connexion ne présente d'échauffement au contrôle par caméra thermique."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "8. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le compte rendu saisi dans la GMAO Atlas indique le numéro de la clé dynamométrique utilisée, les connexions trouvées desserrées ou noircies, la visserie remplacée et la durée de l'intervention. Les constats d'échauffement alimentent la note de retour d'expérience NT-055."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "reference_source": "PR-1116",
+  "titre": "Mise hors tension d'urgence d'un atelier",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2020-06-08",
+  "format": "PDF natif",
+  "criticite": "C3",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit la mise hors tension d'urgence d'un atelier en cas d'électrisation, d'incendie d'origine électrique, d'inondation ou de tout danger grave lié à l'installation électrique. Elle s'adresse à tout le personnel présent dans les ateliers, électricien ou non."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Dispositif de coupure d'urgence"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Chaque atelier dispose d'un boîtier de coupure d'urgence à coup-de-poing rouge, placé à l'entrée principale, à 1,30 m du sol, sous un capot transparent.",
+            "Le coup-de-poing agit sur le déclencheur à émission du départ de l'atelier au TGBT (TGBT-A ou TGBT-B) et coupe l'ensemble de l'armoire divisionnaire correspondante.",
+            "Sur le site A, les circuits secourus par l'onduleur OND-A (informatique, éclairage de supervision) restent sous tension jusqu'à 15 minutes après la coupure ; ils sont repérés par des étiquettes orange.",
+            "Les blocs d'éclairage de sécurité (BAES) s'allument dès la coupure et assurent l'évacuation pendant 1 heure.",
+            "La coupure d'urgence d'un atelier n'entraîne pas le démarrage du groupe électrogène, le réseau restant présent en amont."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Qui peut agir"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Toute personne témoin d'un danger grave peut et doit actionner le coup-de-poing. Aucune habilitation n'est requise pour cette action."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Conduite à tenir"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Frapper le coup-de-poing de coupure d'urgence de l'atelier.",
+            "2. En cas d'électrisation, ne pas toucher la victime avant la coupure ; si elle reste en contact avec une partie sous tension secourue, l'écarter avec un objet isolant (perche, manche en bois sec).",
+            "3. Alerter les secours (18 ou 112), puis le poste de garde du site.",
+            "4. Faire évacuer l'atelier si nécessaire ; les secouristes du travail prennent en charge la victime.",
+            "5. Prévenir le responsable Exploitation du site (Paul Verdier, site A ; Sophie Lenoir, site B) et l'astreinte Maintenance électrique.",
+            "6. Interdire l'accès à l'armoire divisionnaire et au coffret à l'origine du danger jusqu'à l'arrivée de la Maintenance."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Remise sous tension"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La remise sous tension n'est jamais faite par l'Exploitation. Elle est réalisée par un technicien de maintenance habilité BR après diagnostic : identification de la cause, consignation de la partie en défaut selon la PR-1101, réarmement du coup-de-poing à l'aide de sa clé, puis fermeture du départ au TGBT. Sur le site B, la valeur du contrôleur d'isolement CPI-B est vérifiée avant la remise sous tension. Le délai visé pour la reprise de la production est de 2 heures, hors cas d'incendie."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Chaque boîtier de coupure d'urgence est essayé une fois par an, pendant l'arrêt annuel d'août, avec vérification de la coupure effective du départ.",
+            "Les capots transparents sont intacts et l'accès aux boîtiers est dégagé sur 1 m.",
+            "L'affichage de cette procédure est présent à côté de chaque boîtier."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Toute utilisation de la coupure d'urgence fait l'objet d'un ordre de travail correctif dans la GMAO Atlas, avec l'heure de la coupure, la cause, les actions réalisées et l'heure de remise sous tension. Une électrisation est en outre déclarée comme accident du travail et analysée avec la cheffe du service Maintenance électrique, Hélène Morvan. En cas de perte totale d'alimentation du site, appliquer la note NT-070."
+        }
+      ]
+    }
+  ]
+}

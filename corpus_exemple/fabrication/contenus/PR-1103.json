@@ -1,0 +1,127 @@
+{
+  "reference_source": "PR-1103",
+  "titre": "Remplacement d'un disjoncteur de départ dans une armoire divisionnaire",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2023-09-05",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit le remplacement d'un disjoncteur de départ défaillant ou sous-dimensionné dans une armoire divisionnaire (AD-A01 à AD-A14 sur le site A, AD-B01 à AD-B09 sur le site B). Elle couvre les disjoncteurs modulaires et les disjoncteurs boîtier moulé jusqu'à 250 A."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Domaine d'application"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Elle s'applique au remplacement à l'identique ou par un appareil équivalent. Toute modification de calibre ou de courbe de déclenchement doit être validée au préalable par la cheffe du service, Hélène Morvan, après vérification de la sélectivité (note NT-031 pour le TGBT-A) et de la section des câbles (note NT-034 pour les ateliers du site B)."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Armoire consignée en totalité selon la PR-1101 ; la consignation du seul départ est interdite.",
+            "Chargé de travaux habilité B2V ; exécutant habilité B1V au minimum (par exemple Thomas Rigaud sur le site A).",
+            "Disjoncteur de remplacement contrôlé : même calibre, même courbe, même nombre de pôles, pouvoir de coupure au moins égal à celui indiqué sur le schéma de l'armoire.",
+            "Durée prévue : 1,5 heure pour un disjoncteur modulaire, 3 heures pour un boîtier moulé."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Tournevis et clés isolés 1 000 V, clé dynamométrique étalonnée depuis moins de 12 mois.",
+            "Étiquettes de repérage, pochette de schéma de l'armoire.",
+            "Disjoncteur neuf, pris dans le stock de pièces critiques (liste en NT-066)."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Consigner l'armoire selon la PR-1101 et vérifier l'attestation de consignation.",
+            "2. Photographier le câblage du départ et repérer chaque conducteur (phases, neutre).",
+            "3. Déconnecter les conducteurs aval puis amont ; isoler provisoirement les extrémités.",
+            "4. Déposer le disjoncteur défaillant (déclipsage du rail ou dépose des vis de fixation).",
+            "5. Contrôler l'état des conducteurs : en cas de trace d'échauffement, couper l'extrémité abîmée et refaire l'embout.",
+            "6. Poser le disjoncteur neuf et raccorder les conducteurs selon le repérage.",
+            "7. Serrer les bornes au couple indiqué par le fabricant, en général 2,5 à 3,5 N·m pour les calibres jusqu'à 63 A.",
+            "8. Pour un disjoncteur boîtier moulé, régler le déclencheur (Ir, Isd) aux valeurs du schéma ; noter les réglages.",
+            "9. Contrôler visuellement l'ensemble, retirer la MALT-CC et déconsigner selon la PR-1101.",
+            "10. Remettre sous tension le départ à vide, puis en charge, et vérifier les tensions de sortie (400 V entre phases, 230 V entre phase et neutre sur le site A)."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.1 Cas particulier du site B"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Sur le site B (régime IT), le neutre n'est pas distribué dans la plupart des ateliers : le disjoncteur de remplacement doit avoir le même nombre de pôles que l'appareil déposé et être adapté au régime IT (tenue sous la tension composée sur chaque pôle). Après remise sous tension, vérifier que le contrôleur d'isolement CPI-B n'indique ni préalarme ni alarme."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Le disjoncteur neuf est identique au disjoncteur déposé ou la modification a été validée par écrit.",
+            "Les couples de serrage ont été appliqués à la clé dynamométrique.",
+            "Si le départ comporte un bloc différentiel, il est testé au bouton test puis par mesure du temps de déclenchement selon la PR-1115.",
+            "Le départ est inscrit pour contrôle lors de la campagne de thermographie suivante (PR-1106)."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le compte rendu est saisi dans la GMAO Atlas : armoire, repère du départ, référence et calibre de l'appareil déposé et de l'appareil posé, réglages, durée de l'intervention et coût des pièces. Le temps passé est valorisé au coût horaire interne d'un technicien, soit 65 € HT. Le schéma de l'armoire est corrigé dans les 15 jours si un réglage ou un repère a changé. Le disjoncteur déposé est conservé 1 mois pour expertise éventuelle, puis éliminé dans la filière des déchets électriques."
+        }
+      ]
+    }
+  ]
+}

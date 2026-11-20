@@ -1,0 +1,128 @@
+{
+  "reference_source": "PR-1113",
+  "titre": "Intervention sur un variateur de vitesse",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2023-04-17",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure encadre les interventions de dépannage, de remplacement et de paramétrage sur les variateurs de vitesse des machines de production des deux sites (repères VV-xxx, par exemple VV-A07-03 pour le troisième variateur alimenté par l'armoire AD-A07)."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Risques particuliers"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Le bus continu interne d'un variateur reste chargé après la mise hors tension : sa tension peut dépasser 560 V en courant continu.",
+            "Un moteur entraîné par sa charge (ventilateur, convoyeur en pente) peut renvoyer de la tension vers le variateur.",
+            "Les mesures sur un variateur en fonctionnement exposent à des tensions découpées dangereuses."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Dépannage et mesures sous tension : technicien habilité BR.",
+            "Remplacement d'un variateur : chargé de travaux B2V et exécutant B1V, après consignation du départ de l'armoire selon la PR-1101.",
+            "Sauvegarde des paramètres disponible (console amovible ou logiciel de paramétrage) avant toute intervention.",
+            "Durée prévue : 1 heure pour un dépannage, 3 heures pour un remplacement avec paramétrage."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Multimètre CAT III 1 000 V, VAT, console de paramétrage, ordinateur portable avec le logiciel du constructeur.",
+            "Variateur de remplacement de même calibre, pris dans le stock de pièces critiques (NT-066)."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Sauvegarder les paramètres du variateur et relever le code du dernier défaut.",
+            "2. Consigner le départ selon la PR-1101 et, si le moteur peut être entraîné par sa charge, le bloquer mécaniquement.",
+            "3. Attendre 15 minutes la décharge des condensateurs du bus continu, quel que soit l'état du voyant de charge.",
+            "4. Mesurer la tension entre les bornes DC+ et DC− : elle doit être inférieure à 50 V avant de toucher le variateur.",
+            "5. Déposer le variateur en repérant les câbles d'alimentation, de moteur et de commande.",
+            "6. Poser le variateur neuf, raccorder les câbles et reprendre le blindage du câble moteur sur la borne prévue.",
+            "7. Charger les paramètres sauvegardés, puis vérifier le sens de rotation et les rampes à vide.",
+            "8. Déconsigner et faire l'essai en charge avec le conducteur de la machine."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.1 Particularité du régime de neutre"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Sur le site B (régime IT), le filtre CEM interne du variateur doit être déconnecté avant la mise sous tension (retrait de la vis ou du cavalier « EMC » selon le constructeur) ; laissé connecté, il fausse la mesure du contrôleur d'isolement CPI-B et peut provoquer une alarme. Sur le site A (régime TN-S), le filtre CEM reste connecté."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Tension du bus continu inférieure à 50 V vérifiée avant toute dépose.",
+            "Paramètres chargés identiques à la sauvegarde ; courant moteur à vide comparé à la valeur relevée lors de la mise en service.",
+            "Sur le site B, filtre CEM déconnecté et CPI-B sans préalarme après remise sous tension.",
+            "Ventilateurs du variateur en fonctionnement, filtres d'aération propres."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le compte rendu saisi dans la GMAO Atlas indique le repère du variateur, le code du défaut, les actions réalisées, les pièces remplacées et la référence du fichier de paramètres. Le fichier de paramètres à jour est classé dans la GED Valtéra, dossier « Paramètres variateurs », sous le repère du variateur."
+        }
+      ]
+    }
+  ]
+}

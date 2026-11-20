@@ -1,0 +1,157 @@
+{
+  "reference_source": "PR-1102",
+  "titre": "Consignation d'un poste HTA 20 kV",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v4",
+  "date": "2024-06-10",
+  "format": "PDF natif",
+  "criticite": "C3",
+  "droits_acces": "Maintenance",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Choisi par le métier",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure fixe les règles de consignation des postes de livraison HTA 20 kV de Valtéra Industries et des transformateurs qu'ils alimentent. Elle est réservée au personnel du service Maintenance électrique. Toute manœuvre HTA réalisée hors de cette procédure est interdite."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Domaine d'application"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Site A (Lavernay) : poste de livraison 20 kV, cellule arrivée, cellule de protection générale, deux cellules de protection des transformateurs TR-A1 et TR-A2 (1 000 kVA chacun, 20 kV / 400 V).",
+            "Site B (Brévannes) : poste de livraison 20 kV, cellule arrivée, cellule de protection générale, une cellule de protection du transformateur TR-B1 (1 250 kVA, 20 kV / 400 V)."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La consignation de la cellule arrivée du distributeur ne relève pas de cette procédure : elle est demandée au gestionnaire du réseau public au moins 15 jours à l'avance."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "La consignation HTA est réalisée par un chargé de consignation habilité HC, assisté d'un second intervenant habilité H2V présent pendant toute la manœuvre.",
+            "Au sein du service, Nadia Coste (HC, H2V) est la chargée de consignation HTA pour les deux sites ; Karim Benali (H2V) peut tenir le rôle de second intervenant sur le site A.",
+            "Une manœuvre HTA n'est jamais réalisée par une personne seule.",
+            "Les réglages des protections du poste ne doivent pas être modifiés à cette occasion ; ils sont décrits dans la note NT-051.",
+            "Le responsable Exploitation du site donne son accord écrit au moins 10 jours ouvrés avant la coupure."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Perche de détection de tension 20 kV, testée sur son testeur avant et après usage.",
+            "Perche et dispositif de MALT-CC HTA, câbles cuivre 50 mm².",
+            "Gants isolants classe 3 (26,5 kV), tabouret ou tapis isolant 24 kV, casque avec écran facial.",
+            "Clés de verrouillage des cellules, cadenas de consignation HTA (couleur rouge), pancartes."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.1 Préparation"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Vérifier le bon de travail et l'accord écrit de l'Exploitation.",
+            "2. Sur le site A, si un seul transformateur est consigné, délester les ateliers non prioritaires : l'autre transformateur ne peut reprendre que 1 000 kVA par le couplage du TGBT-A.",
+            "3. Sur le site B, la consignation de TR-B1 prive le site de toute alimentation réseau : basculer au préalable sur le groupe électrogène GE-B (400 kVA) selon la PR-1111, en limitant la charge aux départs prioritaires.",
+            "4. Prévenir le poste de garde de l'heure de début de la manœuvre."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.2 Séquence de consignation"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Ouvrir le disjoncteur général BT du TGBT concerné, pour ne jamais manœuvrer la cellule HTA en charge.",
+            "2. Ouvrir l'interrupteur ou le disjoncteur de la cellule HTA du transformateur.",
+            "3. Condamner la cellule en position ouverte : retirer la clé, poser le cadenas HTA et la pancarte.",
+            "4. Identifier la cellule par son repère et le comparer au schéma du poste.",
+            "5. Vérifier l'absence de tension sur les trois phases avec la perche de détection 20 kV, côté câble et côté transformateur.",
+            "6. Fermer le sectionneur de mise à la terre de la cellule, puis poser la MALT-CC mobile au plus près de la zone de travail.",
+            "7. Ouvrir le sectionneur BT côté secondaire du transformateur, pour supprimer tout risque de retour de tension par le TGBT ou par le groupe électrogène.",
+            "8. Rédiger et signer l'attestation de consignation HTA, remise au chargé de travaux."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La séquence complète dure environ 2 heures pour un transformateur. Les clés de verrouillage restent en possession du chargé de consignation pendant toute la durée des travaux."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Le second intervenant H2V vérifie chaque étape avant de passer à la suivante et le confirme oralement.",
+            "La perche de détection est testée avant et après la vérification d'absence de tension.",
+            "Le sectionneur de terre est fermé et la MALT-CC visible depuis la zone de travail.",
+            "Le risque de retour de tension par le groupe électrogène est écarté (sectionneur BT ouvert et inverseur de sources condamné)."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Déconsignation"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La déconsignation est réalisée par le même chargé de consignation HC, après restitution de l'attestation signée par le chargé de travaux. Elle suit l'ordre inverse : retrait de la MALT-CC mobile, ouverture du sectionneur de terre, retrait des condamnations, fermeture de la cellule HTA, puis remise sous charge progressive par le TGBT. Sur le site B, le retour sur le réseau se fait selon la PR-1111 ; le groupe GE-B tourne ensuite 5 minutes à vide pour son refroidissement."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "8. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "L'attestation de consignation HTA est établie en deux exemplaires : l'un pour le chargé de travaux, l'autre classé dans le registre du poste. Le compte rendu d'intervention, saisi dans la GMAO Atlas, est réservé au profil Maintenance. Il mentionne l'heure de coupure, l'heure de remise sous tension et le nom des deux intervenants. Procédures associées : PR-1101 (consignation BT), PR-1111 (basculement sur le groupe électrogène), PR-1112 (habilitations)."
+        }
+      ]
+    }
+  ]
+}

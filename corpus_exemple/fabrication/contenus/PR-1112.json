@@ -1,0 +1,193 @@
+{
+  "reference_source": "PR-1112",
+  "titre": "Gestion des habilitations électriques du personnel",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v4",
+  "date": "2025-09-01",
+  "format": "PDF natif",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit la délivrance, le suivi et le renouvellement des habilitations électriques du personnel de Valtéra Industries, ainsi que les contrôles réalisés avant d'affecter un intervenant à une tâche électrique."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Principes"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "L'habilitation est délivrée par l'employeur, sous la forme d'un titre d'habilitation signé par le directeur du site sur proposition de la cheffe du service Maintenance électrique, Hélène Morvan.",
+            "Elle suppose une formation théorique et pratique réussie, un avis médical favorable et une évaluation des compétences sur le terrain.",
+            "Elle est nominative, limitée aux ouvrages et aux opérations inscrits sur le titre, et peut être suspendue à tout moment.",
+            "Une formation de recyclage est obligatoire tous les 3 ans ; sans recyclage, le titre devient caduc à la date d'échéance."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Symboles utilisés dans le service"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Habilitations et opérations autorisées",
+          "entetes": [
+            "Symbole",
+            "Opérations autorisées",
+            "Durée de formation initiale"
+          ],
+          "lignes": [
+            [
+              "B0 / H0V",
+              "travaux d'ordre non électrique au voisinage",
+              "1 jour"
+            ],
+            [
+              "B1V",
+              "exécution de travaux hors tension et au voisinage en BT",
+              "3 jours"
+            ],
+            [
+              "B2V",
+              "chargé de travaux hors tension et au voisinage en BT",
+              "3 jours"
+            ],
+            [
+              "BR",
+              "chargé d'intervention générale en BT (dépannage, mesures, consignation pour son compte)",
+              "3 jours"
+            ],
+            [
+              "BC",
+              "chargé de consignation en BT",
+              "1 jour en complément"
+            ],
+            [
+              "BE Mesure / BE Manœuvre",
+              "mesures ou manœuvres définies en BT",
+              "2 jours"
+            ],
+            [
+              "H2V",
+              "chargé de travaux en HTA",
+              "3 jours"
+            ],
+            [
+              "HC",
+              "chargé de consignation en HTA",
+              "2 jours en complément"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Règles particulières"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "La consignation d'un poste HTA exige un chargé de consignation habilité HC, assisté d'un second intervenant habilité H2V (PR-1102).",
+            "Les entreprises extérieures, dont le bureau d'études Électrotech Conseil, présentent les titres d'habilitation de leurs intervenants avant tout accès aux locaux électriques.",
+            "Un intervenant dont l'habilitation est échue ou suspendue ne peut être affecté à aucun ordre de travail électrique."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Suivi des échéances"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La GMAO Atlas signale les échéances de recyclage 60 jours à l'avance à la cheffe de service, qui inscrit l'intervenant à la session suivante. Elle bloque l'affectation d'un intervenant à un ordre de travail électrique dès le lendemain de l'échéance."
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 2 — Habilitations du service au 1er septembre 2025 (extrait)",
+          "entetes": [
+            "Nom",
+            "Site",
+            "Habilitations",
+            "Échéance du recyclage"
+          ],
+          "lignes": [
+            [
+              "Karim Benali",
+              "Site A",
+              "BR, B2V, H2V",
+              "mars 2027"
+            ],
+            [
+              "Lucie Ferrand",
+              "Site B",
+              "BR, BC, B2V",
+              "juin 2026"
+            ],
+            [
+              "Thomas Rigaud",
+              "Site A",
+              "BR, B1V",
+              "novembre 2026"
+            ],
+            [
+              "Nadia Coste",
+              "Deux sites",
+              "HC, H2V",
+              "février 2027"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Nadia Coste étant la seule chargée de consignation HTA du service, toute consignation HTA est planifiée en fonction de sa disponibilité ; une seconde personne doit être formée HC avant fin 2026."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Contrôles avant affectation"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Le planificateur vérifie dans la GMAO Atlas que l'habilitation couvre l'opération (exemple : une consignation BT demande BC, ou BR pour sa propre intervention).",
+            "2. Le chargé de travaux vérifie sur le terrain le titre d'habilitation de chaque intervenant.",
+            "3. En cas de doute, l'intervention est suspendue et la cheffe de service est consultée."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les titres d'habilitation signés, les attestations de formation et les avis médicaux sont conservés par le service des ressources humaines pendant toute la durée du contrat et 5 ans après. Une copie du titre est remise à l'intervenant, qui doit pouvoir la présenter à tout moment. La liste à jour des habilitations est affichée dans le local de maintenance de chaque site et révisée à chaque modification."
+        }
+      ]
+    }
+  ]
+}

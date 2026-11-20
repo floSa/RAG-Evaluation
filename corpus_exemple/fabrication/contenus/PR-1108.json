@@ -1,0 +1,148 @@
+{
+  "reference_source": "PR-1108",
+  "titre": "Recherche d'un défaut d'isolement en régime IT (site B)",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v3",
+  "date": "2024-05-22",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site B",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit la recherche et l'élimination d'un défaut d'isolement sur l'installation du site B, exploitée en régime de neutre IT. En régime IT, un premier défaut ne provoque pas de coupure : il est seulement signalé par le contrôleur permanent d'isolement CPI-B. Un second défaut sur une autre phase provoquerait en revanche le déclenchement des protections. Le premier défaut doit donc être trouvé et éliminé rapidement."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Domaine d'application"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La procédure s'applique au TGBT-B et aux armoires AD-B01 à AD-B09. Elle ne s'applique pas au site A, exploité en régime TN-S, où un défaut d'isolement provoque directement le déclenchement du disjoncteur ou du différentiel concerné. Le choix du régime IT pour le site B est justifié dans la note NT-038."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Seuils du contrôleur d'isolement"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Seuils du CPI-B et actions associées",
+          "entetes": [
+            "Signal du CPI-B",
+            "Seuil de résistance d'isolement",
+            "Action"
+          ],
+          "lignes": [
+            [
+              "Préalarme",
+              "100 kΩ",
+              "recherche planifiée dans la semaine"
+            ],
+            [
+              "Alarme",
+              "50 kΩ",
+              "recherche engagée immédiatement ; défaut éliminé sous 48 heures"
+            ]
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Technicien habilité BR (par exemple Lucie Ferrand), pour les recherches sous tension.",
+            "Information de la responsable Exploitation du site B, Sophie Lenoir, avant toute ouverture de départ.",
+            "Matériel : injecteur et pinces de détection du dispositif de recherche de défaut, mégohmmètre 500 V continu, VAT."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.1 Localisation sous tension"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Relever la valeur affichée par le CPI-B et l'heure d'apparition du défaut dans son historique.",
+            "2. Mettre en service l'injecteur de recherche au TGBT-B.",
+            "3. Passer la pince de détection sur chaque départ du TGBT-B pour identifier l'armoire en défaut.",
+            "4. Dans l'armoire concernée, renouveler la mesure départ par départ jusqu'au circuit en défaut.",
+            "5. Si la recherche à la pince ne conclut pas, ouvrir les départs un à un avec l'accord de l'Exploitation et observer le retour de la valeur du CPI-B au-dessus de 100 kΩ."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 2,
+          "texte": "5.2 Élimination du défaut"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Consigner le circuit en défaut selon la PR-1101.",
+            "2. Mesurer la résistance d'isolement au mégohmmètre 500 V continu, conducteurs actifs contre terre : la valeur minimale admise est de 1 MΩ.",
+            "3. Rechercher la cause : humidité ou eau de lavage dans un coffret, câble blessé, moteur ou résistance chauffante dégradés.",
+            "4. Réparer ou remplacer l'élément, refaire la mesure d'isolement, puis déconsigner.",
+            "5. Vérifier que le CPI-B est revenu au-dessus de 100 kΩ et qu'aucune alarme n'est active."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les causes les plus fréquentes sur le site B sont l'humidité dans les coffrets des ateliers de lavage et les câbles de moteurs endommagés."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "La durée entre l'alarme à 50 kΩ et l'élimination du défaut ne dépasse pas 48 heures.",
+            "Pendant toute la recherche, aucun travail n'est entrepris sur une autre partie de l'installation, pour limiter le risque de second défaut.",
+            "Le bouton test du CPI-B est actionné une fois par trimestre pour vérifier son fonctionnement."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le compte rendu saisi dans la GMAO Atlas mentionne la valeur affichée par le CPI-B, le départ et le circuit en défaut, la résistance d'isolement mesurée avant et après réparation, la cause et la durée de l'intervention. Les défauts récurrents sur un même départ sont signalés à la cheffe de service pour étude, en lien avec la note de dimensionnement des câbles NT-034 et l'architecture du site décrite en NT-058."
+        }
+      ]
+    }
+  ]
+}

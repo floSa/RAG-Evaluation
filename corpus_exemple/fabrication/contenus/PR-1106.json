@@ -1,0 +1,152 @@
+{
+  "reference_source": "PR-1106",
+  "titre": "Thermographie infrarouge des armoires électriques",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2025-04-07",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit la campagne de thermographie infrarouge des tableaux et armoires électriques, destinée à détecter les échauffements anormaux (connexions desserrées, appareils surchargés, déséquilibres de phases) avant qu'ils ne provoquent une panne ou un départ de feu."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Domaine d'application"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La campagne porte sur le TGBT-A, les armoires AD-A01 à AD-A14, le TGBT-B et les armoires AD-B01 à AD-B09, soit 25 tableaux. Conformément à la PR-1104-C, elle est réalisée tous les 12 mois (et non plus tous les 24 mois comme le prévoyait l'indice B)."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "La mesure est réalisée par un thermographe du bureau d'études Électrotech Conseil, habilité BE Mesure, titulaire d'une certification de thermographie de niveau 1 au minimum.",
+            "Il est accompagné en permanence par un technicien du service habilité BR, qui ouvre les armoires et délimite la zone.",
+            "Les ateliers fonctionnent à au moins 40 % de leur charge habituelle depuis 1 heure au minimum.",
+            "Les portes sont ouvertes sous tension : port de l'écran facial anti-arc et des gants isolants classe 0 obligatoire."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Caméra thermique de résolution 320 × 240 pixels au minimum, étalonnée depuis moins de 12 mois.",
+            "Pince ampèremétrique pour relever le courant de chaque départ mesuré.",
+            "Rubans d'émissivité connue (0,95) pour les surfaces métalliques brillantes."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Durée indicative : 2 jours pour le site A, 1,5 jour pour le site B."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Ouvrir l'armoire et attendre 5 minutes la stabilisation thermique.",
+            "2. Prendre une image d'ensemble, puis une image de chaque jeu de barres, de chaque connexion de câble et de chaque appareil de puissance.",
+            "3. Relever le courant du départ et la température ambiante.",
+            "4. Pour chaque point chaud, calculer l'écart de température ΔT entre ce point et un point de référence de même nature sur une autre phase, dans les mêmes conditions de charge.",
+            "5. Classer l'anomalie selon le tableau 1 et l'étiqueter sur place (étiquette jaune numérotée).",
+            "6. Refermer l'armoire avant de passer à la suivante."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Seuils et délais d'intervention"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Classement des échauffements selon l'écart de température",
+          "entetes": [
+            "Écart ΔT",
+            "Action",
+            "Délai d'intervention"
+          ],
+          "lignes": [
+            [
+              "ΔT < 10 °C",
+              "surveiller ; contrôle à la campagne suivante",
+              "aucun délai"
+            ],
+            [
+              "10 °C ≤ ΔT ≤ 30 °C",
+              "intervenir : resserrage ou remplacement",
+              "sous 1 mois"
+            ],
+            [
+              "ΔT > 30 °C",
+              "intervenir en priorité ; information immédiate du responsable Exploitation",
+              "sous 48 heures"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les interventions de resserrage sur le TGBT suivent la PR-1114 ; le remplacement d'un disjoncteur de départ suit la PR-1103. Après intervention, le point est recontrôlé à la caméra dans le mois qui suit, en charge."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Chaque armoire du périmètre a été visitée ; les armoires non accessibles sont listées avec le motif.",
+            "Chaque anomalie porte un numéro, une image thermique, une image visible, le ΔT et le courant au moment de la mesure.",
+            "Toute anomalie supérieure à 30 °C a fait l'objet d'un ordre de travail le jour même."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "8. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Électrotech Conseil remet son rapport dans un délai de 15 jours après la campagne. La cheffe de service, Hélène Morvan, crée un ordre de travail dans la GMAO Atlas pour chaque anomalie de ΔT supérieur ou égal à 10 °C. Le rapport est classé dans la GED Valtéra et les tendances pluriannuelles sont suivies dans la note de retour d'expérience NT-055."
+        }
+      ]
+    }
+  ]
+}

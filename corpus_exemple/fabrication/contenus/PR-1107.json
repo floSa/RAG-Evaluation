@@ -1,0 +1,133 @@
+{
+  "reference_source": "PR-1107",
+  "titre": "Remplacement des batteries de l'onduleur OND-A",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2024-11-18",
+  "format": "PDF natif",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Site A",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit le remplacement complet du parc de batteries de l'onduleur OND-A (60 kVA) du site A, qui secourt l'informatique de production, les automates et la supervision. Le site B ne dispose pas d'onduleur centralisé et n'est pas concerné."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Critères de remplacement"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Le parc comprend 32 batteries plomb étanches 12 V 9 Ah, réparties en 2 tiroirs de 16 batteries.",
+            "La durée de vie prévue est de 5 ans : le remplacement est programmé au plus tard 5 ans après la date de pose inscrite sur les batteries.",
+            "Le remplacement est déclenché avant cette échéance si l'autonomie mesurée devient inférieure à 8 minutes, pour une autonomie nominale de 15 minutes.",
+            "Les 32 batteries sont toujours remplacées ensemble : il est interdit de mélanger batteries neuves et usagées."
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les règles de durée de vie et les retours d'expérience sur les batteries sont détaillés dans la note NT-060."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Intervention réalisée par deux techniciens : un chargé de travaux habilité B2V (par exemple Karim Benali) et un exécutant habilité B1V.",
+            "Le bus continu des batteries atteint 384 V : il est traité comme un circuit sous tension pendant toute la manœuvre.",
+            "Le responsable Exploitation du site A, Paul Verdier, est prévenu 5 jours ouvrés à l'avance : pendant l'intervention, les charges secourues ne sont plus protégées contre une coupure du réseau.",
+            "Durée prévue : 3 heures."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "32 batteries neuves 12 V 9 Ah de même référence, livrées depuis moins de 6 mois (stock minimal en NT-066).",
+            "Outils isolés 1 000 V, clé dynamométrique, gants isolants classe 0, écran facial, tablier anti-acide.",
+            "Multimètre TRMS, chariot de manutention, bacs de récupération pour les batteries usagées."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Passer l'onduleur OND-A sur by-pass de maintenance manuel ; vérifier que les charges restent alimentées par le réseau.",
+            "2. Arrêter le redresseur et l'onduleur, puis ouvrir le sectionneur batterie et le condamner (cadenas personnel).",
+            "3. Attendre 5 minutes la décharge des condensateurs, puis vérifier l'absence de tension sur le bus continu.",
+            "4. Retirer les tiroirs l'un après l'autre ; déconnecter les liaisons en commençant par la liaison centrale de chaque tiroir, pour scinder la tension.",
+            "5. Installer les batteries neuves en respectant la polarité ; serrer les bornes à 5 N·m.",
+            "6. Mesurer la tension de chaque tiroir à vide : 16 batteries × 12,8 V environ, soit près de 205 V par tiroir.",
+            "7. Fermer le sectionneur batterie, redémarrer le redresseur puis l'onduleur, et quitter le by-pass.",
+            "8. Laisser les batteries en charge 24 heures avant l'essai d'autonomie."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Essai d'autonomie réalisé 24 heures après la pose, à la charge réelle : l'autonomie doit atteindre au moins 14 minutes ; en dessous, le fournisseur est contacté.",
+            "Aucune alarme batterie sur l'écran de l'onduleur.",
+            "Date de pose inscrite au marqueur sur chaque batterie et sur l'étiquette de l'armoire batterie."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Gestion des déchets"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les batteries usagées sont des déchets dangereux. Elles sont stockées debout dans les bacs de récupération, puis enlevées par la filière agréée avec un bordereau de suivi de déchets dangereux, conservé 3 ans."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "8. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le compte rendu saisi dans la GMAO Atlas indique les autonomies mesurées avant et après remplacement, le numéro de lot des batteries neuves et le coût des pièces. La prochaine échéance de remplacement (date de pose + 5 ans) est créée en préventif."
+        }
+      ]
+    }
+  ]
+}

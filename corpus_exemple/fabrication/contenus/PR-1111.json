@@ -1,0 +1,183 @@
+{
+  "reference_source": "PR-1111",
+  "titre": "Manœuvre de basculement sur le groupe électrogène",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v3",
+  "date": "2024-02-12",
+  "format": "PDF natif",
+  "criticite": "C3",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit le basculement de l'alimentation des départs prioritaires du réseau vers le groupe électrogène, de façon automatique en cas de perte du réseau ou de façon manuelle pour un essai ou une coupure programmée, ainsi que le retour sur le réseau."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Domaine d'application"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Sur le site A, l'inverseur de sources automatique INV-A commute le jeu de barres secouru du TGBT-A entre le réseau (transformateurs TR-A1 et TR-A2) et le groupe GE-A (500 kVA). Le schéma est donné à la figure 1."
+        },
+        {
+          "type": "figure",
+          "numero": 1,
+          "legende": "Figure 1 — Schéma de basculement réseau / groupe électrogène GE-A : le réseau 20 kV alimente par TR-A1 et TR-A2 l'inverseur de sources INV-A, qui reçoit aussi le groupe GE-A en secours ; l'inverseur alimente le jeu de barres secouru du TGBT-A, qui dessert l'onduleur OND-A et les départs prioritaires.",
+          "boites": [
+            {
+              "id": "r",
+              "texte": "Réseau 20 kV (TR-A1, TR-A2)"
+            },
+            {
+              "id": "g",
+              "texte": "Groupe électrogène GE-A 500 kVA"
+            },
+            {
+              "id": "i",
+              "texte": "Inverseur de sources INV-A"
+            },
+            {
+              "id": "t",
+              "texte": "TGBT-A, jeu de barres secouru"
+            },
+            {
+              "id": "o",
+              "texte": "Onduleur OND-A 60 kVA"
+            },
+            {
+              "id": "p",
+              "texte": "Départs prioritaires"
+            }
+          ],
+          "liens": [
+            [
+              "r",
+              "i",
+              "alimentation normale"
+            ],
+            [
+              "g",
+              "i",
+              "secours, prise de charge < 15 s"
+            ],
+            [
+              "i",
+              "t",
+              "source active"
+            ],
+            [
+              "t",
+              "o",
+              "charges sensibles"
+            ],
+            [
+              "t",
+              "p",
+              "ateliers prioritaires"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Sur le site B, l'inverseur INV-B est motorisé mais commandé localement : le basculement sur GE-B (400 kVA) est manuel et demande environ 2 minutes."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Basculement manuel réalisé par un technicien habilité BR, ou par un agent d'Exploitation habilité BE Manœuvre formé à cette procédure.",
+            "Pendant le basculement, l'OND-A assure la continuité des charges sensibles du site A ; le site B n'a pas d'onduleur centralisé, ses charges sensibles subissent la coupure.",
+            "La puissance du groupe étant inférieure à celle des transformateurs, seuls les départs prioritaires sont secourus : la liste figure sur la porte du TGBT et dans les notes NT-057 (site A) et NT-058 (site B)."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Basculement automatique (site A)"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "À la disparition du réseau, l'automate de l'inverseur INV-A attend 2 secondes pour écarter une microcoupure, puis donne l'ordre de démarrage au groupe GE-A. Le démarrage et la prise de charge doivent être obtenus en moins de 15 secondes. Les départs non prioritaires sont délestés automatiquement. L'agent d'Exploitation présent vérifie sur l'écran de l'inverseur que GE-A débite, puis prévient l'astreinte Maintenance."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Basculement manuel (essai ou coupure programmée)"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Prévenir le responsable Exploitation et vérifier l'absence d'alarme sur le groupe.",
+            "2. Démarrer le groupe en mode manuel et attendre la stabilisation à 400 V et 50 Hz (environ 1 minute).",
+            "3. Délester les départs non prioritaires au TGBT.",
+            "4. Commander le passage de l'inverseur en position « Groupe ».",
+            "5. Vérifier tensions et courants sur les trois phases."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Retour sur le réseau"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Vérifier le retour du réseau sur l'afficheur de l'inverseur ; sur le site A, l'automate attend 5 minutes de réseau stable avant le retour automatique.",
+            "2. Commander le passage de l'inverseur en position « Réseau » (manuel sur le site B).",
+            "3. Réenclencher les départs délestés un par un, à 30 secondes d'intervalle, pour limiter les appels de courant.",
+            "4. Laisser le groupe tourner 5 minutes à vide pour son refroidissement, puis le remettre en mode « Automatique »."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Délai de démarrage et prise de charge de GE-A inférieur à 15 secondes, relevé à chaque basculement.",
+            "Charge du groupe pendant le secours : au plus 80 % de sa puissance, soit 400 kVA pour GE-A et 320 kVA pour GE-B.",
+            "Inverseur remis en mode « Automatique » sur le site A à la fin de la manœuvre."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "8. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Chaque basculement, automatique ou manuel, est saisi dans la GMAO Atlas : heure de perte et de retour du réseau, délai de prise de charge, charge maximale relevée, départs délestés. Une coupure réseau ayant entraîné un basculement automatique est également analysée dans le bilan annuel des coupures. En cas de perte simultanée du réseau et du groupe, appliquer la note NT-070. Procédures associées : PR-1102, PR-1105."
+        }
+      ]
+    }
+  ]
+}

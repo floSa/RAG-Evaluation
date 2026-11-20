@@ -1,0 +1,153 @@
+{
+  "reference_source": "PR-1104-B",
+  "titre": "Contrôle périodique des installations électriques",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "B",
+  "date": "2021-03-15",
+  "format": "PDF natif",
+  "criticite": "C2",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": false,
+  "remplace_par": "PR-1104-C",
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure fixe la liste et la périodicité des contrôles périodiques des installations électriques des sites de Lavernay (site A) et de Brévannes (site B), ainsi que l'organisation des campagnes et le traitement des écarts. Elle sert de base à l'établissement du plan annuel de maintenance préventive."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Domaine d'application"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Elle couvre les postes de livraison HTA, les transformateurs (TR-A1, TR-A2, TR-B1), les tableaux généraux TGBT-A et TGBT-B, les armoires divisionnaires AD-A01 à AD-A14 et AD-B01 à AD-B09, les groupes électrogènes GE-A et GE-B, l'onduleur OND-A, les dispositifs différentiels et les prises de terre des deux sites."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Responsabilités"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "La cheffe du service Maintenance électrique, Hélène Morvan, établit le planning annuel des contrôles et suit la levée des écarts.",
+            "Les techniciens réalisent les contrôles internes selon les procédures citées au tableau 1.",
+            "Les responsables Exploitation (Paul Verdier pour le site A, Sophie Lenoir pour le site B) valident les créneaux de coupure et sont destinataires des rapports.",
+            "L'organisme agréé réalise la vérification réglementaire annuelle ; un technicien du service l'accompagne pendant toute sa visite."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Périodicité des contrôles"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le tableau 1 donne, pour chaque contrôle, la périodicité applicable aux deux sites, le critère d'acceptation et la procédure de réalisation."
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Périodicité des contrôles périodiques",
+          "entetes": [
+            "Contrôle",
+            "Périodicité",
+            "Critère ou condition",
+            "Procédure"
+          ],
+          "lignes": [
+            [
+              "Thermographie infrarouge des armoires",
+              "tous les 24 mois",
+              "classement des échauffements par ΔT",
+              "PR-1106"
+            ],
+            [
+              "Test des dispositifs différentiels (DDR)",
+              "tous les 6 mois",
+              "déclenchement au bouton test",
+              "PR-1115"
+            ],
+            [
+              "Vérification réglementaire par organisme agréé",
+              "tous les 12 mois",
+              "rapport sans observation majeure",
+              "—"
+            ],
+            [
+              "Essai du groupe électrogène (GE-A, GE-B)",
+              "mensuel",
+              "15 minutes, à vide",
+              "PR-1105"
+            ],
+            [
+              "Mesure de la prise de terre",
+              "tous les 24 mois",
+              "≤ 10 Ω (les deux sites)",
+              "PR-1109"
+            ]
+          ]
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les périodicités sont des maximums : un contrôle peut être avancé, jamais reporté au-delà de l'échéance sans accord écrit de la cheffe de service. Un report accordé ne peut dépasser 1 mois."
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Organisation des campagnes"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "La vérification réglementaire est programmée chaque année au mois de mars sur le site A et au mois d'avril sur le site B.",
+            "La thermographie est confiée au bureau d'études Électrotech Conseil et réalisée en période de forte charge des ateliers.",
+            "Les essais des groupes électrogènes ont lieu la première semaine de chaque mois, le mardi sur le site A et le jeudi sur le site B.",
+            "La mesure des prises de terre est réalisée en période sèche, de juillet à septembre."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Traitement des écarts"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Tout écart relevé est saisi dans la GMAO Atlas sous forme d'ordre de travail. Les observations de l'organisme agréé sont levées dans un délai de 3 mois ; celles qui présentent un danger immédiat sont traitées sous 48 heures. Les échauffements relevés en thermographie sont traités selon les délais de la PR-1106."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Les rapports de contrôle sont classés dans la GED Valtéra, dossier « Contrôles périodiques », et conservés 10 ans. Le registre de sécurité de chaque site mentionne la date de la dernière vérification réglementaire."
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Indice B (mars 2021) : création de la procédure en remplacement de l'indice A, ajout des essais mensuels des groupes électrogènes."
+        }
+      ]
+    }
+  ]
+}

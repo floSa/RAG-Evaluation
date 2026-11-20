@@ -1,0 +1,160 @@
+{
+  "reference_source": "PR-1105",
+  "titre": "Essais mensuels du groupe électrogène",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v3",
+  "date": "2025-03-03",
+  "format": "PDF natif",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit l'essai mensuel des groupes électrogènes GE-A (500 kVA, site A) et GE-B (400 kVA, site B). Conformément à la PR-1104-C, l'essai dure 30 minutes et se fait à au moins 50 % de la puissance du groupe ; l'essai à vide de 15 minutes prévu par l'ancien indice B n'est plus admis."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Domaine d'application"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "L'essai est réalisé chaque mois, la première semaine : le mardi sur le site A, le jeudi sur le site B. Il est réalisé sur charge réelle par basculement selon la PR-1111 ou, à défaut, sur un banc de charge résistif raccordé au coffret d'essai du groupe. La charge minimale est de 250 kVA pour GE-A et de 200 kVA pour GE-B."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Technicien habilité BR ; pour un essai sur charge réelle, présence d'un second technicien habilité B2V au TGBT.",
+            "Responsable Exploitation prévenu au moins 48 heures à l'avance (Paul Verdier pour le site A, Sophie Lenoir pour le site B).",
+            "Banc de charge disponible si l'essai n'est pas fait sur charge réelle."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Analyseur de réseau ou multimètre TRMS avec pince ampèremétrique.",
+            "Chronomètre, fiche d'essai papier ou tablette GMAO Atlas.",
+            "Protections auditives (niveau sonore supérieur à 95 dB(A) dans le local du groupe)."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Contrôles avant démarrage : niveaux d'huile et de liquide de refroidissement, niveau de gazole de la cuve, tension de la batterie de démarrage (24 V), absence de fuite.",
+            "2. Vérifier que le préchauffage du moteur est en service.",
+            "3. Lancer le démarrage et mesurer au chronomètre le délai entre l'ordre de démarrage et la prise de charge.",
+            "4. Appliquer la charge (basculement selon la PR-1111 ou banc de charge) et vérifier qu'elle atteint au moins 50 % de la puissance du groupe.",
+            "5. Relever tension, fréquence, courant, température du liquide de refroidissement et pression d'huile toutes les 10 minutes.",
+            "6. Après 30 minutes en charge, délester puis laisser tourner le groupe 5 minutes à vide pour son refroidissement.",
+            "7. Arrêter le groupe, remettre le sélecteur en position « Automatique » et vérifier l'absence d'alarme."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Points de contrôle"
+        },
+        {
+          "type": "tableau",
+          "titre": "Tableau 1 — Fiche d'essai : valeurs attendues",
+          "entetes": [
+            "Paramètre",
+            "Valeur attendue"
+          ],
+          "lignes": [
+            [
+              "Délai de démarrage et prise de charge GE-A",
+              "moins de 15 secondes"
+            ],
+            [
+              "Délai de démarrage et prise de charge GE-B",
+              "relevé pour suivi de tendance"
+            ],
+            [
+              "Durée de l'essai en charge",
+              "30 minutes"
+            ],
+            [
+              "Charge appliquée",
+              "≥ 50 % : 250 kVA (GE-A), 200 kVA (GE-B)"
+            ],
+            [
+              "Tension entre phases",
+              "400 V ± 5 % (380 à 420 V)"
+            ],
+            [
+              "Fréquence",
+              "50 Hz ± 1 % (49,5 à 50,5 Hz)"
+            ],
+            [
+              "Température du liquide de refroidissement",
+              "inférieure à 95 °C"
+            ],
+            [
+              "Pression d'huile en charge",
+              "supérieure à 3 bar"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Anomalies"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Démarrage nécessitant plus de 2 tentatives, ou délai supérieur à 15 secondes pour GE-A : ouvrir un ordre de travail correctif dans la GMAO Atlas et contrôler la batterie de démarrage et le préchauffage.",
+            "Charge de 50 % non tenue pendant 30 minutes : l'essai est déclaré non conforme et refait dans les 7 jours.",
+            "Niveau de gazole inférieur à 75 % de la cuve : commande de gazole à lancer dans la semaine."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "8. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "La fiche d'essai complétée (tableau 1) est enregistrée dans la GMAO Atlas sous le type « contrôle réglementaire ». Elle indique l'heure de démarrage, le délai de prise de charge mesuré, la charge appliquée, les relevés à 10, 20 et 30 minutes et le nom du technicien. Le compteur d'heures de fonctionnement est relevé à chaque essai. Procédures associées : PR-1104-C (périodicités), PR-1111 (basculement)."
+        }
+      ]
+    }
+  ]
+}

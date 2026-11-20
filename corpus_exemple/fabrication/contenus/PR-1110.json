@@ -1,0 +1,115 @@
+{
+  "reference_source": "PR-1110",
+  "titre": "Remplacement d'un luminaire de sécurité (BAES)",
+  "type_document": "Procédure",
+  "source": "GED Valtéra",
+  "version": "v2",
+  "date": "2022-10-12",
+  "format": "PDF natif",
+  "criticite": "C1",
+  "droits_acces": "Tous les utilisateurs",
+  "en_vigueur": true,
+  "remplace_par": null,
+  "selection": "Tiré au hasard",
+  "service": "Maintenance électrique",
+  "site": "Deux sites",
+  "pages": [
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "1. Objet"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Cette procédure décrit le remplacement d'un bloc autonome d'éclairage de sécurité (BAES) défaillant dans les ateliers, bureaux et circulations des deux sites. Les règles d'implantation de l'éclairage de sécurité sont fixées par la note NT-042 ; cette procédure ne les modifie pas."
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "2. Domaine d'application"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "BAES d'évacuation : flux lumineux de 45 lumens au minimum, autonomie de 1 heure.",
+            "BAES d'ambiance (anti-panique) dans les ateliers de grande surface : flux de 5 lumens par m² de surface éclairée, autonomie de 1 heure.",
+            "Un BAES est remplacé lorsqu'il échoue à son autotest, lorsque sa batterie a plus de 4 ans ou lorsque son boîtier est endommagé."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "3. Prérequis et habilitations"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Technicien habilité B1V au minimum.",
+            "Au-delà de 3 m de hauteur, utilisation d'une nacelle (PEMP) par un conducteur titulaire de l'autorisation de conduite correspondante.",
+            "Le BAES de remplacement est de même type (évacuation ou ambiance), de flux au moins égal et compatible avec le système d'autotest du site.",
+            "Durée prévue : 30 minutes par BAES, hors temps de charge."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "4. Matériel"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "BAES neuf avec étiquette de signalisation adaptée (flèche, pictogramme de sortie).",
+            "VAT, tournevis isolés, escabeau ou nacelle, télécommande de mise au repos."
+          ]
+        }
+      ]
+    },
+    {
+      "blocs": [
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "5. Déroulement"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "1. Repérer le circuit d'alimentation du BAES sur le schéma de l'armoire divisionnaire et ouvrir le disjoncteur du circuit d'éclairage de sécurité ; poser une pancarte.",
+            "2. Mettre le BAES au repos avec la télécommande pour éviter la décharge de sa batterie pendant l'intervention.",
+            "3. Vérifier l'absence de tension sur le bornier du BAES.",
+            "4. Déposer l'ancien bloc et son socle, contrôler l'état du câble d'alimentation.",
+            "5. Poser le bloc neuf, raccorder phase, neutre et, le cas échéant, la ligne de télécommande.",
+            "6. Inscrire la date de mise en service au marqueur sur la batterie.",
+            "7. Refermer le disjoncteur et vérifier l'allumage du voyant de charge.",
+            "8. Laisser le BAES en charge 24 heures avant de réaliser un essai d'autonomie."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "6. Points de contrôle"
+        },
+        {
+          "type": "liste",
+          "elements": [
+            "Le voyant de charge est allumé après remise sous tension.",
+            "Le pictogramme est visible depuis le point le plus éloigné de la circulation.",
+            "Après 24 heures de charge, l'essai par coupure de l'alimentation montre un fonctionnement d'au moins 1 heure.",
+            "L'autotest hebdomadaire et l'autotest d'autonomie trimestriel du bloc sont actifs."
+          ]
+        },
+        {
+          "type": "titre",
+          "niveau": 1,
+          "texte": "7. Enregistrement"
+        },
+        {
+          "type": "paragraphe",
+          "texte": "Le remplacement est saisi dans la GMAO Atlas avec le repère du BAES, son local, l'armoire et le circuit d'alimentation. Le registre de sécurité du site est complété. Les BAES déposés suivent la filière des déchets d'équipements électriques ; leurs batteries sont collectées séparément."
+        }
+      ]
+    }
+  ]
+}
