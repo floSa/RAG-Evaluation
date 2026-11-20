@@ -1,0 +1,41 @@
+# Configuration du RAG de démonstration — volontairement minimal : il ne sert qu'à montrer
+# comment un RAG se branche sur le kit. Aucune clé ici : elles sont lues dans .env.
+# Changer de fournisseur = changer « adresse » et les noms de modèles, sans toucher au code.
+
+nom: rag-demo
+type_rag: vectoriel
+
+# Les documents à indexer, et leur catalogue : le documents.jsonl exporté par le kit
+# (référence, version, droits d'accès, format). Le dernier corpus exporté est pris.
+documents: corpus_exemple/sources
+catalogue: sorties/corpus
+travail: sorties/rag_demo           # cache d'extraction et index
+sorties: sorties/sorties_rag        # sorties du contrat, une version du RAG par dossier
+
+extraction:
+  docling: http://127.0.0.1:5101    # analyse de mise en page et OCR (conteneur de infra/)
+
+decoupage:
+  taille_max: 1500                  # caractères ; une section plus longue est recoupée
+
+# Point d'accès compatible OpenAI (ici LLM-Service, LiteLLM local)
+modeles:
+  adresse: http://127.0.0.1:8080/v1
+  variable_cle: RAG_LLM_CLE
+  generation:
+    modele: gemma-4-e4b
+    temperature: 0
+    max_tokens: 800
+    prix_entree_eur_par_million: 0   # coût des tokens ; 0 pour un modèle local
+    prix_sortie_eur_par_million: 0
+  embeddings:
+    modele: embed
+
+recherche:
+  k: 5                              # chunks donnés au modèle
+  candidats: 30                     # chunks retenus par chaque recherche avant la fusion
+
+langfuse:
+  variable_adresse: LANGFUSE_BASE_URL
+  variable_cle_publique: LANGFUSE_PUBLIC_KEY
+  variable_cle_secrete: LANGFUSE_SECRET_KEY
