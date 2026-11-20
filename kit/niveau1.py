@@ -168,12 +168,12 @@ def evaluer(ev: Evaluation) -> tuple[list[Ligne], list[Lien], list[dict]]:
 
     liens, non_rattaches = [], []
     for p in ev.corpus["passages"]:
-        if p["repond"] == "piege":
-            continue  # un piège n'a pas à être rattaché ; il sert au niveau 2
         fiche = ev.documents[p["reference_source"]]["format"] == "fiche_base"
         du_doc = par_doc.get(p["reference_source"], [])
         trouves, meilleure = rattacher(p, du_doc, fiche, seuils)
         liens += trouves
+        if p["repond"] == "piege":
+            continue  # un piège est rattaché pour le niveau 2 (piège retrouvé), mais n'entre pas dans les scores
         attributs = ev.attributs_passage(p["passage_id"])
         objet = f"passage {p['passage_id']}"
         if trouves:
