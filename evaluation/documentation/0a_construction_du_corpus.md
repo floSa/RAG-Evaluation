@@ -1,6 +1,25 @@
-# 1. Construire le corpus annoté
+# 0a. Construction du corpus
 
-Le corpus annoté est le cœur de l'évaluation. Le métier y écrit des questions réelles, la réponse attendue, et **l'endroit exact où elle se trouve** dans les documents. Le corpus est la seule chose à faire à la main ; tout le reste est automatique.
+Le corpus annoté est le cœur de l'évaluation. Le métier y écrit des questions réelles, la réponse attendue, et **l'endroit exact où elle se trouve** dans les documents. C'est la seule chose à faire à la main : le kit l'importe ensuite, et tout le reste est automatique.
+
+```mermaid
+flowchart LR
+    M["<b>Le métier</b><br/>remplit le fichier Excel"] --> C{"<b>kit importer</b><br/>contrôles : une seule<br/>ligne fausse bloque tout"}
+    C -- "refusé" --> E["Message clair :<br/>feuille, ligne, correction"]
+    E --> M
+    C -- "accepté" --> B[("Base<br/>sorties/base.sqlite")]
+    B --> X["<b>Corpus standard</b><br/>sorties/corpus/&lt;version&gt;/"]
+    B --> L["Jeu de questions<br/>dans Langfuse"]
+```
+
+| Où | Quoi |
+| --- | --- |
+| [`reference/methode_corpus_annote.md`](reference/methode_corpus_annote.md) | la méthode complète (document 1) ; ce guide en donne l'essentiel |
+| [`reference/modele_corpus_vierge.xlsx`](reference/modele_corpus_vierge.xlsx) | le fichier Excel vide, à remplir par le métier |
+| [`../corpus_exemple/`](../corpus_exemple/) | un corpus complet, déjà rempli |
+| [`../src/kit/etape_0a_corpus/importer.py`](../src/kit/etape_0a_corpus/importer.py) | le code de l'import |
+
+## 1. Ce que le métier annote
 
 ```mermaid
 flowchart LR
@@ -15,13 +34,11 @@ flowchart LR
     P1 --> D1
 ```
 
-Pourquoi tant de détail ? Pour savoir **d'où vient une erreur**. Avec le passage exact, le kit peut dire si le RAG l'a bien *lu* (niveau 1), s'il l'a *retrouvé* (niveau 2), et seulement ensuite si la réponse est *juste* (niveau 3). Sans passage, on sait qu'une réponse est fausse, mais pas pourquoi.
+Pourquoi tant de détail ? Pour savoir **d'où vient une erreur**. Avec le passage exact, le kit peut dire si le RAG l'a bien *lu* ([évaluation 1](1_evaluation_ingestion.md)), s'il l'a *retrouvé* ([évaluation 2](2_evaluation_recherche.md)), et seulement ensuite si la réponse est *juste* ([évaluation 3](3_evaluation_reponse.md)). Sans passage, on sait qu'une réponse est fausse, mais pas pourquoi.
 
-La méthode complète est dans le [document 1](methode/RAG_1_Constituer_le_corpus_d_evaluation.md). Ce guide en donne l'essentiel.
+### Le fichier à remplir
 
-## Le fichier à remplir
-
-Le métier remplit **un fichier Excel**, sur le modèle vide [`methode/Corpus_evaluation_RAG.xlsx`](methode/Corpus_evaluation_RAG.xlsx). Chaque feuille porte ses définitions et ses listes de valeurs.
+Chaque feuille du fichier Excel porte ses définitions et ses listes de valeurs.
 
 | Feuille | Une ligne = | L'essentiel |
 | --- | --- | --- |
@@ -31,7 +48,7 @@ Le métier remplit **un fichier Excel**, sur le modèle vide [`methode/Corpus_ev
 | Pages OCR | une page scannée de référence | le texte retapé à la main : sert à mesurer la qualité de la lecture des scans |
 | Tableau de bord | — | se calcule tout seul ; doit être « OK » partout avant de transmettre le fichier |
 
-## Les règles qui comptent le plus
+### Les règles qui comptent le plus
 
 | Règle | Pourquoi |
 | --- | --- |
@@ -44,11 +61,11 @@ Le métier remplit **un fichier Excel**, sur le modèle vide [`methode/Corpus_ev
 | Un tiers des questions **réservées à la décision** | elles ne servent jamais à régler le RAG ; l'équipe technique n'en voit que les scores globaux. Cela évite de régler le RAG « pour le test » |
 | **Fréquence** et **gravité** sur chaque question | une erreur sur une question fréquente et grave pèse 9 fois plus qu'une erreur rare et sans gravité |
 
-La configuration minimale du document 1 : 10 documents par type, 50 questions, 20 pages OCR. En dessous, les scores sont trop imprécis pour décider (voir la marge d'erreur, [guide 5](5_Lire_les_resultats.md#4-les-marges-derreur--ne-pas-sur-interpréter)).
+La configuration minimale du document 1 : 10 documents par type, 50 questions, 20 pages OCR. En dessous, les scores sont trop imprécis pour décider (voir [les marges d'erreur](5_resultats_et_comparaison.md#4-les-marges-derreur--ne-pas-sur-interpréter)).
 
-## Le corpus d'exemple, prêt à l'emploi
+## 2. Le corpus d'exemple, prêt à l'emploi
 
-Le dossier [`corpus_exemple/`](corpus_exemple/) contient un corpus complet sur la maintenance électrique d'une entreprise **entièrement fictive**, Valtéra Industries. Il atteint la configuration minimale du document 1.
+Le dossier [`../corpus_exemple/`](../corpus_exemple/) contient un corpus complet sur la maintenance électrique d'une entreprise **entièrement fictive**, Valtéra Industries. Il atteint la configuration minimale du document 1.
 
 | Élément | Contenu |
 | --- | --- |
@@ -87,4 +104,47 @@ uv run python evaluation/corpus_exemple/fabrication/remplir_excel.py
 
 Le premier script dessine les PDF à partir de `fabrication/contenus/*.json`. Le second vérifie chaque passage de `fabrication/questions.yaml` contre sa source, remplit le fichier Excel et recalcule le tableau de bord.
 
-**Étape suivante** : [2. Importer le corpus](2_Importer_le_corpus.md).
+## 3. Importer le corpus
+
+L'import transforme le fichier Excel du métier en un **corpus standard** : des fichiers que n'importe quel RAG sait lire, et que le kit sait évaluer. Il faut d'abord avoir installé le dépôt et démarré Langfuse : voir le [README](../../README.md#démarrer). Sans Langfuse, ajouter `--sans-langfuse`.
+
+```bash
+uv run kit importer evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx
+```
+
+L'import fait, dans l'ordre :
+
+**1. Les contrôles** ([contrat des fichiers](reference/contrat_des_fichiers.md), section 2). L'import signale une colonne obligatoire vide, une valeur hors liste, un passage dont le document n'existe pas, un identifiant en double, une question « oui » sans passage, une question « non accessible » sans document interdit… **Une seule ligne fausse bloque tout l'import** : un corpus importé à moitié fausserait l'évaluation sans que personne ne s'en aperçoive. Le message donne la feuille, la ligne et la correction attendue :
+
+```
+Import refusé : 1 ligne(s) à corriger dans Corpus_evaluation_RAG.xlsx.
+  - feuille Questions, ligne 2 (Q-001) : « Exploit » n'est pas dans la colonne « Profils d'accès » de la feuille Listes (Tous les utilisateurs, Maintenance, Exploitation).
+```
+
+Si la configuration minimale du document 1 n'est pas atteinte (moins de 50 questions…), l'import passe, avec un avertissement.
+
+**2. La conversion** des libellés du métier en codes : « PDF scanné » devient `pdf_scanne`, « Tous les utilisateurs » devient `tous`.
+
+**3. L'écriture dans la base** (`sorties/base.sqlite` ; PostgreSQL en changeant seulement l'adresse dans [`../config/kit.yaml`](../config/kit.yaml)).
+
+**4. L'export** du corpus standard dans `sorties/corpus/<version>/` :
+
+| Fichier | Une ligne = | Donné au RAG ? |
+| --- | --- | --- |
+| `corpus.json` | la description du corpus : version, projet, date, fichier source | non |
+| `documents.jsonl` | un document : référence, titre, type, version, date, format, droits d'accès, en vigueur | **oui** : ce sont les métadonnées que le RAG doit garder sur chaque morceau |
+| `questions.jsonl` | une question, avec ses annotations | **en partie** : le RAG n'en lit que la question, le profil, et l'historique d'une question de suite |
+| `passages.jsonl` | un passage annoté | **jamais** |
+| `pages_ocr.jsonl` | une page scannée retapée | **jamais** |
+
+**5. Le jeu de questions dans Langfuse** : `corpus-<projet>-<version>`, un élément par question. C'est sur lui que les évaluations seront rangées.
+
+### La version du corpus
+
+L'import donne une version au corpus : la date, puis un numéro (`2026-11-20.1`). Elle change à chaque import d'un fichier **modifié**. Réimporter le même fichier ne crée rien.
+
+Deux évaluations ne se comparent que sur la même version du corpus : sinon, on ne saurait pas si l'écart vient du RAG ou des questions.
+
+Un passage garde son identifiant d'une version à l'autre tant que sa ligne ne change pas (voir [DECISIONS.md](../../DECISIONS.md), décision 1).
+
+**Étape suivante** : [0b. Branchement du RAG](0b_branchement_du_rag.md).
