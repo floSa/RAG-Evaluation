@@ -254,33 +254,54 @@ def ecrire_fichiers(ev: Evaluation, description: dict, resultat: dict, toutes) -
 
 # --- Langfuse -------------------------------------------------------------------------------
 
-def publier_langfuse(ev: Evaluation, langfuse, lignes: list[Ligne], resultat: dict) -> None:
-    """Expérience (dataset run) nommée evaluation_id ; scores par trace (hors questions réservées) et scores globaux."""
-    import httpx
+def experience_langfuse(ev: Evaluation, langfuse) -> dict:
+    """L'expérience Langfuse de l'évaluation, créée une fois : {"experiment_id", "traces": {question_id: trace_id}}.
 
-    traces = {r["question_id"]: r["trace_id"] for r in ev.fichier_rag("reponses.jsonl")}
-    jeu = f"corpus-{ev.corpus['corpus']['projet']}-{ev.version_corpus}"
-    adresse, auth = langfuse_acces(ev.config)
-    with httpx.Client(base_url=adresse, auth=auth, timeout=30) as http:
-        run_id = None
-        for qid, trace_id in traces.items():  # relier chaque élément du jeu de données à la trace de sa réponse
-            r = http.post("/api/public/dataset-run-items", json={
-                "runName": ev.evaluation_id, "datasetItemId": f"{ev.version_corpus}_{qid}", "traceId": trace_id,
-                "metadata": {"version_rag": ev.rag["version_rag"]}})
-            r.raise_for_status()
-            run_id = r.json().get("datasetRunId", run_id)
+    Langfuse v4 ne relie plus une trace existante à un jeu de données : on rejoue donc, avec run_experiment, les
+    réponses déjà produites par le RAG (aucun nouvel appel au RAG). Chaque trace de l'expérience garde l'identifiant
+    de la trace du RAG (trace_rag), pour remonter à la recherche et à la génération.
+    """
+    chemin = ev.dossier / "langfuse.json"
+    if chemin.exists():
+        return json.loads(chemin.read_text(encoding="utf-8"))
+    reponses = {r["question_id"]: r for r in ev.fichier_rag("reponses.jsonl")}
+    if not reponses:
+        return {}
+    jeu = langfuse.get_dataset(f"corpus-{ev.corpus['corpus']['projet']}-{ev.version_corpus}")
+    prefixe = f"{ev.version_corpus}_"
+
+    def tache(*, item, **_):
+        r = reponses[item.id.removeprefix(prefixe)]
+        return {"reponse": r["reponse"], "abstention": r["abstention"], "chunks_cites": r["chunks_cites"],
+                "trace_rag": r["trace_id"], "duree_ms": r["duree_ms"]}
+
+    resultat = langfuse.run_experiment(name=ev.evaluation_id, run_name=ev.evaluation_id, data=jeu.items, task=tache,
+                                       description=f"RAG {ev.rag['version_rag']} sur le corpus {ev.version_corpus}",
+                                       metadata={"version_rag": ev.rag["version_rag"], "version_kit": kit.__version__},
+                                       max_concurrency=8)
+    experience = {"experiment_id": resultat.experiment_id, "url": resultat.experiment_url,
+                  "traces": {r.item.id.removeprefix(prefixe): r.trace_id for r in resultat.item_results}}
+    chemin.write_text(json.dumps(experience, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return experience
+
+
+def publier_langfuse(ev: Evaluation, langfuse, lignes: list[Ligne], resultat: dict) -> None:
+    """Scores par trace de l'expérience (hors questions réservées), et scores globaux sur l'expérience."""
+    experience = experience_langfuse(ev, langfuse)
+    if not experience:
+        return  # niveau 1 avant que le RAG ait répondu : rien à relier
+    traces = experience["traces"]
     for l in lignes:
         if l.question_id and not l.reservee and l.question_id in traces and l.valeur is not None:
             langfuse.create_score(trace_id=traces[l.question_id], name=l.score, value=float(l.valeur),
                                   comment=(l.verdict + " — " if l.verdict else "") + (l.detail or "") or None,
                                   score_id=f"{ev.evaluation_id}-{l.score}-{l.question_id}-{l.objet or ''}"[:200])
-    if run_id:
-        niveau = lignes[0].niveau if lignes else None
-        for s in resultat["scores"]:
-            if s["niveau"] == niveau and s["valeur"] is not None:
-                langfuse.create_score(dataset_run_id=run_id, name=s["score"], value=float(s["valeur"]),
-                                      score_id=f"{ev.evaluation_id}-{s['score']}-global"[:200],
-                                      comment=f"n = {s['n']}" + (f", marge ± {s['marge']}" if s["marge"] else ""))
+    niveau = lignes[0].niveau if lignes else None
+    for s in resultat["scores"]:
+        if s["niveau"] == niveau and s["valeur"] is not None:
+            langfuse.create_score(dataset_run_id=experience["experiment_id"], name=s["score"], value=float(s["valeur"]),
+                                  score_id=f"{ev.evaluation_id}-{s['score']}-global"[:200],
+                                  comment=f"n = {s['n']}" + (f", marge ± {s['marge']}" if s["marge"] else ""))
     langfuse.flush()
 
 
