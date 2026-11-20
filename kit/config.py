@@ -29,3 +29,12 @@ def cle(nom_variable: str) -> str:
     if not valeur:
         raise RuntimeError(f"Variable {nom_variable} absente : la renseigner dans .env (voir .env.example).")
     return valeur
+
+
+def client_langfuse(config: dict):
+    """Client Langfuse, avec l'adresse et les clés lues dans .env (noms de variables dans kit.yaml)."""
+    from langfuse import Langfuse
+
+    lf = config["langfuse"]
+    return Langfuse(public_key=cle(lf["variable_cle_publique"]), secret_key=cle(lf["variable_cle_secrete"]),
+                    base_url=cle(lf["variable_adresse"]))
