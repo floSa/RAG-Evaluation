@@ -39,7 +39,7 @@ RAG-Evaluation/
 │   │   ├── 5_resultats_et_comparaison.md      lire les résultats, comparer deux versions
 │   │   └── reference/                         la méthode, le contrat, le prompt du juge, les schémas
 │   ├── config/                              le modèle juge (kit.yaml), les seuils du métier (seuils.json)
-│   ├── corpus_exemple/                      50 documents fictifs et leur fichier Excel annoté
+│   ├── corpus_exemple/                      50 documents fictifs, leur fichier Excel annoté, l'ontologie du domaine
 │   ├── src/kit/                             le code, un dossier par étape, mêmes noms que les guides :
 │   │   ├── etape_0a_corpus/
 │   │   ├── etape_0b_branchement/
@@ -137,11 +137,12 @@ Les noms `2026-11-20.1` (version du corpus) et `rag-demo-k5-80032dcd` (version d
 | `kit evaluer-ingestion` | évaluation 1 : le passage est-il dans l'index ? | [1](evaluation/documentation/1_evaluation_ingestion.md) |
 | `kit evaluer-recherche` | évaluation 2 : est-il retrouvé ? | [2](evaluation/documentation/2_evaluation_recherche.md) |
 | `kit evaluer-reponse` | évaluation 3 : la réponse est-elle juste ? | [3](evaluation/documentation/3_evaluation_reponse.md) |
+| `kit verifier-graphe [--envoyer]` | fait juger 50 relations du graphe par le métier, puis mesure leur justesse | [1](evaluation/documentation/1_evaluation_ingestion.md) |
 | `kit verifier-juge [--envoyer]` | fait noter 30 réponses par le métier, puis mesure l'accord avec le juge | [3](evaluation/documentation/3_evaluation_reponse.md) |
 | `kit evaluer-bout-en-bout` | évaluation 4 : score pondéré, temps, coût, décision, rapport | [4](evaluation/documentation/4_evaluation_bout_en_bout.md) |
 | `kit evaluer` | les évaluations 1 à 4 d'un coup | [4](evaluation/documentation/4_evaluation_bout_en_bout.md) |
 | `kit comparer <résultats A> <résultats B>` | compare deux versions du RAG | [5](evaluation/documentation/5_resultats_et_comparaison.md) |
-| `rag indexer`, `rag demander "…"` | le RAG d'exemple, seul | [GraphRAG](rag/documentation/guide_du_graphrag.md) |
+| `rag indexer`, `rag demander "…"` | le RAG d'exemple, seul ; `--graphe` pour le RAG hybride | [GraphRAG](rag/documentation/guide_du_graphrag.md) |
 | `rag exporter`, `rag repondre <questions.jsonl>` | le RAG d'exemple écrit lui-même ses fichiers du contrat | [0b](evaluation/documentation/0b_branchement_du_rag.md) |
 
 Les évaluations 1 à 4 prennent `--corpus` et `--rag`, et `--sans-langfuse` pour ne rien publier. Chaque commande a son aide : `uv run kit <commande> --help`.
