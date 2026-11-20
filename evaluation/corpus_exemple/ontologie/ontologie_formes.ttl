@@ -1,0 +1,58 @@
+# Les règles SHACL de l'ontologie (ontologie.ttl) : ce que doit respecter un graphe extrait des documents.
+#
+# Le kit les applique au graphe.ttl d'un RAG avec pySHACL : chaque règle non respectée est une violation
+# (score n1_graphe_violations). Elles contrôlent les classes, les relations, le nombre de valeurs, et la
+# provenance exigée par le contrat (kit:referenceSource et kit:page sur chaque nœud et chaque relation réifiée).
+
+@prefix vt:   <https://valtera.exemple/ontologie#> .
+@prefix kit:  <https://kit-eval-rag/ns#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# --- Chaque nœud : un seul nom, et sa provenance -------------------------------------------------
+
+vt:FormeSite a sh:NodeShape ;
+    sh:targetClass vt:Site ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path kit:referenceSource ; sh:minCount 1 ] ;
+    sh:property [ sh:path kit:page ; sh:minCount 1 ] .
+
+vt:FormeEquipement a sh:NodeShape ;
+    sh:targetClass vt:Equipement ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path kit:referenceSource ; sh:minCount 1 ] ;
+    sh:property [ sh:path kit:page ; sh:minCount 1 ] ;
+    sh:property [ sh:path vt:situeSur ; sh:class vt:Site ; sh:maxCount 1 ] ;    # un équipement est sur un seul site
+    sh:property [ sh:path vt:alimente ; sh:class vt:Equipement ] ;
+    sh:property [ sh:path vt:secourt ; sh:class vt:Equipement ] ;
+    sh:property [ sh:path vt:protege ; sh:class vt:Equipement ] .
+
+vt:FormePersonne a sh:NodeShape ;
+    sh:targetClass vt:Personne ;
+    sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+    sh:property [ sh:path kit:referenceSource ; sh:minCount 1 ] ;
+    sh:property [ sh:path kit:page ; sh:minCount 1 ] ;
+    sh:property [ sh:path vt:intervientSur ; sh:class vt:Equipement ] .
+
+# --- Chaque relation part du bon type de nœud ------------------------------------------------------
+
+vt:FormeSujetEquipement a sh:NodeShape ;
+    sh:targetSubjectsOf vt:situeSur, vt:alimente, vt:secourt, vt:protege ;
+    sh:class vt:Equipement .
+
+vt:FormeSujetPersonne a sh:NodeShape ;
+    sh:targetSubjectsOf vt:intervientSur ;
+    sh:class vt:Personne .
+
+# --- Chaque relation réifiée : un sujet, une relation, un objet, une provenance -------------------
+
+vt:FormeRelation a sh:NodeShape ;
+    sh:targetClass rdf:Statement ;
+    sh:property [ sh:path rdf:subject ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path rdf:predicate ; sh:minCount 1 ; sh:maxCount 1 ;
+                  sh:in ( vt:situeSur vt:alimente vt:secourt vt:protege vt:intervientSur ) ] ;
+    sh:property [ sh:path rdf:object ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path kit:referenceSource ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path kit:page ; sh:minCount 1 ; sh:maxCount 1 ] .
