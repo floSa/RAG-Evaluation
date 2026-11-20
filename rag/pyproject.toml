@@ -13,6 +13,7 @@ dependencies = [
     "rank-bm25>=0.2.2",
     "numpy>=2.5.5",
     "langfuse>=5.2.0",
+    "rdflib>=7",
 ]
 
 [project.scripts]
