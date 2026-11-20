@@ -9,6 +9,7 @@ dependencies = [
     "python-dotenv>=1.0",
     "sqlalchemy>=2.0",
     "typer>=0.12",
+    "openpyxl>=3.1.5",
 ]
 
 [project.scripts]
@@ -17,6 +18,11 @@ rag-demo = "rag_demo.cli:app"
 
 [dependency-groups]
 dev = ["pytest>=8.0"]
+fabrication = [
+    "pillow>=13.0.0",
+    "pypdfium2>=5.15.2",
+    "reportlab>=5.1.0",
+]
 
 [build-system]
 requires = ["hatchling"]
