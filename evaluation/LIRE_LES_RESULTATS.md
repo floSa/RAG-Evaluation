@@ -197,6 +197,26 @@ La marge est `± 1,96 × √(p × (1 − p) ÷ n)` (document 3). Ce qu'il faut r
 4. **Test de McNemar** : il ne regarde que les questions qui ont changé. Une valeur p au-dessus de 0,05 veut dire que l'écart peut être dû au hasard.
 5. **Régression** : une question de gravité forte perdue est signalée, même si la moyenne monte. Elle se regarde avant toute décision.
 
+**Exemple : le RAG de démonstration avec k = 5 (A), puis k = 3 (B).**
+
+```bash
+uv run kit comparer sorties/resultats/2026-11-20.1_rag-demo-k5-80032dcd sorties/resultats/2026-11-20.1_rag-demo-k3-80032dcd
+```
+
+| Score | k = 5 | k = 3 | Lecture |
+| --- | --- | --- | --- |
+| bon passage retrouvé (`n2_reussite_k`) | 86 % | 75 % | moins de chunks, moins de chances de ramener le bon : 3 questions perdues |
+| passages attendus retrouvés (`n2_rappel_k`) | 81 % | 64 % | le seul écart **plus grand que la marge** : ce n'est pas le hasard |
+| réponses justes (`n3_exactitude`) | 79 % (n = 28) | 83 % (n = 23) | semble monter, mais sur 5 questions de moins : le RAG s'abstient davantage, et les abstentions ne sont pas notées ici |
+| erreurs graves | 2 | 0 | moins de contexte, moins d'occasions d'affirmer sans appui |
+| score pondéré (`n4_score_pondere`) | 80 % | 77 % | ce que vivront les utilisateurs : 4 questions perdues, aucune gagnée |
+
+McNemar donne p = 0,125 sur le score pondéré : avec 40 questions, on ne peut pas exclure le hasard.
+
+**Conclusion** : k = 3 n'est pas meilleur. Il évite les deux erreurs graves, mais en répondant moins. Pour décider, il faudrait plus de questions (la configuration recommandée en prévoit 200), et un correctif ciblé des deux erreurs graves sur k = 5.
+
+C'est tout l'intérêt de lire **plusieurs scores ensemble**. Une exactitude qui monte peut cacher un RAG qui répond moins.
+
 ## 6. Le parcours de correction, en résumé
 
 ```
