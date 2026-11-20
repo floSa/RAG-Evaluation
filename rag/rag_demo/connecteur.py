@@ -1,4 +1,4 @@
-"""Le connecteur du RAG de démonstration (specs/CONTRAT.md, « Le connecteur ») : les six méthodes que le kit appelle
+"""Le connecteur du RAG de démonstration (corpus/contrat/CONTRAT.md, « Le connecteur ») : les six méthodes que le kit appelle
 par leur nom. Il n'importe rien du kit."""
 
 from rag_demo.rag import Rag

@@ -1,6 +1,6 @@
-"""Le LLM juge du kit (specs/JUGE.md) : exactitude des réponses, point clé par point clé.
+"""Le LLM juge du kit (evaluation/juge/JUGE.md) : exactitude des réponses, point clé par point clé.
 
-Le prompt est lu tel quel dans specs/JUGE.md (le même pour tous les projets). La sortie JSON est validée ;
+Le prompt est lu tel quel dans evaluation/juge/JUGE.md (le même pour tous les projets). La sortie JSON est validée ;
 une sortie invalide est redemandée une fois, puis la question part en relecture. Le kit recalcule le verdict
 à partir des statuts ; en cas d'écart avec le verdict du juge, il garde le sien et envoie la question en relecture.
 """
@@ -13,14 +13,14 @@ from openai import OpenAI
 
 from kit.config import cle
 
-JUGE_MD = Path(__file__).resolve().parent.parent / "specs" / "JUGE.md"
+JUGE_MD = Path(__file__).resolve().parents[1] / "juge" / "JUGE.md"
 STATUTS = {"present", "absent", "contredit"}
 VERDICTS = {"juste", "partielle", "fausse"}
 VALEUR_VERDICT = {"juste": 1.0, "partielle": 0.5, "fausse": 0.0}
 
 
 def prompt_exactitude() -> str:
-    """Le bloc de code qui suit « ## Prompt d'exactitude » dans specs/JUGE.md."""
+    """Le bloc de code qui suit « ## Prompt d'exactitude » dans evaluation/juge/JUGE.md."""
     texte = JUGE_MD.read_text(encoding="utf-8")
     section = texte.split("## Prompt d'exactitude", 1)[1]
     return re.search(r"```text\n(.*?)\n```", section, re.S)[1]

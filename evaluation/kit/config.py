@@ -1,4 +1,4 @@
-"""Lecture de la configuration du kit : config/kit.yaml, config/seuils.json et les clés de .env."""
+"""Lecture de la configuration du kit : evaluation/config/kit.yaml, config/seuils.json et les clés de .env."""
 
 import json
 import os
@@ -7,7 +7,7 @@ from pathlib import Path
 import yaml
 from dotenv import load_dotenv
 
-CHEMIN_CONFIG = Path("config/kit.yaml")
+CHEMIN_CONFIG = Path("evaluation/config/kit.yaml")
 
 
 def charger_config(chemin: Path | str = CHEMIN_CONFIG) -> dict:

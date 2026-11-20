@@ -7,7 +7,7 @@ type_rag: vectoriel
 
 # Les documents à indexer, et leur catalogue : le documents.jsonl exporté par le kit
 # (référence, version, droits d'accès, format). Le dernier corpus exporté est pris.
-documents: corpus_exemple/sources
+documents: corpus/exemple/sources
 catalogue: sorties/corpus
 travail: sorties/rag_demo           # cache d'extraction et index
 sorties: sorties/sorties_rag        # sorties du contrat, une version du RAG par dossier

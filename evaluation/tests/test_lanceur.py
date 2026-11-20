@@ -42,7 +42,7 @@ class FauxConnecteur:
 @pytest.fixture(scope="module")
 def corpus(tmp_path_factory) -> Path:
     tmp = tmp_path_factory.mktemp("corpus")
-    return importer(Path("corpus_exemple/Corpus_evaluation_RAG.xlsx"), f"sqlite:///{tmp}/base.sqlite",
+    return importer(Path("corpus/exemple/Corpus_evaluation_RAG.xlsx"), f"sqlite:///{tmp}/base.sqlite",
                     tmp / "sorties", "test", aujourd_hui="2026-11-20").dossier
 
 

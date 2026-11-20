@@ -13,7 +13,7 @@ from kit.import_corpus import importer
 from kit.publication import Evaluation
 
 SEUILS = {"texte_approche": 0.95, "tableau_mots": 0.90, "scanne_partiel": 0.90}
-EXEMPLE = Path("corpus_exemple/Corpus_evaluation_RAG.xlsx")
+EXEMPLE = Path("corpus/exemple/Corpus_evaluation_RAG.xlsx")
 
 
 def passage(texte, type_element="texte", page="2", passage_id=1):
@@ -112,9 +112,9 @@ def evaluation(tmp_path):
     ligne = next(n for n, r in enumerate(f.iter_rows(min_row=2, values_only=True), start=2) if r[0] == "Q-002")
     f.cell(ligne, 3).value = "4"
     classeur.save(faux_xlsx)
-    config = yaml.safe_load(Path("config/kit.yaml").read_text(encoding="utf-8"))
+    config = yaml.safe_load(Path("evaluation/config/kit.yaml").read_text(encoding="utf-8"))
     config["chemins"] = {"base": f"sqlite:///{tmp_path}/base.sqlite", "sorties": str(tmp_path / "sorties"),
-                         "seuils": "config/seuils.json"}
+                         "seuils": "evaluation/config/seuils.json"}
     faux = importer(faux_xlsx, config["chemins"]["base"], tmp_path / "sorties", "test").dossier
     rag = tmp_path / "rag"
     rag.mkdir()

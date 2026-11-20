@@ -7,7 +7,7 @@ projet: maintenance-electrique
 chemins:
   base: sqlite:///sorties/base.sqlite   # SQLAlchemy : postgresql+psycopg://… pour PostgreSQL
   sorties: sorties                      # corpus/, sorties_rag/, resultats/ sont créés dedans
-  seuils: config/seuils.json
+  seuils: evaluation/config/seuils.json
 
 # Point d'accès compatible OpenAI (ici LLM-Service, LiteLLM local)
 modeles:
@@ -16,7 +16,7 @@ modeles:
   juge:
     modele: chat                 # qwen3.5-4b ; différent du modèle de génération du RAG (JUGE.md)
     temperature: 0
-    version_prompt: "1.0"        # version du prompt de specs/JUGE.md
+    version_prompt: "1.0"        # version du prompt de evaluation/juge/JUGE.md
     sans_reflexion: true         # chat_template_kwargs.enable_thinking = false
     max_tokens: 2048
   embeddings:

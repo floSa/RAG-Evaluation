@@ -4,7 +4,7 @@ from pathlib import Path
 
 from rag_demo import extraction
 
-SOURCES = Path("corpus_exemple/sources")
+SOURCES = Path("corpus/exemple/sources")
 
 # Page 2 de PR-1101 telle que la rend Docling (extrait réel, raccourci) : légende avant l'image, puis un tableau.
 PAGE_NATIVE = """## 5. Déroulement

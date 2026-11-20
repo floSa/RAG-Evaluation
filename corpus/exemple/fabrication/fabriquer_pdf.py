@@ -6,7 +6,7 @@
 - Fiche de base de données : export « champ : valeur » sur une page.
 
 Chaque page du JSON donne exactement une page du PDF (le contenu est réduit s'il déborde).
-Usage : uv run --group fabrication python corpus_exemple/fabrication/fabriquer_pdf.py
+Usage : uv run --group fabrication python corpus/exemple/fabrication/fabriquer_pdf.py
 """
 
 import io

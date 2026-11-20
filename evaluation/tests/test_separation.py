@@ -3,7 +3,7 @@
 import ast
 from pathlib import Path
 
-RACINE = Path(__file__).resolve().parent.parent
+RACINE = Path(__file__).resolve().parents[2]
 
 
 def modules_importes(dossier: str) -> set[str]:
@@ -19,8 +19,8 @@ def modules_importes(dossier: str) -> set[str]:
 
 
 def test_kit_n_importe_pas_rag_demo():
-    assert "rag_demo" not in modules_importes("kit")
+    assert "rag_demo" not in modules_importes("evaluation/kit")
 
 
 def test_rag_demo_n_importe_pas_kit():
-    assert "kit" not in modules_importes("rag_demo")
+    assert "kit" not in modules_importes("rag/rag_demo")

@@ -12,7 +12,7 @@ app = typer.Typer(help="Kit d'évaluation de RAG : corpus, contrat, niveaux 1 à
 
 @app.callback()
 def principal():
-    """Kit d'évaluation de RAG (la configuration est lue dans config/kit.yaml et .env)."""
+    """Kit d'évaluation de RAG (la configuration est lue dans evaluation/config/kit.yaml et .env)."""
 
 
 @app.command("init-base")
@@ -52,7 +52,7 @@ def verifier_contrat(dossier: Path = typer.Argument(..., exists=True, file_okay=
                                                     help="corpus/<version>/ ou sorties_rag/<version>/"),
                      corpus: Path = typer.Option(None, exists=True, file_okay=False,
                                                  help="le corpus, pour vérifier que chaque question a sa réponse")):
-    """Valide les fichiers d'un dossier contre specs/schemas/ et dit précisément ce qui manque."""
+    """Valide les fichiers d'un dossier contre corpus/contrat/schemas/ et dit précisément ce qui manque."""
     erreurs = contrat.verifier_dossier(dossier, corpus)
     if erreurs:
         typer.echo(f"{dossier} : {len(erreurs)} problème(s).", err=True)
