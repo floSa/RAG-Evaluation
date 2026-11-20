@@ -1,6 +1,14 @@
-# Lire et interpréter les résultats d'une évaluation
+# 5. Lire les résultats
 
-Ce guide dit **où sont les résultats**, **comment les lire**, et **quoi corriger** quand un score est mauvais. Il s'appuie sur une vraie évaluation : celle du RAG de démonstration (k = 5) sur le corpus d'exemple.
+Ce guide dit **où sont les résultats**, **comment les lire**, et **quoi corriger** quand un score est mauvais. Il s'appuie sur une vraie évaluation : celle du RAG d'exemple (k = 5) sur le corpus d'exemple.
+
+```mermaid
+flowchart TD
+    D["<b>1. La décision</b><br/>mise en production possible ?<br/>critères bloquants ?"] --> S["<b>2. Les scores, niveau par niveau</b><br/>le premier niveau sous son seuil<br/>est souvent la cause des suivants"]
+    S --> Q["<b>3. Les questions à regarder</b><br/>erreurs graves, réponses fausses"]
+    Q --> C["<b>4. Le croisement recherche × réponse</b><br/>la faute est-elle à la recherche<br/>ou à la génération ?"]
+    C --> F["<b>5. Quoi corriger</b><br/>une piste par cause<br/>(document 2)"]
+```
 
 ## 1. Où sont les résultats
 
@@ -34,7 +42,7 @@ C'est l'encadré en haut du rapport. Deux règles le décident.
 1. **Les critères bloquants : une fuite de droits ou une erreur grave bloque, quel que soit le reste.** Ils se jugent sur **toutes** les questions.
 2. **Les seuils** se jugent sur les **questions réservées à la décision** : celles qui n'ont jamais servi à régler le RAG.
 
-Pour le RAG de démonstration, la décision est **« mise en production non recommandée »** :
+Pour le RAG d'exemple, la décision est **« mise en production non recommandée »** :
 - 2 erreurs graves, ce qui déclenche un critère bloquant ;
 - l'OCR à 15 %, pour un seuil de 2 % ;
 - le bon passage retrouvé dans 69 % des cas sur les questions réservées, pour un seuil de 90 %.
@@ -76,7 +84,7 @@ Pour chaque question dont la réponse est dans les documents, le kit croise deux
 | non, et aucun passage rattaché | — | **ingestion** : l'information n'est même pas dans l'index | extraction, OCR, tableaux, images |
 | non | juste | juste **sans le bon passage** : le modèle sait de lui-même, ou le corpus a oublié un passage | vérifier l'annotation |
 
-Résultat du RAG de démonstration, sur 32 questions :
+Résultat du RAG d'exemple, sur 32 questions :
 
 | Diagnostic | Questions |
 | --- | --- |
@@ -89,7 +97,7 @@ Résultat du RAG de démonstration, sur 32 questions :
 
 ## 3. Chaque score : ce qu'il mesure, comment le lire, quoi faire
 
-Les identifiants (`n1_…`) sont ceux de `scores.json`, du CSV et de Langfuse. Les valeurs entre parenthèses sont celles du RAG de démonstration.
+Les identifiants (`n1_…`) sont ceux de `scores.json`, du CSV et de Langfuse. Les valeurs entre parenthèses sont celles du RAG d'exemple.
 
 ### Niveau 1 — Ingestion : les documents sont-ils bien lus ?
 
@@ -197,7 +205,7 @@ La marge est `± 1,96 × √(p × (1 − p) ÷ n)` (document 3). Ce qu'il faut r
 4. **Test de McNemar** : il ne regarde que les questions qui ont changé. Une valeur p au-dessus de 0,05 veut dire que l'écart peut être dû au hasard.
 5. **Régression** : une question de gravité forte perdue est signalée, même si la moyenne monte. Elle se regarde avant toute décision.
 
-**Exemple : le RAG de démonstration avec k = 5 (A), puis k = 3 (B).**
+**Exemple : le RAG d'exemple avec k = 5 (A), puis k = 3 (B).**
 
 ```bash
 uv run kit comparer sorties/resultats/2026-11-20.1_rag-demo-k5-80032dcd sorties/resultats/2026-11-20.1_rag-demo-k3-80032dcd
@@ -228,3 +236,5 @@ Niveau 3 mauvais ?  → regarder d'abord le croisement :
 Bloquant ?          → fuite : filtre des droits pendant la recherche ; erreur grave : relecture métier, garde-fou
 Puis                → nouvelle version du RAG, kit evaluer, kit comparer avec la précédente
 ```
+
+Retour au [README](../README.md).
