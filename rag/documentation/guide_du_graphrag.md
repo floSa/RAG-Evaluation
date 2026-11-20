@@ -63,7 +63,17 @@ La durée moyenne de consignation pour une armoire divisionnaire BT est de 20 mi
   …
 ```
 
-Avec `--profil exploitation`, la question est posée par un utilisateur de ce profil : il ne verra jamais un document réservé à « maintenance ».
+Avec `--profil`, la question est posée par un utilisateur de ce profil, et il ne voit que ses documents. Le réglage du relais de protection générale est dans NT-051, réservé à « Maintenance » :
+
+```bash
+uv run rag demander "Quel est le réglage du relais de protection générale ?" --profil exploitation
+```
+
+```
+Je ne trouve pas cette information dans les documents.
+```
+
+Avec `--profil maintenance`, la même question reçoit la réponse : « Seuil 72 A, Temporisation 500 ms [5] ».
 
 ## Les étapes, une par une
 
@@ -77,7 +87,14 @@ Lire chaque document et en sortir le texte, page par page.
 | PDF scanné | Docling, OCR forcé | les pages ne sont que des images |
 | Fiche de base de données | pypdf, mode « mise en page » | il garde les deux colonnes « champ : valeur » |
 
-La liste des documents et de leurs métadonnées (référence, version, droits d'accès, format) vient pour l'instant du corpus exporté par le kit (`sorties/corpus/<version>/documents.jsonl`).
+La liste des documents vient de **la gestion documentaire de l'entreprise**, comme en production : un export CSV, une ligne par document, avec sa référence, son titre, son type, sa version, son format, ses droits d'accès et le nom de son fichier. Pour le corpus d'exemple, c'est [`evaluation/corpus_exemple/sources/export_ged.csv`](../../evaluation/corpus_exemple/sources/export_ged.csv), à côté des PDF.
+
+```
+reference;titre;type_document;version;date;format;droits_acces;en_vigueur;remplace_par;fichier
+NT-051;Réglages des protections du poste HTA;Note technique;v3;2025-03-10;PDF natif;Maintenance;oui;;NT-051.pdf
+```
+
+Le RAG traduit les libellés en codes (« PDF scanné » → `pdf_scanne`, « Tous les utilisateurs » → `tous`) et ne lit rien d'autre : ni le fichier Excel du métier, ni le corpus exporté par le kit.
 
 ### 2. Découpage — [`pipeline/etape_2_decoupage.py`](../src/rag/pipeline/etape_2_decoupage.py)
 
@@ -119,6 +136,7 @@ Tout est dans [`config/config.yaml`](../config/config.yaml) ; seule la clé est 
 | `modeles.embeddings.modele` | `embed` (bge-m3) | relancer `rag indexer` après un changement |
 | `recherche.k` | 5 | ou `--k 3` sur la ligne de commande |
 | `documents` | les PDF du corpus d'exemple | le dossier de vos documents |
+| `liste_des_documents` | `export_ged.csv` du corpus d'exemple | l'export de votre gestion documentaire, avec les mêmes colonnes |
 
 ## Le brancher sur l'évaluation — [`utils/branchement_evaluation.py`](../src/rag/utils/branchement_evaluation.py)
 
