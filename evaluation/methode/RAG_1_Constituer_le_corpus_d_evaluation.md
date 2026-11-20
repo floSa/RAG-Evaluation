@@ -6,17 +6,17 @@ Règles à suivre pour tout projet RAG, quel qu'il soit : base vectorielle, grap
 
 Sans corpus annoté, on ne peut pas dire si un RAG répond juste, ni si une nouvelle version fait mieux. Le corpus sert à évaluer le RAG à quatre niveaux.
 
-![Ce que chaque partie du corpus permet d'évaluer](s1_pourquoi.png)
+![Ce que chaque partie du corpus permet d'évaluer](images/s1_pourquoi.png)
 
 ## 2. Quand on le construit
 
 En parallèle du développement du RAG, et avant la première évaluation. Le métier annote les documents tels qu'ils sont dans leur source : le corpus ne dépend d'aucun choix technique du RAG.
 
-![Le corpus se construit en parallèle du RAG](s0_quand.png)
+![Le corpus se construit en parallèle du RAG](images/s0_quand.png)
 
 ## 3. Le chemin complet
 
-![Du fichier du métier à l'évaluation du RAG](c1_chemin.png)
+![Du fichier du métier à l'évaluation du RAG](images/c1_chemin.png)
 
 | Étape | Qui | Ce qui se passe |
 | --- | --- | --- |
@@ -34,7 +34,7 @@ Le lien entre le corpus et le RAG, c'est **la référence du document dans sa so
 
 Une question a sa réponse dans un ou plusieurs documents ; dans chaque document, dans un ou plusieurs passages. Le fichier a une feuille par niveau, plus une feuille pour les pages de référence de l'OCR.
 
-![Une question, ses documents, ses passages](c2_arbre.png)
+![Une question, ses documents, ses passages](images/c2_arbre.png)
 
 Chaque colonne est expliquée dans le fichier : en survolant son en-tête, et dans la feuille Définitions.
 
@@ -133,7 +133,7 @@ Chaque projet ajoute à droite les colonnes utiles : service, site, unité, pali
 
 Avec 50 questions, le score est précis à ± 11 points : assez pour voir si le RAG marche. Avec 200, à ± 5,5 points : assez pour dire si une nouvelle version fait mieux. Les autres valeurs sont des repères à adapter.
 
-![Précision du score selon le nombre de questions](s6_precision.png)
+![Précision du score selon le nombre de questions](images/s6_precision.png)
 
 ### Le déroulé pour le métier
 
@@ -165,7 +165,7 @@ Les images et schémas sont convertis en texte à l'ingestion (description par u
 
 Elle centralise le corpus, les liens avec le RAG et les résultats. Elle est indépendante de la base vectorielle choisie.
 
-![Les tables de la base relationnelle](c3_base.png)
+![Les tables de la base relationnelle](images/c3_base.png)
 
 | Table | Une ligne = | Remplie par |
 | --- | --- | --- |

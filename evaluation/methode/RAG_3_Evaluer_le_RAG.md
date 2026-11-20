@@ -4,7 +4,7 @@ Règles à suivre pour tout projet RAG : base vectorielle, graphe, ou agent. On 
 
 ## 1. Le principe : le RAG et le kit sont séparés
 
-![Le RAG fournit, le kit évalue](e0_contrat.png)
+![Le RAG fournit, le kit évalue](images/e0_contrat.png)
 
 | Partie | Qui | Ce qu'elle fait |
 | --- | --- | --- |
@@ -82,7 +82,7 @@ Chaque évaluation enregistre `rag.json`, la version du corpus et la version du 
 
 ## 5. Les niveaux du RAG et ce qu'on évalue
 
-![Ce qu'on évalue à chaque niveau du RAG](e2_niveaux.png)
+![Ce qu'on évalue à chaque niveau du RAG](images/e2_niveaux.png)
 
 | Niveau | La question posée | Entrée du RAG | Comparé à, dans le corpus | Score principal |
 | --- | --- | --- | --- | --- |
@@ -141,7 +141,7 @@ Les seuils de ressemblance sont réglables dans le kit. Chaque passage non ratta
 | Quand | à chaque version du RAG |
 | Si le score est mauvais | document 2, recherche (section 11) |
 
-![Exemple : la recherche rend 5 chunks, le bon est en 3e position](e3_recherche.png)
+![Exemple : la recherche rend 5 chunks, le bon est en 3e position](images/e3_recherche.png)
 
 | Score | Comment il est calculé | Configuration |
 | --- | --- | --- |
@@ -194,7 +194,7 @@ Avec un graphe : les éléments retrouvés (nœuds, relations, extraits de texte
 
 Croiser la recherche et la réponse dit où chercher la cause :
 
-![Croiser recherche et réponse pour trouver la cause](e4_diagnostic.png)
+![Croiser recherche et réponse pour trouver la cause](images/e4_diagnostic.png)
 
 ### Qui note les réponses
 
@@ -307,7 +307,7 @@ Langfuse et le rapport donnent chaque score par type de document, type d'éléme
 
 ## 12. En production
 
-![La production enrichit le corpus](e5_production.png)
+![La production enrichit le corpus](images/e5_production.png)
 
 Le RAG en production envoie ses traces à Langfuse, avec les mêmes champs que le contrat : chunks retrouvés, chunks cités, abstention, versions, durée, coût.
 

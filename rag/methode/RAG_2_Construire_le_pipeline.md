@@ -6,7 +6,7 @@ Règles à suivre pour tout projet RAG. Ce document dit quelle technique mettre 
 
 ## 1. Le pipeline en un schéma
 
-![Les étapes du pipeline](p1_pipeline.png)
+![Les étapes du pipeline](images/p1_pipeline.png)
 
 | Étape | Rôle | Qui |
 | --- | --- | --- |
