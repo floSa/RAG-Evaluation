@@ -123,14 +123,18 @@ def version_majeure(objet: dict) -> str:
     return str(objet.get("contrat", "")).split(".")[0]
 
 
-def verifier_dossier(dossier: Path, corpus: Path | None = None) -> list[str]:
-    """Vérifie un dossier du contrat ; rend la liste de ce qui ne va pas (vide si tout est conforme)."""
+def verifier_dossier(dossier: Path, corpus: Path | None = None, ingestion_seule: bool = False) -> list[str]:
+    """Vérifie un dossier du contrat ; rend la liste de ce qui ne va pas (vide si tout est conforme).
+
+    `ingestion_seule` : seuls rag.json et chunks.jsonl sont exigés (niveau 1, avant de poser les questions).
+    """
     dossier = Path(dossier)
     if (dossier / "corpus.json").exists():
         attendus, obligatoires = FICHIERS_CORPUS, list(FICHIERS_CORPUS)
         tete = "corpus.json"
     elif (dossier / "rag.json").exists():
-        attendus, obligatoires = FICHIERS_RAG, list(OBLIGATOIRES_RAG)
+        attendus = FICHIERS_RAG
+        obligatoires = OBLIGATOIRES_RAG[:2] if ingestion_seule else list(OBLIGATOIRES_RAG)
         tete = "rag.json"
     else:
         return [f"{dossier} : ni corpus.json ni rag.json ; ce n'est pas un dossier du contrat."]
@@ -161,9 +165,9 @@ def coherence_rag(dossier: Path, dossier_corpus: Path | None) -> list[str]:
     ids = set(ids)
     if rag["type_rag"] in ("graphe", "hybride") and not (dossier / "graphe.ttl").exists():
         erreurs.append(f"graphe.ttl : obligatoire quand type_rag vaut « {rag['type_rag']} », et absent.")
-    recherches = lire_jsonl(dossier / "recherches.jsonl")
-    reponses = lire_jsonl(dossier / "reponses.jsonl")
-    for r in recherches:
+    lire = lambda nom: lire_jsonl(dossier / nom) if (dossier / nom).exists() else None  # noqa: E731
+    recherches, reponses = lire("recherches.jsonl"), lire("reponses.jsonl")
+    for r in recherches or []:
         if r["k"] != rag["k"]:
             erreurs.append(f"recherches.jsonl, {r['question_id']} : k = {r['k']}, mais rag.json annonce k = {rag['k']} "
                            f"(le même k pour toutes les questions).")
@@ -171,7 +175,7 @@ def coherence_rag(dossier: Path, dossier_corpus: Path | None) -> list[str]:
         if inconnus:
             erreurs.append(f"recherches.jsonl, {r['question_id']} : chunk(s) absent(s) de chunks.jsonl : "
                            f"{', '.join(inconnus[:5])}.")
-    for r in reponses:
+    for r in reponses or []:
         for champ in ("chunks_cites", "chunks_contexte"):
             inconnus = [c for c in r[champ] if c not in ids]
             if inconnus:
@@ -186,6 +190,8 @@ def coherence_rag(dossier: Path, dossier_corpus: Path | None) -> list[str]:
     c = charger_corpus(dossier_corpus)
     questions = {q["question_id"]: q for q in c["questions"]}
     for nom, lignes in (("recherches.jsonl", recherches), ("reponses.jsonl", reponses)):
+        if lignes is None:
+            continue
         vues = [l["question_id"] for l in lignes]
         manquantes = sorted(set(questions) - set(vues))
         if manquantes:
