@@ -1,0 +1,269 @@
+# Contrat entre un RAG et le kit d'évaluation — version 1.0
+
+Ce document fixe les fichiers échangés entre le corpus, le RAG évalué et le kit d'évaluation. Il complète les documents 1 et 3. Il fait foi pour le code : un champ absent de ce document n'existe pas ; un champ obligatoire manquant est une erreur.
+
+## 1. Conventions
+
+| Règle | Valeur |
+| --- | --- |
+| Encodage | UTF-8 |
+| Format des listes d'objets | JSON Lines (`.jsonl`) : un objet JSON par ligne |
+| Noms de champs | minuscules, sans accent, mots séparés par `_` |
+| Dates | ISO 8601 (`2026-11-20` ou `2026-11-20T14:05:00+01:00`) |
+| Valeurs de listes fermées | les codes indiqués ci-dessous, sans accent ; l'import convertit les libellés du fichier Excel en codes (« Tous les utilisateurs » → `tous`, « PDF scanné » → `pdf_scanne`…) ; les profils sont mis en minuscules, sans accent, mots séparés par `_` |
+| Champ facultatif absent | omis, ou `null` |
+| Version du contrat | champ `contrat` dans `corpus.json` et `rag.json` ; le kit refuse une version majeure qu'il ne connaît pas |
+
+Arborescence :
+
+| Dossier | Contenu | Écrit par |
+| --- | --- | --- |
+| `corpus/<version_corpus>/` | corpus.json, documents.jsonl, questions.jsonl, passages.jsonl, pages_ocr.jsonl | le module d'import du kit |
+| `sorties_rag/<version_rag>/` | rag.json, chunks.jsonl, pages_extraites.jsonl, graphe.ttl, recherches.jsonl, reponses.jsonl | le RAG, ou le lanceur du kit par le connecteur |
+| `resultats/<evaluation_id>/` | evaluation.json, liens_index.jsonl, resultats_par_question.csv, scores.json, rapport.html | le kit |
+| `config/` | seuils.json, kit.yaml | l'équipe du projet |
+
+## 2. Le corpus (écrit par l'import, depuis le fichier Excel du document 1)
+
+### corpus.json
+
+| Champ | Type | Obligatoire | Contenu |
+| --- | --- | --- | --- |
+| contrat | texte | oui | `1.0` |
+| version_corpus | texte | oui | ex. `2026-11-20.1` ; change à chaque import d'un fichier modifié |
+| projet | texte | oui | nom du projet |
+| date | date | oui | date de l'import |
+| fichier_source | texte | oui | nom du fichier Excel et son empreinte SHA-256 |
+| colonnes_libres | liste de textes | oui | noms des colonnes ajoutées par le projet (service, site…) |
+
+### documents.jsonl — une ligne par document
+
+| Champ | Type | Obligatoire | Colonne Excel | Valeurs |
+| --- | --- | --- | --- | --- |
+| reference_source | texte | oui | Référence dans la source | identifiant unique |
+| titre | texte | oui | Titre | |
+| type_document | texte | oui | Type de document | valeur de la feuille Listes |
+| source | texte | oui | Source | valeur de la feuille Listes |
+| version | texte | oui | Version | |
+| date | date | non | Date | |
+| format | code | oui | Format | `pdf_natif`, `pdf_scanne`, `word`, `excel`, `fiche_base` |
+| nb_pages | entier | non | Nombre de pages | |
+| criticite | code | oui | Criticité | `C1`, `C2`, `C2_export`, `C3` |
+| droits_acces | texte | oui | Droits d'accès | profil de la feuille Listes ; `tous` si aucune restriction |
+| en_vigueur | booléen | oui | En vigueur | |
+| remplace_par | texte | non | Remplacé par | une reference_source |
+| selection | code | oui | Sélection | `hasard`, `choix_metier` |
+| colonnes_libres | objet | non | colonnes ajoutées | `{"service": "Maintenance", "site": "Site A"}` |
+
+### questions.jsonl — une ligne par question
+
+| Champ | Type | Obligatoire | Colonne Excel | Valeurs |
+| --- | --- | --- | --- | --- |
+| question_id | texte | oui | Identifiant | `Q-001` |
+| question | texte | oui | Question | |
+| profil | texte | oui | Profil de l'utilisateur | `tous` par défaut |
+| redigee_par | code | oui | Rédigée par | `metier`, `ia_relue`, `production` |
+| type_reponse | code | oui | Type de réponse | `fait`, `liste`, `calcul`, `explication`, `synthese` |
+| reponse_dans_documents | code | oui | Réponse dans les documents ? | `oui`, `non`, `non_accessible` |
+| reponse_est_dans | code | si `oui` | La réponse est dans | `un_passage`, `plusieurs_a_combiner`, `plusieurs_un_suffit`, `ensemble_documents` |
+| reponse_attendue | texte | oui | Réponse attendue | |
+| points_cles | liste d'objets | si `oui` | Points clés attendus | voir ci-dessous |
+| difficulte | code | oui | Difficulté | `facile`, `moyenne`, `difficile` |
+| frequence | code | oui | Fréquence | `frequente`, `occasionnelle`, `rare` |
+| gravite | code | oui | Gravité d'une erreur | `faible`, `moyenne`, `forte` |
+| reservee_decision | booléen | oui | Réservée à la décision | |
+| question_precedente | texte | non | Question précédente | un question_id |
+| variante_de | texte | non | Variante de | un question_id |
+| annotateur, date | texte, date | non | Annotateur, Date | |
+| colonnes_libres | objet | non | colonnes ajoutées | |
+
+Un point clé :
+
+| Champ | Type | Obligatoire | Contenu |
+| --- | --- | --- | --- |
+| texte | texte | oui | le point clé tel qu'écrit par le métier |
+| valeur | nombre | non | pour un calcul ou une valeur : le nombre (`2`) |
+| unite | texte | non | `%`, `jours`, `A`… |
+| tolerance | nombre | non | écart admis (`0.1`) ; 0 si absent |
+
+L'import découpe la colonne « Points clés attendus » sur « ; » et reconnaît la forme « nombre unité ± tolérance ».
+
+### passages.jsonl — une ligne par passage
+
+| Champ | Type | Obligatoire | Colonne Excel | Valeurs |
+| --- | --- | --- | --- | --- |
+| passage_id | entier | oui | numéro de ligne | attribué par l'import, stable d'une version à l'autre tant que la ligne ne change pas |
+| question_id | texte | oui | Question | |
+| reference_source | texte | oui | Référence du document | existe dans documents.jsonl |
+| page | texte | oui | Page | numéro de page, ou nom du champ pour une fiche de base |
+| type_element | code | oui | Type d'élément | `texte`, `tableau`, `texte_scanne`, `image_schema` |
+| passage | texte | oui | Passage | |
+| repond | code | oui | Répond | `entierement`, `en_partie`, `piege` |
+
+### pages_ocr.jsonl — une ligne par page de référence
+
+| Champ | Type | Obligatoire | Contenu |
+| --- | --- | --- | --- |
+| reference_source | texte | oui | document scanné |
+| page | texte | oui | numéro de page |
+| texte_retape | texte | oui | texte exact de la page ; tableaux ligne par ligne, cellules séparées par « \| » |
+| retape_par, relu_par, date | texte, texte, date | non | |
+
+### Contrôles de l'import (rejet de la ligne, avec un message clair)
+
+- Colonne obligatoire vide ; valeur hors liste.
+- `reference_source` d'un passage absente de documents.
+- `question_id` en double ; `question_precedente` ou `variante_de` qui ne renvoie à aucune question.
+- Question `oui` sans passage (hors pièges) ; question `non_accessible` dont aucun passage ne vient d'un document interdit au profil.
+- Avertissement (sans rejet) : configuration minimale du document 1 non atteinte.
+
+## 3. Les sorties du RAG
+
+### rag.json — la version évaluée
+
+| Champ | Type | Obligatoire | Contenu |
+| --- | --- | --- | --- |
+| contrat | texte | oui | `1.0` |
+| nom | texte | oui | nom du RAG |
+| version_rag | texte | oui | identifiant unique de cette version |
+| type_rag | code | oui | `vectoriel`, `graphe`, `hybride`, `agent` |
+| date | date | oui | |
+| k | entier | oui | nombre de chunks donnés au modèle |
+| versions | objet | oui | `index`, `decoupage`, `embedding`, `generation`, `prompt`, `reranker` (texte ; `aucun` si absent) |
+| filtre_droits | booléen | oui | le RAG filtre-t-il les droits ? |
+
+### chunks.jsonl — un chunk ou un élément du graphe
+
+| Champ | Type | Obligatoire | Contenu |
+| --- | --- | --- | --- |
+| chunk_id | texte | oui | identifiant unique dans l'index ; c'est celui des recherches et des réponses |
+| type_objet | code | oui | `chunk`, `noeud`, `relation`, `resume` |
+| reference_source | texte | oui sauf `resume` | référence du document d'origine |
+| version_document | texte | oui sauf `resume` | |
+| page | texte | oui sauf `resume` | page, ou nom du champ pour une fiche de base |
+| type_element | code | oui sauf `resume` | `texte`, `tableau`, `texte_scanne`, `image_schema` |
+| droits_acces | texte | oui | profil autorisé, ou `tous` |
+| ordre | entier | oui sauf `resume` | rang du chunk dans la page (0, 1, 2…) ; sert à détecter les passages coupés |
+| texte | texte | oui | le texte indexé (pour une image : sa description) |
+| version_index | texte | oui | |
+| metadonnees | objet | non | tout le reste (chemin de titres…) |
+
+Un chunk qui chevauche deux pages porte la page où il commence.
+
+### pages_extraites.jsonl — obligatoire si des documents sont scannés
+
+| Champ | Type | Obligatoire | Contenu |
+| --- | --- | --- | --- |
+| reference_source, page | texte | oui | |
+| texte | texte | oui | le texte de la page tel que sorti de l'extraction, avant découpage |
+
+### graphe.ttl — obligatoire si `type_rag` vaut `graphe` ou `hybride`
+
+Le graphe exporté en RDF (Turtle). Chaque nœud et chaque relation réifiée porte sa provenance avec deux propriétés : `kit:referenceSource` et `kit:page` (espace de noms `kit: <https://kit-eval-rag/ns#>`). Le projet fournit à côté `ontologie_formes.ttl` : les règles SHACL de son ontologie.
+
+### recherches.jsonl — une ligne par question
+
+| Champ | Type | Obligatoire | Contenu |
+| --- | --- | --- | --- |
+| question_id | texte | oui | |
+| profil | texte | oui | le profil avec lequel la recherche a été faite |
+| k | entier | oui | |
+| resultats | liste | oui | les k chunks, dans l'ordre : `{"chunk_id": "...", "rang": 1, "score": 0.83}` |
+| resultats_avant_reranking | liste | non | même forme, avant reclassement |
+| duree_ms | entier | oui | |
+
+### reponses.jsonl — une ligne par question
+
+| Champ | Type | Obligatoire | Contenu |
+| --- | --- | --- | --- |
+| question_id, profil | texte | oui | |
+| reponse | texte | oui | la réponse envoyée à l'utilisateur |
+| abstention | booléen | oui | vrai si le RAG dit ne pas pouvoir répondre |
+| chunks_cites | liste de chunk_id | oui | les sources citées dans la réponse (vide si aucune) |
+| chunks_contexte | liste de chunk_id | oui | tous les chunks donnés au modèle |
+| duree_ms | entier | oui | de la question à la réponse |
+| cout | nombre | non | en euros |
+| tokens_entree, tokens_sortie | entier | non | |
+| trace_id | texte | oui | identifiant de la trace dans Langfuse |
+
+### Règles d'appel
+
+| Règle | Détail |
+| --- | --- |
+| Profil | chaque question est posée avec son `profil` ; la recherche applique les droits de ce profil |
+| Historique | une question avec `question_precedente` reçoit `[{"question": <question précédente>, "reponse": <sa reponse_attendue>}]` |
+| Même k | pour toutes les questions d'une évaluation |
+| Isolement | le RAG ne reçoit jamais reponse_attendue, points_cles ni passages, sauf l'historique ci-dessus |
+| Toutes les questions | y compris réservées à la décision ; seul l'affichage des résultats diffère |
+
+### Le connecteur (si le RAG est en Python)
+
+Un objet qui expose ces méthodes ; le kit les appelle et écrit lui-même les fichiers ci-dessus.
+
+| Méthode | Entrée | Sortie |
+| --- | --- | --- |
+| `decrire()` | — | le contenu de rag.json |
+| `exporter_index()` | — | itérable d'objets chunks.jsonl |
+| `exporter_pages()` | — | itérable d'objets pages_extraites.jsonl, ou rien |
+| `exporter_graphe(chemin)` | chemin de fichier | écrit graphe.ttl, ou rien |
+| `rechercher(question, profil, historique)` | texte, texte, liste | liste de `{"chunk_id", "rang", "score"}` ; option `avant_reranking` |
+| `repondre(question, profil, historique)` | texte, texte, liste | objet reponses.jsonl, sans question_id |
+
+Le connecteur ne doit rien importer du kit : le kit l'utilise par son nom de méthode.
+
+## 4. Les sorties du kit
+
+### liens_index.jsonl
+
+| Champ | Contenu |
+| --- | --- |
+| passage_id, chunk_id, version_index | le lien |
+| mode | `exact`, `approche`, `image`, `coupe` |
+| similarite | de 0 à 1 |
+
+### evaluation.json
+
+`evaluation_id`, date, `version_corpus`, `version_kit`, contenu de rag.json, configuration du juge (modèle, version du prompt), seuils utilisés.
+
+### resultats_par_question.csv — une ligne par question et par score
+
+| Colonne | Contenu |
+| --- | --- |
+| evaluation_id, question_id | |
+| niveau | `1`, `2`, `3`, `4` |
+| score | identifiant standard (tableau ci-dessous) |
+| valeur | nombre, ou texte pour un verdict |
+| detail | justification courte (juge), chunks en cause… |
+
+### scores.json
+
+Pour chaque score : `score`, `niveau`, `valeur`, `marge` (± à 95 %), `n` (nombre de questions ou de passages), `ventilation` (par type de document, difficulté, type d'élément, type de réponse, profil, colonne libre), `seuil`, `atteint`, `bloquant`. Puis `decision` : liste des critères bloquants déclenchés, seuils atteints ou non.
+
+### Identifiants standard des scores
+
+| Niveau | Identifiant | Configuration |
+| --- | --- | --- |
+| 1 | `n1_documents_indexes`, `n1_metadonnees_completes`, `n1_passages_rattaches`, `n1_passages_coupes` | minimale |
+| 1 | `n1_erreur_caracteres` | minimale si scans |
+| 1 | `n1_graphe_violations`, `n1_graphe_justesse` | minimale si graphe |
+| 1 | `n1_erreur_mots` | recommandée |
+| 2 | `n2_reussite_k`, `n2_rappel_k`, `n2_rang_premier` | minimale |
+| 2 | `n2_fuite_droits` | minimale si filtre des droits |
+| 2 | `n2_ndcg_k`, `n2_reussite_1`, `n2_reussite_3`, `n2_reussite_5`, `n2_reussite_10`, `n2_reussite_avant_reranking`, `n2_perimes_pieges` | recommandée |
+| 3 | `n3_exactitude`, `n3_completude_listes`, `n3_valeurs`, `n3_abstention_correcte`, `n3_abstention_a_tort`, `n3_fidelite`, `n3_citations`, `n3_erreurs_graves` | minimale |
+| 3 | `n3_synthese` | minimale si graphe |
+| 3 | `n3_second_avis`, `n3_questions_suite`, `n3_variantes` | recommandée |
+| 4 | `n4_score_pondere`, `n4_erreurs_graves`, `n4_temps_median`, `n4_temps_p95`, `n4_cout_moyen` | minimale |
+
+### Langfuse
+
+| Objet Langfuse | Contenu |
+| --- | --- |
+| Jeu de données (dataset) | nom `corpus-<projet>-<version_corpus>` ; un élément par question : entrée = question, profil, historique ; sortie attendue = réponse attendue et points clés ; métadonnées = toutes les autres colonnes |
+| Expérience (dataset run) | nom = `evaluation_id` ; chaque élément relié à la trace de la réponse du RAG |
+| Scores | sur chaque trace, avec les identifiants standard ci-dessus |
+| Files de relecture | `relecture-reponses` (réponses à relire par le métier), `verification-juge` (30 à 50 réponses), `justesse-graphe` (50 relations) |
+
+### config/seuils.json
+
+Pour chaque identifiant de score : `seuil`, `sens` (`min` : le score doit être au moins égal ; `max` : au plus égal), `bloquant` (booléen). Valeurs par défaut : celles du document 3, section 9.
