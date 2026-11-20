@@ -16,7 +16,7 @@ flowchart TD
 
 ## 1. Où sont les résultats
 
-Une évaluation, c'est un corpus évalué avec une version du RAG. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_rag-demo-k5-80032dcd`. Ses résultats sont à trois endroits.
+Une évaluation, c'est un corpus évalué avec une version du RAG. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_graphrag-vectoriel-k5-80032dcd`. Ses résultats sont à trois endroits.
 
 **Dans un dossier**, `sorties/resultats/<évaluation>/` :
 
@@ -104,21 +104,40 @@ Après un changement (k, prompt, modèle, découpage), on évalue la nouvelle ve
 **Exemple : le RAG d'exemple avec k = 5 (A), puis k = 3 (B).**
 
 ```bash
-uv run kit comparer sorties/resultats/2026-11-20.1_rag-demo-k5-80032dcd sorties/resultats/2026-11-20.1_rag-demo-k3-80032dcd
+uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-80032dcd sorties/resultats/2026-11-20.1_graphrag-vectoriel-k3-80032dcd
 ```
 
 | Score | k = 5 | k = 3 | Lecture |
 | --- | --- | --- | --- |
 | bon passage retrouvé (`n2_reussite_k`) | 86 % | 75 % | moins de chunks, moins de chances de ramener le bon : 3 questions perdues |
 | passages attendus retrouvés (`n2_rappel_k`) | 81 % | 64 % | le seul écart **plus grand que la marge** : ce n'est pas le hasard |
-| réponses justes (`n3_exactitude`) | 79 % (n = 28) | 83 % (n = 23) | semble monter, mais sur 5 questions de moins : le RAG s'abstient davantage, et les abstentions ne sont pas notées ici |
-| erreurs graves | 2 | 0 | moins de contexte, moins d'occasions d'affirmer sans appui |
-| score pondéré (`n4_score_pondere`) | 80 % | 77 % | ce que vivront les utilisateurs : 4 questions perdues, aucune gagnée |
+| réponses justes (`n3_exactitude`) | 80 % (n = 28) | 83 % (n = 23) | semble monter, mais sur 5 questions de moins : le RAG s'abstient davantage, et les abstentions ne sont pas notées ici |
+| erreurs graves, questions de réglage | 1 | 0 | moins de contexte, moins d'occasions d'affirmer sans appui ; mais k = 3 en fait une sur les questions réservées |
+| score pondéré (`n4_score_pondere`) | 81 % | 77 % | ce que vivront les utilisateurs : 5 questions perdues, aucune gagnée |
 
-McNemar donne p = 0,125 sur le score pondéré : avec 40 questions, on ne peut pas exclure le hasard.
+McNemar donne p = 0,062 sur le score pondéré : avec 40 questions, on ne peut pas exclure le hasard.
 
-**Conclusion** : k = 3 n'est pas meilleur. Il évite les deux erreurs graves, mais en répondant moins. Pour décider, il faudrait plus de questions (la configuration recommandée en prévoit 200), et un correctif ciblé des deux erreurs graves sur k = 5.
+**Conclusion** : k = 3 n'est pas meilleur. Il répond moins, et ne supprime pas les erreurs graves : il les déplace. Pour décider, il faudrait plus de questions (la configuration recommandée en prévoit 200), et un correctif ciblé de l'erreur grave sur k = 5.
 
 C'est tout l'intérêt de lire **plusieurs scores ensemble**. Une exactitude qui monte peut cacher un RAG qui répond moins.
+
+**Exemple : le RAG vectoriel (A) et le RAG hybride, avec son graphe (B), tous deux avec k = 5.** Le même kit les évalue sans changer une ligne de code : il voit seulement `type_rag` = `hybride` et un fichier `graphe.ttl` de plus.
+
+```bash
+uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-80032dcd sorties/resultats/2026-11-20.1_graphrag-hybride-k5-393efaea
+```
+
+| Score | vectoriel | hybride | Lecture |
+| --- | --- | --- | --- |
+| violations de l'ontologie (`n1_graphe_violations`) | — | 25 | le graphe existe, avec des erreurs d'extraction : des personnes « situées sur » un site, un onduleur qui « secourt » un site |
+| bon passage retrouvé (`n2_reussite_k`) | 86 % | 82 % | les éléments du graphe prennent des places parmi les k : 1 question perdue (Q-031) |
+| bon passage en tête (`n2_reussite_1`) | 54 % | 39 % | un élément du graphe passe souvent devant le bon passage |
+| réponses justes (`n3_exactitude`) | 80 % (n = 28) | 86 % (n = 25) | semble monter, mais sur 3 questions de moins : le RAG hybride s'abstient plus souvent à tort (9 % contre 6 %) |
+| bonnes citations (`n3_citations`) | 89 % | 96 % | — |
+| erreurs graves | 1 | 0 | Q-046 n'est plus fausse ; à confirmer, vu la variation d'une exécution à l'autre |
+| synthèses (`n3_synthese`) | 45 % | 47 % | le graphe relie des entités, il ne résume pas le corpus : pas de gain sur les synthèses |
+| score pondéré (`n4_score_pondere`) | 81 % | 81 % | aucune différence pour les utilisateurs |
+
+**Conclusion** : sur ce corpus, le graphe n'apporte rien de mesurable. Aucun écart ne dépasse la marge, et le score pondéré est le même. Le corpus d'exemple a peu de questions qui demandent de suivre des liens ou de faire une liste. C'est ce que dit le document 2 : le graphe s'ajoute quand l'évaluation montre des échecs que la recherche de passages ne peut pas corriger. Ici, elle n'en montre pas.
 
 Retour au [README](../../README.md).
