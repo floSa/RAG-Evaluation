@@ -115,7 +115,7 @@ RAG-Evaluation/
 | 7 | Modèle Excel | contient des lignes d'exemple et des sources réelles (« Base de données EDF », « Caméléon ») | la copie de `corpus_exemple/` est vidée de ses exemples ; feuille Listes complétée avec des sources et profils fictifs |
 | 8 | Fiche de base de données | pas de type d'élément dédié | passage de type `texte`, nom du champ dans « Page » (comme l'exemple du modèle) |
 | 9 | Taille du corpus d'exemple | CLAUDE.md : 12 documents, 30 questions, 3 pages OCR ; configuration minimale : 10 documents par type, 50 questions, 20 pages OCR | on suit CLAUDE.md ; le tableau de bord montrera « À compléter » sur ces lignes et l'import émettra l'avertissement prévu (sans rejet) |
-| 10 | Juge différent du RAG | « de préférence un autre modèle que celui du RAG » | génération : `chat` (qwen3.5-4b) ; juge et Ragas : `gemma-4-e4b` ; réflexion désactivée pour les deux |
+| 10 | Juge différent du RAG | « de préférence un autre modèle que celui du RAG » | génération et vision du RAG : `gemma-4-e4b` ; juge et Ragas : `chat` (qwen3.5-4b) ; embeddings : `embed` (bge-m3) ; réflexion désactivée pour la génération et le juge (validé le 2026-11-20) |
 
 ## 6. Risques repérés
 
