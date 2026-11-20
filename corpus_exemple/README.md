@@ -5,7 +5,7 @@ Un corpus d'évaluation complet, annoté selon le document 1, sur une entreprise
 | Élément | Contenu |
 | --- | --- |
 | `sources/` | 50 documents PDF : 17 procédures (PDF natifs), 16 notes techniques (11 natives, 5 scannées et bruitées : images seules, sans texte), 17 comptes rendus d'intervention (fiches de la GMAO exportées en « champ : valeur ») |
-| `Corpus_evaluation_RAG.xlsx` | le fichier du métier rempli : 50 documents, 60 questions, 122 passages, 20 pages OCR retapées |
+| `Corpus_evaluation_RAG.xlsx` | le fichier du métier rempli : 50 documents, 60 questions, 97 passages, 20 pages OCR retapées |
 | `questions_pour_relecture.md` | les 60 questions, sur une page, pour relecture |
 | `fabrication/` | de quoi tout refabriquer : le monde fictif, les contenus JSON, les scripts |
 | `ontologie/` | ontologie et règles SHACL (étape 9) |
