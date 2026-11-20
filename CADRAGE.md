@@ -31,7 +31,8 @@ RAG-Evaluation/
 │   ├── kit.yaml               point d'accès, modèles du juge et des embeddings, seuils de ressemblance, chemins
 │   └── seuils.json            seuil, sens, bloquant pour chaque score (document 3, section 9)
 ├── infra/
-│   ├── docker-compose.yml     Langfuse v3 auto-hébergé (web, worker, PostgreSQL, ClickHouse, Redis, MinIO) et Docling-serve
+│   ├── docker-compose.yml     Langfuse v4 auto-hébergé (web, worker, PostgreSQL, ClickHouse, Redis, MinIO) et Docling-serve
+│   ├── initialiser.sh         crée infra/.env (secrets tirés au hasard) et recopie les clés Langfuse dans .env
 │   └── .env.example
 ├── corpus_exemple/
 │   ├── fabrication/           scripts qui fabriquent le corpus fictif (contenus, PDF, scan bruité, fiche)
@@ -108,14 +109,16 @@ RAG-Evaluation/
 | # | Point | Ce que disent les documents | Décision proposée |
 | --- | --- | --- | --- |
 | 1 | Identifiant d'un passage | « numéro de ligne », « stable d'une version à l'autre tant que la ligne ne change pas » (CONTRAT §2) : une ligne insérée plus haut décale les numéros | à la première importation, `passage_id` = numéro de la ligne Excel ; ensuite, une ligne identique (question, référence, page, type d'élément, passage, répond) garde son identifiant, une ligne nouvelle ou modifiée reçoit le plus grand identifiant + 1 |
-| 2 | Réponse « non fidèle » dans `n3_erreurs_graves` | « réponses fausses, ou non fidèles, à une question de gravité forte » ; aucun seuil par question | non fidèle = fidélité Ragas de la réponse < 0,5 ; réglable dans `kit.yaml` |
-| 3 | Score pondéré : questions sans réponse | « somme des poids des réponses justes » ; le juge ne note que les questions `oui` | question `non` ou `non_accessible` : juste si le RAG s'abstient, fausse sinon ; question `oui` où le RAG s'abstient : fausse |
-| 4 | Marge d'erreur des scores qui ne sont pas des proportions | formule ± 1,96 × √(p(1−p)/n), écrite pour une proportion | appliquée telle quelle aux scores entre 0 et 1 (MRR, fidélité, exactitude) ; `null` pour les nombres (fuite, erreurs graves), les temps et les coûts |
+| 2 | Réponse « non fidèle » dans `n3_erreurs_graves` | « réponses fausses, ou non fidèles, à une question de gravité forte » ; aucun seuil par question | non fidèle = au moins une affirmation non appuyée (fidélité Ragas < 1,0) ; réglable dans `kit.yaml` (`seuil_non_fidele`). État de l'art : Patronus Lynx, RAGTruth, Azure Groundedness Pro et DeepEval en mode strict jugent une réponse infidèle dès une affirmation non appuyée ; le seuil 0,5 des outils est un défaut générique, trop laxiste pour une question à risque. Chaque cas est relu par le métier (document 3) |
+| 3 | Score pondéré : questions sans réponse | « somme des poids des réponses justes » ; le juge ne note que les questions `oui` | question `non` ou `non_accessible` : juste (1) si le RAG s'abstient, fausse (0) sinon ; question `oui` où le RAG s'abstient : fausse (0). C'est la règle de CRAG (Meta, 2024) et de SQuAD 2.0 ; la pénalité négative de CRAG n'est pas reprise, car le document 3 fixe la formule |
+| 4 | Marge d'erreur des scores qui ne sont pas des proportions | formule ± 1,96 × √(p(1−p)/n), écrite pour une proportion | appliquée telle quelle aux scores entre 0 et 1 (MRR, fidélité, exactitude) : pour une moyenne de valeurs comprises entre 0 et 1, la variance est au plus p(1−p), la marge est donc prudente ; `null` pour les nombres (fuite, erreurs graves), les temps et les coûts. Le rapport rappelle que, sous 100 questions, cette formule tend à sous-estimer la marge (Bowyer et al., 2025) ; l'intervalle de Wilson et le rééchantillonnage relèvent de la configuration recommandée |
 | 5 | Questions réservées à la décision | « l'équipe technique n'en voit que les scores globaux » | les scores de réglage (rapport, CSV, Langfuse) portent sur les questions non réservées ; un bloc `decision` de `scores.json` donne les scores globaux des questions réservées ; leur détail question par question reste dans la base seulement, sans score par trace dans Langfuse |
 | 6 | Coût en euros | `cout` en euros ; LiteLLM calcule en dollars, et 0 pour un modèle local | coût lu dans la réponse de LiteLLM × taux dollar → euro de `rag_demo/config.yaml` ; 0 avec les modèles locaux |
 | 7 | Modèle Excel | contient des lignes d'exemple et des sources réelles (« Base de données EDF », « Caméléon ») | la copie de `corpus_exemple/` est vidée de ses exemples ; feuille Listes complétée avec des sources et profils fictifs |
 | 8 | Fiche de base de données | pas de type d'élément dédié | passage de type `texte`, nom du champ dans « Page » (comme l'exemple du modèle) |
-| 9 | Taille du corpus d'exemple | CLAUDE.md : 12 documents, 30 questions, 3 pages OCR ; configuration minimale : 10 documents par type, 50 questions, 20 pages OCR | on suit CLAUDE.md ; le tableau de bord montrera « À compléter » sur ces lignes et l'import émettra l'avertissement prévu (sans rejet) |
+| 9 | Taille du corpus d'exemple | CLAUDE.md : 12 documents, 30 questions, 3 pages OCR ; configuration minimale du document 1 : 10 documents par type, 50 questions, 20 pages OCR | **la configuration minimale du document 1 est atteinte**, pour un banc d'essai réaliste qui servira à d'autres : 50 documents (17 procédures, 17 comptes rendus, 16 notes techniques), 60 questions, 20 pages OCR (5 notes scannées de 4 pages). Proportions guidées par CRAG : environ 15 % de questions sans réponse, 17 % à plusieurs passages. Le tableau de bord doit être « OK minimum » partout |
+| 12 | Vérification du juge | « accord d'au moins 90 % » sur 30 réponses | appliqué tel quel ; le kit affiche en plus le kappa de Cohen, car un fort accord brut peut cacher un juge qui dit presque toujours « juste » (Thakur et al., 2024) |
+| 13 | Comparaison de deux versions | écarts et questions gagnées / perdues (minimale) ; McNemar (recommandée) | minimale ; le test exact de McNemar, quelques lignes sans dépendance, est ajouté si le temps le permet |
 | 10 | Juge différent du RAG | « de préférence un autre modèle que celui du RAG » | génération et vision du RAG : `gemma-4-e4b` ; juge et Ragas : `chat` (qwen3.5-4b) ; embeddings : `embed` (bge-m3) ; réflexion désactivée pour la génération et le juge (validé le 2026-11-20) |
 | 11 | Outil d'OCR du RAG de démonstration | CLAUDE.md : `pytesseract` ; document 2 : « analyse de mise en page (Docling, Marker) » | **écart à CLAUDE.md** : Docling-serve en conteneur fait l'extraction complète (texte natif, tableaux, OCR des scans) ; rien à installer sur la machine, et c'est l'outil cité par le document 2. Le kit n'en dépend pas : il mesure l'OCR avec `jiwer` sur `pages_extraites.jsonl`, quel que soit l'outil |
 
@@ -126,3 +129,12 @@ RAG-Evaluation/
 | Des modèles de 4 milliards de paramètres comme juge : sorties JSON parfois invalides, notes Ragas instables | sortie redemandée une fois (JUGE.md) ; vérification du juge sur 30 réponses ; activer un modèle en ligne dans LLM-Service si l'accord est sous 90 % |
 | Files de relecture de Langfuse par l'API | vérifié à l'étape 1 sur la version installée ; sinon, création manuelle documentée |
 | OCR de Docling insuffisant sur le scan bruité | le taux d'erreur de caractères le montrera (c'est son rôle) ; repli : lecture des pages difficiles par le modèle de vision |
+
+## 7. Constats faits en avançant
+
+| Date | Constat | Conséquence |
+| --- | --- | --- |
+| 2026-11-20 | Langfuse auto-hébergé est passé en v4 (4.83.0) ; le SDK Python v5 exige un serveur ≥ 4.59 | Langfuse v4 au lieu de v3 ; variable `LANGFUSE_BASE_URL` |
+| 2026-11-20 | Les files de relecture (annotation queues) et les configurations de scores sont dans l'édition libre (MIT), avec une API publique | `relecture-reponses`, `verification-juge`, `justesse-graphe` créées par le kit |
+| 2026-11-20 | Les images `minio/minio` ne sont plus publiées sur Docker Hub | image `cgr.dev/chainguard/minio` du compose officiel de Langfuse, figée par empreinte |
+| 2026-11-20 | Ragas 0.4 : API « collections » (`llm_factory` + `ragas.metrics.collections`) ; `RubricsScore` devient `RubricsScoreWithReference` / `DomainSpecificRubrics` ; dépendances lourdes (LangChain) | Ragas installé à l'étape 7 seulement, dans le kit |
