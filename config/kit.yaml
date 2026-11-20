@@ -35,7 +35,7 @@ rattachement:
 
 # Niveau 3
 reponse:
-  seuil_non_fidele: 0.5      # fidélité Ragas sous ce seuil = réponse non fidèle (erreurs graves)
+  seuil_non_fidele: 1.0      # fidélité Ragas sous ce seuil = réponse non fidèle (erreurs graves) ; 1.0 = une seule affirmation non appuyée suffit
 
 # Vérification du juge (JUGE.md)
 verification_juge:
