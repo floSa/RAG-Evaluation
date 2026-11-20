@@ -23,6 +23,30 @@ def init_base():
     typer.echo(f"Base prête ({config['chemins']['base']}) : {', '.join(tables)}")
 
 
+@app.command("verifier-modeles")
+def verifier_modeles():
+    """Teste le point d'accès et les modèles de evaluation/config/kit.yaml (juge, embeddings) et Langfuse."""
+    from kit import juge
+
+    config = charger_config()
+    m = config["modeles"]
+    typer.echo(f"Point d'accès : {m['adresse']} (clé lue dans la variable {m['variable_cle']})")
+    llm = juge.client(config)
+    try:
+        r = juge.appeler(config, llm, [{"role": "user", "content": 'Réponds par le JSON {"ok": true}'}])
+        typer.echo(f"  juge « {m['juge']['modele']} » : répond ({r.strip()[:40]})")
+        e = llm.embeddings.create(model=m["embeddings"]["modele"], input=["essai"])
+        typer.echo(f"  embeddings « {m['embeddings']['modele']} » : {len(e.data[0].embedding)} dimensions")
+    except Exception as ex:
+        typer.echo(f"  ÉCHEC : {ex}", err=True)
+        raise typer.Exit(1)
+    try:
+        ok = client_langfuse(config).auth_check()
+        typer.echo(f"  Langfuse : {'connecté' if ok else 'clés refusées'}")
+    except Exception as ex:
+        typer.echo(f"  Langfuse : injoignable ({ex})", err=True)
+
+
 @app.command()
 def importer(fichier: Path = typer.Argument(..., exists=True, dir_okay=False, help="le fichier Excel du métier"),
              sans_langfuse: bool = typer.Option(False, help="ne pas créer le jeu de données dans Langfuse")):
