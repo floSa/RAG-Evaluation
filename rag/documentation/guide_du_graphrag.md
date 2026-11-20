@@ -138,7 +138,7 @@ flowchart LR
 uv run rag indexer --graphe
 ```
 
-Sur le corpus d'exemple : 367 pages lues en 5 minutes environ, 377 relations, 525 éléments ajoutés à l'index. Le graphe est écrit à part (`sorties/rag/graphe/`) : on passe du RAG vectoriel au RAG hybride sans tout réindexer.
+Sur le corpus d'exemple : 367 pages lues en 3 minutes environ (4 appels en parallèle), 377 relations, 525 éléments ajoutés à l'index. Le graphe est écrit à part (`sorties/rag/graphe/`) : on passe du RAG vectoriel au RAG hybride sans tout réindexer.
 
 ### 5. Recherche — [`pipeline/etape_5_recherche.py`](../src/rag/pipeline/etape_5_recherche.py)
 
