@@ -1,0 +1,6 @@
+.venv
+.env
+sorties
+documents
+tests
+__pycache__

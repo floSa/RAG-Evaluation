@@ -1,0 +1,59 @@
+# Ontologie du corpus d'exemple : la maintenance électrique de Valtéra Industries (entreprise fictive).
+#
+# Volontairement petite : trois classes, cinq relations. Elle dit au RAG ce qu'il a le droit d'extraire des
+# documents (étape 4 du pipeline, le graphe), et au kit ce qu'il doit contrôler (ontologie_formes.ttl).
+# Les libellés et les commentaires servent aussi de consigne au modèle de langage qui extrait le graphe.
+
+@prefix vt:   <https://valtera.exemple/ontologie#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+vt: a owl:Ontology ;
+    rdfs:label "Maintenance électrique de Valtéra Industries" .
+
+# --- Les classes -------------------------------------------------------------------------------
+
+vt:Site a owl:Class ;
+    rdfs:label "Site" ;
+    rdfs:comment "Une usine de l'entreprise, par exemple « Site A » (Lavernay) ou « Site B » (Brévannes)." .
+
+vt:Equipement a owl:Class ;
+    rdfs:label "Equipement" ;
+    rdfs:comment "Un équipement électrique repéré par son code : transformateur (TR-A1), tableau général (TGBT-A), armoire divisionnaire (AD-A03), groupe électrogène (GE-A), onduleur (OND-A), contrôleur d'isolement (CPI-B), relais de protection, disjoncteur." .
+
+vt:Personne a owl:Class ;
+    rdfs:label "Personne" ;
+    rdfs:comment "Une personne ou un prestataire nommé dans les documents : technicien, responsable, bureau d'études." .
+
+# --- Les relations -------------------------------------------------------------------------------
+
+vt:situeSur a owl:ObjectProperty ;
+    rdfs:label "situeSur" ;
+    rdfs:comment "L'équipement est installé sur ce site." ;
+    rdfs:domain vt:Equipement ;
+    rdfs:range vt:Site .
+
+vt:alimente a owl:ObjectProperty ;
+    rdfs:label "alimente" ;
+    rdfs:comment "L'équipement fournit l'énergie électrique à l'autre équipement (par exemple, un transformateur alimente un TGBT, un TGBT alimente une armoire)." ;
+    rdfs:domain vt:Equipement ;
+    rdfs:range vt:Equipement .
+
+vt:secourt a owl:ObjectProperty ;
+    rdfs:label "secourt" ;
+    rdfs:comment "L'équipement prend le relais de l'alimentation normale de l'autre équipement en cas de coupure (groupe électrogène, onduleur)." ;
+    rdfs:domain vt:Equipement ;
+    rdfs:range vt:Equipement .
+
+vt:protege a owl:ObjectProperty ;
+    rdfs:label "protege" ;
+    rdfs:comment "L'équipement (relais, disjoncteur, contrôleur d'isolement) protège l'autre équipement." ;
+    rdfs:domain vt:Equipement ;
+    rdfs:range vt:Equipement .
+
+vt:intervientSur a owl:ObjectProperty ;
+    rdfs:label "intervientSur" ;
+    rdfs:comment "La personne est intervenue, ou intervient, sur l'équipement." ;
+    rdfs:domain vt:Personne ;
+    rdfs:range vt:Equipement .

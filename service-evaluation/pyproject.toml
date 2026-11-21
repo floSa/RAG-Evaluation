@@ -1,0 +1,42 @@
+[project]
+name = "kit-evaluation-rag"
+version = "0.1.0"
+description = "Service d'évaluation de RAG : corpus annoté, kit d'évaluation (commande kit). Il appelle la porte d'évaluation de n'importe quel RAG."
+requires-python = ">=3.12"
+dependencies = [
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
+    "sqlalchemy>=2.0",
+    "typer>=0.12",
+    "openpyxl>=3.1.5",
+    "langfuse>=5.2.0",
+    "jsonschema>=4.26.0",
+    "openai>=2,<3",
+    "rapidfuzz>=3.14.6",
+    "jiwer>=4.0.0",
+    "ragas>=0.4",
+    "pyshacl>=0.30",
+    "rdflib>=7",
+    "httpx>=0.27",
+]
+
+[project.scripts]
+kit = "kit.commandes:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kit"]
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+fabrication = [           # seulement pour refabriquer le corpus d'exemple (corpus_exemple/fabrication/)
+    "pillow>=13.0.0",
+    "pypdfium2>=5.15.2",
+    "reportlab>=5.1.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

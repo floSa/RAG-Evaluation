@@ -1,6 +1,5 @@
-# Secrets
+# Secrets (un .env par service)
 .env
-infra/.env
 
 # Environnements Python
 .venv/
@@ -8,7 +7,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
-# Sorties produites par le kit et le RAG (corpus exporté, sorties du RAG, résultats)
+# Sorties produites par chaque service (index du RAG ; corpus exporté, réponses du RAG, résultats)
 sorties/
 
 # Base SQLite du bac à sable
