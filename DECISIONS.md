@@ -31,6 +31,7 @@ Les documents de référence ([document 1](evaluation/documentation/reference/me
 | Le graphe entre dans l'index comme des éléments `noeud` (un par entité et par page, qui résume ses relations sur la page), et non comme un élément par relation | le contrat donne k éléments par recherche : un élément qui réunit les relations d'une entité en apporte plus au modèle pour la même place ; il garde la provenance d'une page, donc le filtre des droits et les citations marchent comme pour un chunk |
 | Un passage coupé se cherche entre deux chunks de texte consécutifs, sans les éléments du graphe | un élément du graphe n'est pas un morceau du document : il casserait la suite des chunks |
 | La version du RAG s'appelle `graphrag-<type_rag>-k<k>-<empreinte>` | on lit dans le nom si le graphe était allumé |
+| Dans le banc d'essai, la relecture du métier (vérification du juge, justesse du graphe) est simulée par Claude, et ses notes sont versionnées dans `corpus_exemple/relecture_simulee/` | l'entreprise est fictive : il n'y a pas de métier réel. Les notes sont données sans voir la note du juge, avec leur raison, pour qu'on puisse les contester. Résultat : accord du juge 89 %, sous le seuil de 90 % ; le juge n'est pas validé, et on ne retouche pas les notes pour le faire passer |
 | Docling (conteneur) au lieu de `pytesseract` pour l'OCR du RAG d'exemple | rien à installer sur la machine ; c'est l'outil cité par le document 2. Le kit n'en dépend pas : il mesure l'OCR de n'importe quel RAG avec jiwer |
 | Pas de modèle de vision dans le RAG d'exemple : une figure est connue par sa légende | le RAG est un prétexte ; le kit montre la perte (question Q-034) |
 | Langfuse v4 au lieu de v3 | v3 n'est plus la version courante ; le client Python actuel exige v4 |
@@ -44,8 +45,6 @@ Les documents de référence ([document 1](evaluation/documentation/reference/me
 | Point | État |
 | --- | --- |
 | `n2_ndcg_k` (ranx), `n3_second_avis` (FactualCorrectness), marge par rééchantillonnage | configuration recommandée ; non faits |
-| Vérification réelle du juge par le métier | le mécanisme est prêt (`kit verifier-juge`) ; il faut que le métier note les 30 réponses dans Langfuse |
-| Justesse réelle du graphe (`n1_graphe_justesse`) | le mécanisme est prêt (`kit verifier-graphe`) ; il faut que le métier juge les 50 relations dans Langfuse |
 | GraphRAG au sens de Microsoft (communautés et résumés, type_objet `resume`) | non fait : le graphe d'exemple relie des entités, il ne résume pas le corpus |
 
 ## 4. Environnement du bac à sable

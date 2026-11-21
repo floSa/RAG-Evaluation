@@ -225,6 +225,7 @@ La **version du RAG** (`graphrag-vectoriel-k5-80032dcd`, ou `graphrag-hybride-k5
 | Toutes les versions des documents sont indexées, même celles qui ne sont plus en vigueur | évaluation 2 (recherche) : « périmé ou piège avant le bon passage » |
 | Recherche simple, sans reranker ni décomposition de la question | évaluation 2 (recherche) : les questions qui combinent plusieurs passages échouent plus souvent |
 | Un seul prompt, petit modèle (4 milliards de paramètres) | évaluation 3 (réponse) : les synthèses sur l'ensemble des documents sont fausses |
+| Le modèle de génération « réfléchit » avant de répondre, et cette réflexion compte dans les 800 tokens de `max_tokens` : une réponse longue est coupée | évaluation 3 (réponse) : Q-043 revient vide, Q-030 et Q-046 sont coupées ; repéré en relisant les réponses |
 | Graphe extrait par un petit modèle, page par page : il range parfois une personne « sur » un site, ou fait « secourir » un site par un onduleur | évaluation 1 (ingestion) : violations des règles de l'ontologie (25 sur le corpus d'exemple), et justesse des relations jugée par le métier |
 
 Pour aller plus loin, le [document 2](reference/techniques_rag.md) décrit les techniques d'un RAG selon les cas, et ce qu'il faut corriger quand un score est mauvais.
