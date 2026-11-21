@@ -69,7 +69,7 @@ Le dossier [`../corpus_exemple/`](../corpus_exemple/) contient un corpus complet
 
 | Élément | Contenu |
 | --- | --- |
-| `corpus_exemple/sources/` | l'export de la gestion documentaire, `export_ged.csv` (une ligne par document, avec ses métadonnées), et 50 documents PDF : 17 procédures (PDF natifs), 16 notes techniques (11 natives, 5 scannées et bruitées), 17 comptes rendus d'intervention (fiches de base de données exportées en « champ : valeur ») |
+| `corpus_exemple/documents/` | 50 documents PDF, un par référence (`<référence>.pdf`) ; c'est ce dossier que le kit envoie au RAG par sa porte « ingérer » : 17 procédures (PDF natifs), 16 notes techniques (11 natives, 5 scannées et bruitées), 17 comptes rendus d'intervention (fiches de base de données exportées en « champ : valeur ») |
 | `corpus_exemple/Corpus_evaluation_RAG.xlsx` | le fichier du métier, rempli : 50 documents, 60 questions, 97 passages, 20 pages OCR retapées |
 | `corpus_exemple/questions_pour_relecture.md` | les 60 questions sur une page, pour les relire |
 | `corpus_exemple/relecture_simulee/` | les notes du métier, **simulées** pour le banc d'essai : 28 réponses notées pour vérifier le juge, 50 relations du graphe jugées ; et le script qui les inscrit dans Langfuse |
@@ -97,21 +97,21 @@ Les conventions retenues pour l'annoter :
 Pour refabriquer le corpus (rarement utile) :
 
 ```bash
-uv run --group fabrication python evaluation/corpus_exemple/fabrication/fabriquer_pdf.py
+uv run --group fabrication python corpus_exemple/fabrication/fabriquer_pdf.py
 ```
 
 ```bash
-uv run python evaluation/corpus_exemple/fabrication/remplir_excel.py
+uv run python corpus_exemple/fabrication/remplir_excel.py
 ```
 
-Le premier script dessine les PDF à partir de `fabrication/contenus/*.json`, et écrit `export_ged.csv`. Le second vérifie chaque passage de `fabrication/questions.yaml` contre sa source, remplit le fichier Excel et recalcule le tableau de bord.
+Le premier script dessine les PDF à partir de `fabrication/contenus/*.json`. Le second vérifie chaque passage de `fabrication/questions.yaml` contre sa source, remplit le fichier Excel et recalcule le tableau de bord.
 
 ## 3. Importer le corpus
 
-L'import transforme le fichier Excel du métier en un **corpus standard** : des fichiers que n'importe quel RAG sait lire, et que le kit sait évaluer. Il faut d'abord avoir installé le dépôt et démarré Langfuse : voir le [README](../../README.md#démarrer). Sans Langfuse, ajouter `--sans-langfuse`.
+L'import transforme le fichier Excel du métier en un **corpus standard** : des fichiers que n'importe quel RAG sait lire, et que le kit sait évaluer. Il faut d'abord avoir installé le service et démarré Langfuse : voir son [README](../README.md). Sans Langfuse, ajouter `--sans-langfuse`.
 
 ```bash
-uv run kit importer evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx
+uv run kit importer corpus_exemple/Corpus_evaluation_RAG.xlsx
 ```
 
 L'import fait, dans l'ordre :
@@ -149,4 +149,4 @@ Deux évaluations ne se comparent que sur la même version du corpus : sinon, on
 
 Un passage garde son identifiant d'une version à l'autre tant que sa ligne ne change pas (voir [DECISIONS.md](../../DECISIONS.md), décision 1).
 
-**Étape suivante** : [0b. Branchement du RAG](0b_branchement_du_rag.md).
+**Étape suivante** : [0b. La porte du RAG](0b_porte_du_rag.md).
