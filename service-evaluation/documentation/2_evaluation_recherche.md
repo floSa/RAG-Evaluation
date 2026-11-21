@@ -25,7 +25,7 @@ flowchart LR
 uv run kit evaluer-recherche --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
 ```
 
-Elle a besoin de l'[évaluation de l'ingestion](1_evaluation_ingestion.md) (les liens passage ↔ chunk) et de `recherches.jsonl` ([branchement, prise ②](0b_branchement_du_rag.md)).
+Elle a besoin de l'[évaluation de l'ingestion](1_evaluation_ingestion.md) (les liens passage ↔ chunk) et de `recherches.jsonl` ([porte du RAG, ③ rechercher](0b_porte_du_rag.md)).
 
 ## Comment le kit tranche : « la réponse est dans »
 
@@ -61,6 +61,6 @@ Ce dernier chiffre est une tendance, pas une mesure, mais il dit où regarder en
 
 ## Si c'est mauvais
 
-Recherche hybride, reranker, filtres, choix de k : le [document 2](../../rag/documentation/reference/techniques_rag.md), section 6.
+Recherche hybride, reranker, filtres, choix de k : le [document 2](../../service-rag/documentation/reference/techniques_rag.md), section 6.
 
 **Étape suivante** : [3. Évaluation de la réponse](3_evaluation_reponse.md).
