@@ -100,11 +100,13 @@ def verifier_contrat(dossier: Path = typer.Argument(..., exists=True, file_okay=
 
 @app.command()
 def lancer(connecteur: str = typer.Argument(..., help="module:Classe, par exemple rag.utils.branchement_evaluation:Connecteur"),
-           corpus: Path = typer.Option(..., exists=True, file_okay=False, help="le dossier corpus/<version>/"),
+           corpus: Path = typer.Option(None, exists=True, file_okay=False,
+                                       help="le dossier corpus/<version>/ ; par défaut, le dernier importé"),
            parametre: list[str] = typer.Option([], "--parametre", "-p",
                                                help="paramètre du connecteur, cle=valeur (répétable), ex. -p k=3")):
     """Fait tourner un RAG Python par son connecteur et écrit ses sorties du contrat."""
     config = charger_config()
+    corpus = corpus or le_plus_recent(config, "corpus")
     parametres = {}
     for p in parametre:
         cle_, _, valeur = p.partition("=")
@@ -117,16 +119,35 @@ def lancer(connecteur: str = typer.Argument(..., help="module:Classe, par exempl
         typer.echo(f"  - {e}", err=True)
 
 
+def le_plus_recent(config: dict, sous_dossier: str) -> Path:
+    """Sans --corpus ou --rag : le dernier corpus importé, ou la dernière sortie du RAG (fichiers les plus récents).
+    Le dossier choisi est affiché, pour qu'on sache toujours ce qui est évalué."""
+    dossier = Path(config["chemins"]["sorties"]) / sous_dossier
+    candidats = [d for d in dossier.glob("*") if d.is_dir() and any(d.iterdir())] if dossier.exists() else []
+    if not candidats:
+        typer.echo(f"Rien dans {dossier}/ : lancer d'abord « kit importer » (corpus) ou « kit lancer » (sorties du RAG).",
+                   err=True)
+        raise typer.Exit(1)
+    choisi = max(candidats, key=lambda d: max(f.stat().st_mtime for f in d.iterdir()))
+    option = "--corpus" if sous_dossier == "corpus" else "--rag"
+    typer.echo(f"{option} {choisi} (le plus récent ; préciser {option} pour en choisir un autre)")
+    return choisi
+
+
 # --- Les niveaux de l'évaluation ------------------------------------------------------------
 
-OPTION_CORPUS = typer.Option(..., exists=True, file_okay=False, help="le dossier corpus/<version>/")
-OPTION_RAG = typer.Option(..., exists=True, file_okay=False, help="le dossier sorties_rag/<version_rag>/")
+OPTION_CORPUS = typer.Option(None, exists=True, file_okay=False,
+                             help="le dossier corpus/<version>/ ; par défaut, le dernier importé")
+OPTION_RAG = typer.Option(None, exists=True, file_okay=False,
+                          help="le dossier sorties_rag/<version_rag>/ ; par défaut, la dernière sortie du RAG")
 OPTION_LANGFUSE = typer.Option(False, help="ne pas publier dans Langfuse")
 
 
-def preparer(corpus: Path, rag: Path, ingestion_seule: bool = False):
+def preparer(corpus: Path | None, rag: Path | None, ingestion_seule: bool = False):
     """Vérifie le contrat avant toute mesure, puis ouvre l'évaluation (corpus × version du RAG)."""
     config = charger_config()
+    corpus = corpus or le_plus_recent(config, "corpus")
+    rag = rag or le_plus_recent(config, "sorties_rag")
     erreurs = contrat.verifier_dossier(rag, corpus, ingestion_seule)
     if erreurs:
         typer.echo(f"Sorties du RAG non conformes au contrat ({len(erreurs)} problème(s)) :", err=True)
@@ -309,6 +330,9 @@ def niveau_4(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse
 @app.command()
 def evaluer(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
     """Enchaîne les niveaux 1 à 4 sur les sorties d'un RAG ; écrit scores, rapport.html, et publie dans Langfuse."""
+    config = charger_config()
+    corpus = corpus or le_plus_recent(config, "corpus")
+    rag = rag or le_plus_recent(config, "sorties_rag")
     niveau_1(corpus, rag, sans_langfuse)
     niveau_2(corpus, rag, sans_langfuse)
     niveau_3(corpus, rag, sans_langfuse)
