@@ -22,7 +22,7 @@ flowchart LR
 ## La commande
 
 ```bash
-uv run kit evaluer-recherche --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd
+uv run kit evaluer-recherche --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
 ```
 
 Elle a besoin de l'[évaluation de l'ingestion](1_evaluation_ingestion.md) (les liens passage ↔ chunk) et de `recherches.jsonl` ([branchement, prise ②](0b_branchement_du_rag.md)).
