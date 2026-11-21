@@ -47,7 +47,7 @@ uv run kit verifier-modeles
 uv run kit evaluer-reponse --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
 ```
 
-Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluation_recherche.md), et de `reponses.jsonl` ([branchement, prise ③](0b_branchement_du_rag.md)). Elle prend environ 3 minutes, le temps que le juge lise chaque réponse.
+Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluation_recherche.md), et de `reponses.jsonl` ([porte du RAG, ④ répondre](0b_porte_du_rag.md)). Elle prend environ 3 minutes, le temps que le juge lise chaque réponse.
 
 ## Comment le kit tranche
 
@@ -90,7 +90,7 @@ Verdict : **partielle**. La réponse donne le courant de réglage, mais oublie l
 
 Pour chaque question dont la réponse est dans les documents, le kit croise deux faits : le bon passage a-t-il été retrouvé ([évaluation 2](2_evaluation_recherche.md)) ? la réponse est-elle juste ? Le résultat est dans `croisement.jsonl` et dans le rapport.
 
-| Bon passage retrouvé ? | Réponse | Diagnostic | Où agir ([document 2](../../rag/documentation/reference/techniques_rag.md)) |
+| Bon passage retrouvé ? | Réponse | Diagnostic | Où agir ([document 2](../../service-rag/documentation/reference/techniques_rag.md)) |
 | --- | --- | --- | --- |
 | oui | juste | **ok** | — |
 | oui | fausse, partielle ou abstention | **génération** : le RAG avait la bonne information et l'a mal utilisée | prompt, citations obligatoires, modèle, calcul délégué |
@@ -147,6 +147,6 @@ On refait la vérification à chaque changement de modèle juge ou de prompt. Le
 
 ## Si c'est mauvais
 
-Regarder d'abord le croisement. « Recherche » : revenir à l'[évaluation 2](2_evaluation_recherche.md). « Génération » : prompt, citations, abstention, modèle, dans le [document 2](../../rag/documentation/reference/techniques_rag.md), section 7.
+Regarder d'abord le croisement. « Recherche » : revenir à l'[évaluation 2](2_evaluation_recherche.md). « Génération » : prompt, citations, abstention, modèle, dans le [document 2](../../service-rag/documentation/reference/techniques_rag.md), section 7.
 
 **Étape suivante** : [4. Évaluation de bout en bout](4_evaluation_bout_en_bout.md).
