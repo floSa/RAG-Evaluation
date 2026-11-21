@@ -148,6 +148,8 @@ Trouver les k morceaux les plus utiles. Deux recherches, par le sens et par les 
 
 Rédiger la réponse à partir des morceaux retrouvés, et d'eux seuls. Chaque phrase cite son extrait, [1], [2]… Si les extraits ne suffisent pas, le modèle répond une phrase fixe, « Je ne trouve pas cette information dans les documents. », au lieu d'inventer.
 
+Le modèle « réfléchit » avant d'écrire, et cette réflexion compte dans `max_tokens`. Avec 800, les réponses longues revenaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046) ; avec 4 000, la plus longue en prend 1 265. Couper la réflexion (`sans_reflexion: true`) corrige aussi la coupure, et répond 9 fois plus vite, mais l'évaluation montre qu'elle fait perdre des calculs : [guide 5](../../evaluation/documentation/5_resultats_et_comparaison.md#5-comparer-deux-versions).
+
 ## Le régler : un seul fichier
 
 Tout est dans [`config/config.yaml`](../config/config.yaml) ; seule la clé est dans `.env` (`RAG_LLM_CLE`).
@@ -156,6 +158,8 @@ Tout est dans [`config/config.yaml`](../config/config.yaml) ; seule la clé est 
 | --- | --- | --- |
 | `modeles.adresse` | `http://127.0.0.1:8080/v1` (LiteLLM local) | n'importe quel point d'accès compatible OpenAI |
 | `modeles.generation.modele` | `gemma-4-e4b` | un autre modèle ; prix au million de tokens pour le coût |
+| `modeles.generation.max_tokens` | 4 000 | la réflexion du modèle compte dedans : trop bas, la réponse est coupée |
+| `modeles.generation.sans_reflexion` | `false` | `true` : 9 fois plus rapide, moins juste sur les calculs |
 | `modeles.embeddings.modele` | `embed` (bge-m3) | relancer `rag indexer` après un changement |
 | `recherche.k` | 5 | ou `--k 3` sur la ligne de commande |
 | `documents` | les PDF du corpus d'exemple | le dossier de vos documents |
@@ -214,7 +218,7 @@ uv run rag exporter
 uv run rag repondre sorties/corpus/2026-11-20.1/questions.jsonl
 ```
 
-La **version du RAG** (`graphrag-vectoriel-k5-80032dcd`, ou `graphrag-hybride-k5-…` avec le graphe) se calcule à partir de k, des modèles, du prompt et de l'index, graphe compris. Changer un réglage donne une nouvelle version, dans un nouveau dossier de `sorties/sorties_rag/`. Deux versions se comparent avec `kit comparer`.
+La **version du RAG** (`graphrag-vectoriel-k5-5954e822`, ou `graphrag-hybride-k5-…` avec le graphe) se calcule à partir de k, des modèles, du prompt et de l'index, graphe compris. Changer un réglage donne une nouvelle version, dans un nouveau dossier de `sorties/sorties_rag/`. Deux versions se comparent avec `kit comparer`.
 
 ## Ses limites connues, et ce que l'évaluation en dit
 
@@ -225,7 +229,6 @@ La **version du RAG** (`graphrag-vectoriel-k5-80032dcd`, ou `graphrag-hybride-k5
 | Toutes les versions des documents sont indexées, même celles qui ne sont plus en vigueur | évaluation 2 (recherche) : « périmé ou piège avant le bon passage » |
 | Recherche simple, sans reranker ni décomposition de la question | évaluation 2 (recherche) : les questions qui combinent plusieurs passages échouent plus souvent |
 | Un seul prompt, petit modèle (4 milliards de paramètres) | évaluation 3 (réponse) : les synthèses sur l'ensemble des documents sont fausses |
-| Le modèle de génération « réfléchit » avant de répondre, et cette réflexion compte dans les 800 tokens de `max_tokens` : une réponse longue est coupée | évaluation 3 (réponse) : Q-043 revient vide, Q-030 et Q-046 sont coupées ; repéré en relisant les réponses |
 | Graphe extrait par un petit modèle, page par page : il range parfois une personne « sur » un site, ou fait « secourir » un site par un onduleur | évaluation 1 (ingestion) : violations des règles de l'ontologie (25 sur le corpus d'exemple), et justesse des relations jugée par le métier |
 
 Pour aller plus loin, le [document 2](reference/techniques_rag.md) décrit les techniques d'un RAG selon les cas, et ce qu'il faut corriger quand un score est mauvais.
