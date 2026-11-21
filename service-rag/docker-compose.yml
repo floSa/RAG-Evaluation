@@ -18,6 +18,7 @@ services:
     volumes:
       - ./sorties:/service/sorties   # l'index de chaque espace (production, evaluation), gardé entre deux lancements
       - ./documents:/service/documents:ro
+      - ./config:/service/config:ro  # un réglage changé dans config.yaml vaut après « docker compose restart rag »
     depends_on: [docling]
 
   docling:
