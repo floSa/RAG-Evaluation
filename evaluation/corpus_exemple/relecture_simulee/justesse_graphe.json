@@ -1,6 +1,6 @@
 {
   "role": "relecture simulée par Claude pour le banc d'essai : aucune donnée réelle, aucun avis métier réel",
-  "evaluation": "2026-11-20.1_graphrag-hybride-k5-393efaea",
+  "evaluation": "2026-11-20.1_graphrag-hybride-k5-57001489",
   "file": "justesse-graphe",
   "score": "justesse_relation",
   "consigne": "juste si le passage source dit la relation ; fausse sinon, même si elle est vraie ailleurs",
