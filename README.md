@@ -99,31 +99,35 @@ docker compose -f infra/docker-compose.yml --env-file infra/.env up -d
 uv run kit verifier-modeles
 ```
 
+Cette dernière commande teste tout. Si le juge ou les embeddings ne répondent pas, c'est que le point d'accès aux modèles n'est pas démarré (avec LLM-Service : `service/scripts/demarrer.sh`).
+
 **4. Importer le corpus annoté** ([guide 0a](evaluation/documentation/0a_construction_du_corpus.md)) :
 
 ```bash
 uv run kit importer evaluation/corpus_exemple/Corpus_evaluation_RAG.xlsx
 ```
 
-**5. Faire tourner le RAG** ([guide 0b](evaluation/documentation/0b_branchement_du_rag.md)) : indexer les documents, puis répondre aux questions par le connecteur.
+**5. Faire tourner le RAG** ([guide 0b](evaluation/documentation/0b_branchement_du_rag.md)) : indexer les documents (2 minutes environ), puis répondre aux 40 questions par le connecteur (5 minutes environ).
 
 ```bash
 uv run rag indexer
 ```
 
 ```bash
-uv run kit lancer rag.utils.branchement_evaluation:Connecteur --corpus sorties/corpus/2026-11-20.1 -p k=5
+uv run kit lancer rag.utils.branchement_evaluation:Connecteur
 ```
 
 **6. Évaluer** : les évaluations 1 à 4 d'un coup, en 5 minutes environ ([guides 1 à 4](evaluation/documentation/1_evaluation_ingestion.md)) :
 
 ```bash
-uv run kit evaluer --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
+uv run kit evaluer
 ```
 
-**7. Lire le résultat** ([guide 5](evaluation/documentation/5_resultats_et_comparaison.md)) : ouvrir `sorties/resultats/<évaluation>/rapport.html`, puis l'expérience dans Langfuse.
+**7. Lire le résultat** ([guide 5](evaluation/documentation/5_resultats_et_comparaison.md)) : ouvrir dans un navigateur le `rapport.html` dont le chemin est affiché à la fin de `kit evaluer`, puis l'expérience dans Langfuse (http://127.0.0.1:3100).
 
-Les noms `2026-11-20.1` (version du corpus) et `graphrag-vectoriel-k5-5954e822` (version du RAG) sont affichés par les commandes précédentes.
+Vos chiffres peuvent différer de quelques points de ceux des guides : le modèle de génération ne répond pas toujours pareil, même à température 0 (par exemple, Q-004 est parfois une erreur grave ; [guide 3](evaluation/documentation/3_evaluation_reponse.md)).
+
+Sans `--corpus` ni `--rag`, le kit prend le dernier corpus importé et la dernière sortie du RAG, et affiche lesquels. Pour en choisir d'autres : `--corpus sorties/corpus/<version>` et `--rag sorties/sorties_rag/<version du RAG>`.
 
 ## Toutes les commandes
 
@@ -132,7 +136,7 @@ Les noms `2026-11-20.1` (version du corpus) et `graphrag-vectoriel-k5-5954e822` 
 | `kit verifier-modeles` | teste le point d'accès, le juge, les embeddings et Langfuse | [3](evaluation/documentation/3_evaluation_reponse.md) |
 | `kit importer <fichier.xlsx>` | contrôle le fichier du métier, l'écrit en base, l'exporte, crée le jeu Langfuse | [0a](evaluation/documentation/0a_construction_du_corpus.md) |
 | `kit init-base` | crée les tables de la base (fait aussi par `importer`) | [0a](evaluation/documentation/0a_construction_du_corpus.md) |
-| `kit lancer <module:Classe> --corpus <corpus>` | fait tourner un RAG Python par son connecteur, et écrit ses fichiers du contrat | [0b](evaluation/documentation/0b_branchement_du_rag.md) |
+| `kit lancer <module:Classe>` | fait tourner un RAG Python par son connecteur, et écrit ses fichiers du contrat | [0b](evaluation/documentation/0b_branchement_du_rag.md) |
 | `kit verifier-contrat <dossier> [--corpus <corpus>]` | dit précisément ce qui manque dans les fichiers d'un RAG | [0b](evaluation/documentation/0b_branchement_du_rag.md) |
 | `kit evaluer-ingestion` | évaluation 1 : le passage est-il dans l'index ? | [1](evaluation/documentation/1_evaluation_ingestion.md) |
 | `kit evaluer-recherche` | évaluation 2 : est-il retrouvé ? | [2](evaluation/documentation/2_evaluation_recherche.md) |
@@ -145,7 +149,7 @@ Les noms `2026-11-20.1` (version du corpus) et `graphrag-vectoriel-k5-5954e822` 
 | `rag indexer`, `rag demander "…"` | le RAG d'exemple, seul ; `--graphe` pour le RAG hybride | [GraphRAG](rag/documentation/guide_du_graphrag.md) |
 | `rag exporter`, `rag repondre <questions.jsonl>` | le RAG d'exemple écrit lui-même ses fichiers du contrat | [0b](evaluation/documentation/0b_branchement_du_rag.md) |
 
-Les évaluations 1 à 4 prennent `--corpus` et `--rag`, et `--sans-langfuse` pour ne rien publier. Chaque commande a son aide : `uv run kit <commande> --help`.
+Les évaluations 1 à 4 prennent `--corpus` et `--rag` (par défaut, les plus récents), et `--sans-langfuse` pour ne rien publier. Chaque commande a son aide : `uv run kit <commande> --help`.
 
 ## Tests
 
