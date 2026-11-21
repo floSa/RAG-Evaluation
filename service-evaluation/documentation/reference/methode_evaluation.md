@@ -30,8 +30,8 @@ Règles à suivre pour tout projet RAG : base vectorielle, graphe, ou agent. On 
 
 | Façon | Comment | Pour qui |
 | --- | --- | --- |
-| Par fichiers | le RAG lit `questions.jsonl` et écrit lui-même les fichiers | tout RAG, quel que soit son langage |
-| Par connecteur | le RAG fournit trois fonctions : exporter l'index, rechercher, répondre ; le kit les appelle et écrit les fichiers | un RAG en Python |
+| Par la porte d'évaluation | le RAG ouvre quatre portes à une adresse web : ingérer les documents, montrer l'index, rechercher, répondre ; le kit les appelle et écrit les fichiers | tout RAG, quel que soit son langage (la façon recommandée) |
+| Par fichiers | le RAG lit `questions.jsonl` et écrit lui-même les fichiers | un RAG qui ne peut pas ouvrir d'adresse |
 
 **Règles d'appel :**
 
@@ -345,7 +345,7 @@ On prend sur étagère ce qui existe. On code ce qu'aucun outil ne fait : le rat
 | --- | --- | --- |
 | Import du corpus | fichier Excel | base relationnelle ; corpus au format standard ; jeu de questions dans Langfuse |
 | Rattachement et niveau 1 | corpus ; chunks, pages extraites, graphe | liens_index ; scores du niveau 1 |
-| Lanceur (connecteur) | corpus ; les trois fonctions du RAG | recherches.jsonl, reponses.jsonl |
+| Appel du RAG | corpus et ses documents ; les quatre portes du RAG | rag.json, chunks.jsonl, pages_extraites.jsonl, graphe.ttl, recherches.jsonl, reponses.jsonl |
 | Niveau 2 | recherches ; liens | scores du niveau 2 |
 | Niveau 3 | réponses ; recherches ; corpus | verdicts du juge ; scores du niveau 3 ; files de relecture |
 | Niveau 4 et décision | scores des niveaux 1 à 3 ; seuils | score pondéré, marges, décision |
