@@ -1,6 +1,6 @@
 {
   "role": "relecture simulée par Claude pour le banc d'essai : aucune donnée réelle, aucun avis métier réel",
-  "evaluation": "2026-11-20.1_graphrag-vectoriel-k5-80032dcd",
+  "evaluation": "2026-11-20.1_graphrag-vectoriel-k5-5954e822",
   "file": "verification-juge",
   "score": "verdict_metier",
   "consigne": "noter juste, partielle ou fausse à partir de la question, de la réponse attendue, des points clés et de la réponse du RAG, sans voir la note du juge",
@@ -67,7 +67,7 @@
     },
     "Q-030": {
       "verdict": "partielle",
-      "raison": "les deux interventions sont trouvées, mais pas ce qui a été fait ; la réponse est coupée"
+      "raison": "les deux interventions sont trouvées, avec leur symptôme, mais pas ce qui a été fait (séparation en deux circuits, remplacement du différentiel)"
     },
     "Q-031": {
       "verdict": "juste",
@@ -94,16 +94,16 @@
       "raison": "un seul des cinq problèmes récurrents (les échauffements de connexions)"
     },
     "Q-043": {
-      "verdict": "fausse",
-      "raison": "réponse vide : coupée après le titre"
+      "verdict": "juste",
+      "raison": "les quatre points : desserrage première cause, points chauds du TGBT-A et de AD-B04, 12 mois, resserrage annuel"
     },
     "Q-044": {
       "verdict": "partielle",
-      "raison": "deux différences justes (onduleur, groupe), les autres manquent"
+      "raison": "une seule différence attendue (pas d'onduleur centralisé sur B) ; régime de neutre, transformateurs, basculement et terre manquent"
     },
     "Q-046": {
       "verdict": "fausse",
-      "raison": "hors sujet : les règles de l'éclairage de sécurité, pas celles des interventions"
+      "raison": "hors sujet : les règles de l'éclairage de sécurité (BAES), pas celles des interventions"
     },
     "Q-056": {
       "verdict": "juste",
