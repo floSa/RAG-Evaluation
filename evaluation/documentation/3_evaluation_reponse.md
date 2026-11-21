@@ -44,7 +44,7 @@ uv run kit verifier-modeles
 ## La commande
 
 ```bash
-uv run kit evaluer-reponse --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd
+uv run kit evaluer-reponse --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
 ```
 
 Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluation_recherche.md), et de `reponses.jsonl` ([branchement, prise ③](0b_branchement_du_rag.md)). Elle prend environ 3 minutes, le temps que le juge lise chaque réponse.
@@ -61,15 +61,15 @@ Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluatio
 
 | Score | Ce qu'il mesure | Exemple | Si c'est mauvais |
 | --- | --- | --- | --- |
-| `n3_exactitude` | juste = 1, partielle = 0,5, fausse = 0, selon le juge. Les abstentions ne sont pas notées ici | **80 %** ± 15 % (seuil 80 %) | lire la justification du juge dans le CSV ; regarder le croisement ci-dessous |
+| `n3_exactitude` | juste = 1, partielle = 0,5, fausse = 0, selon le juge. Les abstentions ne sont pas notées ici | **79 %** ± 15 % (seuil 80 %) | lire la justification du juge dans le CSV ; regarder le croisement ci-dessous |
 | `n3_completude_listes` | pour une question « liste » : part des éléments attendus présents | 100 % | graphe et ontologie pour les listes |
 | `n3_valeurs` | les valeurs chiffrées attendues sont-elles dans la réponse, avec la bonne unité et dans la tolérance ? | 91 % | calcul délégué à un outil plutôt qu'au modèle |
 | `n3_abstention_correcte` | sur les questions sans réponse ou interdites au profil : part des fois où le RAG dit ne pas savoir | 100 % | consigne d'abstention ; vérifier que le contexte suffit avant de répondre |
 | `n3_abstention_a_tort` | part des questions où le RAG ne répond pas alors qu'il avait le bon passage | 6 % | consigne d'abstention trop stricte |
-| `n3_fidelite` | (Ragas) part des affirmations de la réponse appuyées par les chunks donnés au modèle | 93 % | citations obligatoires ; LLM juge garde-fou |
-| `n3_citations` | au moins une source citée est la bonne, sans piège ni document interdit | 89 % | — |
+| `n3_fidelite` | (Ragas) part des affirmations de la réponse appuyées par les chunks donnés au modèle | 95 % | citations obligatoires ; LLM juge garde-fou |
+| `n3_citations` | au moins une source citée est la bonne, sans piège ni document interdit | 93 % | — |
 | **`n3_erreurs_graves`** | réponses fausses, non fidèles (une seule affirmation non appuyée suffit), ou données au lieu de s'abstenir, **sur une question de gravité forte** | **1** | **bloquant** ; chaque cas est relu par le métier |
-| `n3_synthese` | (Ragas) note de 1 à 5 sur la grille du prompt du juge, ramenée sur 100 % | 45 % | un RAG vectoriel synthétise mal : graphe |
+| `n3_synthese` | (Ragas) note de 1 à 5 sur la grille du prompt du juge, ramenée sur 100 % | 65 % | un RAG vectoriel synthétise mal : graphe |
 | `n3_questions_suite` | exactitude des questions de suite | 100 % | — |
 | `n3_variantes` | part des groupes de reformulations dont les réponses diffèrent | 0 % | robustesse aux reformulations |
 
@@ -77,12 +77,12 @@ Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluatio
 
 ```
 1. present : La valeur de 72 A est explicitement mentionnée dans la réponse.
-2. absent : La valeur de 500 ms n'est pas mentionnée dans la réponse.
+2. absent : L'information sur la temporisation de 500 ms n'est pas présente dans la réponse de l'assistant.
 ```
 
 Verdict : **partielle**. La réponse donne le courant de réglage, mais oublie la temporisation.
 
-**L'erreur grave du RAG d'exemple** : **Q-046**, une synthèse fausse, sur une question de gravité forte.
+**L'erreur grave du RAG d'exemple** : **Q-046**, une synthèse hors sujet sur une question de gravité forte. On demande les règles de sécurité communes à toutes les interventions ; le RAG donne celles de l'éclairage de sécurité.
 
 > **Une même version ne répond pas toujours pareil.** Sur une exécution précédente du même RAG (mêmes réglages, même index), Q-004 était aussi une erreur grave : une affirmation non appuyée par les extraits. Le modèle de génération n'est pas parfaitement déterministe, même à température 0. C'est une raison de plus pour lire les marges d'erreur, et pour faire relire chaque erreur grave par le métier.
 
@@ -98,7 +98,7 @@ Pour chaque question dont la réponse est dans les documents, le kit croise deux
 | non, et aucun passage rattaché | — | **ingestion** : l'information n'est même pas dans l'index | extraction, OCR, tableaux, images |
 | non | juste | juste **sans le bon passage** : le modèle sait de lui-même, ou le corpus a oublié un passage | vérifier l'annotation |
 
-Pour le RAG d'exemple, sur 32 questions : 21 ok, 5 « génération » (le bon chunk était retrouvé), 4 « recherche », 2 « abstention à tort ». La moitié des erreurs vient de la génération : on commence donc par le prompt et le modèle, pas par la recherche.
+Pour le RAG d'exemple, sur 32 questions : 20 ok, 6 « génération » (le bon chunk était retrouvé), 4 « recherche », 2 « abstention à tort ». La moitié des erreurs vient de la génération : on commence donc par le prompt et le modèle, pas par la recherche.
 
 ## La relecture par le métier
 
@@ -118,27 +118,28 @@ flowchart LR
 
 1. Envoyer 30 réponses au métier, tirées au hasard parmi celles notées par le juge, hors questions réservées (le corpus d'exemple n'en a que 28) :
    ```bash
-   uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd --envoyer
+   uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822 --envoyer
    ```
 2. Dans Langfuse, **Annotation Queues → `verification-juge`** : le métier lit chaque réponse avec sa question, et choisit `verdict_metier`, **sans regarder la note du juge**.
 3. Calculer l'accord :
    ```bash
-   uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd
+   uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
    ```
    Le résultat sur le corpus d'exemple :
    ```
    Notes du métier : 28 sur 28.
-   Accord juge / métier : 89% (seuil 90%) ; kappa de Cohen : 0.7515. Juge NON validé.
-     - Q-012 : juge « juste », métier « partielle »
+   Accord juge / métier : 89% (seuil 90%) ; kappa de Cohen : 0.75. Juge NON validé.
      - Q-030 : juge « fausse », métier « partielle »
      - Q-041 : juge « fausse », métier « partielle »
+     - Q-043 : juge « fausse », métier « juste »
    ```
 
-**Ce que dit ce résultat.** Le juge n'est pas validé, à une réponse près. Ses trois désaccords ne vont pas dans le même sens :
-- sur Q-012, il est **trop indulgent** : il dit « juste » une réponse qui oublie un point clé (le voyant de charge) ;
-- sur Q-030 et Q-041, il est **trop sévère** : il dit « fausse » des réponses en partie justes.
+**Ce que dit ce résultat.** Le juge n'est pas validé, à une réponse près. Ses trois désaccords vont dans le même sens : il est **trop sévère**. Il dit « fausse » des réponses justes ou en partie justes, parce qu'il voit une contradiction là où il n'y en a pas :
+- sur Q-043, la réponse donne les quatre enseignements attendus ; le juge lit « depuis 2023 », qui vient de la question, comme une date de la réponse attendue, et compte la périodicité « passée à 12 mois en 2025 » comme contredite ;
+- sur Q-030, la fiche dit « Suite à donner : aucune » ; le juge y voit une contradiction avec le remplacement du différentiel ;
+- sur Q-041, la réponse ne donne qu'un problème sur cinq : elle est incomplète, pas fausse.
 
-Dans un vrai projet, on lirait ces désaccords, on préciserait le prompt du juge (par exemple : « un point clé absent rend la réponse partielle, jamais juste »), on changerait `version_prompt`, puis on referait la vérification. Ici, le prompt est un document de référence du dépôt, qu'on ne modifie pas : le juge reste non validé, et ses verdicts se lisent avec prudence, surtout pour les réponses partielles.
+Dans un vrai projet, on lirait ces désaccords, on préciserait le prompt du juge (par exemple : « contredit veut dire que la réponse affirme le contraire de la référence ; un détail que la référence ne dit pas n'est pas une contradiction »), on changerait `version_prompt`, puis on referait la vérification. Ici, le prompt est un document de référence du dépôt, qu'on ne modifie pas : le juge reste non validé, et ses verdicts se lisent avec prudence, surtout pour les réponses partielles.
 
 > **Dans le banc d'essai, le métier est simulé.** L'entreprise et le corpus sont fictifs : c'est Claude qui a joué le rôle du métier, en notant chaque réponse à partir de la question, de la réponse attendue et des points clés, sans voir la note du juge. Ses notes et leur raison sont dans [`../corpus_exemple/relecture_simulee/verdicts_metier.json`](../corpus_exemple/relecture_simulee/verdicts_metier.json) ; le script [`publier.py`](../corpus_exemple/relecture_simulee/publier.py) les inscrit dans Langfuse comme le ferait le métier dans l'interface. Dans un vrai projet, ce dossier n'existe pas : le métier note lui-même.
 
