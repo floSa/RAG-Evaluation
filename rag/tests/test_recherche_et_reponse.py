@@ -73,3 +73,23 @@ def test_version_rag_change_avec_k(monkeypatch):
     v3, v5 = faux_connecteur(monkeypatch, "", k=3), faux_connecteur(monkeypatch, "", k=5)
     assert v3.decrire()["version_rag"] != v5.decrire()["version_rag"]
     assert v3.decrire()["k"] == 3
+
+
+def test_generation_sans_reflexion():
+    """Avec sans_reflexion, la réflexion du modèle est coupée : elle ne consomme plus les max_tokens de la réponse."""
+    from types import SimpleNamespace
+
+    appels = []
+
+    def create(**parametres):
+        appels.append(parametres)
+        message = SimpleNamespace(content="Le relais est réglé à 72 A [1].")
+        return SimpleNamespace(choices=[SimpleNamespace(message=message)], usage=None)
+
+    client = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+    for sans_reflexion, attendu in ((True, {"chat_template_kwargs": {"enable_thinking": False}}), (False, None)):
+        config = {"modeles": {"generation": {"modele": "g", "temperature": 0, "max_tokens": 800,
+                                             "sans_reflexion": sans_reflexion}}}
+        reponse, _ = etape_6_generation.generer(client, config, "réglage ?", [], CHUNKS[1:2])
+        assert reponse == "Le relais est réglé à 72 A [1]."
+        assert appels[-1]["extra_body"] == attendu
