@@ -25,6 +25,7 @@ modeles:
     modele: gemma-4-e4b
     temperature: 0
     max_tokens: 800
+    sans_reflexion: true             # chat_template_kwargs.enable_thinking = false : la réflexion ne mange plus les max_tokens
     prix_entree_eur_par_million: 0   # coût des tokens ; 0 pour un modèle local
     prix_sortie_eur_par_million: 0
   embeddings:
