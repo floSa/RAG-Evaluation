@@ -16,7 +16,7 @@ flowchart TD
 
 ## 1. Où sont les résultats
 
-Une évaluation, c'est un corpus évalué avec une version du RAG. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_graphrag-vectoriel-k5-80032dcd`. Ses résultats sont à trois endroits.
+Une évaluation, c'est un corpus évalué avec une version du RAG. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_graphrag-vectoriel-k5-5954e822`. Ses résultats sont à trois endroits.
 
 **Dans un dossier**, `sorties/resultats/<évaluation>/` :
 
@@ -104,40 +104,57 @@ Après un changement (k, prompt, modèle, découpage), on évalue la nouvelle ve
 **Exemple : le RAG d'exemple avec k = 5 (A), puis k = 3 (B).**
 
 ```bash
-uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-80032dcd sorties/resultats/2026-11-20.1_graphrag-vectoriel-k3-80032dcd
+uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-5954e822 sorties/resultats/2026-11-20.1_graphrag-vectoriel-k3-5954e822
 ```
 
 | Score | k = 5 | k = 3 | Lecture |
 | --- | --- | --- | --- |
-| bon passage retrouvé (`n2_reussite_k`) | 86 % | 75 % | moins de chunks, moins de chances de ramener le bon : 3 questions perdues |
+| bon passage retrouvé (`n2_reussite_k`) | 86 % | 75 % | moins de chunks, moins de chances de ramener le bon : 3 questions perdues (Q-031, Q-038, Q-057) |
 | passages attendus retrouvés (`n2_rappel_k`) | 81 % | 64 % | le seul écart **plus grand que la marge** : ce n'est pas le hasard |
-| réponses justes (`n3_exactitude`) | 80 % (n = 28) | 83 % (n = 23) | semble monter, mais sur 5 questions de moins : le RAG s'abstient davantage, et les abstentions ne sont pas notées ici |
-| erreurs graves, questions de réglage | 1 | 0 | moins de contexte, moins d'occasions d'affirmer sans appui ; mais k = 3 en fait une sur les questions réservées |
-| score pondéré (`n4_score_pondere`) | 81 % | 77 % | ce que vivront les utilisateurs : 5 questions perdues, aucune gagnée |
+| réponses justes (`n3_exactitude`) | 79 % (n = 28) | 83 % (n = 23) | semble monter, mais sur 5 questions de moins : le RAG s'abstient davantage, et les abstentions ne sont pas notées ici |
+| erreurs graves | 1 | 0 | Q-046 n'est plus fausse : avec 3 chunks, le RAG s'abstient. L'erreur est évitée en ne répondant pas, pas par une meilleure réponse |
+| score pondéré (`n4_score_pondere`) | 80 % | 77 % | ce que vivront les utilisateurs : 4 questions perdues, aucune gagnée |
 
-McNemar donne p = 0,062 sur le score pondéré : avec 40 questions, on ne peut pas exclure le hasard.
+McNemar donne p = 0,125 sur le score pondéré : avec 40 questions, on ne peut pas exclure le hasard.
 
-**Conclusion** : k = 3 n'est pas meilleur. Il répond moins, et ne supprime pas les erreurs graves : il les déplace. Pour décider, il faudrait plus de questions (la configuration recommandée en prévoit 200), et un correctif ciblé de l'erreur grave sur k = 5.
+**Conclusion** : k = 3 n'est pas meilleur. Il retrouve moins et répond moins ; il n'a plus d'erreur grave seulement parce qu'il se tait sur Q-046. Pour décider, il faudrait plus de questions (la configuration recommandée en prévoit 200), et un correctif ciblé de l'erreur grave sur k = 5.
 
 C'est tout l'intérêt de lire **plusieurs scores ensemble**. Une exactitude qui monte peut cacher un RAG qui répond moins.
 
 **Exemple : le RAG vectoriel (A) et le RAG hybride, avec son graphe (B), tous deux avec k = 5.** Le même kit les évalue sans changer une ligne de code : il voit seulement `type_rag` = `hybride` et un fichier `graphe.ttl` de plus.
 
 ```bash
-uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-80032dcd sorties/resultats/2026-11-20.1_graphrag-hybride-k5-393efaea
+uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-5954e822 sorties/resultats/2026-11-20.1_graphrag-hybride-k5-57001489
 ```
 
 | Score | vectoriel | hybride | Lecture |
 | --- | --- | --- | --- |
 | violations de l'ontologie (`n1_graphe_violations`) | — | 25 | le graphe existe, avec des erreurs d'extraction : des personnes « situées sur » un site, un onduleur qui « secourt » un site |
+| justesse des relations (`n1_graphe_justesse`) | — | 66 % (n = 50) | une relation sur trois est fausse d'après son passage source ([évaluation 1](1_evaluation_ingestion.md)) |
 | bon passage retrouvé (`n2_reussite_k`) | 86 % | 82 % | les éléments du graphe prennent des places parmi les k : 1 question perdue (Q-031) |
 | bon passage en tête (`n2_reussite_1`) | 54 % | 39 % | un élément du graphe passe souvent devant le bon passage |
-| réponses justes (`n3_exactitude`) | 80 % (n = 28) | 86 % (n = 25) | semble monter, mais sur 3 questions de moins : le RAG hybride s'abstient plus souvent à tort (9 % contre 6 %) |
-| bonnes citations (`n3_citations`) | 89 % | 96 % | — |
-| erreurs graves | 1 | 0 | Q-046 n'est plus fausse ; à confirmer, vu la variation d'une exécution à l'autre |
-| synthèses (`n3_synthese`) | 45 % | 47 % | le graphe relie des entités, il ne résume pas le corpus : pas de gain sur les synthèses |
-| score pondéré (`n4_score_pondere`) | 81 % | 81 % | aucune différence pour les utilisateurs |
+| réponses justes (`n3_exactitude`) | 79 % (n = 28) | 90 % (n = 25) | 2 questions gagnées (Q-012, Q-043), mais sur 3 questions de moins : le RAG hybride s'abstient plus souvent à tort (9 % contre 6 %) |
+| bonnes citations (`n3_citations`) | 93 % | 100 % | — |
+| erreurs graves | 1 | 0 | le RAG hybride s'abstient sur Q-046, comme k = 3 |
+| synthèses (`n3_synthese`) | 65 % | 73 % | sur 3 ou 4 questions : une tendance, pas une mesure |
+| score pondéré (`n4_score_pondere`) | 80 % | 82 % | 2 questions gagnées, 1 perdue ; McNemar p = 1 |
 
-**Conclusion** : sur ce corpus, le graphe n'apporte rien de mesurable. Aucun écart ne dépasse la marge, et le score pondéré est le même. Le corpus d'exemple a peu de questions qui demandent de suivre des liens ou de faire une liste. C'est ce que dit le document 2 : le graphe s'ajoute quand l'évaluation montre des échecs que la recherche de passages ne peut pas corriger. Ici, elle n'en montre pas.
+**Conclusion** : sur ce corpus, le graphe n'apporte rien de mesurable. Aucun écart ne dépasse la marge, et le score pondéré bouge de deux points, sur trois questions. Le corpus d'exemple a peu de questions qui demandent de suivre des liens ou de faire une liste. C'est ce que dit le document 2 : le graphe s'ajoute quand l'évaluation montre des échecs que la recherche de passages ne peut pas corriger. Ici, elle n'en montre pas.
+
+**Exemple : corriger un défaut, et choisir entre deux corrections.** En relisant les réponses, on a vu que trois d'entre elles étaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046). Le modèle de génération « réfléchit » avant d'écrire, et cette réflexion consommait les 800 tokens de `max_tokens`. Deux corrections étaient possibles : laisser plus de place (`max_tokens` à 4 000), ou couper la réflexion (`sans_reflexion: true`). Le kit les départage.
+
+```bash
+uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-5954e822 sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-94d362c8
+```
+
+| Score | avec réflexion, 4 000 tokens | sans réflexion | Lecture |
+| --- | --- | --- | --- |
+| réponses justes (`n3_exactitude`) | 79 % | 71 % | 4 questions perdues, dont 3 calculs (Q-022, Q-023, Q-038) ; 1 gagnée (Q-043) |
+| valeurs chiffrées (`n3_valeurs`) | 91 % | 75 % | sans réflexion, le petit modèle calcule mal |
+| erreurs graves | 1 | 0 | sans réflexion, le RAG s'abstient sur Q-046 |
+| score pondéré (`n4_score_pondere`) | 80 % | 77 % | McNemar p = 0,45 : l'écart peut être dû au hasard |
+| temps médian, temps à 95 % | 7,4 s et 12,8 s | 0,9 s et 2,6 s | 9 fois plus rapide |
+
+**Conclusion** : les deux corrections suppriment la coupure. On garde la réflexion : elle rend les calculs justes, et 7 secondes restent sous le seuil de 15 secondes. Si le temps devenait le problème, la version sans réflexion serait le bon compromis, et ce tableau dirait ce qu'elle coûte. Avant la correction, la version avec 800 tokens avait un score pondéré de 81 % : la coupure ne coûtait presque rien dans les scores. Les réponses coupées étaient déjà fausses ou partielles pour d'autres raisons, et Q-043, devenue complète, est restée « fausse » pour le juge ([évaluation 3](3_evaluation_reponse.md#vérifier-le-juge-avant-de-lui-faire-confiance)). Relire les réponses trouve des défauts que les moyennes ne montrent pas.
 
 Retour au [README](../../README.md).
