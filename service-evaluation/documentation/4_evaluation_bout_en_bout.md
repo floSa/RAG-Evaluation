@@ -34,13 +34,15 @@ Elle a besoin de l'[évaluation 3](3_evaluation_reponse.md). Elle écrit la déc
 
 ## Tout en une commande
 
-En pratique, on lance les quatre évaluations d'un coup, en 5 minutes environ (dont 3 pour le juge) :
+En pratique, une seule commande fait tout, une fois le RAG lancé :
 
 ```bash
-uv run kit evaluer --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
+uv run kit evaluer
 ```
 
-Le kit vérifie d'abord le contrat : si un fichier est faux, il s'arrête et dit pourquoi. Puis il enchaîne les évaluations 1 à 4, dans l'ordre. Une évaluation s'appelle `<version du corpus>_<version du RAG>`. Relancer une étape remplace ses résultats. Évaluer une autre version du RAG crée une autre évaluation.
+Elle appelle d'abord les quatre portes du RAG ([0b](0b_porte_du_rag.md)) : elle lui envoie les documents, lui pose les 60 questions, et range ses réponses (5 minutes environ pour le RAG d'exemple). Elle vérifie ce que le RAG a rendu : si quelque chose est faux, elle s'arrête et dit pourquoi. Puis elle enchaîne les évaluations 1 à 4, dans l'ordre (5 minutes environ, dont 3 pour le juge).
+
+Pour réévaluer des réponses déjà rangées, sans rappeler le RAG : `uv run kit evaluer --rag sorties/sorties_rag/<version du RAG>`. Une évaluation s'appelle `<version du corpus>_<version du RAG>`. Relancer une étape remplace ses résultats. Évaluer une autre version du RAG crée une autre évaluation.
 
 ## Les scores
 
