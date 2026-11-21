@@ -24,7 +24,7 @@ flowchart LR
 ## La commande
 
 ```bash
-uv run kit evaluer-ingestion --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd
+uv run kit evaluer-ingestion --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
 ```
 
 Il suffit que le RAG ait écrit `rag.json`, `chunks.jsonl` et, s'il y a des scans, `pages_extraites.jsonl` ([branchement, prise ①](0b_branchement_du_rag.md)).
@@ -101,15 +101,15 @@ Les violations sont calculées par `kit evaluer-ingestion`. La justesse demande 
 
 1. Envoyer 50 relations au métier :
    ```bash
-   uv run kit verifier-graphe --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-393efaea --envoyer
+   uv run kit verifier-graphe --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-57001489 --envoyer
    ```
 2. Dans Langfuse, **Annotation Queues → `justesse-graphe`** : chaque élément montre la relation, sa source et le passage. Le métier choisit `justesse_relation` : juste ou fausse.
 3. Voir où en est la relecture, puis inscrire le score dans les résultats :
    ```bash
-   uv run kit verifier-graphe --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-393efaea
+   uv run kit verifier-graphe --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-57001489
    ```
    ```bash
-   uv run kit evaluer-ingestion --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-393efaea
+   uv run kit evaluer-ingestion --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-57001489
    ```
 
 **Le résultat sur le RAG hybride d'exemple** : 25 violations, et une justesse de **66 %** ± 13 % (33 relations justes sur 50). Les 17 relations fausses sont de trois sortes :
