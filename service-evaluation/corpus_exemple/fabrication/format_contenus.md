@@ -1,6 +1,6 @@
 # Format des contenus des documents sources
 
-Chaque document du corpus d'exemple est décrit par un fichier JSON dans `corpus_exemple/fabrication/contenus/<reference_source>.json`. Le script de fabrication en tire le PDF de `corpus_exemple/sources/`. Le découpage en pages est écrit dans le JSON : la page d'un passage est donc connue exactement.
+Chaque document du corpus d'exemple est décrit par un fichier JSON dans `corpus_exemple/fabrication/contenus/<reference_source>.json`. Le script de fabrication en tire le PDF de `corpus_exemple/documents/`. Le découpage en pages est écrit dans le JSON : la page d'un passage est donc connue exactement.
 
 ```json
 {
