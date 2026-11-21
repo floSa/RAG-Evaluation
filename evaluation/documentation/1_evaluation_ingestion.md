@@ -112,6 +112,18 @@ Les violations sont calculées par `kit evaluer-ingestion`. La justesse demande 
    uv run kit evaluer-ingestion --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-393efaea
    ```
 
+**Le résultat sur le RAG hybride d'exemple** : 25 violations, et une justesse de **66 %** ± 13 % (33 relations justes sur 50). Les 17 relations fausses sont de trois sortes :
+
+| Sorte d'erreur | Exemple | Combien |
+| --- | --- | --- |
+| relation vraie dans l'entreprise, mais que le passage ne dit pas : le modèle déduit le site du repère (« AD-B01 » → site B), et la provenance est fausse | AD-B01 situeSur Site B, d'après une page qui liste les armoires sans dire leur site | 7 |
+| mauvais rôle ou mauvaise cible : une demandeuse, une responsable ou un bureau d'études comptés comme intervenants ; l'intervention rattachée au transformateur au lieu du TGBT | Sophie Lenoir intervientSur AD-B02 (elle est la demandeuse) | 5 |
+| relation inversée ou inventée | AD-B06 alimente TGBT-B (c'est l'inverse) ; OND-A secourt GE-A ; un « technicien » absent du passage | 5 |
+
+C'est la limite d'un petit modèle qui extrait page par page. La première sorte d'erreur ne se voit pas dans les violations : la relation respecte l'ontologie, seule la provenance est fausse. D'où l'intérêt de faire juger les relations par le métier, en plus des règles SHACL.
+
+> Comme pour la vérification du juge, le métier est simulé dans le banc d'essai : c'est Claude qui a jugé les 50 relations, d'après leur passage source. Ses jugements et leur raison sont dans [`../corpus_exemple/relecture_simulee/justesse_graphe.json`](../corpus_exemple/relecture_simulee/justesse_graphe.json).
+
 ## Si c'est mauvais
 
 Extraction, OCR, tableaux, images, découpage : le [document 2](../../rag/documentation/reference/techniques_rag.md), sections 3 et 4.

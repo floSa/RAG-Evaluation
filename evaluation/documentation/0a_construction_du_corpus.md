@@ -72,6 +72,7 @@ Le dossier [`../corpus_exemple/`](../corpus_exemple/) contient un corpus complet
 | `corpus_exemple/sources/` | l'export de la gestion documentaire, `export_ged.csv` (une ligne par document, avec ses métadonnées), et 50 documents PDF : 17 procédures (PDF natifs), 16 notes techniques (11 natives, 5 scannées et bruitées), 17 comptes rendus d'intervention (fiches de base de données exportées en « champ : valeur ») |
 | `corpus_exemple/Corpus_evaluation_RAG.xlsx` | le fichier du métier, rempli : 50 documents, 60 questions, 97 passages, 20 pages OCR retapées |
 | `corpus_exemple/questions_pour_relecture.md` | les 60 questions sur une page, pour les relire |
+| `corpus_exemple/relecture_simulee/` | les notes du métier, **simulées** pour le banc d'essai : 28 réponses notées pour vérifier le juge, 50 relations du graphe jugées ; et le script qui les inscrit dans Langfuse |
 | `corpus_exemple/ontologie/` | l'ontologie du domaine (`ontologie.ttl` : sites, équipements, personnes et leurs relations) et ses règles SHACL (`ontologie_formes.ttl`), pour un RAG à graphe |
 | `corpus_exemple/fabrication/` | de quoi tout refabriquer : le monde fictif, le contenu de chaque document, les scripts |
 

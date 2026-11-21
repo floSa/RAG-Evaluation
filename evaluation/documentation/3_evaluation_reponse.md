@@ -116,7 +116,7 @@ flowchart LR
     C -- "sinon" --> P["Lire les désaccords,<br/>préciser le prompt du juge,<br/>changer version_prompt"] --> A
 ```
 
-1. Envoyer 30 réponses au métier (hors questions réservées) :
+1. Envoyer 30 réponses au métier, tirées au hasard parmi celles notées par le juge, hors questions réservées (le corpus d'exemple n'en a que 28) :
    ```bash
    uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd --envoyer
    ```
@@ -125,12 +125,22 @@ flowchart LR
    ```bash
    uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-80032dcd
    ```
-   Exemple de sortie (valeurs d'illustration : le métier n'a pas encore noté l'échantillon du corpus d'exemple) :
+   Le résultat sur le corpus d'exemple :
    ```
-   Notes du métier : 30 sur 30.
-   Accord juge / métier : 93 % (seuil 90 %) ; kappa de Cohen : 0.85. Juge VALIDÉ.
+   Notes du métier : 28 sur 28.
+   Accord juge / métier : 89% (seuil 90%) ; kappa de Cohen : 0.7515. Juge NON validé.
+     - Q-012 : juge « juste », métier « partielle »
      - Q-030 : juge « fausse », métier « partielle »
+     - Q-041 : juge « fausse », métier « partielle »
    ```
+
+**Ce que dit ce résultat.** Le juge n'est pas validé, à une réponse près. Ses trois désaccords ne vont pas dans le même sens :
+- sur Q-012, il est **trop indulgent** : il dit « juste » une réponse qui oublie un point clé (le voyant de charge) ;
+- sur Q-030 et Q-041, il est **trop sévère** : il dit « fausse » des réponses en partie justes.
+
+Dans un vrai projet, on lirait ces désaccords, on préciserait le prompt du juge (par exemple : « un point clé absent rend la réponse partielle, jamais juste »), on changerait `version_prompt`, puis on referait la vérification. Ici, le prompt est un document de référence du dépôt, qu'on ne modifie pas : le juge reste non validé, et ses verdicts se lisent avec prudence, surtout pour les réponses partielles.
+
+> **Dans le banc d'essai, le métier est simulé.** L'entreprise et le corpus sont fictifs : c'est Claude qui a joué le rôle du métier, en notant chaque réponse à partir de la question, de la réponse attendue et des points clés, sans voir la note du juge. Ses notes et leur raison sont dans [`../corpus_exemple/relecture_simulee/verdicts_metier.json`](../corpus_exemple/relecture_simulee/verdicts_metier.json) ; le script [`publier.py`](../corpus_exemple/relecture_simulee/publier.py) les inscrit dans Langfuse comme le ferait le métier dans l'interface. Dans un vrai projet, ce dossier n'existe pas : le métier note lui-même.
 
 On refait la vérification à chaque changement de modèle juge ou de prompt. Le **kappa de Cohen** est l'accord corrigé du hasard : il révèle un juge qui dit presque toujours « juste », et qui peut atteindre 90 % d'accord sans rien distinguer. Au-dessus de 0,8, l'accord est très bon ; sous 0,6, il faut se méfier, même si le taux d'accord passe.
 
