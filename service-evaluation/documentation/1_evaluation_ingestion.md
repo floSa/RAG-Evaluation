@@ -27,7 +27,7 @@ flowchart LR
 uv run kit evaluer-ingestion --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
 ```
 
-Il suffit que le RAG ait écrit `rag.json`, `chunks.jsonl` et, s'il y a des scans, `pages_extraites.jsonl` ([branchement, prise ①](0b_branchement_du_rag.md)).
+Il suffit que le RAG ait écrit `rag.json`, `chunks.jsonl` et, s'il y a des scans, `pages_extraites.jsonl` ([porte du RAG, ② montrer l'index](0b_porte_du_rag.md)).
 
 ## Comment le kit tranche : le rattachement
 
@@ -78,7 +78,7 @@ Sur une autre page (NT-040, page 3), il **mélange l'ordre des lignes**. Les pas
 
 ## Si le RAG a un graphe
 
-Un RAG de type `graphe` ou `hybride` rend aussi `graphe.ttl` ([branchement, prise ①](0b_branchement_du_rag.md)). Le kit vérifie alors deux choses de plus.
+Un RAG de type `graphe` ou `hybride` rend aussi `graphe.ttl` ([porte du RAG, ② montrer l'index](0b_porte_du_rag.md)). Le kit vérifie alors deux choses de plus.
 
 ```mermaid
 flowchart LR
@@ -126,6 +126,6 @@ C'est la limite d'un petit modèle qui extrait page par page. La première sorte
 
 ## Si c'est mauvais
 
-Extraction, OCR, tableaux, images, découpage : le [document 2](../../rag/documentation/reference/techniques_rag.md), sections 3 et 4.
+Extraction, OCR, tableaux, images, découpage : le [document 2](../../service-rag/documentation/reference/techniques_rag.md), sections 3 et 4.
 
 **Étape suivante** : [2. Évaluation de la recherche](2_evaluation_recherche.md).
