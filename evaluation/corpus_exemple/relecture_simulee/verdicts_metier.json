@@ -1,0 +1,121 @@
+{
+  "role": "relecture simulée par Claude pour le banc d'essai : aucune donnée réelle, aucun avis métier réel",
+  "evaluation": "2026-11-20.1_graphrag-vectoriel-k5-80032dcd",
+  "file": "verification-juge",
+  "score": "verdict_metier",
+  "consigne": "noter juste, partielle ou fausse à partir de la question, de la réponse attendue, des points clés et de la réponse du RAG, sans voir la note du juge",
+  "verdicts": {
+    "Q-001": {
+      "verdict": "juste",
+      "raison": "les cinq étapes, dans l'ordre"
+    },
+    "Q-002": {
+      "verdict": "juste",
+      "raison": "20 minutes"
+    },
+    "Q-004": {
+      "verdict": "juste",
+      "raison": "95 mm²"
+    },
+    "Q-005": {
+      "verdict": "juste",
+      "raison": "HC et second intervenant H2V"
+    },
+    "Q-008": {
+      "verdict": "partielle",
+      "raison": "72 A, mais la temporisation de 500 ms manque"
+    },
+    "Q-012": {
+      "verdict": "partielle",
+      "raison": "mensuel, mais le contrôle du voyant de charge n'est pas dit"
+    },
+    "Q-013": {
+      "verdict": "juste",
+      "raison": "12 mois, PR-1104-C"
+    },
+    "Q-015": {
+      "verdict": "juste",
+      "raison": "30 minutes, au moins 50 % de la puissance"
+    },
+    "Q-016": {
+      "verdict": "juste",
+      "raison": "30 Ω"
+    },
+    "Q-017": {
+      "verdict": "juste",
+      "raison": "10 Ω"
+    },
+    "Q-019": {
+      "verdict": "juste",
+      "raison": "70 N·m"
+    },
+    "Q-020": {
+      "verdict": "juste",
+      "raison": "50 N·m"
+    },
+    "Q-022": {
+      "verdict": "juste",
+      "raison": "162 minutes"
+    },
+    "Q-023": {
+      "verdict": "juste",
+      "raison": "312 minutes"
+    },
+    "Q-027": {
+      "verdict": "juste",
+      "raison": "8 minutes"
+    },
+    "Q-030": {
+      "verdict": "partielle",
+      "raison": "les deux interventions sont trouvées, mais pas ce qui a été fait ; la réponse est coupée"
+    },
+    "Q-031": {
+      "verdict": "juste",
+      "raison": "résistance et thermostat de préchauffage"
+    },
+    "Q-035": {
+      "verdict": "juste",
+      "raison": "36 kA"
+    },
+    "Q-037": {
+      "verdict": "partielle",
+      "raison": "continuité de service et pas de coupure au premier défaut, mais les fours ne sont pas cités"
+    },
+    "Q-038": {
+      "verdict": "juste",
+      "raison": "2,28 ans, dans la tolérance de 2,3 ± 0,1"
+    },
+    "Q-040": {
+      "verdict": "juste",
+      "raison": "les quatre causes"
+    },
+    "Q-041": {
+      "verdict": "partielle",
+      "raison": "un seul des cinq problèmes récurrents (les échauffements de connexions)"
+    },
+    "Q-043": {
+      "verdict": "fausse",
+      "raison": "réponse vide : coupée après le titre"
+    },
+    "Q-044": {
+      "verdict": "partielle",
+      "raison": "deux différences justes (onduleur, groupe), les autres manquent"
+    },
+    "Q-046": {
+      "verdict": "fausse",
+      "raison": "hors sujet : les règles de l'éclairage de sécurité, pas celles des interventions"
+    },
+    "Q-056": {
+      "verdict": "juste",
+      "raison": "30 Ω"
+    },
+    "Q-057": {
+      "verdict": "juste",
+      "raison": "8 minutes"
+    },
+    "Q-060": {
+      "verdict": "juste",
+      "raison": "les cinq étapes, dans l'ordre"
+    }
+  }
+}

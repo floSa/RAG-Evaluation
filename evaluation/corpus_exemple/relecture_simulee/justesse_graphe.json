@@ -1,0 +1,359 @@
+{
+  "role": "relecture simulée par Claude pour le banc d'essai : aucune donnée réelle, aucun avis métier réel",
+  "evaluation": "2026-11-20.1_graphrag-hybride-k5-393efaea",
+  "file": "justesse-graphe",
+  "score": "justesse_relation",
+  "consigne": "juste si le passage source dit la relation ; fausse sinon, même si elle est vraie ailleurs",
+  "relations": [
+    {
+      "relation": "OND-A secourt GE-A",
+      "reference_source": "NT-060",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "le passage ne dit pas que l'onduleur secourt le groupe"
+    },
+    {
+      "relation": "TR-B1 situeSur Site B",
+      "reference_source": "NT-066",
+      "page": "2",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "GE-B situeSur Site B",
+      "reference_source": "NT-070",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "Thomas Rigaud intervientSur AD-A07",
+      "reference_source": "OT-24101",
+      "page": "Intervenant(s)",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TR-A2 alimente TGBT-A",
+      "reference_source": "OT-24104",
+      "page": "Date de l'intervention",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TGBT-A situeSur Site A",
+      "reference_source": "OT-24104",
+      "page": "Site",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TR-A2 alimente TGBT-A",
+      "reference_source": "OT-24104",
+      "page": "Équipement",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "Karim Benali intervientSur TR-A2",
+      "reference_source": "OT-24104",
+      "page": "Intervenant(s)",
+      "verdict": "fausse",
+      "raison": "l'intervention porte sur le TGBT-A (arrivée TR-A2), pas sur le transformateur"
+    },
+    {
+      "relation": "Lucie Ferrand intervientSur AD-B04",
+      "reference_source": "OT-24108",
+      "page": "Intervenant(s)",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TR-A1 situeSur Site A",
+      "reference_source": "OT-24109",
+      "page": "Équipement",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TGBT-B situeSur Site B",
+      "reference_source": "OT-24113",
+      "page": "Équipement",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "transformateur alimente demi-jeu de barres",
+      "reference_source": "NT-031",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "Lucie Ferrand intervientSur TR-B1",
+      "reference_source": "OT-24114",
+      "page": "Intervenant(s)",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TR-B1 situeSur Site B",
+      "reference_source": "OT-24114",
+      "page": "Actions réalisées",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "GE-B situeSur Site B",
+      "reference_source": "OT-24114",
+      "page": "Actions réalisées",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "AD-B06 alimente TGBT-B",
+      "reference_source": "OT-24115",
+      "page": "Équipement",
+      "verdict": "fausse",
+      "raison": "sens inversé : c'est le TGBT-B qui alimente le départ AD-B06"
+    },
+    {
+      "relation": "CPI-B protege AD-B02",
+      "reference_source": "OT-24116",
+      "page": "Équipement",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "Sophie Lenoir intervientSur AD-B02",
+      "reference_source": "OT-24116",
+      "page": "Demandeur",
+      "verdict": "fausse",
+      "raison": "Sophie Lenoir est la demandeuse, pas l'intervenante"
+    },
+    {
+      "relation": "GE-A situeSur Site A",
+      "reference_source": "OT-24117",
+      "page": "Site",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "AD-B09 situeSur Site B",
+      "reference_source": "PR-1101",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TR-A2 situeSur Site A",
+      "reference_source": "PR-1102",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "Karim Benali intervientSur Site A",
+      "reference_source": "PR-1102",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "une personne n'intervient pas sur un site (et le passage parle du rôle de second intervenant)"
+    },
+    {
+      "relation": "TR-A1 situeSur Site A",
+      "reference_source": "PR-1104-B",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "vrai dans l'entreprise, mais le passage ne dit pas le site de TR-A1"
+    },
+    {
+      "relation": "OND-A situeSur Site A",
+      "reference_source": "PR-1104-B",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "le passage ne dit pas le site de l'OND-A"
+    },
+    {
+      "relation": "AD-B01 situeSur Site B",
+      "reference_source": "PR-1104-B",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "le passage ne dit pas le site de AD-B01"
+    },
+    {
+      "relation": "TGBT-A situeSur Site A",
+      "reference_source": "PR-1104-C",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "le passage ne dit pas le site du TGBT-A"
+    },
+    {
+      "relation": "disjoncteur alimente demi-jeu de barres",
+      "reference_source": "NT-031",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "le disjoncteur de couplage relie les demi-jeux de barres, il ne les alimente pas"
+    },
+    {
+      "relation": "GE-B situeSur Site B",
+      "reference_source": "PR-1104-C",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "le passage ne dit pas le site de GE-B"
+    },
+    {
+      "relation": "bureau d'études intervientSur AD-B09",
+      "reference_source": "PR-1106",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "technicien intervientSur AD-A14",
+      "reference_source": "PR-1106",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "technicien intervientSur AD-B09",
+      "reference_source": "PR-1106",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "AD-B09 situeSur Site B",
+      "reference_source": "PR-1108",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "technicien intervientSur CPI-B",
+      "reference_source": "PR-1108",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "aucun technicien dans ce passage"
+    },
+    {
+      "relation": "TGBT situeSur Site A",
+      "reference_source": "PR-1109",
+      "page": "2",
+      "verdict": "fausse",
+      "raison": "« près du TGBT » : ni repère, ni site dans le passage"
+    },
+    {
+      "relation": "GE-A situeSur Site A",
+      "reference_source": "PR-1111",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "GE-A secourt INV-A",
+      "reference_source": "PR-1111",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "INV-A alimente OND-A",
+      "reference_source": "PR-1111",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "l'inverseur alimente le jeu de barres secouru, qui dessert l'onduleur : la relation directe n'est pas dite"
+    },
+    {
+      "relation": "technicien intervientSur GE-A",
+      "reference_source": "PR-1111",
+      "page": "2",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TGBT-B situeSur Site B",
+      "reference_source": "PR-1114",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "CPI-B situeSur Site B",
+      "reference_source": "PR-1116",
+      "page": "2",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TR-B1 situeSur Site B",
+      "reference_source": "NT-051",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "Électrotech Conseil intervientSur relais de protection",
+      "reference_source": "NT-051",
+      "page": "1",
+      "verdict": "fausse",
+      "raison": "Électrotech Conseil fait l'étude de sélectivité, il n'intervient pas sur le relais"
+    },
+    {
+      "relation": "TGBT-A situeSur Site A",
+      "reference_source": "NT-053",
+      "page": "2",
+      "verdict": "fausse",
+      "raison": "le passage dit « le TGBT » du site A, sans repère"
+    },
+    {
+      "relation": "Hélène Morvan intervientSur TGBT-A",
+      "reference_source": "NT-053",
+      "page": "2",
+      "verdict": "fausse",
+      "raison": "Hélène Morvan suit le plan de maintenance, elle n'intervient pas sur le TGBT-A"
+    },
+    {
+      "relation": "TR-A2 alimente TGBT-A",
+      "reference_source": "NT-057",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TR-A1 situeSur Site A",
+      "reference_source": "NT-057",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TGBT-A alimente OND-A",
+      "reference_source": "NT-057",
+      "page": "2",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TGBT-A situeSur Site A",
+      "reference_source": "NT-057",
+      "page": "2",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "CPI-B protege TGBT-B",
+      "reference_source": "NT-058",
+      "page": "1",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    },
+    {
+      "relation": "TGBT-B alimente AD-B09",
+      "reference_source": "NT-058",
+      "page": "2",
+      "verdict": "juste",
+      "raison": "dite par le passage source"
+    }
+  ]
+}
