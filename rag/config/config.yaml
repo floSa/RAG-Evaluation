@@ -24,8 +24,8 @@ modeles:
   generation:
     modele: gemma-4-e4b
     temperature: 0
-    max_tokens: 800
-    sans_reflexion: true             # chat_template_kwargs.enable_thinking = false : la réflexion ne mange plus les max_tokens
+    max_tokens: 4000                 # la réflexion du modèle compte dedans : 800 coupait les réponses longues
+    sans_reflexion: false            # true : 9 fois plus rapide, mais 9 points d'exactitude en moins (guide 5)
     prix_entree_eur_par_million: 0   # coût des tokens ; 0 pour un modèle local
     prix_sortie_eur_par_million: 0
   embeddings:
