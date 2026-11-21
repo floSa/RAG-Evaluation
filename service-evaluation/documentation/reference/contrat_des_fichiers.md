@@ -19,7 +19,7 @@ Arborescence :
 | Dossier | Contenu | Écrit par |
 | --- | --- | --- |
 | `corpus/<version_corpus>/` | corpus.json, documents.jsonl, questions.jsonl, passages.jsonl, pages_ocr.jsonl | le module d'import du kit |
-| `sorties_rag/<version_rag>/` | rag.json, chunks.jsonl, pages_extraites.jsonl, graphe.ttl, recherches.jsonl, reponses.jsonl | le RAG, ou le lanceur du kit par le connecteur |
+| `sorties_rag/<version_rag>/` | rag.json, chunks.jsonl, pages_extraites.jsonl, graphe.ttl, recherches.jsonl, reponses.jsonl | le kit, avec ce que rend la porte d'évaluation du RAG ; ou le RAG lui-même, par fichiers |
 | `resultats/<evaluation_id>/` | evaluation.json, liens_index.jsonl, resultats_par_question.csv, scores.json, rapport.html | le kit |
 | `config/` | seuils.json, kit.yaml | l'équipe du projet |
 
@@ -117,7 +117,9 @@ L'import découpe la colonne « Points clés attendus » sur « ; » et reconna�
 - Question `oui` sans passage (hors pièges) ; question `non_accessible` dont aucun passage ne vient d'un document interdit au profil.
 - Avertissement (sans rejet) : configuration minimale du document 1 non atteinte.
 
-## 3. Les sorties du RAG
+## 3. Ce que le RAG rend
+
+La porte d'évaluation du RAG (fin de cette section) rend ces objets ; le kit les range dans ces fichiers.
 
 ### rag.json — la version évaluée
 
@@ -196,20 +198,18 @@ Le graphe exporté en RDF (Turtle). Chaque nœud et chaque relation réifiée po
 | Isolement | le RAG ne reçoit jamais reponse_attendue, points_cles ni passages, sauf l'historique ci-dessus |
 | Toutes les questions | y compris réservées à la décision ; seul l'affichage des résultats diffère |
 
-### Le connecteur (si le RAG est en Python)
+### La porte d'évaluation
 
-Un objet qui expose ces méthodes ; le kit les appelle et écrit lui-même les fichiers ci-dessus.
+Chaque RAG ouvre quatre portes à une adresse web (par défaut http://127.0.0.1:8100). Le kit les appelle dans l'ordre et écrit lui-même les fichiers ci-dessus. Un RAG qui ne peut pas ouvrir d'adresse écrit ces fichiers lui-même.
 
-| Méthode | Entrée | Sortie |
-| --- | --- | --- |
-| `decrire()` | — | le contenu de rag.json |
-| `exporter_index()` | — | itérable d'objets chunks.jsonl |
-| `exporter_pages()` | — | itérable d'objets pages_extraites.jsonl, ou rien |
-| `exporter_graphe(chemin)` | chemin de fichier | écrit graphe.ttl, ou rien |
-| `rechercher(question, profil, historique)` | texte, texte, liste | liste de `{"chunk_id", "rang", "score"}` ; option `avant_reranking` |
-| `repondre(question, profil, historique)` | texte, texte, liste | objet reponses.jsonl, sans question_id |
+| Porte | Adresse | Corps de la demande | Réponse |
+| --- | --- | --- | --- |
+| ① ingérer | `POST /ingerer` | `{"documents": [...]}` : pour chaque document, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces` (codes de documents.jsonl), `fichier` (nom) et `contenu` (le fichier, en base64) | `{"documents", "chunks", "pages"}` |
+| ② montrer l'index | `GET /index` | — | `{"rag": <rag.json>, "chunks": [<chunks.jsonl>], "pages": [<pages_extraites.jsonl>], "graphe": <graphe.ttl en Turtle, ou null>}` |
+| ③ rechercher | `POST /rechercher` | `{"question", "profil", "historique"}` | `{"resultats": [{"chunk_id", "rang", "score"}], "duree_ms"}` ; option `avant_reranking` |
+| ④ répondre | `POST /repondre` | `{"question", "profil", "historique"}` | un objet reponses.jsonl, sans `question_id` ni `profil` |
 
-Le connecteur ne doit rien importer du kit : le kit l'utilise par son nom de méthode.
+Le RAG range les documents reçus à part de ceux de la production. Il ne reçoit jamais les annotations (règles d'appel ci-dessus).
 
 ## 4. Les sorties du kit
 
