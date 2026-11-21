@@ -82,7 +82,7 @@ Bloquant ?             → fuite : filtre des droits pendant la recherche ; erre
 Puis                   → nouvelle version du RAG, kit evaluer, kit comparer avec la précédente
 ```
 
-Le document 2 : [techniques d'un RAG](../../rag/documentation/reference/techniques_rag.md).
+Le document 2 : [techniques d'un RAG](../../service-rag/documentation/reference/techniques_rag.md).
 
 ## 4. Les marges d'erreur : ne pas sur-interpréter
 
@@ -101,7 +101,17 @@ Après un changement (k, prompt, modèle, découpage), on évalue la nouvelle ve
 4. **Test de McNemar** : il ne regarde que les questions qui ont changé. Une valeur p au-dessus de 0,05 veut dire que l'écart peut être dû au hasard.
 5. **Régression** : une question de gravité forte perdue est signalée, même si la moyenne monte. Elle se regarde avant toute décision.
 
-**Exemple : le RAG d'exemple avec k = 5 (A), puis k = 3 (B).**
+**Exemple : le RAG d'exemple avec k = 5 (A), puis k = 3 (B).** Une autre version du RAG, c'est le RAG relancé avec un autre réglage, puis évalué de nouveau :
+
+```bash
+cd ../service-rag && RAG_K=3 docker compose up -d && cd ../service-evaluation
+```
+
+```bash
+uv run kit evaluer
+```
+
+Puis on compare les deux dossiers de résultats :
 
 ```bash
 uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-5954e822 sorties/resultats/2026-11-20.1_graphrag-vectoriel-k3-5954e822
@@ -121,7 +131,7 @@ McNemar donne p = 0,125 sur le score pondéré : avec 40 questions, on ne peut p
 
 C'est tout l'intérêt de lire **plusieurs scores ensemble**. Une exactitude qui monte peut cacher un RAG qui répond moins.
 
-**Exemple : le RAG vectoriel (A) et le RAG hybride, avec son graphe (B), tous deux avec k = 5.** Le même kit les évalue sans changer une ligne de code : il voit seulement `type_rag` = `hybride` et un fichier `graphe.ttl` de plus.
+**Exemple : le RAG vectoriel (A) et le RAG hybride, avec son graphe (B), tous deux avec k = 5.** Le RAG hybride, c'est le RAG relancé avec `RAG_GRAPHE=true docker compose up -d`. Le même kit les évalue sans changer une ligne de code : il voit seulement `type_rag` = `hybride` et un graphe de plus.
 
 ```bash
 uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-5954e822 sorties/resultats/2026-11-20.1_graphrag-hybride-k5-57001489
