@@ -36,14 +36,17 @@ def generer(client: OpenAI, config: dict, question: str, historique: list[dict],
     m = config["modeles"]["generation"]
     prompt = messages(question, historique, contexte)
     parametres = {"model": m["modele"], "temperature": m["temperature"], "max_tokens": m["max_tokens"]}
+    # Sans réflexion : sinon le modèle « réfléchit » avant d'écrire, cette réflexion consomme les max_tokens,
+    # et la réponse revient vide ou coupée en cours de phrase.
+    extra = {"chat_template_kwargs": {"enable_thinking": False}} if m.get("sans_reflexion") else None
     if langfuse:
         with langfuse.start_as_current_observation(name="generation", as_type="generation", input=prompt,
                                                    model=m["modele"], model_parameters=parametres) as g:
-            r = client.chat.completions.create(messages=prompt, **parametres)
+            r = client.chat.completions.create(messages=prompt, extra_body=extra, **parametres)
             usage = (r.usage.prompt_tokens, r.usage.completion_tokens) if r.usage else (0, 0)
             g.update(output=r.choices[0].message.content, usage_details={"input": usage[0], "output": usage[1]})
     else:
-        r = client.chat.completions.create(messages=prompt, **parametres)
+        r = client.chat.completions.create(messages=prompt, extra_body=extra, **parametres)
         usage = (r.usage.prompt_tokens, r.usage.completion_tokens) if r.usage else (0, 0)
     return (r.choices[0].message.content or "").strip(), usage
 
