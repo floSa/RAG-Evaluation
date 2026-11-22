@@ -1,4 +1,4 @@
-"""Niveau 1 — Ingestion (document 3, section 6) : les scores de l'ingestion.
+"""Évaluation 1, ingestion (niveau 1 du document 3, section 6) : les scores de l'ingestion.
 
 Le rattachement (rattachement.py) dit, pour chaque passage du corpus, quels chunks du RAG le contiennent.
 On en tire : la part des passages retrouvés, les métadonnées justes, le taux d'erreur de l'OCR (jiwer) ;
