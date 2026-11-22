@@ -13,7 +13,7 @@ from openai import OpenAI
 
 from kit.config import cle
 
-JUGE_MD = Path(__file__).resolve().parents[3] / "documentation" / "reference" / "prompt_du_juge.md"
+PROMPT_DU_JUGE = Path(__file__).resolve().parents[3] / "documentation" / "reference" / "prompt_du_juge.md"
 STATUTS = {"present", "absent", "contredit"}
 VERDICTS = {"juste", "partielle", "fausse"}
 VALEUR_VERDICT = {"juste": 1.0, "partielle": 0.5, "fausse": 0.0}
@@ -21,7 +21,7 @@ VALEUR_VERDICT = {"juste": 1.0, "partielle": 0.5, "fausse": 0.0}
 
 def prompt_exactitude() -> str:
     """Le bloc de code qui suit « ## Prompt d'exactitude » dans documentation/reference/prompt_du_juge.md."""
-    texte = JUGE_MD.read_text(encoding="utf-8")
+    texte = PROMPT_DU_JUGE.read_text(encoding="utf-8")
     section = texte.split("## Prompt d'exactitude", 1)[1]
     return re.search(r"```text\n(.*?)\n```", section, re.S)[1]
 
@@ -73,7 +73,7 @@ def valider(sortie: str, nb_points: int) -> tuple[dict | None, str | None]:
 
 
 def verdict_du_kit(statuts: list[str], contradictions: list) -> str:
-    """Le verdict recalculé par le kit (JUGE.md, « Verdict »)."""
+    """Le verdict recalculé par le kit (prompt_du_juge.md, « Verdict »)."""
     if statuts and all(s == "present" for s in statuts) and not contradictions:
         return "juste"
     if "present" in statuts and "contredit" not in statuts and not contradictions:
