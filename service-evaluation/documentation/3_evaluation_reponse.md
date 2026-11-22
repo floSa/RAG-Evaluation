@@ -43,8 +43,10 @@ uv run kit verifier-modeles
 
 ## La commande
 
+Elle est déjà lancée par `kit evaluer`. Pour la relancer seule, sur les dernières réponses du RAG :
+
 ```bash
-uv run kit evaluer-reponse --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
+uv run kit evaluer-reponse
 ```
 
 Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluation_recherche.md), et de `reponses.jsonl` ([porte du RAG, ④ répondre](0b_porte_du_rag.md)). Elle prend environ 3 minutes, le temps que le juge lise chaque réponse.
@@ -118,12 +120,17 @@ flowchart LR
 
 1. Envoyer 30 réponses au métier, tirées au hasard parmi celles notées par le juge, hors questions réservées (le corpus d'exemple n'en a que 28) :
    ```bash
-   uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822 --envoyer
+   uv run kit verifier-juge --envoyer
    ```
 2. Dans Langfuse, **Annotation Queues → `verification-juge`** : le métier lit chaque réponse avec sa question, et choisit `verdict_metier`, **sans regarder la note du juge**.
+
+   Dans le banc d'essai, il n'y a pas de métier : cette commande inscrit les notes simulées (voir l'encadré plus bas) :
+   ```bash
+   uv run python corpus_exemple/relecture_simulee/publier.py
+   ```
 3. Calculer l'accord :
    ```bash
-   uv run kit verifier-juge --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
+   uv run kit verifier-juge
    ```
    Le résultat sur le corpus d'exemple :
    ```
@@ -141,7 +148,7 @@ flowchart LR
 
 Dans un vrai projet, on lirait ces désaccords, on préciserait le prompt du juge (par exemple : « contredit veut dire que la réponse affirme le contraire de la référence ; un détail que la référence ne dit pas n'est pas une contradiction »), on changerait `version_prompt`, puis on referait la vérification. Ici, le prompt est un document de référence du dépôt, qu'on ne modifie pas : le juge reste non validé, et ses verdicts se lisent avec prudence, surtout pour les réponses partielles.
 
-> **Dans le banc d'essai, le métier est simulé.** L'entreprise et le corpus sont fictifs : c'est Claude qui a joué le rôle du métier, en notant chaque réponse à partir de la question, de la réponse attendue et des points clés, sans voir la note du juge. Ses notes et leur raison sont dans [`../corpus_exemple/relecture_simulee/verdicts_metier.json`](../corpus_exemple/relecture_simulee/verdicts_metier.json) ; le script [`publier.py`](../corpus_exemple/relecture_simulee/publier.py) les inscrit dans Langfuse comme le ferait le métier dans l'interface. Dans un vrai projet, ce dossier n'existe pas : le métier note lui-même.
+> **Dans le banc d'essai, le métier est simulé.** L'entreprise et le corpus sont fictifs : c'est Claude qui a joué le rôle du métier, en notant chaque réponse à partir de la question, de la réponse attendue et des points clés, sans voir la note du juge. Ses notes et leur raison sont dans [`../corpus_exemple/relecture_simulee/verdicts_metier.json`](../corpus_exemple/relecture_simulee/verdicts_metier.json) ; le script [`publier.py`](../corpus_exemple/relecture_simulee/publier.py) les inscrit dans Langfuse comme le ferait le métier dans l'interface. Ces notes visent les réponses obtenues par l'auteur, avec le RAG `graphrag-vectoriel-k5-5954e822` : si le vôtre a répondu autrement, certaines notes ne vont plus avec la réponse notée, et l'accord mesuré perd son sens. Dans un vrai projet, ce dossier n'existe pas : le métier note lui-même.
 
 On refait la vérification à chaque changement de modèle juge ou de prompt. Le **kappa de Cohen** est l'accord corrigé du hasard : il révèle un juge qui dit presque toujours « juste », et qui peut atteindre 90 % d'accord sans rien distinguer. Au-dessus de 0,8, l'accord est très bon ; sous 0,6, il faut se méfier, même si le taux d'accord passe.
 
