@@ -1,6 +1,6 @@
 {
   "role": "relecture simulée par Claude pour le banc d'essai : aucune donnée réelle, aucun avis métier réel",
-  "evaluation": "2026-11-20.1_graphrag-vectoriel-k5-5954e822",
+  "version_rag": "graphrag-vectoriel-k5-5954e822",
   "file": "verification-juge",
   "score": "verdict_metier",
   "consigne": "noter juste, partielle ou fausse à partir de la question, de la réponse attendue, des points clés et de la réponse du RAG, sans voir la note du juge",
