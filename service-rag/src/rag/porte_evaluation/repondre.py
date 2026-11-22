@@ -3,7 +3,7 @@
 Ce qu'elle reçoit : question, profil, historique (l'échange précédent).
 Ce qu'elle rend :
     reponse, abstention (vrai si le RAG dit ne pas savoir),
-    chunks_cites (les morceaux cités), chunks_contexte (ceux donnés au modèle),
+    chunks_cites (les chunks cités), chunks_contexte (ceux donnés au modèle),
     duree_ms, cout (en euros), tokens_entree, tokens_sortie,
     trace_id (la trace Langfuse de la réponse, si le RAG en envoie)
 """
