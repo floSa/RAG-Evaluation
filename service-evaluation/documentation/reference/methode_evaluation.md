@@ -1,6 +1,6 @@
 # Évaluer le RAG avec le corpus
 
-Règles à suivre pour tout projet RAG : base vectorielle, graphe, ou agent. On part du corpus du document 1. Le RAG et l'évaluation sont séparés : le RAG fournit ses sorties dans un format standard, le contrat ; le kit d'évaluation les compare au corpus et rend des scores standard, niveau par niveau. Le détail des champs est dans `CONTRAT.md`.
+Règles à suivre pour tout projet RAG : base vectorielle, graphe, ou agent. On part du corpus du document 1. Le RAG et l'évaluation sont séparés : le RAG fournit ses sorties dans un format standard, le contrat ; le kit d'évaluation les compare au corpus et rend des scores standard, niveau par niveau. Le détail des champs est dans [`contrat_des_fichiers.md`](contrat_des_fichiers.md).
 
 ## 1. Le principe : le RAG et le kit sont séparés
 
@@ -75,7 +75,7 @@ Chaque évaluation enregistre `rag.json`, la version du corpus et la version du 
 | --- | --- | --- |
 | Écrire le seuil de chaque score (section 9) | équipe métier, avec l'équipe technique | des seuils validés avant la première évaluation |
 | Installer Langfuse et le kit d'évaluation | équipe technique | le jeu de questions du corpus est chargé dans Langfuse |
-| Faire produire au RAG les fichiers du contrat | équipe technique | le RAG se branche sur le kit |
+| Faire produire au RAG les fichiers du contrat | équipe technique | le RAG ouvre ses portes au kit |
 | Fixer k, le nombre de chunks donnés au modèle | équipe technique | inscrit dans `rag.json` |
 | Vérifier le LLM juge sur 30 réponses (section 8) | équipe métier | le juge est fiable, ou sa consigne est corrigée |
 | Lancer une première évaluation et la garder | équipe technique | la référence pour comparer toutes les versions suivantes |
@@ -204,7 +204,7 @@ Croiser la recherche et la réponse dit où chercher la cause :
 | Le LLM juge | exactitude, complétude, fidélité, synthèse | prompt du kit et Ragas |
 | L'équipe métier | les réponses fausses ou partielles ; toutes les questions de gravité forte ; 10 réponses au hasard ; les désaccords entre le script et le juge | file de relecture dans Langfuse |
 
-Le juge utilise un prompt fourni par le kit (`JUGE.md`), le même pour tous les projets, avec une température à 0. C'est de préférence un autre modèle que celui du RAG : un modèle tend à favoriser ses propres réponses.
+Le juge utilise un prompt fourni par le kit ([`prompt_du_juge.md`](prompt_du_juge.md)), le même pour tous les projets, avec une température à 0. C'est de préférence un autre modèle que celui du RAG : un modèle tend à favoriser ses propres réponses.
 
 **Vérifier le LLM juge avant de s'en servir :**
 
