@@ -10,11 +10,11 @@ import typer
 
 from rag.assistant import Assistant, charger_config, dans_l_espace, indexer as construire_index, regler
 
-app = typer.Typer(help="RAG d'exemple : indexer les documents, poser une question, se brancher sur l'évaluation.",
+app = typer.Typer(help="RAG d'exemple : indexer les documents, poser une question, ouvrir sa porte à l'évaluation.",
                   no_args_is_help=True)
 
 OPTION_K = typer.Option(None, help="nombre de chunks donnés au modèle, si différent de config/config.yaml")
-OPTION_GRAPHE = typer.Option(None, "--graphe/--sans-graphe", help="avec ou sans le graphe (étape 4), si différent de config.yaml")
+OPTION_GRAPHE = typer.Option(None, "--graphe/--sans-graphe", help="avec ou sans le graphe (étape 4 du RAG), si différent de config.yaml")
 
 
 @app.callback()
