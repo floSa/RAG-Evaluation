@@ -21,8 +21,10 @@ flowchart LR
 
 ## La commande
 
+Elle est déjà lancée par `kit evaluer`. Pour la relancer seule, sur les dernières réponses du RAG :
+
 ```bash
-uv run kit evaluer-recherche --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
+uv run kit evaluer-recherche
 ```
 
 Elle a besoin de l'[évaluation de l'ingestion](1_evaluation_ingestion.md) (les liens passage ↔ chunk) et de `recherches.jsonl` ([porte du RAG, ③ rechercher](0b_porte_du_rag.md)).
