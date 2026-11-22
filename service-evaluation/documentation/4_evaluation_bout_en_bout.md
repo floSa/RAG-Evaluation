@@ -26,8 +26,10 @@ flowchart LR
 
 ## La commande
 
+Elle est déjà lancée par `kit evaluer`. Pour la relancer seule, sur les dernières réponses du RAG :
+
 ```bash
-uv run kit evaluer-bout-en-bout --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
+uv run kit evaluer-bout-en-bout
 ```
 
 Elle a besoin de l'[évaluation 3](3_evaluation_reponse.md). Elle écrit la décision et le rapport.
