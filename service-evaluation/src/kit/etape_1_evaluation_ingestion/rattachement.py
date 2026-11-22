@@ -1,4 +1,4 @@
-"""Niveau 1 — Le rattachement (document 3, section 6) : retrouver chaque passage du corpus dans les chunks du RAG.
+"""Évaluation 1 — le rattachement (niveau 1 du document 3, section 6) : retrouver chaque passage du corpus dans les chunks du RAG.
 
 Règles de rattachement : un chunk de même référence et même page correspond si…
 - texte, fiche de base : il contient le passage (exact) ; sinon une partie lui ressemble à 95 % (approché) ;
