@@ -1,4 +1,4 @@
-"""Niveau 2 — Recherche (document 3, section 7) : le bon chunk est-il retrouvé, bien classé, sans fuite de droits ?
+"""Évaluation 2, recherche (niveau 2 du document 3, section 7) : le bon chunk est-il retrouvé, bien classé, sans fuite de droits ?
 
 Un « bon chunk » est un chunk lié par le niveau 1 à un passage de la question qui n'est pas un piège.
 Une question est réussie selon « La réponse est dans » :
