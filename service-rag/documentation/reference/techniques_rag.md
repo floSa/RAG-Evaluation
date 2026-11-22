@@ -114,7 +114,7 @@ Chaque élément du graphe garde la même provenance qu'un chunk (référence, v
 | Les mêmes questions reviennent souvent | cache des réponses avec un seuil de similarité strict | répond sans tout recalculer |
 | On change de modèle, de prompt ou de découpage | numéro de version pour chacun ; évaluation relancée avant la bascule | on sait si le changement améliore ou dégrade |
 | En production | traces par question (chunks retrouvés, chunks cités, abstention, versions, durée, coût) envoyées à Langfuse | alimente les signaux de production du document 3 |
-| Toujours | ouvrir la porte d'évaluation (document 3, section 2), ou produire les fichiers du contrat | le RAG se branche sur le service d'évaluation, quel que soit son type |
+| Toujours | ouvrir les quatre portes d'évaluation (document 3, section 2), ou produire les fichiers du contrat | le RAG s'ouvre au service d'évaluation, quel que soit son type |
 
 ## 9. Ce qu'on ne fait pas
 
