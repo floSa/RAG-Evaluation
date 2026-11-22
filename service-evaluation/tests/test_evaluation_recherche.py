@@ -11,7 +11,7 @@ import yaml
 
 from kit import contrat
 from kit.etape_0a_corpus.importer import importer
-from kit.etape_2_evaluation_recherche import scores as niveau2
+from kit.etape_2_evaluation_recherche import scores as scores_recherche
 from kit.etape_5_resultats.publication import Evaluation, calculer_scores
 
 # Liens du niveau 1, écrits à la main (passage_id → chunks), pour les passages des questions testées :
@@ -63,7 +63,7 @@ def test_q001_un_seul_suffit_trouve_au_rang_2(ev):
     # Réussite : un passage suffit, le schéma est dans les 3 premiers → 1.
     # Rang du premier bon chunk : 2e → 1/2. Rappel : les deux passages ont un chunk dans les 3 → 1 et 1.
     recherche(ev, {"Q-001": ["PR-1101#1#0", "PR-1101#2#1", "PR-1101#2#0"]})
-    lignes = niveau2.evaluer(ev, liens())
+    lignes = scores_recherche.evaluer(ev, liens())
     s = scores(lignes, "Q-001")
     assert s["n2_reussite_k"] == 1.0 and s["n2_rang_premier"] == 0.5 and s["n2_fuite_droits"] == 0.0
     assert s["n2_reussite_1"] == 0.0 and s["n2_reussite_3"] == 1.0
@@ -75,7 +75,7 @@ def test_q013_piege_perime_classe_avant_le_bon(ev):
     # Réussite : 1 (passage 18 trouvé) ; rang premier : 1/2 ; périmé ou piège avant le bon chunk : 1.
     # Rappel : passage 18 trouvé (1), passage 19 absent (0).
     recherche(ev, {"Q-013": ["PR-1104-B#2#1", "PR-1104-C#2#1"]})
-    lignes = niveau2.evaluer(ev, liens())
+    lignes = scores_recherche.evaluer(ev, liens())
     s = scores(lignes, "Q-013")
     assert (s["n2_reussite_k"], s["n2_rang_premier"], s["n2_perimes_pieges"]) == (1.0, 0.5, 1.0)
     assert [l.valeur for l in lignes if l.question_id == "Q-013" and l.score == "n2_rappel_k"] == [1.0, 0.0]
@@ -85,18 +85,18 @@ def test_q030_a_combiner_un_passage_manque(ev):
     # Recherche : [OT-24101 (passage 49), sans rapport] : il manque OT-24112 (passage 50).
     # Réussite (à combiner) : 0 ; rang du premier bon chunk : 1 ; rappel : 1 et 0.
     recherche(ev, {"Q-030": ["OT-24101#Actions", "NT-062#1#0"]})
-    lignes = niveau2.evaluer(ev, liens())
+    lignes = scores_recherche.evaluer(ev, liens())
     s = scores(lignes, "Q-030")
     assert (s["n2_reussite_k"], s["n2_rang_premier"]) == (0.0, 1.0)
     recherche(ev, {"Q-030": ["OT-24112#Actions", "NT-062#1#0", "OT-24101#Actions"]})
-    assert scores(niveau2.evaluer(ev, liens()), "Q-030")["n2_reussite_k"] == 1.0
+    assert scores(scores_recherche.evaluer(ev, liens()), "Q-030")["n2_reussite_k"] == 1.0
 
 
 def test_q007_fuite_de_droits_bloquante(ev):
     # Q-007 est posée avec le profil exploitation ; NT-051 est réservé à la maintenance : fuite = 1.
     # La question « non accessible » n'est pas comptée en réussite.
     recherche(ev, {"Q-007": ["NT-051#2#0"]})
-    lignes = niveau2.evaluer(ev, liens())
+    lignes = scores_recherche.evaluer(ev, liens())
     s = scores(lignes, "Q-007")
     assert s == {"n2_fuite_droits": 1.0}
     resultat = calculer_scores(lignes, ev.seuils)
@@ -107,7 +107,7 @@ def test_q007_fuite_de_droits_bloquante(ev):
 
 def test_questions_non_comptees(ev):
     recherche(ev, {})
-    lignes = niveau2.evaluer(ev, liens())
+    lignes = scores_recherche.evaluer(ev, liens())
     comptees = {l.question_id for l in lignes if l.score == "n2_reussite_k"}
     # ni les questions sans réponse (Q-047), ni les synthèses (Q-041), ni les non accessibles (Q-007)
     assert {"Q-047", "Q-041", "Q-007"}.isdisjoint(comptees) and "Q-001" in comptees
