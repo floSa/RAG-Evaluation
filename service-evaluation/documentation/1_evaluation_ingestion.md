@@ -23,11 +23,13 @@ flowchart LR
 
 ## La commande
 
+Elle est déjà lancée par `kit evaluer`. Pour la relancer seule :
+
 ```bash
-uv run kit evaluer-ingestion --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-vectoriel-k5-5954e822
+uv run kit evaluer-ingestion
 ```
 
-Il suffit que le RAG ait écrit `rag.json`, `chunks.jsonl` et, s'il y a des scans, `pages_extraites.jsonl` ([porte du RAG, ② montrer l'index](0b_porte_du_rag.md)).
+Sans option, le kit prend le dernier corpus importé et les dernières réponses du RAG, et les affiche ([les options](../README.md#les-options---corpus-et---rag)). Il suffit que `sorties/sorties_rag/<version du RAG>/` contienne `rag.json`, `chunks.jsonl` et, s'il y a des scans, `pages_extraites.jsonl` : le kit les y a rangés après la porte ② ([porte du RAG](0b_porte_du_rag.md)).
 
 ## Comment le kit tranche : le rattachement
 
@@ -97,19 +99,26 @@ flowchart LR
 
 Les règles sont celles du projet, pas celles du RAG : le chemin de `ontologie_formes.ttl` est dans [`../config/kit.yaml`](../config/kit.yaml) (`graphe.formes`). Pour le corpus d'exemple : [`../corpus_exemple/ontologie/`](../corpus_exemple/ontologie/). Le code : [`../src/kit/etape_1_evaluation_ingestion/graphe.py`](../src/kit/etape_1_evaluation_ingestion/graphe.py).
 
+Il faut d'abord évaluer le RAG hybride : `RAG_GRAPHE=true docker compose up -d` dans `service-rag/`, puis `uv run kit evaluer`. Ses réponses sont alors les plus récentes, et les commandes ci-dessous les prennent sans option.
+
 Les violations sont calculées par `kit evaluer-ingestion`. La justesse demande le métier :
 
 1. Envoyer 50 relations au métier :
    ```bash
-   uv run kit verifier-graphe --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-57001489 --envoyer
+   uv run kit verifier-graphe --envoyer
    ```
 2. Dans Langfuse, **Annotation Queues → `justesse-graphe`** : chaque élément montre la relation, sa source et le passage. Le métier choisit `justesse_relation` : juste ou fausse.
+
+   Dans le banc d'essai, il n'y a pas de métier : cette commande inscrit les jugements simulés (voir l'encadré plus bas) :
+   ```bash
+   uv run python corpus_exemple/relecture_simulee/publier.py
+   ```
 3. Voir où en est la relecture, puis inscrire le score dans les résultats :
    ```bash
-   uv run kit verifier-graphe --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-57001489
+   uv run kit verifier-graphe
    ```
    ```bash
-   uv run kit evaluer-ingestion --corpus sorties/corpus/2026-11-20.1 --rag sorties/sorties_rag/graphrag-hybride-k5-57001489
+   uv run kit evaluer-ingestion
    ```
 
 **Le résultat sur le RAG hybride d'exemple** : 25 violations, et une justesse de **66 %** ± 13 % (33 relations justes sur 50). Les 17 relations fausses sont de trois sortes :
@@ -122,7 +131,7 @@ Les violations sont calculées par `kit evaluer-ingestion`. La justesse demande 
 
 C'est la limite d'un petit modèle qui extrait page par page. La première sorte d'erreur ne se voit pas dans les violations : la relation respecte l'ontologie, seule la provenance est fausse. D'où l'intérêt de faire juger les relations par le métier, en plus des règles SHACL.
 
-> Comme pour la vérification du juge, le métier est simulé dans le banc d'essai : c'est Claude qui a jugé les 50 relations, d'après leur passage source. Ses jugements et leur raison sont dans [`../corpus_exemple/relecture_simulee/justesse_graphe.json`](../corpus_exemple/relecture_simulee/justesse_graphe.json).
+> Comme pour la vérification du juge, le métier est simulé dans le banc d'essai : c'est Claude qui a jugé les 50 relations, d'après leur passage source. Ses jugements et leur raison sont dans [`../corpus_exemple/relecture_simulee/justesse_graphe.json`](../corpus_exemple/relecture_simulee/justesse_graphe.json). Ils visent les relations tirées chez l'auteur : si votre graphe en tire d'autres, celles-là restent sans jugement, et le script les compte.
 
 ## Si c'est mauvais
 
