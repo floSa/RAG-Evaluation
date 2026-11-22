@@ -10,15 +10,15 @@ from kit.appel_du_rag import appeler
 from kit.config import charger_config, client_langfuse
 from kit.etape_0a_corpus import importer as import_corpus
 from kit.etape_1_evaluation_ingestion import graphe as graphe_n1
-from kit.etape_1_evaluation_ingestion import scores as niveau1
-from kit.etape_2_evaluation_recherche import scores as niveau2
+from kit.etape_1_evaluation_ingestion import scores as scores_ingestion
+from kit.etape_2_evaluation_recherche import scores as scores_recherche
 from kit.etape_3_evaluation_reponse import relecture
-from kit.etape_3_evaluation_reponse import scores as niveau3
-from kit.etape_4_evaluation_bout_en_bout import scores as niveau4
+from kit.etape_3_evaluation_reponse import scores as scores_reponse
+from kit.etape_4_evaluation_bout_en_bout import scores as scores_bout_en_bout
 from kit.etape_5_resultats import comparaison
 from kit.etape_5_resultats import publication
 
-app = typer.Typer(help="Kit d'évaluation de RAG : corpus, contrat, niveaux 1 à 4, rapport.", no_args_is_help=True)
+app = typer.Typer(help="Kit d'évaluation de RAG : corpus, porte du RAG, évaluations 1 à 4, rapport.", no_args_is_help=True)
 
 
 @app.callback()
@@ -99,9 +99,8 @@ def verifier_contrat(dossier: Path = typer.Argument(..., exists=True, file_okay=
     typer.echo(f"{dossier} : conforme au contrat {', '.join(v + '.x' for v in contrat.VERSIONS_CONNUES)}.")
 
 
-def appeler_le_rag(config: dict, corpus: Path, adresse: str | None) -> Path:
+def appeler_le_rag(config: dict, corpus: Path, adresse: str) -> Path:
     """Appelle les quatre portes du RAG (appel_du_rag/), vérifie ce qu'il rend ; rend le dossier sorties_rag/<version>/."""
-    adresse = adresse or config["rag"]["adresse"]
     try:
         dossier = appeler.appeler(adresse, corpus, Path(config["chemins"]["documents"]), Path(config["chemins"]["sorties"]),
                                   afficher=typer.echo)
@@ -118,12 +117,12 @@ def appeler_le_rag(config: dict, corpus: Path, adresse: str | None) -> Path:
 
 
 @app.command()
-def appeler_rag(adresse: str = typer.Option(None, help="l'adresse de la porte du RAG ; par défaut, celle de config/kit.yaml"),
+def appeler_rag(rag: str = typer.Option(None, help="l'adresse de la porte du RAG (http://…) ; par défaut, celle de config/kit.yaml"),
                 corpus: Path = typer.Option(None, exists=True, file_okay=False,
                                             help="le dossier corpus/<version>/ ; par défaut, le dernier importé")):
     """Appelle les quatre portes du RAG : lui envoie les documents, lui pose les questions, range ce qu'il rend."""
     config = charger_config()
-    appeler_le_rag(config, corpus or le_plus_recent(config, "corpus"), adresse)
+    appeler_le_rag(config, corpus or le_plus_recent(config, "corpus"), rag or config["rag"]["adresse"])
 
 
 def le_plus_recent(config: dict, sous_dossier: str) -> Path:
@@ -132,7 +131,7 @@ def le_plus_recent(config: dict, sous_dossier: str) -> Path:
     dossier = Path(config["chemins"]["sorties"]) / sous_dossier
     candidats = [d for d in dossier.glob("*") if d.is_dir() and any(d.iterdir())] if dossier.exists() else []
     if not candidats:
-        typer.echo(f"Rien dans {dossier}/ : lancer d'abord « kit importer » (corpus) ou « kit lancer » (sorties du RAG).",
+        typer.echo(f"Rien dans {dossier}/ : lancer d'abord « kit importer » (corpus) ou « kit appeler-rag » (réponses du RAG).",
                    err=True)
         raise typer.Exit(1)
     choisi = max(candidats, key=lambda d: max(f.stat().st_mtime for f in d.iterdir()))
@@ -141,12 +140,12 @@ def le_plus_recent(config: dict, sous_dossier: str) -> Path:
     return choisi
 
 
-# --- Les niveaux de l'évaluation ------------------------------------------------------------
+# --- Les quatre évaluations (niveaux 1 à 4 du document 3, d'où les préfixes n1_ à n4_ des scores) ---
 
 OPTION_CORPUS = typer.Option(None, exists=True, file_okay=False,
                              help="le dossier corpus/<version>/ ; par défaut, le dernier importé")
 OPTION_RAG = typer.Option(None, exists=True, file_okay=False,
-                          help="le dossier sorties_rag/<version_rag>/ ; par défaut, la dernière sortie du RAG")
+                          help="le dossier sorties_rag/<version_rag>/ déjà rempli ; par défaut, le plus récent")
 OPTION_LANGFUSE = typer.Option(False, help="ne pas publier dans Langfuse")
 
 
@@ -164,7 +163,7 @@ def preparer(corpus: Path | None, rag: Path | None, ingestion_seule: bool = Fals
     return config, publication.Evaluation(config, corpus, rag)
 
 
-def afficher_niveau(resultat: dict, niveau: int) -> None:
+def afficher_scores(resultat: dict, niveau: int) -> None:
     for s in resultat["scores"]:
         if s["niveau"] == niveau:
             marge = f" ± {s['marge']:.2f}" if s["marge"] is not None else ""
@@ -173,18 +172,17 @@ def afficher_niveau(resultat: dict, niveau: int) -> None:
 
 
 @app.command("evaluer-ingestion")
-@app.command("niveau1", hidden=True)  # ancien nom, gardé pour les scripts existants
-def niveau_1(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
-    """Niveau 1 — ingestion : rattachement des passages, liens_index, scores, passages non rattachés."""
+def evaluer_ingestion(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
+    """1. Ingestion : rattachement des passages, liens_index, scores, passages non rattachés."""
     config, ev = preparer(corpus, rag, ingestion_seule=True)
     langfuse = None if sans_langfuse else client_langfuse(config)
-    lignes, liens, non_rattaches = niveau1.evaluer(ev)
-    niveau1.enregistrer(ev, liens, non_rattaches)
+    lignes, liens, non_rattaches = scores_ingestion.evaluer(ev)
+    scores_ingestion.enregistrer(ev, liens, non_rattaches)
     if graphe_n1.a_un_graphe(ev):
         lignes += graphe_n1.lignes_violations(ev) + graphe_n1.lignes_justesse(ev, langfuse)
     resultat = publication.publier(ev, 1, lignes, langfuse)
-    typer.echo(f"Niveau 1 — {ev.evaluation_id} → {ev.dossier}")
-    afficher_niveau(resultat, 1)
+    typer.echo(f"1. Ingestion — {ev.evaluation_id} → {ev.dossier}")
+    afficher_scores(resultat, 1)
     if non_rattaches:
         typer.echo(f"  {len(non_rattaches)} passage(s) non rattaché(s) (passages_non_rattaches.jsonl) :")
         for p in non_rattaches:
@@ -223,33 +221,31 @@ def verifier_graphe(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
 
 
 @app.command("evaluer-recherche")
-@app.command("niveau2", hidden=True)  # ancien nom, gardé pour les scripts existants
-def niveau_2(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
-    """Niveau 2 — recherche : réussite à k, rappel, rang du premier bon chunk, fuite de droits."""
+def evaluer_recherche(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
+    """2. Recherche : réussite à k, rappel, rang du premier bon chunk, fuite de droits."""
     config, ev = preparer(corpus, rag)
-    lignes = niveau2.evaluer(ev, niveau1.lire_liens(ev))
+    lignes = scores_recherche.evaluer(ev, scores_ingestion.lire_liens(ev))
     resultat = publication.publier(ev, 2, lignes, None if sans_langfuse else client_langfuse(config))
-    typer.echo(f"Niveau 2 — {ev.evaluation_id} → {ev.dossier}")
-    afficher_niveau(resultat, 2)
+    typer.echo(f"2. Recherche — {ev.evaluation_id} → {ev.dossier}")
+    afficher_scores(resultat, 2)
     fuites = [l for l in lignes if l.score == "n2_fuite_droits" and l.valeur]
     for l in fuites:
         typer.echo(f"  FUITE DE DROITS — {l.question_id} : {l.detail}")
 
 
 @app.command("evaluer-reponse")
-@app.command("niveau3", hidden=True)  # ancien nom, gardé pour les scripts existants
-def niveau_3(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
-    """Niveau 3 — réponse : juge (exactitude), Ragas (fidélité, synthèse), abstention, citations, valeurs."""
+def evaluer_reponse(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
+    """3. Réponse : juge (exactitude), Ragas (fidélité, synthèse), abstention, citations, valeurs."""
     config, ev = preparer(corpus, rag)
-    typer.echo("Niveau 3 : le juge et Ragas notent les réponses (quelques minutes)…")
-    lignes, croisement, file = niveau3.evaluer(ev, niveau1.lire_liens(ev))
+    typer.echo("3. Réponse : le juge et Ragas notent les réponses (quelques minutes)…")
+    lignes, croisement, file = scores_reponse.evaluer(ev, scores_ingestion.lire_liens(ev))
     langfuse = None if sans_langfuse else client_langfuse(config)
     resultat = publication.publier(ev, 3, lignes, langfuse)
     visibles = lambda objets: [o for o in objets if not ev.reservee(o["question_id"])]  # noqa: E731
     contrat.ecrire_jsonl(ev.dossier / "croisement.jsonl", visibles(croisement))
     contrat.ecrire_jsonl(ev.dossier / "relecture.jsonl", visibles(file))
-    typer.echo(f"Niveau 3 — {ev.evaluation_id} → {ev.dossier}")
-    afficher_niveau(resultat, 3)
+    typer.echo(f"3. Réponse — {ev.evaluation_id} → {ev.dossier}")
+    afficher_scores(resultat, 3)
     diagnostics: dict[str, int] = {}
     for c in visibles(croisement):
         diagnostics[c["diagnostic"]] = diagnostics.get(c["diagnostic"], 0) + 1
@@ -289,7 +285,7 @@ def verifier_juge(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
         chemin.write_text(json.dumps({"juge": config["modeles"]["juge"], "questions": ids}, ensure_ascii=False,
                                      indent=2) + "\n", encoding="utf-8")
         n = relecture.envoyer(langfuse, "verification-juge", "Vérification du juge : noter juste, partielle ou fausse, "
-                              "sans regarder la note du juge (JUGE.md)", [traces[q] for q in ids])
+                              "sans regarder la note du juge (prompt du juge)", [traces[q] for q in ids])
         typer.echo(f"{len(ids)} réponses envoyées dans la file « verification-juge » ({n} nouvelles). Le métier les "
                    f"note avec le score « {relecture.CONFIG_VERDICT} », puis relancer cette commande sans --envoyer.")
         return
@@ -324,13 +320,12 @@ def afficher_decision(resultat: dict, ev) -> None:
 
 
 @app.command("evaluer-bout-en-bout")
-@app.command("niveau4", hidden=True)  # ancien nom, gardé pour les scripts existants
-def niveau_4(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
-    """Niveau 4 — bout en bout : score pondéré, erreurs graves, temps, coût, puis décision et rapport."""
+def evaluer_bout_en_bout(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
+    """4. Bout en bout : score pondéré, erreurs graves, temps, coût, puis décision et rapport."""
     config, ev = preparer(corpus, rag)
-    resultat = publication.publier(ev, 4, niveau4.evaluer(ev), None if sans_langfuse else client_langfuse(config))
-    typer.echo(f"Niveau 4 — {ev.evaluation_id} → {ev.dossier}")
-    afficher_niveau(resultat, 4)
+    resultat = publication.publier(ev, 4, scores_bout_en_bout.evaluer(ev), None if sans_langfuse else client_langfuse(config))
+    typer.echo(f"4. Bout en bout — {ev.evaluation_id} → {ev.dossier}")
+    afficher_scores(resultat, 4)
     afficher_decision(resultat, ev)
 
 
@@ -345,10 +340,10 @@ def evaluer(corpus: Path = OPTION_CORPUS,
     corpus = corpus or le_plus_recent(config, "corpus")
     rag = rag or config["rag"]["adresse"]
     rag = appeler_le_rag(config, corpus, rag) if rag.startswith("http") else Path(rag)
-    niveau_1(corpus, rag, sans_langfuse)
-    niveau_2(corpus, rag, sans_langfuse)
-    niveau_3(corpus, rag, sans_langfuse)
-    niveau_4(corpus, rag, sans_langfuse)
+    evaluer_ingestion(corpus, rag, sans_langfuse)
+    evaluer_recherche(corpus, rag, sans_langfuse)
+    evaluer_reponse(corpus, rag, sans_langfuse)
+    evaluer_bout_en_bout(corpus, rag, sans_langfuse)
 
 
 @app.command()
