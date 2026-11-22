@@ -1,4 +1,4 @@
-"""Les files de relecture du métier dans Langfuse, et la vérification du juge (document 3, section 8 ; JUGE.md).
+"""Les files de relecture du métier dans Langfuse, et la vérification du juge (document 3, section 8 ; prompt_du_juge.md).
 
 - `relecture-reponses` : réponses fausses ou partielles, gravité forte, 10 au hasard, désaccords du juge.
 - `verification-juge` : 30 réponses tirées au hasard (hors réservées), notées par le métier sans voir la note du juge.
@@ -22,7 +22,7 @@ def config_verdict(langfuse) -> str:
     return langfuse.api.score_configs.create(
         name=CONFIG_VERDICT, data_type="CATEGORICAL",
         categories=[ConfigCategory(label=l, value=v) for l, v in CATEGORIES.items()],
-        description="Verdict du métier sur une réponse du RAG : juste, partielle ou fausse (JUGE.md)").id
+        description="Verdict du métier sur une réponse du RAG : juste, partielle ou fausse (prompt du juge)").id
 
 
 def file(langfuse, nom: str, description: str, score_config_id: str | None = None) -> str:
@@ -78,7 +78,7 @@ def libelle(score) -> str | None:
 
 
 def accord(juge: dict[str, str], metier: dict[str, str]) -> dict:
-    """Taux d'accord (JUGE.md, ≥ 90 %) et kappa de Cohen (accord corrigé du hasard, DECISIONS.md, décision 10)."""
+    """Taux d'accord (prompt_du_juge.md, ≥ 90 %) et kappa de Cohen (accord corrigé du hasard, DECISIONS.md, décision 10)."""
     communs = sorted(set(juge) & set(metier))
     n = len(communs)
     if not n:
