@@ -1,4 +1,4 @@
-"""Niveau 4 — Bout en bout (document 3, section 9) : score pondéré, erreurs graves, temps, coût.
+"""Évaluation 4, bout en bout (niveau 4 du document 3, section 9) : score pondéré, erreurs graves, temps, coût.
 
 Poids d'une question = fréquence × gravité d'une erreur (de 1 à 9).
 Valeur d'une question pour le score pondéré (DECISIONS.md, décision 3) :
