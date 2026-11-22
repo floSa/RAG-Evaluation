@@ -11,7 +11,7 @@ from kit import contrat
 from kit.etape_0a_corpus.importer import importer
 from kit.etape_3_evaluation_reponse import juge
 from kit.etape_3_evaluation_reponse import relecture
-from kit.etape_3_evaluation_reponse import scores as niveau3
+from kit.etape_3_evaluation_reponse import scores as scores_reponse
 from kit.etape_5_resultats.publication import Evaluation
 
 
@@ -27,7 +27,7 @@ from kit.etape_5_resultats.publication import Evaluation
     ({"valeur": 30, "unite": "minutes", "tolerance": 0}, "pendant 30 secondes", False),
 ])
 def test_valeur_trouvee(point, reponse, attendu):
-    assert niveau3.valeur_trouvee(point, reponse) is attendu
+    assert scores_reponse.valeur_trouvee(point, reponse) is attendu
 
 
 # --- Le juge -----------------------------------------------------------------------------------
@@ -114,10 +114,10 @@ def test_evaluation_complete(ev, monkeypatch):
     monkeypatch.setattr(juge, "juger", lambda config, llm, q, reponse: {
         "verdict": "juste", "verdict_juge": "juste", "statuts": ["present"] * len(q["points_cles"]),
         "justification": "ok", "relecture": None})
-    monkeypatch.setattr(niveau3, "scores_ragas", lambda config, travaux: {(qid, nom): (1.0 if qid == "Q-001" else 0.0, "")
+    monkeypatch.setattr(scores_reponse, "scores_ragas", lambda config, travaux: {(qid, nom): (1.0 if qid == "Q-001" else 0.0, "")
                                                                          for qid, nom, _ in travaux})
     liens = [{"passage_id": 2, "chunk_id": "bon"}, {"passage_id": 4, "chunk_id": "bon"}]  # Q-001 et Q-002
-    lignes, croisement, file = niveau3.evaluer(ev, liens)
+    lignes, croisement, file = scores_reponse.evaluer(ev, liens)
     par = {(l.score, l.question_id): l for l in lignes}
     assert par[("n3_exactitude", "Q-001")].verdict == "juste"
     assert par[("n3_citations", "Q-001")].valeur == 1.0
