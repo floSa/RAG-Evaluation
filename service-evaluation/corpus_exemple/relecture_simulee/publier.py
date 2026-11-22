@@ -66,12 +66,17 @@ def main() -> None:
     envoyees = json.loads((ev.dossier / graphe.ECHANTILLON).read_text(encoding="utf-8"))
     par_relation = {(r["texte"], r["reference_source"], r["page"]): r["trace_id"] for r in envoyees}
     config_justesse = graphe.config_justesse(langfuse)
+    absentes = 0
     for i, n in enumerate(notes["relations"]):
-        trace = par_relation[(n["relation"], n["reference_source"], n["page"])]
+        trace = par_relation.get((n["relation"], n["reference_source"], n["page"]))
+        if trace is None:  # relation jugée chez l'auteur, mais absente de l'échantillon envoyé ici
+            absentes += 1
+            continue
         langfuse.create_score(trace_id=trace, name=graphe.CONFIG_JUSTESSE, value=n["verdict"], data_type="CATEGORICAL",
                               config_id=config_justesse, comment=COMMENTAIRE + n["raison"],
                               score_id=f"simule-justesse-{ev.evaluation_id}-{i}"[:200])
-    print(f"justesse-graphe : {len(notes['relations'])} relations jugées inscrites.")
+    print(f"justesse-graphe : {len(notes['relations']) - absentes} relations jugées inscrites"
+          + (f" ; {absentes} absentes de votre échantillon, ignorées." if absentes else "."))
     langfuse.flush()
 
 
