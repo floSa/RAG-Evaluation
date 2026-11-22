@@ -1,7 +1,7 @@
-"""Niveau 3 — Réponse (document 3, section 8).
+"""Évaluation 3, réponse (niveau 3 du document 3, section 8).
 
 - Le juge du kit (documentation/reference/prompt_du_juge.md) : exactitude, complétude des listes.
-- Ragas : fidélité (Faithfulness) ; synthèse (RubricsScoreWithReference, grille de JUGE.md).
+- Ragas : fidélité (Faithfulness) ; synthèse (RubricsScoreWithReference, grille de prompt_du_juge.md).
 - Le script : abstention correcte et à tort, citations, valeurs et calculs, erreurs graves.
 - Le croisement recherche × réponse, qui dit où chercher la cause (document 3, section 8).
 - La file de relecture du métier : réponses fausses ou partielles, gravité forte, 10 au hasard, désaccords.
