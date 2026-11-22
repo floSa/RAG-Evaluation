@@ -1,4 +1,4 @@
-"""Porte 3 — rechercher : ENTRÉE une question, SORTIE les k morceaux retrouvés, avant toute génération.
+"""Porte 3 — rechercher : ENTRÉE une question, SORTIE les k chunks retrouvés, avant toute génération.
 
 Ce qu'elle reçoit : question, profil (l'utilisateur ne voit que ses documents), historique (l'échange précédent).
 Ce qu'elle rend : resultats, une liste de {chunk_id, rang, score}, et duree_ms.
