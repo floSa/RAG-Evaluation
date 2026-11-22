@@ -2,7 +2,7 @@
 
 Ce qu'elle rend :
     rag      la description du RAG : nom, version_rag, type_rag (vectoriel ou hybride), k, versions des briques
-    chunks   chaque morceau de l'index, avec sa référence, sa version, sa page, son type, ses droits, son ordre
+    chunks   chaque chunk de l'index, avec sa référence, sa version, sa page, son type, ses droits, son ordre
     pages    le texte de chaque page lue, avant découpage (pour mesurer l'OCR)
     graphe   le graphe en RDF (Turtle), avec sa provenance, si le RAG en a un ; sinon null
 """
