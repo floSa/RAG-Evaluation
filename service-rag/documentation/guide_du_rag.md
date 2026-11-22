@@ -118,7 +118,7 @@ Le RAG traduit les libellés en codes (« PDF scanné » → `pdf_scanne`, « To
 
 ### 2. Découpage — [`pipeline/etape_2_decoupage.py`](../src/rag/pipeline/etape_2_decoupage.py)
 
-Couper chaque document en chunks, c'est-à-dire en chunks assez petits pour être retrouvés, assez grands pour avoir un sens.
+Couper chaque document en chunks, c'est-à-dire en morceaux assez petits pour être retrouvés, assez grands pour avoir un sens.
 
 | Élément | Un chunk = |
 | --- | --- |
