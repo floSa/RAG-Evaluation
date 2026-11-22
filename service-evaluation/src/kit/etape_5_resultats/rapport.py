@@ -125,8 +125,8 @@ def ecrire(ev: Evaluation, resultat: dict, lignes_base) -> None:
                  f"<td>{x['n']}</td><td>{seuil(x2)}</td><td>{etat(x['atteint'])}</td></tr>")
     p.append("</table>")
 
-    # 2. Les scores, niveau par niveau
-    p.append("<h2>2. Les scores, niveau par niveau</h2><p><small>Sur les questions non réservées. On lit les niveaux "
+    # 2. Les scores, évaluation par évaluation
+    p.append("<h2>2. Les scores, évaluation par évaluation</h2><p><small>Sur les questions non réservées. On lit les évaluations "
              "dans l'ordre : une réponse fausse vient souvent d'un passage perdu à l'ingestion ou mal retrouvé. "
              "La marge (±) est l'incertitude à 95 % ; un score calculé sur moins de 10 questions est une "
              "tendance.</small></p>")
@@ -134,7 +134,7 @@ def ecrire(ev: Evaluation, resultat: dict, lignes_base) -> None:
         du_niveau = [s for s in scores if s["niveau"] == niveau]
         if not du_niveau:
             continue
-        p.append(f"<h3>Niveau {niveau} — {nom}</h3><table><tr><th>Score</th><th>Ce qu'il mesure</th><th>Valeur</th>"
+        p.append(f"<h3>{niveau}. {nom}</h3><table><tr><th>Score</th><th>Ce qu'il mesure</th><th>Valeur</th>"
                  f"<th>n</th><th>Seuil</th><th>État</th></tr>")
         for s in du_niveau:
             libelle, aide = LIBELLES.get(s["score"], (s["score"], ""))
