@@ -1,21 +1,21 @@
-# Guide du GraphRAG d'exemple
+# Guide du RAG d'exemple
 
 Ce service contient **un RAG simple et complet**, qui marche seul sur n'importe quels documents. Il sert d'exemple : le sujet du dépôt est l'évaluation, pas le RAG. Il est volontairement minimal, et ses défauts sont utiles : ils donnent à l'évaluation quelque chose à mesurer.
 
 ```mermaid
 flowchart LR
     D["Documents<br/>PDF natifs, scannés,<br/>fiches de base"] --> E1["<b>1. Extraction</b><br/>lire le texte<br/>page par page"]
-    E1 --> E2["<b>2. Découpage</b><br/>des morceaux qui<br/>gardent leurs<br/>métadonnées"]
+    E1 --> E2["<b>2. Découpage</b><br/>des chunks qui<br/>gardent leurs<br/>métadonnées"]
     E2 --> E3["<b>3. Index</b><br/>sens (vecteurs)<br/>et mots (BM25)"]
     E2 -.-> E4["<b>4. Graphe</b><br/>(optionnel)<br/>entités et relations<br/>contraintes par<br/>l'ontologie"]
-    Q["Question<br/>+ profil"] --> E5["<b>5. Recherche</b><br/>k meilleurs morceaux<br/>autorisés au profil"]
+    Q["Question<br/>+ profil"] --> E5["<b>5. Recherche</b><br/>k meilleurs chunks<br/>autorisés au profil"]
     E3 --> E5
     E4 -.-> E5
     E5 --> E6["<b>6. Génération</b><br/>réponse citée,<br/>ou abstention"]
     E6 --> R["Réponse<br/>+ sources"]
 ```
 
-Le graphe (étape 4) est **optionnel**. Sans lui, le RAG est **vectoriel** ; avec lui, il est **hybride** : il cherche à la fois dans les morceaux de texte et dans le graphe. On l'allume dans `config/config.yaml` (`graphe.actif`), ou en lançant le service avec `RAG_GRAPHE=true`, sans rien changer d'autre.
+Le graphe (étape 4 du RAG) est **optionnel**. Sans lui, le RAG est **vectoriel** ; avec lui, il est **hybride** : il cherche à la fois dans les chunks de texte et dans le graphe. On l'allume dans `config/config.yaml` (`graphe.actif`), ou en lançant le service avec `RAG_GRAPHE=true`, sans rien changer d'autre.
 
 ## Les fichiers
 
@@ -29,7 +29,7 @@ service-rag/
 │   └── ontologie.ttl                   l'ontologie du domaine, pour le graphe (étape 4)
 ├── documents/                          les documents de production (vide dans le banc d'essai)
 ├── documentation/
-│   ├── guide_du_graphrag.md            ce guide
+│   ├── guide_du_rag.md                 ce guide
 │   └── reference/techniques_rag.md     le document 2 : les techniques d'un RAG, selon les cas
 ├── src/rag/
 │   ├── pipeline/                       LE RAG, une étape par fichier, dans l'ordre
@@ -44,7 +44,7 @@ service-rag/
 │   └── porte_evaluation/               ÉCRIT POUR LE SERVICE D'ÉVALUATION, ET RIEN D'AUTRE
 │       ├── ingerer.py                  ① ENTRÉE : les documents de l'évaluation
 │       ├── montrer_index.py            ② SORTIE : ce que le RAG a lu et découpé
-│       ├── rechercher.py               ③ ENTRÉE une question → SORTIE les k morceaux
+│       ├── rechercher.py               ③ ENTRÉE une question → SORTIE les k chunks
 │       ├── repondre.py                 ④ ENTRÉE une question → SORTIE la réponse
 │       └── adresse_web.py              les quatre portes, à http://127.0.0.1:8100
 └── tests/
@@ -118,20 +118,20 @@ Le RAG traduit les libellés en codes (« PDF scanné » → `pdf_scanne`, « To
 
 ### 2. Découpage — [`pipeline/etape_2_decoupage.py`](../src/rag/pipeline/etape_2_decoupage.py)
 
-Couper chaque document en morceaux (chunks) assez petits pour être retrouvés, assez grands pour avoir un sens.
+Couper chaque document en chunks, c'est-à-dire en chunks assez petits pour être retrouvés, assez grands pour avoir un sens.
 
-| Élément | Un morceau = |
+| Élément | Un chunk = |
 | --- | --- |
 | texte | une section, avec le chemin de titres en tête ; recoupée au-delà de 1 500 caractères |
 | tableau | le tableau, chaque ligne écrite « colonne : valeur » (les en-têtes sont répétés) |
 | figure | sa légende (pas de modèle de vision ici) |
 | fiche de base | un champ |
 
-Chaque morceau garde **la référence du document, sa version, sa page, son type d'élément, ses droits d'accès et son ordre dans la page**. Sans eux, le RAG ne pourrait ni citer ses sources ni filtrer les droits.
+Chaque chunk garde **la référence du document, sa version, sa page, son type d'élément, ses droits d'accès et son ordre dans la page**. Sans eux, le RAG ne pourrait ni citer ses sources ni filtrer les droits.
 
 ### 3. Index — [`pipeline/etape_3_index.py`](../src/rag/pipeline/etape_3_index.py)
 
-Rendre les morceaux cherchables de deux façons : par le **sens** (un vecteur par morceau, modèle d'embeddings) et par les **mots** (BM25). Les vecteurs sont gardés dans un fichier, pas dans une base vectorielle : quelques milliers de morceaux tiennent en mémoire. L'index est écrit dans `sorties/<espace>/index/`.
+Rendre les chunks cherchables de deux façons : par le **sens** (un vecteur par chunk, modèle d'embeddings) et par les **mots** (BM25). Les vecteurs sont gardés dans un fichier, pas dans une base vectorielle : quelques milliers de chunks tiennent en mémoire. L'index est écrit dans `sorties/<espace>/index/`.
 
 ### 4. Graphe, optionnel — [`pipeline/etape_4_graphe.py`](../src/rag/pipeline/etape_4_graphe.py)
 
@@ -151,7 +151,7 @@ flowchart LR
 | L'ontologie | [`config/ontologie.ttl`](../config/ontologie.ttl) : les classes Site, Equipement, Personne ; les relations situeSur, alimente, secourt, protege, intervientSur. C'est l'ontologie du domaine : le service d'évaluation en a la même, et contrôle le graphe avec ses règles (`ontologie_formes.ttl`) |
 | L'extraction | le modèle de génération lit chaque page, avec l'ontologie et un exemple dans sa consigne. Ce qui n'est pas dans l'ontologie est écarté. Les entités de même nom (« TGBT-A », « TGBT A ») sont fusionnées. Les réponses sont gardées en cache dans `sorties/<espace>/graphe/` |
 | La provenance | chaque nœud et chaque relation (réifiée en RDF) porte `kit:referenceSource` et `kit:page`, comme le demande le contrat |
-| Dans l'index | pour chaque entité et chaque page, un élément « noeud » qui résume ses relations : « GE-A (Equipement) : GE-A secourt TGBT-A ; GE-A est situé sur Site A. » Il porte la référence, la version, la page et les droits de la page : il est filtré et cité exactement comme un morceau |
+| Dans l'index | pour chaque entité et chaque page, un élément « noeud » qui résume ses relations : « GE-A (Equipement) : GE-A secourt TGBT-A ; GE-A est situé sur Site A. » Il porte la référence, la version, la page et les droits de la page : il est filtré et cité exactement comme un chunk |
 
 Pour l'allumer, on relance le service avec `RAG_GRAPHE=true docker compose up -d` : à la prochaine ingestion, le RAG construit son graphe.
 
@@ -159,11 +159,11 @@ Sur le corpus d'exemple : 367 pages lues en 3 minutes environ (4 appels en paral
 
 ### 5. Recherche — [`pipeline/etape_5_recherche.py`](../src/rag/pipeline/etape_5_recherche.py)
 
-Trouver les k morceaux les plus utiles. Deux recherches, par le sens et par les mots, fusionnées par rang : un morceau bien classé par les deux remonte en tête. Avec le graphe, une troisième recherche classe les éléments des **entités nommées dans la question** (« GE-A », « TGBT-B »), celles qui ont le plus de relations en tête ; elle entre dans la même fusion. **Le filtre des droits s'applique pendant la recherche** : un morceau interdit au profil n'est jamais classé, donc jamais montré au modèle. Pour une question de suite, on cherche avec la question précédente et la nouvelle.
+Trouver les k chunks les plus utiles. Deux recherches, par le sens et par les mots, fusionnées par rang : un chunk bien classé par les deux remonte en tête. Avec le graphe, une troisième recherche classe les éléments des **entités nommées dans la question** (« GE-A », « TGBT-B »), celles qui ont le plus de relations en tête ; elle entre dans la même fusion. **Le filtre des droits s'applique pendant la recherche** : un chunk interdit au profil n'est jamais classé, donc jamais montré au modèle. Pour une question de suite, on cherche avec la question précédente et la nouvelle.
 
 ### 6. Génération — [`pipeline/etape_6_generation.py`](../src/rag/pipeline/etape_6_generation.py)
 
-Rédiger la réponse à partir des morceaux retrouvés, et d'eux seuls. Chaque phrase cite son extrait, [1], [2]… Si les extraits ne suffisent pas, le modèle répond une phrase fixe, « Je ne trouve pas cette information dans les documents. », au lieu d'inventer.
+Rédiger la réponse à partir des chunks retrouvés, et d'eux seuls. Chaque phrase cite son extrait, [1], [2]… Si les extraits ne suffisent pas, le modèle répond une phrase fixe, « Je ne trouve pas cette information dans les documents. », au lieu d'inventer.
 
 Le modèle « réfléchit » avant d'écrire, et cette réflexion compte dans `max_tokens`. Avec 800, les réponses longues revenaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046) ; avec 4 000, la plus longue en prend 1 265. Couper la réflexion (`sans_reflexion: true`) corrige aussi la coupure, et répond 9 fois plus vite, mais l'évaluation montre qu'elle fait perdre des calculs : [guide 5](../../service-evaluation/documentation/5_resultats_et_comparaison.md#5-comparer-deux-versions).
 
@@ -208,15 +208,15 @@ flowchart LR
 | Porte | Fichier | Ce qu'elle reçoit | Ce qu'elle rend |
 | --- | --- | --- | --- |
 | ① ingérer | [`ingerer.py`](../src/rag/porte_evaluation/ingerer.py) | les documents et leurs métadonnées | le nombre de documents, de chunks, de pages ; ils sont indexés dans l'espace « evaluation » |
-| ② montrer l'index | [`montrer_index.py`](../src/rag/porte_evaluation/montrer_index.py) | — | la version exacte du RAG, les morceaux de l'index avec leurs métadonnées, le texte de chaque page lue, le graphe |
-| ③ rechercher | [`rechercher.py`](../src/rag/porte_evaluation/rechercher.py) | une question, un profil, l'échange précédent | les k morceaux retrouvés, avant la génération |
-| ④ répondre | [`repondre.py`](../src/rag/porte_evaluation/repondre.py) | une question, un profil, l'échange précédent | la réponse, l'abstention, les morceaux cités et ceux du contexte, la durée, le coût, la trace |
+| ② montrer l'index | [`montrer_index.py`](../src/rag/porte_evaluation/montrer_index.py) | — | la version exacte du RAG, les chunks de l'index avec leurs métadonnées, le texte de chaque page lue, le graphe |
+| ③ rechercher | [`rechercher.py`](../src/rag/porte_evaluation/rechercher.py) | une question, un profil, l'échange précédent | les k chunks retrouvés, avant la génération |
+| ④ répondre | [`repondre.py`](../src/rag/porte_evaluation/repondre.py) | une question, un profil, l'échange précédent | la réponse, l'abstention, les chunks cités et ceux du contexte, la durée, le coût, la trace |
 
 [`adresse_web.py`](../src/rag/porte_evaluation/adresse_web.py) les ouvre à http://127.0.0.1:8100. Le service Docker le fait au démarrage ; sans Docker : `uv run rag ouvrir-porte`. La documentation de chaque porte est à http://127.0.0.1:8100/docs.
 
-La règle complète, pour brancher **votre** RAG : [la porte du RAG](../../service-evaluation/documentation/0b_porte_du_rag.md).
+La règle complète, pour ouvrir la porte de **votre** RAG : [la porte du RAG](../../service-evaluation/documentation/0b_porte_du_rag.md).
 
-La **version du RAG** (`graphrag-vectoriel-k5-5954e822`, ou `graphrag-hybride-k5-…` avec le graphe) se calcule à partir de k, des modèles, du prompt et de l'index, graphe compris. Changer un réglage donne une nouvelle version, que le service d'évaluation range à part. Deux versions se comparent avec `kit comparer`.
+La **version du RAG** (`graphrag-vectoriel-k5-5954e822`, ou `graphrag-hybride-k5-…` avec le graphe) se calcule à partir de k, des modèles, du prompt et de l'index, graphe compris. Le préfixe `graphrag` n'est que le `nom` donné dans `config/config.yaml` : sans graphe, le RAG est bien vectoriel. Changer un réglage donne une nouvelle version, que le service d'évaluation range à part. Deux versions se comparent avec `kit comparer`.
 
 ## Ses limites connues, et ce que l'évaluation en dit
 
