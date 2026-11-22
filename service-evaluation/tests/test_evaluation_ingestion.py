@@ -11,7 +11,7 @@ import yaml
 from kit import contrat
 from kit.etape_0a_corpus.importer import importer
 from kit.etape_1_evaluation_ingestion import rattachement
-from kit.etape_1_evaluation_ingestion import scores as niveau1
+from kit.etape_1_evaluation_ingestion import scores as scores_ingestion
 from kit.etape_5_resultats.publication import Evaluation
 
 SEUILS = {"texte_approche": 0.95, "tableau_mots": 0.90, "scanne_partiel": 0.90}
@@ -84,9 +84,9 @@ def test_passage_coupe_entre_deux_chunks():
 
 
 def test_taux_erreur_de_caracteres():
-    cer, wer = niveau1.taux_erreur("Maintenance électrique\nsite A", "Maintenanceélectrique site A")
+    cer, wer = scores_ingestion.taux_erreur("Maintenance électrique\nsite A", "Maintenanceélectrique site A")
     assert cer == pytest.approx(1 / 29) and wer == pytest.approx(2 / 4)
-    assert niveau1.taux_erreur("texte", None) == (1.0, 1.0)
+    assert scores_ingestion.taux_erreur("texte", None) == (1.0, 1.0)
 
 
 # --- Cas réel : le corpus d'exemple, et un passage volontairement mal noté --------------------
@@ -127,7 +127,7 @@ def evaluation(tmp_path):
 
 def test_passage_mal_note_signale(evaluation):
     ev, passage_id = evaluation
-    lignes, liens, non_rattaches = niveau1.evaluer(ev)
+    lignes, liens, non_rattaches = scores_ingestion.evaluer(ev)
     assert [p["passage_id"] for p in non_rattaches] == [passage_id]
     assert non_rattaches[0]["cause_probable"] == ("aucun chunk sur la page 4 ; le passage est trouvé page 2 : "
                                                   "page mal notée ?")
