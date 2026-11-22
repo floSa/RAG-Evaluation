@@ -60,7 +60,7 @@ def oui(valeur) -> bool:
 
 
 def regler(config: dict, k: int | None = None, graphe=None) -> dict:
-    """Applique les réglages donnés en plus de config.yaml (ligne de commande, connecteur)."""
+    """Applique les réglages donnés en plus de config.yaml (ligne de commande, variables RAG_K et RAG_GRAPHE)."""
     if k is not None:
         config["recherche"]["k"] = int(k)
     if graphe is not None:
