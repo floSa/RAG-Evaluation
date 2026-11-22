@@ -25,13 +25,13 @@ modeles:
     modele: gemma-4-e4b
     temperature: 0
     max_tokens: 4000                 # la réflexion du modèle compte dedans : 800 coupait les réponses longues
-    sans_reflexion: false            # true : 9 fois plus rapide, mais 9 points d'exactitude en moins (guide 5)
+    sans_reflexion: false            # true : 9 fois plus rapide, mais 8 points d'exactitude en moins (guide 5)
     prix_entree_eur_par_million: 0   # coût des tokens ; 0 pour un modèle local
     prix_sortie_eur_par_million: 0
   embeddings:
     modele: embed
 
-graphe:                             # étape 4, optionnelle : sans elle, le RAG est vectoriel ; avec, hybride
+graphe:                             # étape 4 du RAG, optionnelle : sans elle, le RAG est vectoriel ; avec, hybride
   actif: false                      # ou --graphe sur la ligne de commande
   ontologie: config/ontologie.ttl   # l'ontologie du domaine, qui contraint l'extraction du graphe
   appels_paralleles: 4              # appels simultanés au modèle pendant l'extraction
