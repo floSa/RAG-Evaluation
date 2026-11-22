@@ -5,7 +5,7 @@ Le service d'évaluation impose à tout RAG quatre portes, de forme fixe, à une
 
     ingerer.py         ENTRÉE   l'évaluation envoie ses documents ; le RAG les indexe à part de la production
     montrer_index.py   SORTIE   ce que le RAG a lu et découpé, et sa version exacte
-    rechercher.py      ENTRÉE une question  → SORTIE les k morceaux retrouvés
+    rechercher.py      ENTRÉE une question  → SORTIE les k chunks retrouvés
     repondre.py        ENTRÉE une question  → SORTIE la réponse, ses sources, l'abstention, la trace
     adresse_web.py     les quatre portes, ouvertes à http://127.0.0.1:8100 (commande « rag ouvrir-porte »)
 
