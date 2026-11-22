@@ -181,7 +181,7 @@ Les droits d'accès à cette base sont ceux des documents les plus sensibles qu'
 
 ### Le corpus au format standard
 
-Le script d'import exporte le corpus en quatre fichiers, toujours avec les mêmes noms de champs. C'est ce que lit le kit d'évaluation, quel que soit le projet. Le détail des champs est dans la spécification du contrat (`CONTRAT.md`).
+Le script d'import exporte le corpus en quatre fichiers, toujours avec les mêmes noms de champs. C'est ce que lit le kit d'évaluation, quel que soit le projet. Le détail des champs est dans la spécification du contrat ([`contrat_des_fichiers.md`](contrat_des_fichiers.md)).
 
 | Fichier | Une ligne = |
 | --- | --- |
