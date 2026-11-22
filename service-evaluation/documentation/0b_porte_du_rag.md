@@ -1,6 +1,8 @@
 # 0b. La porte du RAG : ce que chaque RAG doit fournir
 
-Le service d'évaluation ne connaît aucun RAG. Il demande à chacun **une porte, de forme fixe, à une adresse web**. Par cette porte, il envoie ses documents au RAG, lui pose ses questions, et récupère ce qu'il fait. Le RAG n'a pas à changer sa façon de travailler : la porte s'ajoute à côté de lui.
+Le service d'évaluation ne connaît aucun RAG. Il demande à chacun **quatre portes, de forme fixe, à une adresse web**. Par ces portes, il envoie ses documents au RAG, lui pose ses questions, et récupère ce qu'il fait. Le RAG n'a pas à changer sa façon de travailler : les portes s'ajoutent à côté de lui.
+
+Un mot revient partout : un **chunk** est un morceau de document tel que le RAG l'a découpé et indexé (identifiant `chunk_id`, fichier `chunks.jsonl`).
 
 ```mermaid
 flowchart LR
@@ -36,8 +38,8 @@ flowchart LR
 | Porte | Adresse | Le service d'évaluation envoie | Le RAG rend | Pour l'évaluation |
 | --- | --- | --- | --- | --- |
 | ① **ingérer** | `POST /ingerer` | les documents du corpus : pour chacun, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces`, `fichier` (son nom) et `contenu` (le fichier, en base64) | « c'est fait » : nombre de documents, de chunks, de pages | [1](1_evaluation_ingestion.md) |
-| ② **montrer l'index** | `GET /index` | rien | `rag` : sa description et sa version exacte ; `chunks` : chaque morceau de l'index avec la référence du document, sa version, la page, le type d'élément, les droits d'accès, l'ordre ; `pages` : le texte de chaque page lue, avant découpage ; `graphe` : son graphe en RDF, s'il en a un | [1](1_evaluation_ingestion.md) |
-| ③ **rechercher** | `POST /rechercher` | `question`, `profil`, `historique` | `resultats` : les k morceaux retrouvés, dans l'ordre (`chunk_id`, `rang`, `score`), avant toute génération ; `duree_ms` | [2](2_evaluation_recherche.md) |
+| ② **montrer l'index** | `GET /index` | rien | `rag` : sa description et sa version exacte ; `chunks` : chaque chunk de l'index avec la référence du document, sa version, la page, le type d'élément, les droits d'accès, l'ordre ; `pages` : le texte de chaque page lue, avant découpage ; `graphe` : son graphe en RDF, s'il en a un | [1](1_evaluation_ingestion.md) |
+| ③ **rechercher** | `POST /rechercher` | `question`, `profil`, `historique` | `resultats` : les k chunks retrouvés, dans l'ordre (`chunk_id`, `rang`, `score`), avant toute génération ; `duree_ms` | [2](2_evaluation_recherche.md) |
 | ④ **répondre** | `POST /repondre` | `question`, `profil`, `historique` | `reponse`, `abstention` (vrai si le RAG dit ne pas savoir), `chunks_cites`, `chunks_contexte`, `duree_ms`, `cout`, `tokens_entree`, `tokens_sortie`, `trace_id` | [3](3_evaluation_reponse.md), [4](4_evaluation_bout_en_bout.md) |
 
 Le détail de chaque champ est dans le [contrat](reference/contrat_des_fichiers.md#3-ce-que-le-rag-rend). Le RAG d'exemple publie aussi la documentation de ses portes, générée, à http://127.0.0.1:8100/docs.
@@ -65,7 +67,7 @@ service-rag/src/rag/
 └── porte_evaluation/      écrit pour le service d'évaluation, et rien d'autre
     ├── ingerer.py         ① ENTRÉE : les documents
     ├── montrer_index.py   ② SORTIE : ce que le RAG a lu et découpé
-    ├── rechercher.py      ③ ENTRÉE une question → SORTIE les k morceaux
+    ├── rechercher.py      ③ ENTRÉE une question → SORTIE les k chunks
     ├── repondre.py        ④ ENTRÉE une question → SORTIE la réponse
     └── adresse_web.py     les quatre portes, à http://127.0.0.1:8100
 ```
@@ -80,7 +82,7 @@ Une commande appelle les quatre portes dans l'ordre : elle envoie les documents,
 uv run kit appeler-rag
 ```
 
-Sans option, elle appelle l'adresse de [`../config/kit.yaml`](../config/kit.yaml) (`rag.adresse`, http://127.0.0.1:8100). Pour un autre RAG : `--adresse http://…`. `kit evaluer` commence par cet appel, puis enchaîne les évaluations.
+Sans option, elle appelle l'adresse de [`../config/kit.yaml`](../config/kit.yaml) (`rag.adresse`, http://127.0.0.1:8100). Pour un autre RAG : `--rag http://…`. `kit evaluer` commence par cet appel, puis enchaîne les évaluations.
 
 Puis le kit vérifie ce que le RAG a rendu, et dit **précisément ce qui ne va pas**, fichier par fichier et ligne par ligne :
 
@@ -93,18 +95,18 @@ sorties/sorties_rag/mon-rag : 3 problème(s).
 
 ## 5. Sans adresse web : par fichiers
 
-Un RAG qui ne peut pas ouvrir d'adresse écrit lui-même les fichiers que la porte aurait rendus. Il les met dans un dossier, `<version du RAG>/` :
+Un RAG qui ne peut pas ouvrir d'adresse écrit lui-même les fichiers que les portes auraient rendus. Il les range où il veut, dans un dossier nommé `<version du RAG>/` :
 
 | Fichier | Une ligne = | Porte |
 | --- | --- | --- |
 | `rag.json` | la description et la version du RAG | ② |
-| `chunks.jsonl` | un morceau de l'index | ② |
+| `chunks.jsonl` | un chunk de l'index | ② |
 | `pages_extraites.jsonl` | une page lue, avant découpage (si des documents sont scannés) | ② |
 | `graphe.ttl` | le graphe, si le RAG en a un | ② |
-| `recherches.jsonl` | une question : les k morceaux retrouvés | ③ |
+| `recherches.jsonl` | une question : les k chunks retrouvés | ③ |
 | `reponses.jsonl` | une question : la réponse | ④ |
 
-Il lit les questions dans `sorties/corpus/<version>/questions.jsonl`, et les documents dans le dossier du corpus. Puis :
+Il lit les documents dans `corpus_exemple/documents/` (`chemins.documents` de [`kit.yaml`](../config/kit.yaml)), et les questions dans `sorties/corpus/<version>/questions.jsonl`. De ce fichier, il ne lit que `question_id`, `question` et `profil`, plus, pour une question de suite, la question précédente (`question_precedente`) et sa réponse attendue : c'est l'historique, seule exception de la règle. Le reste, ce sont les annotations, qu'il ne doit pas voir. Puis on donne son dossier au kit :
 
 ```bash
 uv run kit verifier-contrat <dossier>
