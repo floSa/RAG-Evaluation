@@ -10,7 +10,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-EVALUATION = Path(__file__).resolve().parents[3]  # le dossier service-evaluation/
+EVALUATION = Path(__file__).resolve().parents[2]  # le dossier service-evaluation/
 SCHEMAS = EVALUATION / "documentation" / "reference" / "schemas"
 VERSIONS_CONNUES = {"1"}  # versions majeures du contrat que ce kit sait lire
 

@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from kit.appel_du_rag import contrat
+from kit import contrat
 from kit.etape_0a_corpus.importer import importer
 from kit.etape_2_evaluation_recherche import scores as niveau2
 from kit.etape_5_resultats.publication import Evaluation, calculer_scores

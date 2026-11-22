@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from kit.appel_du_rag import contrat
+from kit import contrat
 from kit.etape_0a_corpus.importer import importer
 from kit.etape_3_evaluation_reponse import juge
 from kit.etape_3_evaluation_reponse import relecture

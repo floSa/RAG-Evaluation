@@ -8,7 +8,7 @@ import openpyxl
 import pytest
 import yaml
 
-from kit.appel_du_rag import contrat
+from kit import contrat
 from kit.etape_0a_corpus.importer import importer
 from kit.etape_1_evaluation_ingestion import rattachement
 from kit.etape_1_evaluation_ingestion import scores as niveau1

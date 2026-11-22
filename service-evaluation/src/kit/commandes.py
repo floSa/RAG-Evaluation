@@ -5,7 +5,8 @@ from pathlib import Path
 import typer
 
 from kit import base
-from kit.appel_du_rag import appeler, contrat
+from kit import contrat
+from kit.appel_du_rag import appeler
 from kit.config import charger_config, client_langfuse
 from kit.etape_0a_corpus import importer as import_corpus
 from kit.etape_1_evaluation_ingestion import graphe as graphe_n1

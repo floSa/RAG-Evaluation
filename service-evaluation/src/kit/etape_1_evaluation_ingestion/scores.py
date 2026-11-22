@@ -80,7 +80,7 @@ def enregistrer(ev: Evaluation, liens: list[Lien], non_rattaches: list[dict]) ->
     from sqlalchemy.orm import Session
 
     from kit import base
-    from kit.appel_du_rag import contrat
+    from kit import contrat
 
     ev.dossier.mkdir(parents=True, exist_ok=True)
     contrat.ecrire_jsonl(ev.dossier / "liens_index.jsonl", (vars(l) for l in liens))
@@ -95,7 +95,7 @@ def enregistrer(ev: Evaluation, liens: list[Lien], non_rattaches: list[dict]) ->
 
 def lire_liens(ev: Evaluation) -> list[dict]:
     """Les liens écrits par le niveau 1 (nécessaires aux niveaux 2 et 3)."""
-    from kit.appel_du_rag import contrat
+    from kit import contrat
 
     chemin = ev.dossier / "liens_index.jsonl"
     if not chemin.exists():

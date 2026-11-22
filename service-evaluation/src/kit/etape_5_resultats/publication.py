@@ -22,7 +22,7 @@ from sqlalchemy.orm import Session
 
 import kit
 from kit import base
-from kit.appel_du_rag import contrat
+from kit import contrat
 
 # Pour chaque score : comment on l'agrège, et si la marge ± 1,96 √(p(1−p)/n) s'applique (score entre 0 et 1).
 # moyenne : moyenne des lignes ; ponderee : Σ valeur × poids ÷ Σ poids ; somme : un nombre de cas ;

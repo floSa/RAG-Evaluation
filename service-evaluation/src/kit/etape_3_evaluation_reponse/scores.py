@@ -13,7 +13,7 @@ import re
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 
-from kit.appel_du_rag import contrat
+from kit import contrat
 from kit.etape_2_evaluation_recherche.scores import liens_par_passage
 from kit.etape_3_evaluation_reponse import juge
 from kit.etape_5_resultats.publication import Evaluation, Ligne

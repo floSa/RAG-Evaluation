@@ -7,7 +7,7 @@ n'y apparaît en détail.
 
 import html
 
-from kit.appel_du_rag import contrat
+from kit import contrat
 from kit.etape_5_resultats.publication import SCORES, Evaluation
 
 LIBELLES = {

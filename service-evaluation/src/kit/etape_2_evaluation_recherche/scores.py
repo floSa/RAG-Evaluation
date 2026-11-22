@@ -7,7 +7,7 @@ Une question est réussie selon « La réponse est dans » :
 - synthèse, pas de réponse, réponse non accessible : non comptée à ce niveau (sauf pour la fuite de droits).
 """
 
-from kit.appel_du_rag import contrat
+from kit import contrat
 from kit.etape_5_resultats.publication import Evaluation, Ligne
 
 REGLES_COMPTEES = ("un_passage", "plusieurs_un_suffit", "plusieurs_a_combiner")

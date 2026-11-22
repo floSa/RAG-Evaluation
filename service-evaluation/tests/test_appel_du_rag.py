@@ -7,7 +7,8 @@ from pathlib import Path
 import httpx
 import pytest
 
-from kit.appel_du_rag import appeler, contrat
+from kit import contrat
+from kit.appel_du_rag import appeler
 from kit.etape_0a_corpus.importer import importer
 
 DOCUMENTS = Path("corpus_exemple/documents")

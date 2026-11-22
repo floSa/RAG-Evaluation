@@ -7,7 +7,7 @@
 
 Le kit n'envoie jamais les annotations du métier : ni réponse attendue, ni points clés, ni passages.
 Seule exception, prévue par la règle : pour une question de suite, l'échange précédent (historique).
-Ce que le RAG rend est écrit dans sorties/sorties_rag/<version_rag>/, puis vérifié (contrat.py).
+Ce que le RAG rend est écrit dans sorties/sorties_rag/<version_rag>/, puis vérifié (kit/contrat.py).
 """
 
 import base64
@@ -16,7 +16,7 @@ from pathlib import Path
 
 import httpx
 
-from kit.appel_du_rag import contrat
+from kit import contrat
 
 CHAMPS_DOCUMENT = ("reference_source", "titre", "type_document", "version", "format", "droits_acces")
 

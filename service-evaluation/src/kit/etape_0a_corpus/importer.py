@@ -21,7 +21,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from kit import base
-from kit.appel_du_rag import contrat
+from kit import contrat
 
 VERSION_CONTRAT = "1.0"
 
