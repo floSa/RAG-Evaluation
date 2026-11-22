@@ -16,7 +16,7 @@ flowchart TD
 
 ## 1. Où sont les résultats
 
-Une évaluation, c'est un corpus évalué avec une version du RAG. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_graphrag-vectoriel-k5-5954e822`. Ses résultats sont à trois endroits.
+Une évaluation, c'est un corpus évalué avec une version du RAG. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_graphrag-vectoriel-k5-5954e822` chez l'auteur ; chez vous, la version du corpus est la date de votre import. `kit evaluer` affiche le dossier à la fin ; sinon : `ls sorties/resultats/`. Ses résultats sont à trois endroits.
 
 **Dans un dossier**, `sorties/resultats/<évaluation>/` :
 
@@ -36,7 +36,7 @@ Une évaluation, c'est un corpus évalué avec une version du RAG. Son identifia
 | Objet Langfuse | Contenu | Créé par |
 | --- | --- | --- |
 | Jeu de données `corpus-<projet>-<version>` | une entrée par question : la question, le profil, l'historique, la réponse attendue, les points clés | `kit importer` |
-| Traces du RAG | une par question : recherche, génération, tokens, durée | le RAG lui-même |
+| Traces du RAG | une par question : recherche, génération, tokens, durée | le RAG lui-même, si ses clés Langfuse sont dans son `.env` ([README](../../README.md)) |
 | Expérience `<évaluation>` | une ligne par question, reliée au jeu de données, avec la réponse du RAG, ses scores et sa trace | le kit, à la première évaluation publiée |
 | Scores | sur chaque question de l'expérience (hors questions réservées), et les scores globaux | chaque évaluation |
 | File `relecture-reponses` | les réponses que le métier doit relire | `kit evaluer-reponse` |
@@ -58,6 +58,8 @@ Chaque score est donné avec :
 | Valeur | le score, sur les questions non réservées |
 | ± (marge) | l'incertitude à 95 % : avec 28 questions, « 86 % ± 13 % » veut dire « quelque part entre 73 % et 99 % ». **Un score sur moins de 10 questions est une tendance, pas une mesure** |
 | n | le nombre de questions (ou de passages, de pages, de chunks) sur lequel il est calculé |
+
+Pourquoi n change d'un score à l'autre, sur le corpus d'exemple : 60 questions = 40 de réglage + 20 réservées à la décision, jamais détaillées. Parmi les 40, 32 ont leur réponse dans les documents ; l'exactitude ne note que les réponses données à celles-ci, pas les abstentions (28 chez l'auteur : le RAG s'est abstenu sur 4).
 | Seuil, état | le seuil du métier, et s'il est atteint |
 
 **Puis les questions à regarder**, dans cet ordre :
@@ -111,10 +113,10 @@ cd ../service-rag && RAG_K=3 docker compose up -d && cd ../service-evaluation
 uv run kit evaluer
 ```
 
-Puis on compare les deux dossiers de résultats :
+Puis on compare les deux dossiers de résultats (`<corpus>` : la version de votre corpus) :
 
 ```bash
-uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-5954e822 sorties/resultats/2026-11-20.1_graphrag-vectoriel-k3-5954e822
+uv run kit comparer sorties/resultats/<corpus>_graphrag-vectoriel-k5-5954e822 sorties/resultats/<corpus>_graphrag-vectoriel-k3-5954e822
 ```
 
 | Score | k = 5 | k = 3 | Lecture |
@@ -127,14 +129,16 @@ uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-5954e82
 
 McNemar donne p = 0,125 sur le score pondéré : avec 40 questions, on ne peut pas exclure le hasard.
 
+Pour revenir au réglage de base (k = 5) : `cd ../service-rag && docker compose up -d && cd ../service-evaluation`.
+
 **Conclusion** : k = 3 n'est pas meilleur. Il retrouve moins et répond moins ; il n'a plus d'erreur grave seulement parce qu'il se tait sur Q-046. Pour décider, il faudrait plus de questions (la configuration recommandée en prévoit 200), et un correctif ciblé de l'erreur grave sur k = 5.
 
 C'est tout l'intérêt de lire **plusieurs scores ensemble**. Une exactitude qui monte peut cacher un RAG qui répond moins.
 
-**Exemple : le RAG vectoriel (A) et le RAG hybride, avec son graphe (B), tous deux avec k = 5.** Le RAG hybride, c'est le RAG relancé avec `RAG_GRAPHE=true docker compose up -d`. Le même kit les évalue sans changer une ligne de code : il voit seulement `type_rag` = `hybride` et un graphe de plus.
+**Exemple : le RAG vectoriel (A) et le RAG hybride, avec son graphe (B), tous deux avec k = 5.** Le RAG hybride, c'est le RAG relancé avec `RAG_GRAPHE=true docker compose up -d` (dans `service-rag/`), puis évalué avec `uv run kit evaluer`. Le même kit les évalue sans changer une ligne de code : il voit seulement `type_rag` = `hybride` et un graphe de plus.
 
 ```bash
-uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-5954e822 sorties/resultats/2026-11-20.1_graphrag-hybride-k5-57001489
+uv run kit comparer sorties/resultats/<corpus>_graphrag-vectoriel-k5-5954e822 sorties/resultats/<corpus>_graphrag-hybride-k5-57001489
 ```
 
 | Score | vectoriel | hybride | Lecture |
@@ -151,10 +155,10 @@ uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-5954e82
 
 **Conclusion** : sur ce corpus, le graphe n'apporte rien de mesurable. Aucun écart ne dépasse la marge, et le score pondéré bouge de deux points, sur trois questions. Le corpus d'exemple a peu de questions qui demandent de suivre des liens ou de faire une liste. C'est ce que dit le document 2 : le graphe s'ajoute quand l'évaluation montre des échecs que la recherche de passages ne peut pas corriger. Ici, elle n'en montre pas.
 
-**Exemple : corriger un défaut, et choisir entre deux corrections.** En relisant les réponses, on a vu que trois d'entre elles étaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046). Le modèle de génération « réfléchit » avant d'écrire, et cette réflexion consommait les 800 tokens de `max_tokens`. Deux corrections étaient possibles : laisser plus de place (`max_tokens` à 4 000), ou couper la réflexion (`sans_reflexion: true`). Le kit les départage.
+**Exemple : corriger un défaut, et choisir entre deux corrections.** En relisant les réponses, on a vu que trois d'entre elles étaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046). Le modèle de génération « réfléchit » avant d'écrire, et cette réflexion consommait les 800 tokens de `max_tokens`. Deux corrections étaient possibles : laisser plus de place (`max_tokens` à 4 000), ou couper la réflexion (`sans_reflexion: true`). Le kit les départage. La version sans réflexion s'obtient avec `sans_reflexion: true` dans [`service-rag/config/config.yaml`](../../service-rag/config/config.yaml), puis `docker compose restart rag` (dans `service-rag/`) et `uv run kit evaluer` ; remettre ensuite `false`.
 
 ```bash
-uv run kit comparer sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-5954e822 sorties/resultats/2026-11-20.1_graphrag-vectoriel-k5-94d362c8
+uv run kit comparer sorties/resultats/<corpus>_graphrag-vectoriel-k5-5954e822 sorties/resultats/<corpus>_graphrag-vectoriel-k5-94d362c8
 ```
 
 | Score | avec réflexion, 4 000 tokens | sans réflexion | Lecture |
