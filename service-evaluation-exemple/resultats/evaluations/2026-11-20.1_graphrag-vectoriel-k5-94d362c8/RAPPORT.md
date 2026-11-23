@@ -1,99 +1,95 @@
 # Évaluation de la configuration `graphrag-vectoriel-k5-94d362c8`
 
-Ce rapport évalue **une configuration** du RAG sur le corpus du métier. Il répond à une question : **cette configuration peut-elle partir en production ?**
+Ce rapport donne les scores d'**une configuration** du RAG sur le corpus du métier. Il ne décide pas : c'est au métier de dire, à leur lecture, si cette configuration peut partir en production.
 
 |  |  |
 | --- | --- |
 | Configuration évaluée | RAG vectoriel, k = 5, découpage sections-1, embeddings embed, génération gemma-4-e4b, prompt 1.0, reranker aucun |
-| Corpus | version 2026-11-20.1 : 60 questions, dont 20 réservées à la décision |
+| Corpus | version 2026-11-20.1 : 60 questions, dont 20 réservées aux scores clés |
 | Juge | chat, prompt 1.0 |
 
-## 1. La décision
+## 1. Les scores clés
 
-**❌ Mise en production non recommandée.**
+Ce sont les scores à présenter au métier. Ils sont calculés sur les 20 questions réservées, jamais utilisées pour régler le RAG ; les fuites de droits et les erreurs graves, sur toutes les questions. Entre parenthèses, la fourchette où se trouve le vrai résultat : avec peu de questions, elle est large.
 
-- Seuil(s) non atteint(s) : Erreur de lecture des scans (caractères), Bon passage ramené, Réponses justes, Score pondéré.
+| Ce qui est mesuré | Résultat | Ce que ça veut dire |
+| --- | --- | --- |
+| Documents présents dans la base | 100 % | 50 documents sur 50 sont dans la base du RAG. |
+| Étiquettes complètes | 100 % | 534 morceaux de texte sur 534 indiquent leur source, leur page et leurs droits d'accès. |
+| Passages du métier retrouvés | 100 % | 30 passages du métier sur 30 se retrouvent dans un morceau de la base. |
+| Erreur de lecture des scans (caractères) | 15 % | Sur les pages scannées, 15 caractères sur 100 sont mal lus. |
+| Bon passage ramené | 69 % (entre 44 et 94 %) | Pour 9 questions sur 13, la recherche ramène le passage qui contient la réponse. |
+| Fuites de droits | 0 | Questions qui ont ramené un document interdit à la personne qui la pose : 0. |
+| Réponses justes | 61 % (entre 35 et 86 %) | Sur 14 questions, l'équivalent de 8 réponses justes (une réponse partielle compte pour moitié). |
+| Sait dire « je ne sais pas » | 100 % | Sur 5 questions sans réponse dans les documents ou interdites à la personne, le RAG dit « je ne sais pas » 5 fois. |
+| Fidélité aux documents | 95 % (entre 83 et 100 %) | 95 affirmations sur 100 des réponses se trouvent dans les documents ramenés. |
+| Erreurs graves | 0 | Réponses fausses, inventées ou données à tort, sur une question où l'erreur a des conséquences graves : 0. |
+| Score pondéré | 73 % (entre 53 et 92 %) | 73 réponses justes sur 100, en comptant davantage les questions fréquentes et graves. |
+| Temps de réponse médian | 0,8 s | La moitié des réponses arrivent en moins de 0,8 s. |
+| Temps de réponse à 95 % | 4,5 s | 95 réponses sur 100 arrivent en moins de 4,5 s. |
+| Coût par question | 0,00 € | Une réponse coûte en moyenne 0,00 €. |
 
-Les seuils sont fixés par le métier avant l'évaluation. Ils se jugent sur les 20 questions réservées à la décision, jamais utilisées pour régler le RAG. Les critères bloquants (fuite de droits, erreur grave) se jugent sur toutes les questions.
+## 2. Tous les scores, évaluation par évaluation
 
-| Ce qui est vérifié | Résultat | Seuil | Atteint ? | Compté sur |
-| --- | --- | --- | --- | --- |
-| Documents présents dans la base | 100 % | ≥ 100 % | ✅ oui | 50 |
-| Étiquettes complètes | 100 % | ≥ 100 % | ✅ oui | 534 |
-| Passages du métier retrouvés | 100 % | ≥ 95 % | ✅ oui | 30 |
-| Erreur de lecture des scans (caractères) | 15 % | ≤ 2 % | ❌ non | 20 |
-| Bon passage ramené | 69 % ± 25 | ≥ 90 % | ❌ non | 13 |
-| Fuites de droits | 0 | ≤ 0 | ✅ oui | 60 |
-| Réponses justes | 61 % ± 26 | ≥ 80 % | ❌ non | 14 |
-| Sait dire « je ne sais pas » | 100 % | ≥ 80 % | ✅ oui | 5 |
-| Fidélité aux documents | 95 % ± 12 | ≥ 90 % | ✅ oui | 14 |
-| Erreurs graves | 0 | ≤ 0 | ✅ oui | 12 |
-| Score pondéré | 73 % ± 20 | ≥ 80 % | ❌ non | 20 |
-| Temps de réponse médian | 0,8 s | ≤ 15,0 s | ✅ oui | 20 |
-| Temps de réponse à 95 % | 4,5 s | ≤ 30,0 s | ✅ oui | 20 |
-| Coût par question | 0,00 € | ≤ 0,05 € | ✅ oui | 20 |
-
-## 2. Les scores, évaluation par évaluation
-
-Sur les 40 questions de réglage. On les lit dans l'ordre : une réponse fausse vient souvent d'un passage perdu à l'ingestion ou mal retrouvé par la recherche. « ± » est la marge d'erreur : un écart plus petit ne veut rien dire. Un score compté sur moins de 10 éléments est une tendance, pas une mesure. Comment chaque score est calculé : les guides 1 à 4 du service d'évaluation.
+Sur les 40 autres questions, celles qui servent à régler le RAG. On les lit dans l'ordre : une réponse fausse vient souvent d'un passage perdu à l'ingestion ou mal retrouvé par la recherche. Un score compté sur moins de 10 cas est une tendance, pas une mesure. Le calcul de chaque score est détaillé dans les guides 1 à 4 du service d'évaluation ; le code sert à le retrouver dans les fichiers techniques.
 
 ### 1. Ingestion
 
-On vérifie que le service d'ingestion n'a rien perdu ni abîmé en découpant les documents, en les vectorisant et en les rangeant dans la base vectorielle.
+On vérifie que le RAG n'a rien perdu ni abîmé en lisant les documents, en les découpant en morceaux de texte et en les rangeant dans sa base.
 
-| Score | Ce qu'il compte | Résultat | Seuil | Atteint ? | Compté sur | Code |
-| --- | --- | --- | --- | --- | --- | --- |
-| Documents présents dans la base | documents qui ont au moins un morceau dans la base ÷ documents envoyés | 100 % | ≥ 100 % | ✅ oui | 50 | `n1_documents_indexes` |
-| Étiquettes complètes | morceaux qui indiquent leur document, leur page et leurs droits d'accès ÷ morceaux | 100 % | ≥ 100 % | ✅ oui | 534 | `n1_metadonnees_completes` |
-| Passages du métier retrouvés | passages du métier retrouvés dans un morceau de la base ÷ passages du métier | 100 % | ≥ 95 % | ✅ oui | 61 | `n1_passages_rattaches` |
-| Passages coupés en deux | passages retrouvés seulement à cheval sur deux morceaux ÷ passages du métier | 0 % | — | — | 61 | `n1_passages_coupes` |
-| Erreur de lecture des scans (caractères) | caractères mal lus ÷ caractères des pages scannées retapées par le métier | 15 % | ≤ 2 % | ❌ non | 20 | `n1_erreur_caracteres` |
-| Erreur de lecture des scans (mots) | mots mal lus ÷ mots des pages scannées retapées | 20 % | — | — | 20 | `n1_erreur_mots` |
+| Score | Résultat | Ce que ça veut dire | Code |
+| --- | --- | --- | --- |
+| Documents présents dans la base | 100 % | 50 documents sur 50 sont dans la base du RAG. | `n1_documents_indexes` |
+| Étiquettes complètes | 100 % | 534 morceaux de texte sur 534 indiquent leur source, leur page et leurs droits d'accès. | `n1_metadonnees_completes` |
+| Passages du métier retrouvés | 100 % | 61 passages du métier sur 61 se retrouvent dans un morceau de la base. | `n1_passages_rattaches` |
+| Passages coupés en deux | 0 % | 0 passages du métier sur 61 sont coupés entre deux morceaux. | `n1_passages_coupes` |
+| Erreur de lecture des scans (caractères) | 15 % | Sur les pages scannées, 15 caractères sur 100 sont mal lus. | `n1_erreur_caracteres` |
+| Erreur de lecture des scans (mots) | 20 % | Sur les pages scannées, 20 mots sur 100 sont mal lus. | `n1_erreur_mots` |
 
 ### 2. Recherche
 
 On vérifie que, pour chaque question, la recherche ramène les morceaux qui contiennent la réponse, et jamais un morceau d'un document interdit à la personne qui pose la question.
 
-| Score | Ce qu'il compte | Résultat | Seuil | Atteint ? | Compté sur | Code |
-| --- | --- | --- | --- | --- | --- | --- |
-| Bon passage ramené | questions où un morceau contenant le passage du métier est parmi les k ramenés ÷ questions | 86 % ± 13 | ≥ 90 % | ❌ non | 28 | `n2_reussite_k` |
-| Passages nécessaires ramenés | passages attendus parmi les k morceaux ramenés ÷ passages attendus | 81 % ± 12 | — | — | 42 | `n2_rappel_k` |
-| Bon morceau en tête | 1 si le premier bon morceau est 1er, 1/2 s'il est 2e… ; moyenne | 68 % ± 17 | — | — | 28 | `n2_rang_premier` |
-| Fuites de droits | questions où un morceau d'un document interdit au profil est ramené | 0 | ≤ 0 | ✅ oui | 40 | `n2_fuite_droits` |
-| Bon passage ramené, si k = 1 | le même score, si la recherche ne ramenait qu'un morceau | 54 % ± 18 | — | — | 28 | `n2_reussite_1` |
-| Bon passage ramené, si k = 3 | le même score, si la recherche ramenait 3 morceaux | 75 % ± 16 | — | — | 28 | `n2_reussite_3` |
-| Bon passage ramené, si k = 5 | le même score, si la recherche ramenait 5 morceaux | 86 % ± 13 | — | — | 28 | `n2_reussite_5` |
-| Pièges ou version périmée devant le bon | questions où un piège ou une ancienne version passe devant le bon morceau ÷ questions | 0 % | — | — | 28 | `n2_perimes_pieges` |
+| Score | Résultat | Ce que ça veut dire | Code |
+| --- | --- | --- | --- |
+| Bon passage ramené | 86 % (entre 73 et 99 %) | Pour 24 questions sur 28, la recherche ramène le passage qui contient la réponse. | `n2_reussite_k` |
+| Passages nécessaires ramenés | 81 % (entre 69 et 93 %) | 34 passages nécessaires sur 42 sont ramenés par la recherche. | `n2_rappel_k` |
+| Bon morceau en tête | 68 % (entre 51 et 86 %) | 68 sur 100 : 100 si le bon morceau arrive toujours 1er, 50 s'il arrive en moyenne 2e. | `n2_rang_premier` |
+| Fuites de droits | 0 | Questions qui ont ramené un document interdit à la personne qui la pose : 0. | `n2_fuite_droits` |
+| Bon passage ramené, si k = 1 | 54 % (entre 35 et 72 %) | Pour 15 questions sur 28, le bon passage serait ramené avec 1 seul morceau. | `n2_reussite_1` |
+| Bon passage ramené, si k = 3 | 75 % (entre 59 et 91 %) | Pour 21 questions sur 28, le bon passage serait ramené avec 3 morceaux. | `n2_reussite_3` |
+| Bon passage ramené, si k = 5 | 86 % (entre 73 et 99 %) | Pour 24 questions sur 28, le bon passage serait ramené avec 5 morceaux. | `n2_reussite_5` |
+| Pièges ou version périmée devant le bon | 0 % | Pour 0 questions sur 28, un piège ou une ancienne version passe devant le bon passage. | `n2_perimes_pieges` |
 
 ### 3. Réponse
 
 On vérifie que la réponse écrite par le RAG est juste, qu'elle ne dit que ce que disent les documents, et que le RAG sait dire « je ne sais pas ».
 
-| Score | Ce qu'il compte | Résultat | Seuil | Atteint ? | Compté sur | Code |
-| --- | --- | --- | --- | --- | --- | --- |
-| Réponses justes | juste = 1, partielle = 0,5, fausse = 0, selon le juge qui compare aux points clés du métier | 71 % ± 17 | ≥ 80 % | ❌ non | 29 | `n3_exactitude` |
-| Listes complètes | éléments attendus présents dans la réponse ÷ éléments attendus | 100 % | — | — | 4 | `n3_completude_listes` |
-| Chiffres exacts | valeurs attendues présentes dans la réponse, avec la bonne unité ÷ valeurs | 75 % ± 20 | — | — | 18 | `n3_valeurs` |
-| Sait dire « je ne sais pas » | abstentions ÷ questions sans réponse dans les documents ou interdites au profil | 88 % ± 23 | ≥ 80 % | ✅ oui | 8 | `n3_abstention_correcte` |
-| Abstentions à tort | abstentions alors que le bon passage était ramené ÷ questions | 3 % ± 6 | — | — | 32 | `n3_abstention_a_tort` |
-| Fidélité aux documents | affirmations de la réponse appuyées par les morceaux ÷ affirmations | 95 % ± 8 | ≥ 90 % | ✅ oui | 30 | `n3_fidelite` |
-| Bonnes sources citées | questions où une source citée contient le passage du métier, sans piège ni document interdit | 90 % ± 11 | — | — | 29 | `n3_citations` |
-| Erreurs graves | réponses fausses, inventées ou données au lieu de s'abstenir, sur une question grave | 0 | ≤ 0 | ✅ oui | 11 | `n3_erreurs_graves` |
-| Synthèses | note de 1 à 5 donnée par le juge sur une grille, ramenée sur 100 % | 73 % | — | — | 3 | `n3_synthese` |
-| Questions de suite justes | même note que les réponses justes, sur les questions de suite | 67 % ± 53 | — | — | 3 | `n3_questions_suite` |
-| Reformulations incohérentes | groupes de questions reformulées dont les réponses diffèrent ÷ groupes | 0 % | — | — | 6 | `n3_variantes` |
+| Score | Résultat | Ce que ça veut dire | Code |
+| --- | --- | --- | --- |
+| Réponses justes | 71 % (entre 54 et 87 %) | Sur 29 questions, l'équivalent de 21 réponses justes (une réponse partielle compte pour moitié). | `n3_exactitude` |
+| Listes complètes | 100 % | Quand la réponse est une liste, elle donne 100 éléments attendus sur 100. | `n3_completude_listes` |
+| Chiffres exacts | 75 % (entre 55 et 95 %) | 75 chiffres attendus sur 100 sont dans la réponse, avec la bonne unité. | `n3_valeurs` |
+| Sait dire « je ne sais pas » | 88 % (entre 65 et 100 %) | Sur 8 questions sans réponse dans les documents ou interdites à la personne, le RAG dit « je ne sais pas » 7 fois. | `n3_abstention_correcte` |
+| Abstentions à tort | 3 % (entre 0 et 9 %) | Pour 1 questions sur 32, le RAG dit « je ne sais pas » alors que la réponse était dans ce qu'il a ramené. | `n3_abstention_a_tort` |
+| Fidélité aux documents | 95 % (entre 87 et 100 %) | 95 affirmations sur 100 des réponses se trouvent dans les documents ramenés. | `n3_fidelite` |
+| Bonnes sources citées | 90 % (entre 79 et 100 %) | Pour 26 questions sur 29, la réponse cite le passage qui contient la réponse. | `n3_citations` |
+| Erreurs graves | 0 | Réponses fausses, inventées ou données à tort, sur une question où l'erreur a des conséquences graves : 0. | `n3_erreurs_graves` |
+| Synthèses | 73 % | Le juge note les synthèses sur une grille : 73 sur 100. | `n3_synthese` |
+| Questions de suite justes | 67 % (entre 13 et 100 %) | Sur 3 questions de suite, l'équivalent de 2 réponses justes. | `n3_questions_suite` |
+| Reformulations incohérentes | 0 % | 0 groupes de questions reformulées sur 6 reçoivent des réponses différentes. | `n3_variantes` |
 
 ### 4. Bout en bout
 
 On vérifie que le RAG est bon sur les questions qui comptent le plus, assez rapide et pas trop cher.
 
-| Score | Ce qu'il compte | Résultat | Seuil | Atteint ? | Compté sur | Code |
-| --- | --- | --- | --- | --- | --- | --- |
-| Score pondéré | notes des réponses, chaque question pesant fréquence × gravité (de 1 à 9) | 77 % ± 13 | ≥ 80 % | ❌ non | 40 | `n4_score_pondere` |
-| Erreurs graves | repris de l'évaluation de la réponse | 0 | ≤ 0 | ✅ oui | 11 | `n4_erreurs_graves` |
-| Temps de réponse médian | la moitié des questions ont leur réponse en moins de ce temps | 0,9 s | ≤ 15,0 s | ✅ oui | 40 | `n4_temps_median` |
-| Temps de réponse à 95 % | 95 % des questions ont leur réponse en moins de ce temps | 2,6 s | ≤ 30,0 s | ✅ oui | 40 | `n4_temps_p95` |
-| Coût par question | coût moyen d'une réponse | 0,00 € | ≤ 0,05 € | ✅ oui | 40 | `n4_cout_moyen` |
+| Score | Résultat | Ce que ça veut dire | Code |
+| --- | --- | --- | --- |
+| Score pondéré | 77 % (entre 64 et 90 %) | 77 réponses justes sur 100, en comptant davantage les questions fréquentes et graves. | `n4_score_pondere` |
+| Erreurs graves | 0 | Les mêmes erreurs graves que dans l'évaluation de la réponse : 0. | `n4_erreurs_graves` |
+| Temps de réponse médian | 0,9 s | La moitié des réponses arrivent en moins de 0,9 s. | `n4_temps_median` |
+| Temps de réponse à 95 % | 2,6 s | 95 réponses sur 100 arrivent en moins de 2,6 s. | `n4_temps_p95` |
+| Coût par question | 0,00 € | Une réponse coûte en moyenne 0,00 €. | `n4_cout_moyen` |
 
 ## 3. Les questions à regarder en premier
 
@@ -144,4 +140,4 @@ Ils sont dans `fichiers_techniques/`. Ce rapport en est tiré ; on ne les ouvre 
 | `liens_index.jsonl` | chaque passage du métier et le morceau de la base où il a été retrouvé |
 | `passages_non_rattaches.jsonl` | les passages du métier introuvables dans la base, avec leur cause probable |
 | `relecture.jsonl` | les réponses que le métier doit relire, et pourquoi |
-| `evaluation.json` | ce qui a été évalué : versions du corpus, du kit, du RAG, du juge, et les seuils |
+| `evaluation.json` | ce qui a été évalué : versions du corpus, du service, du RAG et du juge |

@@ -36,10 +36,7 @@
             "n": 17
           }
         }
-      },
-      "seuil": 1.0,
-      "atteint": true,
-      "bloquant": false
+      }
     },
     {
       "score": "n1_metadonnees_completes",
@@ -62,10 +59,7 @@
             "n": 154
           }
         }
-      },
-      "seuil": 1.0,
-      "atteint": true,
-      "bloquant": false
+      }
     },
     {
       "score": "n1_passages_rattaches",
@@ -106,10 +100,7 @@
             "n": 8
           }
         }
-      },
-      "seuil": 0.95,
-      "atteint": true,
-      "bloquant": false
+      }
     },
     {
       "score": "n1_passages_coupes",
@@ -150,10 +141,7 @@
             "n": 8
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n1_erreur_caracteres",
@@ -168,10 +156,7 @@
             "n": 20
           }
         }
-      },
-      "seuil": 0.02,
-      "atteint": false,
-      "bloquant": false
+      }
     },
     {
       "score": "n1_erreur_mots",
@@ -186,10 +171,7 @@
             "n": 20
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n2_reussite_k",
@@ -264,10 +246,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": 0.9,
-      "atteint": false,
-      "bloquant": false
+      }
     },
     {
       "score": "n2_rappel_k",
@@ -342,10 +321,7 @@
             "n": 6
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n2_rang_premier",
@@ -420,10 +396,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n2_fuite_droits",
@@ -506,10 +479,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": 0,
-      "atteint": true,
-      "bloquant": true
+      }
     },
     {
       "score": "n2_reussite_1",
@@ -584,10 +554,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n2_reussite_3",
@@ -662,10 +629,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n2_reussite_5",
@@ -740,10 +704,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n2_perimes_pieges",
@@ -818,10 +779,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n3_exactitude",
@@ -900,10 +858,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": 0.8,
-      "atteint": false,
-      "bloquant": false
+      }
     },
     {
       "score": "n3_completude_listes",
@@ -954,10 +909,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n3_valeurs",
@@ -1016,10 +968,7 @@
             "n": 13
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n3_abstention_correcte",
@@ -1074,10 +1023,7 @@
             "n": 1
           }
         }
-      },
-      "seuil": 0.8,
-      "atteint": true,
-      "bloquant": false
+      }
     },
     {
       "score": "n3_abstention_a_tort",
@@ -1156,10 +1102,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n3_fidelite",
@@ -1238,10 +1181,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": 0.9,
-      "atteint": true,
-      "bloquant": false
+      }
     },
     {
       "score": "n3_citations",
@@ -1320,10 +1260,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n3_erreurs_graves",
@@ -1394,10 +1331,7 @@
             "n": 1
           }
         }
-      },
-      "seuil": 0,
-      "atteint": false,
-      "bloquant": true
+      }
     },
     {
       "score": "n3_synthese",
@@ -1444,10 +1378,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n3_questions_suite",
@@ -1498,10 +1429,7 @@
             "n": 2
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n3_variantes",
@@ -1552,10 +1480,7 @@
             "n": 1
           }
         }
-      },
-      "seuil": null,
-      "atteint": null,
-      "bloquant": false
+      }
     },
     {
       "score": "n4_score_pondere",
@@ -1638,10 +1563,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": 0.8,
-      "atteint": true,
-      "bloquant": false
+      }
     },
     {
       "score": "n4_erreurs_graves",
@@ -1712,10 +1634,7 @@
             "n": 1
           }
         }
-      },
-      "seuil": 0,
-      "atteint": false,
-      "bloquant": true
+      }
     },
     {
       "score": "n4_temps_median",
@@ -1798,10 +1717,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": 15000,
-      "atteint": true,
-      "bloquant": false
+      }
     },
     {
       "score": "n4_temps_p95",
@@ -1884,10 +1800,7 @@
             "n": 4
           }
         }
-      },
-      "seuil": 30000,
-      "atteint": true,
-      "bloquant": false
+      }
     },
     {
       "score": "n4_cout_moyen",
@@ -1970,163 +1883,94 @@
             "n": 4
           }
         }
-      },
-      "seuil": 0.05,
-      "atteint": true,
-      "bloquant": false
+      }
     }
   ],
-  "decision": {
-    "criteres_bloquants_declenches": [
-      {
-        "score": "n3_erreurs_graves",
-        "valeur": 1.0,
-        "seuil": 0
-      },
-      {
-        "score": "n4_erreurs_graves",
-        "valeur": 1.0,
-        "seuil": 0
-      }
-    ],
-    "seuils": [
-      {
-        "score": "n1_documents_indexes",
-        "valeur": 1.0,
-        "marge": 0.0,
-        "n": 50,
-        "seuil": 1.0,
-        "sens": "min",
-        "atteint": true
-      },
-      {
-        "score": "n1_metadonnees_completes",
-        "valeur": 1.0,
-        "marge": 0.0,
-        "n": 534,
-        "seuil": 1.0,
-        "sens": "min",
-        "atteint": true
-      },
-      {
-        "score": "n1_passages_rattaches",
-        "valeur": 1.0,
-        "marge": 0.0,
-        "n": 30,
-        "seuil": 0.95,
-        "sens": "min",
-        "atteint": true
-      },
-      {
-        "score": "n1_erreur_caracteres",
-        "valeur": 0.1482,
-        "marge": null,
-        "n": 20,
-        "seuil": 0.02,
-        "sens": "max",
-        "atteint": false
-      },
-      {
-        "score": "n2_reussite_k",
-        "valeur": 0.6923,
-        "marge": 0.2509,
-        "n": 13,
-        "seuil": 0.9,
-        "sens": "min",
-        "atteint": false
-      },
-      {
-        "score": "n2_fuite_droits",
-        "valeur": 0.0,
-        "marge": null,
-        "n": 60,
-        "seuil": 0,
-        "sens": "max",
-        "atteint": true
-      },
-      {
-        "score": "n3_exactitude",
-        "valeur": 0.7692,
-        "marge": 0.229,
-        "n": 13,
-        "seuil": 0.8,
-        "sens": "min",
-        "atteint": false
-      },
-      {
-        "score": "n3_abstention_correcte",
-        "valeur": 1.0,
-        "marge": 0.0,
-        "n": 5,
-        "seuil": 0.8,
-        "sens": "min",
-        "atteint": true
-      },
-      {
-        "score": "n3_fidelite",
-        "valeur": 0.9808,
-        "marge": 0.0747,
-        "n": 13,
-        "seuil": 0.9,
-        "sens": "min",
-        "atteint": true
-      },
-      {
-        "score": "n3_erreurs_graves",
-        "valeur": 1.0,
-        "marge": null,
-        "n": 12,
-        "seuil": 0,
-        "sens": "max",
-        "atteint": false
-      },
-      {
-        "score": "n4_score_pondere",
-        "valeur": 0.7609,
-        "marge": 0.1869,
-        "n": 20,
-        "seuil": 0.8,
-        "sens": "min",
-        "atteint": false
-      },
-      {
-        "score": "n4_erreurs_graves",
-        "valeur": 1.0,
-        "marge": null,
-        "n": 12,
-        "seuil": 0,
-        "sens": "max",
-        "atteint": false
-      },
-      {
-        "score": "n4_temps_median",
-        "valeur": 7967.0,
-        "marge": null,
-        "n": 20,
-        "seuil": 15000,
-        "sens": "max",
-        "atteint": true
-      },
-      {
-        "score": "n4_temps_p95",
-        "valeur": 14749.0,
-        "marge": null,
-        "n": 20,
-        "seuil": 30000,
-        "sens": "max",
-        "atteint": true
-      },
-      {
-        "score": "n4_cout_moyen",
-        "valeur": 0.0,
-        "marge": null,
-        "n": 20,
-        "seuil": 0.05,
-        "sens": "max",
-        "atteint": true
-      }
-    ],
-    "mise_en_production_possible": false,
-    "remarque": "seuils jugés sur les questions réservées à la décision ; critères bloquants sur toutes les questions"
-  }
+  "scores_cles": [
+    {
+      "score": "n1_documents_indexes",
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 50
+    },
+    {
+      "score": "n1_metadonnees_completes",
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 534
+    },
+    {
+      "score": "n1_passages_rattaches",
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 30
+    },
+    {
+      "score": "n1_erreur_caracteres",
+      "valeur": 0.1482,
+      "marge": null,
+      "n": 20
+    },
+    {
+      "score": "n2_reussite_k",
+      "valeur": 0.6923,
+      "marge": 0.2509,
+      "n": 13
+    },
+    {
+      "score": "n2_fuite_droits",
+      "valeur": 0.0,
+      "marge": null,
+      "n": 60
+    },
+    {
+      "score": "n3_exactitude",
+      "valeur": 0.7692,
+      "marge": 0.229,
+      "n": 13
+    },
+    {
+      "score": "n3_abstention_correcte",
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 5
+    },
+    {
+      "score": "n3_fidelite",
+      "valeur": 0.9808,
+      "marge": 0.0747,
+      "n": 13
+    },
+    {
+      "score": "n3_erreurs_graves",
+      "valeur": 1.0,
+      "marge": null,
+      "n": 12
+    },
+    {
+      "score": "n4_score_pondere",
+      "valeur": 0.7609,
+      "marge": 0.1869,
+      "n": 20
+    },
+    {
+      "score": "n4_temps_median",
+      "valeur": 7967.0,
+      "marge": null,
+      "n": 20
+    },
+    {
+      "score": "n4_temps_p95",
+      "valeur": 14749.0,
+      "marge": null,
+      "n": 20
+    },
+    {
+      "score": "n4_cout_moyen",
+      "valeur": 0.0,
+      "marge": null,
+      "n": 20
+    }
+  ],
+  "remarque": "scores clés calculés sur les questions réservées (fuites de droits et erreurs graves : sur toutes les questions) ; c'est au métier de décider à leur lecture"
 }
