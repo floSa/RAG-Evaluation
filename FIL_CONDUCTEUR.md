@@ -37,7 +37,7 @@ sequenceDiagram
 
 C'est donc le service qui déclenche l'ingestion, mais c'est le code du RAG qui la fait.
 
-**Où se remplit la configuration.** Une configuration est l'ensemble des réglages du RAG pendant une évaluation : modèle qui écrit les réponses, nombre de morceaux de texte ramenés, prompt, graphe ou non… On la remplit avant chaque évaluation, dans les fichiers de configuration du RAG (étape 3). Le service, lui, n'a qu'une chose à savoir du RAG : son adresse, dans `config/kit.yaml`. Le RAG lui déclare sa configuration à l'appel ②, et le service la recopie en tête du rapport.
+**Où se remplit la configuration.** Une configuration est l'ensemble des réglages du RAG pendant une évaluation : nombre de morceaux de texte ramenés, modèle qui écrit les réponses, consigne donnée à ce modèle… Elle se remplit dans le RAG lui-même, avant chaque évaluation ; l'étape 3 explique quels réglages, et comment. Le service n'a qu'une chose à savoir du RAG : son adresse. Le RAG lui déclare sa configuration à l'appel ②, et le service la recopie en tête du rapport.
 
 **Ce qui est générique, et ce que votre RAG doit savoir faire.** Le service est le même pour tous les RAG : il ne connaît que les quatre endpoints. Votre RAG, lui, doit savoir faire quatre choses, une par endpoint :
 1. ingérer une liste de fichiers qu'on lui envoie, avec sa chaîne d'ingestion habituelle, dans un espace séparé de la production ;
@@ -50,20 +50,18 @@ Le point à vérifier en premier est le 1. Si l'ingestion de votre RAG est une c
 ## Les étapes
 
 ```mermaid
-flowchart TD
-    E0["<b>0. Installer le service d'évaluation</b>"]
-    E0 --> E1["<b>1. Construire et importer le corpus d'évaluation</b>"]
-    E1 -- "erreurs : à corriger par le métier" --> E1
-    E1 --> E2["<b>2. Ouvrir les quatre endpoints du RAG au service</b>"]
-    E2 --> E3["<b>3. Évaluer une configuration du RAG</b>"]
-    E3 -- "autre configuration :<br/>changer un réglage dans le RAG" --> E3
-    E3 --> E4["<b>4. Lire le rapport, comparer, faire décider le métier</b>"]
+flowchart LR
+    E0["<b>0. Installer</b><br/>le service"] --> E1["<b>1. Construire</b><br/>le corpus"]
+    E1 -- "erreurs à<br/>corriger" --> E1
+    E1 --> E2["<b>2. Ouvrir</b><br/>les endpoints du RAG"] --> E3["<b>3. Évaluer</b><br/>une configuration"]
+    E3 -- "configuration<br/>suivante" --> E3
+    E3 --> E4["<b>4. Lire, comparer,</b><br/>faire décider"]
 ```
 
 ## 0. Installer le service d'évaluation
 
 Le service se compose :
-- du **programme d'évaluation**, qui importe le corpus, appelle le RAG, calcule les scores et écrit les rapports ;
+- du **programme d'évaluation**, une commande nommée `kit` qu'on tape dans un terminal, qui importe le corpus, appelle le RAG, calcule les scores et écrit les rapports ;
 - de **Langfuse**, un site web local pour suivre les évaluations et faire relire les réponses par le métier ;
 - d'un accès à un **modèle de langage, le juge**, qui note chaque réponse du RAG en la comparant à la bonne réponse ;
 - d'une **base de données** qui garde les résultats.
@@ -101,49 +99,59 @@ Il s'agit d'ajouter au RAG les quatre adresses web que le service appelle (voir 
 
 ## 3. Évaluer une configuration du RAG
 
-Évaluer une configuration se fait en trois temps : la remplir, lancer l'évaluation, lire le rapport qu'elle produit.
+**Ce qu'est une configuration.** Un RAG a des réglages : combien de morceaux de texte la recherche ramène, quel modèle écrit la réponse, avec quelle consigne… Une configuration, c'est une valeur pour chacun de ces réglages. Pour savoir ce qui améliore le RAG, on évalue plusieurs configurations qui ne diffèrent que par un réglage, puis on les compare (étape 4). Les configurations à tester forment une grille : une ligne par configuration, une colonne par réglage qu'on fait varier.
 
-**1. Remplir la configuration.** Ce sont les réglages du RAG à fixer avant de lancer l'évaluation :
+**Les réglages que tout RAG possède.** Ce sont ceux à tester en premier.
 
-| Réglage | Ce que c'est |
-| --- | --- |
-| Type de recherche | vectorielle seule, ou vectorielle et graphe (hybride) |
-| Morceaux ramenés (k) | le nombre de morceaux de texte que la recherche ramène pour chaque question |
-| Découpage | la façon dont les documents sont coupés en morceaux |
-| Modèle qui vectorise | le modèle qui transforme chaque morceau en vecteur, pour la recherche |
-| Reranker | le modèle qui reclasse les morceaux ramenés, s'il y en a un |
-| Modèle qui écrit la réponse | le modèle de langage qui rédige la réponse à partir des morceaux |
-| Prompt | la consigne donnée à ce modèle |
+| Réglage | Ce que c'est | Ce qu'on cherche en le changeant |
+| --- | --- | --- |
+| Nombre de morceaux ramenés (k) | combien de morceaux de texte la recherche donne au modèle, pour chaque question | plus de morceaux : plus de chances d'avoir le bon, mais plus de bruit et une réponse plus lente |
+| Taille des morceaux | la longueur des morceaux découpés dans les documents | trop petits, ils coupent une réponse en deux ; trop grands, ils la noient |
+| Modèle qui écrit la réponse | le modèle de langage qui rédige la réponse à partir des morceaux | un modèle plus gros répond plus juste, mais plus lentement et plus cher |
+| Consigne du modèle (prompt) | le texte qui dit au modèle comment répondre : citer ses sources, dire « je ne sais pas » | moins d'inventions, plus de « je ne sais pas » quand il le faut |
 
-Ces réglages se remplissent dans les fichiers de configuration du RAG, puis on relance le RAG pour qu'il les prenne en compte.
+**Les réglages pour aller plus loin**, seulement si le RAG les possède. Un RAG qui n'en a aucun n'a rien à faire de plus.
 
-**2. Lancer l'évaluation.** Une commande du service, `kit evaluer`, lancée depuis le dossier `service-evaluation/`, fait tout le déroulé décrit plus haut :
+| Réglage | Ce que c'est | Ce qu'on cherche en le changeant |
+| --- | --- | --- |
+| Modèle de vectorisation | le modèle qui transforme chaque morceau en vecteur, pour que la recherche trouve les morceaux proches de la question | une recherche qui comprend mieux la langue et le vocabulaire du métier |
+| Recherche par mots-clés | une recherche classique, par les mots, en plus de la recherche par vecteurs | retrouver les références et les codes, que les vecteurs saisissent mal |
+| Reclassement (reranker) | un second modèle qui reclasse les morceaux ramenés | le bon morceau en tête de liste |
+| Réflexion du modèle | le modèle raisonne avant de répondre | des réponses plus justes, surtout pour les calculs, mais plus lentes |
+| Graphe (GraphRAG) | une carte des liens entre les éléments des documents (équipements, sites, personnes), consultée en plus de la recherche | répondre aux questions qui croisent plusieurs documents |
+
+**Ce qui ne change pas.** Les réglages qu'on ne fait pas varier restent les mêmes d'une configuration à l'autre. Le rapport les note quand même, pour qu'on sache toujours exactement ce qui a été évalué.
+
+**Où se remplissent les réglages.** Dans le RAG, pas dans le service d'évaluation. Chaque RAG a sa façon de les fixer : un fichier de réglages, souvent au format YAML ou `.env`, des options données au lancement, ou les deux. C'est l'équipe qui a construit le RAG qui sait où ils sont. Pour chaque configuration de la grille, fixer ses réglages dans le RAG, puis relancer le RAG pour qu'il les prenne en compte.
+
+**Lancer l'évaluation.** Le service d'évaluation s'utilise dans un terminal, avec la commande `kit` installée à l'étape 0. Le RAG doit tourner, avec la configuration à évaluer. Ouvrir un terminal dans le dossier `service-evaluation/`, puis taper :
+
+```bash
+uv run kit evaluer
+```
+
+Cette seule commande fait tout le déroulé décrit dans « Comment ils se parlent » :
 1. elle envoie les documents au RAG, qui les ingère ;
 2. elle lit ses morceaux de texte et sa configuration ;
 3. elle lui pose chaque question du fichier Excel ;
-4. elle calcule les scores, et écrit le rapport dans `resultats/evaluations/`.
+4. elle calcule les scores, et écrit le rapport.
 
-**3. Le rapport est produit.** Le rapport, `RAPPORT.md`, commence par la configuration évaluée, réglage par réglage. Il donne ensuite chaque score en une phrase, avec ses chiffres, pour que le métier comme l'équipe du projet le comprennent sans explication. Chaque pourcentage est donné avec son intervalle de confiance : la fourchette où se trouve le vrai résultat, large quand il y a peu de questions. Le service ne décide pas : c'est le métier qui tranche à la lecture des scores. Exemple : [le rapport de la configuration de référence du RAG d'exemple](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md).
+**Le rapport.** Chaque évaluation écrit un rapport, `RAPPORT.md`, dans un dossier à son nom sous `resultats/evaluations/`. Il commence par la configuration évaluée, réglage par réglage. Il donne ensuite chaque score en une phrase, avec ses chiffres, pour que le métier comme l'équipe du projet le comprennent sans explication. Chaque pourcentage est donné avec son intervalle de confiance : la fourchette où se trouve le vrai résultat, large quand il y a peu de questions. Le service ne décide pas : c'est le métier qui tranche à la lecture des scores. Exemple : [le rapport de la configuration de référence du RAG d'exemple](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md).
 
 **À faire.**
-- Remplir la configuration dans les fichiers du RAG, puis relancer le RAG.
-- Lancer [`kit evaluer`](service-evaluation/README.md#la-marche-à-suivre) (étape 3 du README du service). Le service affiche à la fin les scores clés et le chemin du rapport.
-- Pour évaluer une autre configuration : changer un réglage, relancer le RAG, puis relancer `kit evaluer`. Le service écrit un nouveau rapport, à côté du précédent.
+- Écrire la grille des configurations à tester, en commençant par les réglages que tout RAG possède, et en n'en changeant qu'un à la fois.
+- Pour chaque configuration : fixer ses réglages dans le RAG, relancer le RAG, puis lancer `uv run kit evaluer` dans `service-evaluation/`. À la fin, le service affiche les scores clés et le chemin du rapport.
 
-**Dans l'exemple.** La configuration du RAG d'exemple se remplit dans [`config/config.yaml`](service-rag-exemple/config/config.yaml) ; k et le graphe se changent aussi au lancement ([comment](service-rag-exemple/README.md#changer-de-configuration)). Quatre configurations ont été évaluées :
+**Dans l'exemple.** Le RAG d'exemple fixe ses réglages dans son fichier [`config/config.yaml`](service-rag-exemple/config/config.yaml) ; deux d'entre eux se changent aussi au lancement ([comment](service-rag-exemple/README.md#changer-de-configuration)). La grille testée fait varier trois réglages, un à la fois :
 
-| Réglage | Référence | k = 3 | Sans réflexion | Hybride |
+| Configuration | Nombre de morceaux ramenés (k) | Réflexion du modèle | Graphe | Rapport |
 | --- | --- | --- | --- | --- |
-| Type de recherche | vectorielle | vectorielle | vectorielle | **vectorielle et graphe** (`RAG_GRAPHE=true`) |
-| Morceaux ramenés (k) | 5 | **3** (`RAG_K=3`) | 5 | 5 |
-| Découpage | par section | par section | par section | par section |
-| Modèle qui vectorise | embed | embed | embed | embed |
-| Reranker | aucun | aucun | aucun | aucun |
-| Modèle qui écrit la réponse | gemma-4-e4b, avec réflexion | gemma-4-e4b, avec réflexion | gemma-4-e4b, **sans réflexion** (`sans_reflexion: true`) | gemma-4-e4b, avec réflexion |
-| Prompt | 1.0 | 1.0 | 1.0 | 1.0 |
-| **Rapport** | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k3-5954e822/RAPPORT.md) | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-hybride-k5-57001489/RAPPORT.md) |
+| Référence | 5 | oui | non | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) |
+| k = 3 | **3** (`RAG_K=3` au lancement) | oui | non | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k3-5954e822/RAPPORT.md) |
+| Sans réflexion | 5 | **non** (`sans_reflexion: true` dans `config.yaml`) | non | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) |
+| Hybride | 5 | oui | **oui** (`RAG_GRAPHE=true` au lancement) | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-hybride-k5-57001489/RAPPORT.md) |
 
-En gras, le réglage changé par rapport à la référence.
+En gras, le réglage changé par rapport à la référence. Les autres réglages sont restés fixes : des morceaux découpés par section, d'au plus 1 500 caractères ; le modèle gemma-4-e4b pour écrire la réponse ; la consigne 1.0 ; le modèle embed pour la vectorisation ; une recherche par mots-clés en plus des vecteurs ; pas de reclassement.
 
 ## 4. Lire le rapport, comparer, faire décider le métier
 
