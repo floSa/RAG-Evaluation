@@ -22,7 +22,7 @@ flowchart TD
     E6 --> X["<b>service-evaluation-exemple/README.md</b><br/>tout ce parcours, fait pour de vrai"]
 ```
 
-## Étape 0. Installer le service
+## 0. Installer le service
 
 Le service d'évaluation tourne sur votre machine. Pour fonctionner, il a besoin de trois choses :
 - **Langfuse**, un site web local où l'on suit les évaluations, et où le métier relit les réponses du RAG ;
@@ -40,19 +40,19 @@ L'installation est finie quand cette dernière commande dit que tout répond. Le
 
 **Dans l'exemple.** Le juge est le modèle `chat`, différent du modèle qui écrit les réponses du RAG : un modèle tend à favoriser ses propres réponses.
 
-## Étape 1. Construire le corpus d'évaluation
+## 1. Construire le corpus d'évaluation
 
-Le service juge le RAG en comparant ses réponses à ce qu'il aurait dû répondre. Le corpus d'évaluation le lui dit : des documents, des questions réelles, leur bonne réponse, et le passage exact des documents où elle se trouve. Le RAG ne le voit jamais : il ne reçoit que les documents.
+Pour évaluer le RAG, le service a besoin d'un **corpus d'évaluation** : les documents que le RAG doit lire, et un fichier Excel qui donne, pour chaque question, la bonne réponse et le passage exact des documents où elle se trouve. Le RAG ne voit jamais ce fichier : il ne reçoit que les documents.
 
-C'est le métier qui le remplit, parce que c'est lui qui connaît les documents et les questions des utilisateurs. Vous lui donnez :
-- le fichier Excel vierge, [`service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx`](service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx) ;
-- les règles pour le remplir, dans le [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md), section 1 : le passage est copié-collé, jamais résumé ; il faut des questions sans réponse et des passages pièges ; un tiers des questions est gardé pour la décision ; chaque question a une fréquence et une gravité.
+Qui fait quoi :
+- **le métier construit le corpus**, parce que c'est lui qui connaît les documents et les questions des utilisateurs. Il suit le [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md), écrit pour lui : copier-coller les passages, jamais les résumer ; prévoir des questions sans réponse et des passages pièges ; garder un tiers des questions pour la décision ; donner à chaque question une fréquence et une gravité ;
+- **vous** lui transmettez ce guide et le fichier Excel vierge, [`service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx`](service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx). Pour lui montrer ce qu'on attend : [le fichier rempli de l'exemple](service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx).
 
-Il vous rend les documents, un fichier par document nommé par sa référence, et le fichier rempli. Pour lui montrer ce qu'on attend : [le fichier rempli de l'exemple](service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx).
+Le métier vous rend les documents, un fichier par document nommé par sa référence, et le fichier Excel rempli.
 
 **Dans l'exemple.** L'entreprise est fictive : Claude a joué le métier. Il a rendu [50 documents](service-evaluation-exemple/corpus_annote/corpus_documentaire/) et [le fichier rempli](service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx) : 60 questions, 97 passages, 20 pages scannées retapées. Les 60 questions sur une page : [questions_pour_relecture.md](service-evaluation-exemple/corpus_annote/questions_pour_relecture.md).
 
-## Étape 2. Ranger et importer le corpus
+## 2. Ranger et importer le corpus
 
 Vous mettez les documents dans `corpus_annote/corpus_documentaire/`, le fichier rempli dans `corpus_annote/`, puis :
 
@@ -64,7 +64,7 @@ Le service contrôle tout le corpus avant d'évaluer, car un corpus faux fausser
 
 **Dans l'exemple.** L'import a produit le corpus contrôlé : [`resultats/corpus/2026-11-20.1/`](service-evaluation-exemple/resultats/corpus/).
 
-## Étape 3. Fixer les seuils
+## 3. Fixer les seuils
 
 Il y a un seuil par score : le niveau minimal qu'il doit atteindre pour que le RAG parte en production. Le RAG part seulement si chaque score atteint son seuil, sur les questions gardées pour la décision, et s'il n'y a aucune erreur grave ni fuite de droits.
 
@@ -72,7 +72,7 @@ Vous posez au métier les questions de la [marche à suivre, étape 3](service-e
 
 **Dans l'exemple.** [`config/seuils.json`](service-evaluation-exemple/config/seuils.json) : par exemple au moins 80 % de réponses justes, aucune erreur grave, une réponse en moins de 15 secondes.
 
-## Étape 4. Brancher le RAG
+## 4. Brancher le RAG
 
 Le service ne connaît pas le code du RAG. Il lui parle par quatre **endpoints**, quatre adresses web de forme fixe : ① il lui envoie les documents ; ② il lit ce que le RAG en a fait ; ③ il lui demande de rechercher ; ④ il lui demande de répondre.
 
@@ -86,7 +86,7 @@ C'est bon quand il répond « règle : respectée » ; sinon, il dit préciséme
 
 **Dans l'exemple.** Le RAG d'exemple ouvre ses quatre endpoints dans [`src/rag/endpoints_evaluation/`](service-rag-exemple/src/rag/endpoints_evaluation/). On l'a lancé comme le dit [son README](service-rag-exemple/README.md#le-lancer) : `docker compose up -d --build`, depuis `service-rag-exemple/`, à l'adresse http://127.0.0.1:8100.
 
-## Étape 5. Lancer un run par configuration
+## 5. Lancer un run par configuration
 
 Une configuration, ce sont les réglages du RAG à un moment donné : le nombre de morceaux que la recherche ramène (k), les modèles, le prompt… Un run évalue une configuration. Les réglages se changent **dans le RAG**, jamais dans le service.
 
@@ -107,7 +107,7 @@ Le service appelle lui-même le RAG : il lui envoie les documents, pose toutes l
 | Sans réflexion | `sans_reflexion: true` dans la configuration du RAG | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) |
 | Hybride | `RAG_GRAPHE=true docker compose up -d` : un graphe ajouté | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-hybride-k5-57001489/RAPPORT.md) |
 
-## Étape 6. Lire, vérifier le juge, comparer
+## 6. Lire, vérifier le juge, comparer
 
 ### 6a. Lire le rapport
 
