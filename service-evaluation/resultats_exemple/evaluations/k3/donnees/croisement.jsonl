@@ -1,0 +1,32 @@
+{"question_id": "Q-001", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-002", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-004", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-005", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-008", "bon_chunk_retrouve": true, "reponse": "partielle", "diagnostic": "génération : le bon chunk était retrouvé"}
+{"question_id": "Q-010", "bon_chunk_retrouve": true, "reponse": "abstention", "diagnostic": "génération : le bon chunk était retrouvé (abstention à tort)"}
+{"question_id": "Q-012", "bon_chunk_retrouve": true, "reponse": "partielle", "diagnostic": "génération : le bon chunk était retrouvé"}
+{"question_id": "Q-013", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-015", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-016", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-017", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-019", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-020", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-022", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-023", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-027", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-028", "bon_chunk_retrouve": false, "reponse": "abstention", "diagnostic": "recherche : le bon chunk n'est pas retrouvé"}
+{"question_id": "Q-030", "bon_chunk_retrouve": false, "reponse": "abstention", "diagnostic": "recherche : le bon chunk n'est pas retrouvé"}
+{"question_id": "Q-031", "bon_chunk_retrouve": false, "reponse": "abstention", "diagnostic": "recherche : le bon chunk n'est pas retrouvé"}
+{"question_id": "Q-032", "bon_chunk_retrouve": false, "reponse": "abstention", "diagnostic": "recherche : le bon chunk n'est pas retrouvé"}
+{"question_id": "Q-034", "bon_chunk_retrouve": true, "reponse": "abstention", "diagnostic": "génération : le bon chunk était retrouvé (abstention à tort)"}
+{"question_id": "Q-035", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-037", "bon_chunk_retrouve": false, "reponse": "abstention", "diagnostic": "recherche : le bon chunk n'est pas retrouvé"}
+{"question_id": "Q-038", "bon_chunk_retrouve": false, "reponse": "abstention", "diagnostic": "recherche : le bon chunk n'est pas retrouvé"}
+{"question_id": "Q-040", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-041", "bon_chunk_retrouve": true, "reponse": "fausse", "diagnostic": "génération : le bon chunk était retrouvé"}
+{"question_id": "Q-043", "bon_chunk_retrouve": true, "reponse": "fausse", "diagnostic": "génération : le bon chunk était retrouvé"}
+{"question_id": "Q-044", "bon_chunk_retrouve": true, "reponse": "fausse", "diagnostic": "génération : le bon chunk était retrouvé"}
+{"question_id": "Q-046", "bon_chunk_retrouve": false, "reponse": "abstention", "diagnostic": "recherche : le bon chunk n'est pas retrouvé"}
+{"question_id": "Q-056", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
+{"question_id": "Q-057", "bon_chunk_retrouve": false, "reponse": "juste", "diagnostic": "juste sans le bon chunk : connaissance du modèle, ou passage manquant au corpus"}
+{"question_id": "Q-060", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
