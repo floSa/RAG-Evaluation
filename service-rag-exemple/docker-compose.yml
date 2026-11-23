@@ -17,7 +17,7 @@ services:
       RAG_GRAPHE: ${RAG_GRAPHE:-}
     volumes:
       - ./sorties:/service/sorties   # l'index de chaque espace (production, evaluation), gardé entre deux lancements
-      - ./documents_de_production:/service/documents_de_production:ro
+      - ./corpus_documentaire:/service/corpus_documentaire:ro
       - ./config:/service/config:ro  # un réglage changé dans config.yaml vaut après « docker compose restart rag »
     depends_on: [docling]
 

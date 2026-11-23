@@ -4,11 +4,11 @@
 
 nom: graphrag                       # la version évaluée s'appelle graphrag-<vectoriel|hybride>-k<k>-<empreinte>
 
-# Les documents de production, et leur liste avec leurs métadonnées (référence, version, format, droits d'accès),
+# Le corpus documentaire que le RAG sert à ses utilisateurs, et la liste des documents avec leurs métadonnées (référence, version, format, droits d'accès),
 # telle que l'exporte la gestion documentaire. Vide dans le banc d'essai : le RAG n'a que les documents
 # que le service d'évaluation lui envoie, par son endpoint « ingérer », rangés à part (sorties/evaluation/).
-documents: documents_de_production
-liste_des_documents: documents_de_production/liste_des_documents.csv
+documents: corpus_documentaire
+liste_des_documents: corpus_documentaire/liste_des_documents.csv
 travail: sorties                    # un dossier par espace : sorties/production/, sorties/evaluation/
 
 extraction:

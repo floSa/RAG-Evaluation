@@ -43,7 +43,7 @@ Chaque évaluation et chaque comparaison produit un rapport, `RAPPORT.md`, lisib
 
 Le RAG ouvre **quatre endpoints**, quatre adresses web de forme fixe que le service appelle :
 
-- **① ingérer** : le service envoie ses documents ; le RAG les range à part de ceux de production.
+- **① ingérer** : le service envoie ses documents ; le RAG les range à part de son propre corpus documentaire.
 - **② montrer l'index** : le RAG rend sa version exacte, ses morceaux de texte, et les pages qu'il a lues.
 - **③ rechercher** : pour une question, le RAG rend les morceaux qu'il a retrouvés.
 - **④ répondre** : pour une question, le RAG rend sa réponse, ses sources, et s'il s'abstient.

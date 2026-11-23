@@ -24,11 +24,11 @@ def principal():
 
 @app.command()
 def indexer(graphe: bool = OPTION_GRAPHE):
-    """Production : indexe les documents de documents_de_production/ (étapes 1 à 3, et 4 si le graphe est actif)."""
+    """Production : indexe le corpus documentaire de corpus_documentaire/ (étapes 1 à 3, et 4 si le graphe est actif)."""
     config = dans_l_espace(regler(charger_config(), graphe=graphe), "production")
     if not Path(config["liste_des_documents"]).exists():
         typer.echo(f"Aucun document de production : mettre les documents et leur liste ({config['liste_des_documents']}) "
-                   "dans documents_de_production/. Les documents de l'évaluation arrivent, eux, par l'endpoint « ingérer ».", err=True)
+                   "dans corpus_documentaire/. Les documents de l'évaluation arrivent, eux, par l'endpoint « ingérer ».", err=True)
         raise typer.Exit(1)
     resultat = construire_index(config, afficher=typer.echo)
     typer.echo(f"Index prêt : {resultat['chunks']} chunks, {resultat['pages']} pages, "

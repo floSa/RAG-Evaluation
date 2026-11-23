@@ -74,8 +74,8 @@ def test_section_trop_longue_recoupee():
     assert len(chunks) == 3 and [c["ordre"] for c in chunks] == [0, 1, 2]
 
 
-def test_liste_des_documents_de_production(tmp_path):
-    """En production, le RAG lit la liste exportée de la gestion documentaire, avec ses libellés."""
+def test_liste_du_corpus_documentaire(tmp_path):
+    """Hors évaluation, le RAG lit la liste exportée de la gestion documentaire, avec ses libellés."""
     liste = tmp_path / "liste_des_documents.csv"
     liste.write_text("reference;titre;type_document;version;format;droits_acces;fichier\n"
                      "NT-051;Relais;Note technique;v2;PDF natif;Maintenance;NT-051.pdf\n"

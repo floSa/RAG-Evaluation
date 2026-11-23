@@ -21,7 +21,7 @@ Le service d'évaluation appelle ces quatre adresses web, à http://127.0.0.1:81
 
 | Endpoint | Ce qu'il fait |
 | --- | --- |
-| ① `POST /ingerer` | reçoit les documents de l'évaluation, et les range à part de ceux de production |
+| ① `POST /ingerer` | reçoit les documents de l'évaluation, et les range à part de son propre corpus documentaire |
 | ② `GET /index` | rend la version exacte du RAG, ses morceaux de texte, les pages lues, et son graphe |
 | ③ `POST /rechercher` | pour une question, rend les k morceaux retrouvés |
 | ④ `POST /repondre` | pour une question, rend la réponse, ses sources, et s'il s'abstient |
@@ -34,7 +34,7 @@ Leur code est dans [`src/rag/endpoints_evaluation/`](src/rag/endpoints_evaluatio
 | --- | --- |
 | [`config/`](config/) | ses réglages : les modèles, le nombre de morceaux ramenés (k), le graphe activé ou non, l'adresse des endpoints |
 | [`src/rag/`](src/rag/) | son code : `pipeline/`, les six étapes du RAG ; `endpoints_evaluation/`, les quatre endpoints |
-| [`documents_de_production/`](documents_de_production/) | les documents qu'il servirait en production ; vide ici, car il ne sert qu'à être évalué |
+| [`corpus_documentaire/`](corpus_documentaire/) | ce que le RAG lit quand il sert ses utilisateurs : ici un dossier de fichiers, ailleurs une autre source (GED, base de données, application). Vide ici : le RAG d'exemple ne lit que ce que le service d'évaluation lui envoie |
 | [`documentation/`](documentation/) | comment il est construit, et les techniques d'un RAG |
 | [`tests/`](tests/) | les tests de son code |
 

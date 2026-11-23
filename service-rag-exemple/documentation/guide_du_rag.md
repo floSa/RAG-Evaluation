@@ -33,10 +33,10 @@ Le RAG range ses documents et son index dans deux espaces, qui ne se mélangent 
 
 | Espace | Ses documents | Son index |
 | --- | --- | --- |
-| production | ceux de `documents_de_production/`, avec leur liste exportée de la gestion documentaire | `sorties/production/` |
+| production | son corpus documentaire, dans `corpus_documentaire/`, avec la liste des documents exportée de la gestion documentaire | `sorties/production/` |
 | evaluation | ceux que le service d'évaluation envoie par l'endpoint « ingérer » | `sorties/evaluation/` |
 
-Dans le banc d'essai, le RAG d'exemple n'a pas de documents de production : il n'a que ceux de l'évaluation.
+Dans le banc d'essai, le corpus documentaire du RAG d'exemple est vide : il n'a que les documents de l'évaluation.
 
 ## S'en servir seul
 
@@ -154,7 +154,7 @@ Tout est dans [`config/config.yaml`](../config/config.yaml) ; seule la clé est 
 | `modeles.generation.sans_reflexion` | `false` | `true` : 9 fois plus rapide, moins juste sur les calculs |
 | `modeles.embeddings.modele` | `embed` (bge-m3) | les documents sont réindexés à la prochaine ingestion |
 | `recherche.k` | 5 | ou `RAG_K=3 docker compose up -d` (ou `--k 3` sur la ligne de commande) |
-| `documents` | `documents/`, vide | le dossier de vos documents de production |
+| `documents` | `corpus_documentaire/`, vide | le dossier du corpus documentaire que le RAG sert à ses utilisateurs |
 | `liste_des_documents` | `documents/liste_des_documents.csv` | l'export de votre gestion documentaire, avec les mêmes colonnes |
 | `graphe.actif` | `false` (RAG vectoriel) | `true`, ou `RAG_GRAPHE=true docker compose up -d` (RAG hybride) |
 | `graphe.ontologie` | `config/ontologie.ttl` | l'ontologie de votre domaine |
