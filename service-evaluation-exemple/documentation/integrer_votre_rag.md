@@ -168,7 +168,7 @@ On corrige les endpoints, on relance, jusqu'à « règle : respectée ».
 
 ## 3. Évaluer une configuration du RAG
 
-C'est vous qui lancez l'évaluation ; votre RAG n'a qu'à rester allumé.
+C'est vous qui lancez l'évaluation ; votre RAG n'a qu'à rester allumé. Quels réglages évaluer, et où ils se remplissent : [guide 0c](0c_configurations_du_rag.md).
 
 **Les configurations.** Une configuration, ce sont les réglages de votre RAG à un moment donné : k, modèles, prompt, découpage… Ils sont propres à chaque RAG et **se changent dans le RAG, jamais dans le service**. Le service les lit dans ce que le RAG déclare (endpoint ②), et nomme l'évaluation d'après eux. Pour tester une autre configuration : vous changez le réglage dans le RAG, vous le relancez, puis vous relancez `kit evaluer`. Un run = une configuration.
 

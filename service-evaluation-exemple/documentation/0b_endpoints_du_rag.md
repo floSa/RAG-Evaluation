@@ -112,4 +112,6 @@ uv run kit verifier-contrat <dossier>
 uv run kit evaluer --rag <dossier>
 ```
 
-**Étape suivante** : [1. Évaluation de l'ingestion](1_evaluation_ingestion.md).
+Retour au [fil conducteur](../../FIL_CONDUCTEUR.md#2-ouvrir-les-quatre-endpoints-du-rag-au-service), étape 2.
+
+**Étape suivante** : [0c. Les configurations du RAG](0c_configurations_du_rag.md).

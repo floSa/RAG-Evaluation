@@ -178,4 +178,6 @@ Deux évaluations ne se comparent que sur la même version du corpus : sinon, on
 
 Un passage garde son identifiant d'une version à l'autre tant que sa ligne ne change pas (voir [DECISIONS.md](../../DECISIONS.md), décision 1).
 
+Retour au [fil conducteur](../../FIL_CONDUCTEUR.md#1-construire-et-importer-le-corpus-dévaluation), étape 1.
+
 **Étape suivante** : [0b. Les endpoints du RAG](0b_endpoints_du_rag.md).

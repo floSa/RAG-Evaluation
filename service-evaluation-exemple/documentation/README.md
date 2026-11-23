@@ -7,6 +7,7 @@ Les guides se lisent dans l'ordre. Chacun dit ce qu'il faut faire, et, pour les 
 | [`integrer_votre_rag.md`](integrer_votre_rag.md) | **par où commencer** pour votre projet : les étapes, du corpus à la décision |
 | [`0a_construction_du_corpus.md`](0a_construction_du_corpus.md) | comment le métier annote le corpus, et comment l'importer |
 | [`0b_endpoints_du_rag.md`](0b_endpoints_du_rag.md) | les quatre endpoints que votre RAG doit ouvrir |
+| [`0c_configurations_du_rag.md`](0c_configurations_du_rag.md) | les réglages du RAG à évaluer, où ils se remplissent, et comment lancer l'évaluation |
 | [`1_evaluation_ingestion.md`](1_evaluation_ingestion.md) | évaluation 1 : rien ne s'est-il perdu quand le RAG a rangé les documents dans sa base ? |
 | [`2_evaluation_recherche.md`](2_evaluation_recherche.md) | évaluation 2 : la recherche ramène-t-elle les morceaux qui contiennent la réponse ? |
 | [`3_evaluation_reponse.md`](3_evaluation_reponse.md) | évaluation 3 : la réponse est-elle juste, fondée sur les documents ? |
