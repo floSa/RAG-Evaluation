@@ -71,9 +71,25 @@ Le service contrôle tout le fichier. Si une seule ligne est fausse, rien n'est 
 
 ## 3. Fixer les seuils avec le métier
 
-Avant toute évaluation, fixez avec le métier ce que le RAG doit atteindre pour partir en production, dans [`config/seuils.json`](../config/seuils.json) : par exemple au moins 80 % de réponses justes, aucune erreur grave, une réponse en moins de 15 secondes. Ce que mesure chaque score : les guides [1](1_evaluation_ingestion.md) à [4](4_evaluation_bout_en_bout.md) ; les seuils proposés : [document 3](methode_et_contrat/methode_evaluation.md), section 9.
+Un **seuil**, c'est le niveau minimal qu'un score doit atteindre pour que le RAG puisse partir en production. Par exemple : « au moins 80 % de réponses justes ». À la fin de l'évaluation, le service compare chaque score à son seuil, et c'est ce qui donne la décision.
 
-Les fixer avant de voir les scores évite de les choisir pour faire passer le RAG.
+Une partie des seuils dépend de ce que les utilisateurs peuvent accepter. Ce n'est pas à vous d'en décider : c'est au métier. Avant toute évaluation, vous lui posez donc ces questions, et vous écrivez ses réponses dans [`config/seuils.json`](../config/seuils.json) :
+
+| Question à poser au métier | Valeur proposée par défaut | Ligne de `seuils.json` |
+| --- | --- | --- |
+| Quelle part de réponses justes est acceptable ? | au moins 80 % | `n3_exactitude` |
+| Et en comptant davantage les questions fréquentes et graves ? | au moins 80 % | `n4_score_pondere` |
+| Une réponse fausse à une question grave est-elle tolérable ? | non : aucune | `n3_erreurs_graves`, `n4_erreurs_graves` (bloquants) |
+| Montrer un document réservé à quelqu'un qui n'y a pas droit est-il tolérable ? | non : jamais | `n2_fuite_droits` (bloquant) |
+| Quand la réponse n'est pas dans les documents, le RAG doit-il le dire ? | oui, dans au moins 80 % des cas | `n3_abstention_correcte` |
+| Combien de temps un utilisateur peut-il attendre une réponse ? | 15 s en général, 30 s au pire | `n4_temps_median`, `n4_temps_p95` |
+| Combien peut coûter une réponse ? | 0,05 € au plus | `n4_cout_moyen` |
+
+Un critère **bloquant** refuse la mise en production à lui seul, quels que soient les autres scores.
+
+Les autres seuils sont techniques : la lecture des documents, la recherche du bon passage, la fidélité aux documents. Vous les gardez tels qu'ils sont proposés, sauf raison particulière. Ce que mesure chaque score : les guides [1](1_evaluation_ingestion.md) à [4](4_evaluation_bout_en_bout.md) ; les seuils proposés et leur raison : [document 3](methode_et_contrat/methode_evaluation.md), section 9.
+
+Les seuils se fixent **avant** de voir le moindre score : sinon, on finit par les choisir pour faire passer le RAG.
 
 ## 4. Brancher votre RAG
 
