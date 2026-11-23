@@ -131,3 +131,23 @@ def test_evaluation_complete(ev, monkeypatch):
     assert next(c for c in croisement if c["question_id"] == "Q-002")["diagnostic"] == \
         "génération : le bon chunk était retrouvé (abstention à tort)"
     assert sum(1 for f in file if f["motif"] == "tirée au hasard") == 10
+
+
+def test_fichier_de_verification_du_juge(tmp_path):
+    # Le métier note dans un fichier Excel : ce que le service écrit, il le relit, et repère les lignes sans note
+    from kit.etape_3_evaluation_reponse import fichier_metier
+
+    chemin = tmp_path / "verification_juge.xlsx"
+    question = {"question": "Durée de consignation ?", "reponse_attendue": "20 minutes",
+                "points_cles": [{"texte": "20 minutes", "valeur": 20, "unite": "minutes", "tolerance": 0}]}
+    fichier_metier.ecrire(chemin, [
+        {"question_id": "Q-001", "question": question["question"], "reponse_attendue": "20 minutes",
+         "points_cles": fichier_metier.points_cles(question), "reponse_rag": "Environ 20 minutes."},
+        {"question_id": "Q-002", "question": "…", "reponse_attendue": "…", "points_cles": "1. …", "reponse_rag": "…"}])
+    import openpyxl
+    classeur = openpyxl.load_workbook(chemin)
+    f = classeur[fichier_metier.FEUILLE]
+    assert f["D2"].value == "1. 20 minutes" and f["F1"].value == "Votre note"
+    f["F2"], f["G2"] = "Juste", "conforme"
+    classeur.save(chemin)
+    assert fichier_metier.lire(chemin) == ({"Q-001": "juste"}, {"Q-001": "conforme"}, ["Q-002"])

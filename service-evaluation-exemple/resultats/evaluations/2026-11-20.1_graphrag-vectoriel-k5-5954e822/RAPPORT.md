@@ -2,7 +2,9 @@
 
 Ce rapport donne les scores d'**une configuration** du RAG sur le corpus du métier. Il ne décide pas : c'est au métier de dire, à leur lecture, si cette configuration peut partir en production.
 
-Corpus : version 2026-11-20.1, 60 questions, dont 20 réservées aux scores clés. Juge : chat, prompt 1.0.
+Corpus : version 2026-11-20.1, 60 questions, dont 20 réservées aux scores clés.
+
+Juge (le modèle qui note les réponses) : chat, prompt 1.0 ; **non validé** : il donne la même note que le métier dans 89 % des cas, il en faut 90 %. Le score « Réponses justes » est à prendre avec prudence.
 
 ## La configuration évaluée
 

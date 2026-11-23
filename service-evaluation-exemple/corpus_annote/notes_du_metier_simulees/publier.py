@@ -1,12 +1,14 @@
-"""Inscrit dans Langfuse la relecture simulée du métier, pour le banc d'essai.
+"""Inscrit la relecture simulée du métier, pour le banc d'essai.
 
-Dans un vrai projet, le métier note lui-même dans Langfuse (Annotation Queues). Ici, le corpus et l'entreprise sont
-fictifs : Claude a joué le rôle du métier, et ses notes sont écrites dans deux fichiers de ce dossier, avec leur raison :
-- verdicts_metier.json : les réponses de la file « verification-juge », notées juste, partielle ou fausse ;
-- justesse_graphe.json : les relations de la file « justesse-graphe », jugées juste ou fausse.
-Ce script crée les mêmes scores que le métier créerait dans l'interface (verdict_metier, justesse_relation).
+Dans un vrai projet, le métier note lui-même : les réponses du RAG dans le fichier Excel verification_juge.xlsx, et les
+relations du graphe dans Langfuse. Ici, le corpus et l'entreprise sont fictifs : Claude a joué le rôle du métier, et ses
+notes sont écrites dans deux fichiers de ce dossier, avec leur raison :
+- verdicts_metier.json : les réponses à noter pour vérifier le juge, notées juste, partielle ou fausse ; ce script les
+  écrit dans le fichier verification_juge.xlsx, comme le métier l'aurait rempli ;
+- justesse_graphe.json : les relations de la file « justesse-graphe », jugées juste ou fausse ; ce script crée les
+  scores que le métier créerait dans Langfuse (justesse_relation).
 
-Usage, depuis service-evaluation/, après « kit verifier-juge --envoyer » et « kit verifier-graphe --envoyer » :
+Usage, depuis service-evaluation/, après « kit verifier-juge --preparer » et « kit verifier-graphe --envoyer » :
     uv run python ../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py
 puis « kit verifier-juge » et « kit verifier-graphe » calculent l'accord du juge et la justesse du graphe.
 
@@ -17,13 +19,15 @@ si votre RAG a répondu autrement, certaines notes ne vont plus avec la réponse
 
 import argparse
 
+import openpyxl
+
 import json
 from pathlib import Path
 
 from kit.commandes import le_plus_recent
 from kit.config import charger_config, client_langfuse
 from kit.etape_1_evaluation_ingestion import graphe
-from kit.etape_3_evaluation_reponse import relecture
+from kit.etape_3_evaluation_reponse import fichier_metier
 from kit.etape_5_resultats import publication
 
 ICI = Path(__file__).resolve().parent
@@ -47,21 +51,31 @@ def main() -> None:
     options.add_argument("--rag-graphe", help="la sortie du RAG (hybride) dont les relations sont jugées")
     arguments = options.parse_args()
     config = charger_config(Path(arguments.dossier) / "config" / "kit.yaml")
-    langfuse = client_langfuse(config)
     corpus = Path(arguments.corpus) if arguments.corpus else le_plus_recent(config, "corpus")
 
-    # 1. Les réponses notées pour vérifier le juge
+    # 1. Les réponses notées pour vérifier le juge : écrites dans le fichier Excel, comme le métier l'aurait rempli
     notes = json.loads((ICI / "verdicts_metier.json").read_text(encoding="utf-8"))
     ev = publication.Evaluation(config, corpus, dossier_rag(arguments.rag_juge, notes, config))
-    traces = publication.experience_langfuse(ev, langfuse)["traces"]
-    config_verdict = relecture.config_verdict(langfuse)
-    for q, n in notes["verdicts"].items():
-        langfuse.create_score(trace_id=traces[q], name=relecture.CONFIG_VERDICT, value=n["verdict"],
-                              data_type="CATEGORICAL", config_id=config_verdict, comment=COMMENTAIRE + n["raison"],
-                              score_id=f"simule-verdict-{ev.evaluation_id}-{q}"[:200])
-    print(f"verification-juge : {len(notes['verdicts'])} verdicts inscrits.")
+    fichier = ev.dossier / "verification_juge.xlsx"
+    if not fichier.exists():
+        raise SystemExit(f"{fichier} n'existe pas : lancer d'abord « kit verifier-juge --preparer ».")
+    classeur = openpyxl.load_workbook(fichier)
+    feuille = classeur[fichier_metier.FEUILLE]
+    notees = 0
+    for ligne in feuille.iter_rows(min_row=2):
+        n = notes["verdicts"].get(ligne[0].value)
+        if n:
+            ligne[5].value, ligne[6].value = n["verdict"], COMMENTAIRE + n["raison"]
+            notees += 1
+    classeur.save(fichier)
+    print(f"verification_juge.xlsx : {notees} réponses notées.")
 
     # 2. Les relations du graphe, jugées d'après leur passage source
+    try:
+        langfuse = client_langfuse(config)
+    except RuntimeError as erreur:      # sans Langfuse, seule la vérification du juge est faite
+        print(f"justesse-graphe : ignorée ({erreur})")
+        return
     notes = json.loads((ICI / "justesse_graphe.json").read_text(encoding="utf-8"))
     ev = publication.Evaluation(config, corpus, dossier_rag(arguments.rag_graphe, notes, config))
     envoyees = json.loads((ev.dossier / graphe.ECHANTILLON).read_text(encoding="utf-8"))

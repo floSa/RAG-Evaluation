@@ -185,6 +185,33 @@ def valeur_reglage(v) -> str:
     return {True: "oui", False: "non"}.get(v, str(v)) if isinstance(v, bool) else str(v)
 
 
+def etat_juge(ev: Evaluation) -> str:
+    """Peut-on croire le juge ? D'après la vérification par le métier (kit verifier-juge), s'il y en a une.
+
+    Le juge est le même pour toutes les configurations : une vérification vaut pour toute évaluation notée par le même
+    modèle juge, avec la même version de son prompt.
+    """
+    import json
+
+    juge = ev.config["modeles"]["juge"]
+    meme_juge = {"modele": juge["modele"], "version_prompt": juge["version_prompt"]}
+    candidats = [ev.fichiers / "verification_juge_resultat.json"] + sorted(
+        (ev.dossier.parent).glob("*/fichiers_techniques/verification_juge_resultat.json"))
+    chemin = next((c for c in candidats if c.exists() and
+                   json.loads(c.read_text(encoding="utf-8")).get("juge", meme_juge) == meme_juge), None)
+    if chemin is None:
+        return ("**pas encore vérifié** : le score « Réponses justes » n'est pas fiable tant que le métier n'a pas "
+                "vérifié le juge")
+    r = json.loads(chemin.read_text(encoding="utf-8"))
+    if r.get("accord") is None:
+        return "**pas encore vérifié** : le métier n'a noté aucune réponse"
+    accord, minimum = nombre(r["accord"] * 100), nombre(r.get("accord_minimum", 0.9) * 100)
+    if r.get("valide"):
+        return f"**validé** : il donne la même note que le métier dans {accord} % des cas (il en faut {minimum} %)"
+    return (f"**non validé** : il donne la même note que le métier dans {accord} % des cas, il en faut {minimum} %. "
+            f"Le score « Réponses justes » est à prendre avec prudence")
+
+
 # --- Le contenu, commun aux deux rapports ------------------------------------------------------
 
 def questions_a_voir(ev: Evaluation, lignes_base) -> list[tuple]:
@@ -266,6 +293,7 @@ def contenu(ev: Evaluation, resultat: dict, lignes_base) -> dict:
         "questions": len(ev.questions),
         "reservees": sum(q["reservee_decision"] for q in ev.questions.values()),
         "juge": f"{ev.config['modeles']['juge']['modele']}, prompt {ev.config['modeles']['juge']['version_prompt']}",
+        "etat_juge": etat_juge(ev),
         "cles": cles,
         "niveaux": niveaux,
         "a_voir": [(qid, ev.questions[qid]["question"], quoi, (detail or "")[:400])
@@ -294,7 +322,7 @@ def markdown(c: dict) -> str:
          "Ce rapport donne les scores d'**une configuration** du RAG sur le corpus du métier. Il ne décide pas : "
          "c'est au métier de dire, à leur lecture, si cette configuration peut partir en production.", "",
          f"Corpus : version {c['corpus']}, {c['questions']} questions, dont {c['reservees']} réservées aux scores "
-         f"clés. Juge : {c['juge']}.", "",
+         f"clés.", "", f"Juge (le modèle qui note les réponses) : {c['juge']} ; {c.get('etat_juge', '')}.", "",
          "## La configuration évaluée", "",
          "Les réglages du RAG pendant cette évaluation, tels qu'il les a déclarés.", "",
          *tableau(["Réglage", "Valeur"], c.get("reglages") or [["Configuration", c["configuration"]]]), "",
@@ -359,7 +387,8 @@ def page_html(c: dict) -> str:
          "<p>Ce rapport donne les scores d'<b>une configuration</b> du RAG sur le corpus du métier. Il ne décide pas : "
          "c'est au métier de dire, à leur lecture, si cette configuration peut partir en production.</p>",
          f"<p>Corpus : version {e(c['corpus'])}, {c['questions']} questions, dont {c['reservees']} réservées aux "
-         f"scores clés. Juge : {e(c['juge'])}.</p><h2>La configuration évaluée</h2>",
+         f"scores clés.</p><p>Juge (le modèle qui note les réponses) : {e(c['juge'])} ; "
+         f"{e(c.get('etat_juge', '').replace('**', ''))}.</p><h2>La configuration évaluée</h2>",
          table_html(["Réglage", "Valeur"], c.get("reglages") or [["Configuration", c["configuration"]]]),
          f"<h2>1. Les scores clés</h2><p><small>Calculés sur les {c['reservees']} questions réservées ; fuites de "
          f"droits et erreurs graves sur toutes les questions. Entre parenthèses, la fourchette où se trouve le vrai "
