@@ -10,4 +10,4 @@ Le kit écrit ici tout ce qu'il produit. Le dossier est **vide dans le dépôt**
 | `comparaisons/<A>_contre_<B>/` | la comparaison de **deux configurations** déjà évaluées : `RAPPORT.md` et `comparaison.json` | `kit comparer` |
 | `base.sqlite` | la base : tout, y compris le détail des questions réservées | `kit init-base`, puis chaque commande |
 
-Pour voir des résultats sans rien lancer : [les résultats de l'évaluation d'exemple](../resultats_exemple/README.md).
+Pour voir des résultats sans rien lancer : [les résultats d'exemple](../resultats_exemple/README.md).
