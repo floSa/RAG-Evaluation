@@ -2,7 +2,7 @@
 # Aucune clé ici : elles sont lues dans .env.
 # Changer de fournisseur = changer « adresse » et les noms de modèles, sans toucher au code.
 
-nom: graphrag                       # la version évaluée s'appelle graphrag-<vectoriel|hybride>-k<k>-<empreinte>
+nom: graphrag                       # la version évaluée s'appelle graphrag-vectoriel-k<k>-<empreinte>
 
 # Le corpus documentaire que le RAG sert à ses utilisateurs, et la liste des documents avec leurs métadonnées (référence, version, format, droits d'accès),
 # telle que l'exporte la gestion documentaire. Vide dans le banc d'essai : le RAG n'a que les documents
@@ -30,12 +30,6 @@ modeles:
     prix_sortie_eur_par_million: 0
   embeddings:
     modele: embed
-
-graphe:                             # étape 4 du RAG, optionnelle : sans elle, le RAG est vectoriel ; avec, hybride
-  actif: false                      # ou --graphe sur la ligne de commande
-  ontologie: config/ontologie.ttl   # l'ontologie du domaine, qui contraint l'extraction du graphe
-  appels_paralleles: 4              # appels simultanés au modèle pendant l'extraction
-  sans_reflexion: true              # chat_template_kwargs.enable_thinking = false (2 à 3 fois plus rapide)
 
 endpoints_evaluation:                   # les endpoints ouverts au service d'évaluation (src/rag/endpoints_evaluation/)
   hote: 127.0.0.1

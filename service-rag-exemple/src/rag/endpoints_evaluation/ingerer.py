@@ -38,7 +38,7 @@ def ingerer(config: dict, documents: list[dict], afficher=print) -> dict:
 
     # Mêmes documents, mêmes réglages : l'index est déjà là
     empreinte = hashlib.sha256(json.dumps(
-        [documents, config["graphe"]["actif"], config["modeles"]["embeddings"]["modele"]],
+        [documents, config["modeles"]["embeddings"]["modele"]],
         sort_keys=True).encode()).hexdigest()
     deja = travail / "ingestion.json"
     if deja.exists() and json.loads(deja.read_text(encoding="utf-8"))["empreinte"] == empreinte:

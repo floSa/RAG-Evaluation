@@ -6,14 +6,13 @@ Il est volontairement minimal : le sujet du dépôt est l'évaluation, et ses d�
 
 ## Ce qu'il fait
 
-Un RAG répond à des questions en s'appuyant sur des documents. Celui-ci le fait en six étapes :
+Un RAG répond à des questions en s'appuyant sur des documents. Celui-ci le fait en cinq étapes :
 
 1. **Lire** les documents, y compris les pages scannées et les tableaux, avec Docling.
 2. **Découper** chaque document en morceaux de texte (les *chunks*), section par section.
-3. **Ranger** ces morceaux dans une base vectorielle : chacun est transformé en vecteur, qui représente son sens.
-4. **Construire un graphe**, s'il est activé : les liens entre équipements, sites et personnes, extraits des documents.
-5. **Rechercher**, pour une question, les k morceaux les plus proches : par le sens et par les mots, en écartant les documents que la personne n'a pas le droit de voir.
-6. **Répondre** : un modèle de langage écrit la réponse à partir de ces morceaux, cite ses sources, et dit « je ne sais pas » si les morceaux ne suffisent pas.
+3. **Rendre ces morceaux cherchables** : chacun est transformé en vecteur, qui représente son sens, et ses mots sont indexés.
+4. **Rechercher**, pour une question, les k morceaux les plus proches : par le sens et par les mots, en écartant les documents que la personne n'a pas le droit de voir.
+5. **Répondre** : un modèle de langage écrit la réponse à partir de ces morceaux, cite ses sources, et dit « je ne sais pas » si les morceaux ne suffisent pas.
 
 ## Ses quatre endpoints d'évaluation
 
@@ -22,7 +21,7 @@ Le service d'évaluation appelle ces quatre adresses web, à http://127.0.0.1:81
 | Endpoint | Ce qu'il fait |
 | --- | --- |
 | ① `POST /ingerer` | reçoit les documents de l'évaluation, et les range à part de son propre corpus documentaire |
-| ② `GET /index` | rend la version exacte du RAG, ses morceaux de texte, les pages lues, et son graphe |
+| ② `GET /index` | rend la version exacte du RAG, ses morceaux de texte, et les pages lues |
 | ③ `POST /rechercher` | pour une question, rend les k morceaux retrouvés |
 | ④ `POST /repondre` | pour une question, rend la réponse, ses sources, et s'il s'abstient |
 
@@ -32,7 +31,7 @@ Leur code est dans [`src/rag/endpoints_evaluation/`](src/rag/endpoints_evaluatio
 
 | Dossier | À quoi il sert |
 | --- | --- |
-| [`config/`](config/) | ses réglages : les modèles, le nombre de morceaux ramenés (k), le graphe activé ou non, l'adresse des endpoints |
+| [`config/`](config/) | ses réglages : les modèles, le nombre de morceaux ramenés (k), l'adresse des endpoints |
 | [`src/rag/`](src/rag/) | son code : `pipeline/`, les six étapes du RAG ; `endpoints_evaluation/`, les quatre endpoints |
 | [`corpus_documentaire/`](corpus_documentaire/) | ce que le RAG lit quand il sert ses utilisateurs : ici un dossier de fichiers, ailleurs une autre source (GED, base de données, application). Vide ici : le RAG d'exemple ne lit que ce que le service d'évaluation lui envoie |
 | [`documentation/`](documentation/) | comment il est construit, et les techniques d'un RAG |
@@ -69,7 +68,6 @@ Une configuration, c'est le RAG avec tous ses réglages fixés. Pour en évaluer
 | Pour… | Commande |
 | --- | --- |
 | ramener 3 morceaux par question au lieu de 5 | `RAG_K=3 docker compose up -d` |
-| ajouter le graphe (le RAG devient « hybride ») | `RAG_GRAPHE=true docker compose up -d` |
 | revenir à la configuration de référence | `docker compose up -d` |
 
 Les autres réglages sont dans [`config/config.yaml`](config/config.yaml) ; après un changement : `docker compose restart rag`.
@@ -90,7 +88,7 @@ Avec `--profil maintenance`, la question est posée par un utilisateur du profil
 docker compose down
 ```
 
-Sa base vectorielle reste dans `sorties/`, un dossier de travail non versionné.
+Son index (les vecteurs et les mots de chaque morceau) reste dans `sorties/`, un dossier de travail non versionné.
 
 ## Tests
 

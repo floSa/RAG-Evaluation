@@ -7,7 +7,7 @@ from rag import assistant as module_assistant
 from rag.endpoints_evaluation.montrer_index import decrire, montrer_index
 from rag.endpoints_evaluation.rechercher import rechercher
 from rag.endpoints_evaluation.repondre import repondre
-from rag.pipeline import etape_5_recherche, etape_6_generation
+from rag.pipeline import etape_4_recherche, etape_5_generation
 from rag.pipeline.etape_3_index import Index, mots
 
 CHUNKS = [
@@ -32,8 +32,8 @@ def faux_assistant(monkeypatch, reponse: str, k: int = 2) -> module_assistant.As
                                            "prix_sortie_eur_par_million": 2.0}}}
     a.index = Index(CHUNKS, [], np.eye(3, dtype=np.float32), BM25Okapi([mots(c["texte"]) for c in CHUNKS]))
     a.client, a.langfuse = None, None
-    monkeypatch.setattr(etape_5_recherche, "embeddings", lambda client, modele, textes: np.array([[0.2, 1.0, 0.1]]))
-    monkeypatch.setattr(etape_6_generation, "generer", lambda *args, **kwargs: (reponse, (1000, 500)))
+    monkeypatch.setattr(etape_4_recherche, "embeddings", lambda client, modele, textes: np.array([[0.2, 1.0, 0.1]]))
+    monkeypatch.setattr(etape_5_generation, "generer", lambda *args, **kwargs: (reponse, (1000, 500)))
     return a
 
 
@@ -47,7 +47,7 @@ def test_filtre_des_droits_pendant_la_recherche(monkeypatch):
 
 
 def test_citations():
-    assert etape_6_generation.citations("20 minutes [1], 72 A [2, 9], et [1][3].", 3) == [1, 2, 3]  # [9] n'existe pas
+    assert etape_5_generation.citations("20 minutes [1], 72 A [2, 9], et [1][3].", 3) == [1, 2, 3]  # [9] n'existe pas
 
 
 def test_porte_repondre(monkeypatch):
@@ -66,7 +66,7 @@ def test_porte_rechercher(monkeypatch):
 
 
 def test_abstention(monkeypatch):
-    rep = repondre(faux_assistant(monkeypatch, f"« {etape_6_generation.ABSTENTION} »"), "budget 2027 ?", "tous", [])
+    rep = repondre(faux_assistant(monkeypatch, f"« {etape_5_generation.ABSTENTION} »"), "budget 2027 ?", "tous", [])
     assert rep["abstention"] is True and rep["chunks_cites"] == []
 
 
@@ -96,6 +96,6 @@ def test_generation_sans_reflexion():
     for sans_reflexion, attendu in ((True, {"chat_template_kwargs": {"enable_thinking": False}}), (False, None)):
         config = {"modeles": {"generation": {"modele": "g", "temperature": 0, "max_tokens": 800,
                                              "sans_reflexion": sans_reflexion}}}
-        reponse, _ = etape_6_generation.generer(client, config, "réglage ?", [], CHUNKS[1:2])
+        reponse, _ = etape_5_generation.generer(client, config, "réglage ?", [], CHUNKS[1:2])
         assert reponse == "Le relais est réglé à 72 A [1]."
         assert appels[-1]["extra_body"] == attendu

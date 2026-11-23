@@ -1,6 +1,6 @@
 """L'assistant : il enchaîne les étapes du pipeline pour répondre à une question.
 
-    rag indexer   →  étapes 1, 2, 3, et 4 si le graphe est actif       : pipeline/etape_3_index.construire
+    rag indexer   →  étapes 1, 2 et 3                                 : pipeline/etape_3_index.construire
     rag demander  →  étape 5 (recherche) puis étape 6 (génération)       : Assistant.demander
 
 Il lit sa configuration dans config/config.yaml et ses clés dans .env. Il marche seul : il ne sait rien de l'évaluation.
@@ -20,16 +20,16 @@ import yaml
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from rag.pipeline import etape_3_index, etape_5_recherche, etape_6_generation
+from rag.pipeline import etape_3_index, etape_4_recherche, etape_5_generation
 
 CONFIG = Path(__file__).resolve().parents[2] / "config" / "config.yaml"  # service-rag-exemple/config/config.yaml
 
 
 def charger_config(chemin: Path = CONFIG) -> dict:
-    """Lit config.yaml ; RAG_K et RAG_GRAPHE, s'ils sont définis, remplacent k et le graphe (lancer une autre version)."""
+    """Lit config.yaml ; RAG_K, s'il est défini, remplace k (lancer une autre version)."""
     load_dotenv()
     config = yaml.safe_load(Path(chemin).read_text(encoding="utf-8"))
-    return regler(config, os.environ.get("RAG_K") or None, os.environ.get("RAG_GRAPHE") or None)
+    return regler(config, os.environ.get("RAG_K") or None)
 
 
 def dans_l_espace(config: dict, espace: str) -> dict:
@@ -54,17 +54,10 @@ def client_langfuse(config: dict):
                     secret_key=os.environ[lf["variable_cle_secrete"]], base_url=os.environ[lf["variable_adresse"]])
 
 
-def oui(valeur) -> bool:
-    """true, oui, 1 → vrai : un réglage peut venir de la ligne de commande sous forme de texte."""
-    return str(valeur).strip().lower() in ("true", "oui", "1", "yes")
-
-
-def regler(config: dict, k: int | None = None, graphe=None) -> dict:
-    """Applique les réglages donnés en plus de config.yaml (ligne de commande, variables RAG_K et RAG_GRAPHE)."""
+def regler(config: dict, k: int | None = None) -> dict:
+    """Applique les réglages donnés en plus de config.yaml (ligne de commande, variable RAG_K)."""
     if k is not None:
         config["recherche"]["k"] = int(k)
-    if graphe is not None:
-        config["graphe"]["actif"] = oui(graphe)
     return config
 
 
@@ -74,8 +67,8 @@ def indexer(config: dict, afficher=print, documents: list[dict] | None = None) -
 
 
 class Assistant:
-    def __init__(self, config: dict | None = None, k: int | None = None, graphe=None, espace: str = "production"):
-        self.config = dans_l_espace(regler(config or charger_config(), k, graphe), espace)
+    def __init__(self, config: dict | None = None, k: int | None = None, espace: str = "production"):
+        self.config = dans_l_espace(regler(config or charger_config(), k), espace)
         self.index = etape_3_index.charger(self.config)
         self.client = client_llm(self.config)
         self.langfuse = client_langfuse(self.config)
@@ -86,7 +79,7 @@ class Assistant:
 
     def rechercher(self, question: str, profil: str, historique: list[dict]) -> list[dict]:
         """Étape 5 seule : les k meilleurs chunks que le profil a le droit de voir."""
-        return etape_5_recherche.rechercher(self.index, self.client, self.config, question, profil, historique)
+        return etape_4_recherche.rechercher(self.index, self.client, self.config, question, profil, historique)
 
     def demander(self, question: str, profil: str = "tous", historique: list[dict] | None = None) -> dict:
         """Étapes 5 et 6 : rend la réponse, les extraits donnés au modèle, ceux qu'il cite, les temps et les tokens."""
@@ -104,12 +97,12 @@ class Assistant:
                         output=[{"chunk_id": t["chunk"]["chunk_id"], "rang": t["rang"], "score": t["score"]}
                                 for t in trouves]):
                     pass
-            reponse, tokens = etape_6_generation.generer(self.client, self.config, question, historique, contexte,
+            reponse, tokens = etape_5_generation.generer(self.client, self.config, question, historique, contexte,
                                                           self.langfuse)
-            cites = [contexte[n - 1] for n in etape_6_generation.citations(reponse, len(contexte))]
+            cites = [contexte[n - 1] for n in etape_5_generation.citations(reponse, len(contexte))]
             if span:
                 span.update(output={"reponse": reponse, "chunks_cites": [c["chunk_id"] for c in cites]})
             trace_id = self.langfuse.get_current_trace_id() if span else None
-        return {"reponse": reponse, "abstention": etape_6_generation.est_abstention(reponse),
+        return {"reponse": reponse, "abstention": etape_5_generation.est_abstention(reponse),
                 "recherche": trouves, "contexte": contexte, "cites": cites, "duree_recherche_ms": duree_recherche,
                 "duree_ms": round((time.perf_counter() - debut) * 1000), "tokens": tokens, "trace_id": trace_id}

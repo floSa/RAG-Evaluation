@@ -4,18 +4,16 @@ Ce service contient **un RAG simple et complet**, qui marche seul sur n'importe 
 
 ```mermaid
 flowchart LR
-    D["Documents<br/>PDF natifs, scannés,<br/>fiches de base"] --> E1["<b>1. Extraction</b><br/>lire le texte<br/>page par page"]
+    D["Documents<br/>PDF natifs, scannés,<br/>fiches de GED"] --> E1["<b>1. Extraction</b><br/>lire le texte<br/>page par page"]
     E1 --> E2["<b>2. Découpage</b><br/>des chunks qui<br/>gardent leurs<br/>métadonnées"]
     E2 --> E3["<b>3. Index</b><br/>sens (vecteurs)<br/>et mots (BM25)"]
-    E2 -.-> E4["<b>4. Graphe</b><br/>(optionnel)<br/>entités et relations<br/>contraintes par<br/>l'ontologie"]
-    Q["Question<br/>+ profil"] --> E5["<b>5. Recherche</b><br/>k meilleurs chunks<br/>autorisés au profil"]
-    E3 --> E5
-    E4 -.-> E5
-    E5 --> E6["<b>6. Génération</b><br/>réponse citée,<br/>ou abstention"]
-    E6 --> R["Réponse<br/>+ sources"]
+    Q["Question<br/>+ profil"] --> E4["<b>4. Recherche</b><br/>k meilleurs chunks<br/>autorisés au profil"]
+    E3 --> E4
+    E4 --> E5["<b>5. Génération</b><br/>réponse citée,<br/>ou abstention"]
+    E5 --> R["Réponse<br/>+ sources"]
 ```
 
-Le graphe (étape 4 du RAG) est **optionnel**. Sans lui, le RAG est **vectoriel** ; avec lui, il est **hybride** : il cherche à la fois dans les chunks de texte et dans le graphe. On l'allume dans `config/config.yaml` (`graphe.actif`), ou en lançant le service avec `RAG_GRAPHE=true`, sans rien changer d'autre.
+Il cherche les morceaux de texte de deux façons, par le sens (les vecteurs) et par les mots (BM25). Il n'a pas de graphe de connaissances. Ce que l'évaluation pourrait mesurer d'un RAG qui en a un : [Pour aller plus loin : les cas particuliers](../../service-evaluation/documentation/cas_particuliers.md#1-un-rag-avec-un-graphe-de-connaissances).
 
 ## Les fichiers
 
@@ -108,35 +106,11 @@ Chaque chunk garde **la référence du document, sa version, sa page, son type d
 
 Rendre les chunks cherchables de deux façons : par le **sens** (un vecteur par chunk, modèle d'embeddings) et par les **mots** (BM25). Les vecteurs sont gardés dans un fichier, pas dans une base vectorielle : quelques milliers de chunks tiennent en mémoire. L'index est écrit dans `sorties/<espace>/index/`.
 
-### 4. Graphe, optionnel — [`pipeline/etape_4_graphe.py`](../src/rag/pipeline/etape_4_graphe.py)
+### 4. Recherche — [`pipeline/etape_4_recherche.py`](../src/rag/pipeline/etape_4_recherche.py)
 
-Relier les équipements, les sites et les personnes cités dans les documents, pour répondre aux questions qui demandent de suivre des liens (« qu'est-ce que le groupe GE-A secourt ? ») ou de faire une liste.
+Trouver les k chunks les plus utiles. Deux recherches, par le sens et par les mots, fusionnées par rang : un chunk bien classé par les deux remonte en tête. **Le filtre des droits s'applique pendant la recherche** : un chunk interdit au profil n'est jamais classé, donc jamais montré au modèle. Pour une question de suite, on cherche avec la question précédente et la nouvelle.
 
-```mermaid
-flowchart LR
-    O["<b>Ontologie</b><br/>3 classes, 5 relations"] --> L
-    P["Une page<br/>(un champ, pour une fiche)"] --> L["<b>Modèle de langage</b><br/>entités et relations<br/>de la page"]
-    L --> C{"Contrainte :<br/>classe ou relation<br/>inconnue → écartée"}
-    C --> G["<b>graphe.ttl</b><br/>chaque nœud, chaque relation<br/>avec sa provenance<br/>(document, page)"]
-    C --> N["<b>Éléments « noeud »</b><br/>dans l'index, avec les<br/>métadonnées de la page"]
-```
-
-| Quoi | Comment |
-| --- | --- |
-| L'ontologie | [`config/ontologie.ttl`](../config/ontologie.ttl) : les classes Site, Equipement, Personne ; les relations situeSur, alimente, secourt, protege, intervientSur. C'est l'ontologie du domaine : le service d'évaluation en a la même, et contrôle le graphe avec ses règles (`ontologie_formes.ttl`) |
-| L'extraction | le modèle de génération lit chaque page, avec l'ontologie et un exemple dans sa consigne. Ce qui n'est pas dans l'ontologie est écarté. Les entités de même nom (« TGBT-A », « TGBT A ») sont fusionnées. Les réponses sont gardées en cache dans `sorties/<espace>/graphe/` |
-| La provenance | chaque nœud et chaque relation (réifiée en RDF) porte `kit:referenceSource` et `kit:page`, comme le demande le contrat |
-| Dans l'index | pour chaque entité et chaque page, un élément « noeud » qui résume ses relations : « GE-A (Equipement) : GE-A secourt TGBT-A ; GE-A est situé sur Site A. » Il porte la référence, la version, la page et les droits de la page : il est filtré et cité exactement comme un chunk |
-
-Pour l'allumer, on relance le service avec `RAG_GRAPHE=true docker compose up -d` : à la prochaine ingestion, le RAG construit son graphe.
-
-Sur le corpus d'exemple : 367 pages lues en 3 minutes environ (4 appels en parallèle), 377 relations, 525 éléments ajoutés à l'index. Le graphe est écrit à part (`sorties/<espace>/graphe/`) : on passe du RAG vectoriel au RAG hybride sans tout réindexer.
-
-### 5. Recherche — [`pipeline/etape_5_recherche.py`](../src/rag/pipeline/etape_5_recherche.py)
-
-Trouver les k chunks les plus utiles. Deux recherches, par le sens et par les mots, fusionnées par rang : un chunk bien classé par les deux remonte en tête. Avec le graphe, une troisième recherche classe les éléments des **entités nommées dans la question** (« GE-A », « TGBT-B »), celles qui ont le plus de relations en tête ; elle entre dans la même fusion. **Le filtre des droits s'applique pendant la recherche** : un chunk interdit au profil n'est jamais classé, donc jamais montré au modèle. Pour une question de suite, on cherche avec la question précédente et la nouvelle.
-
-### 6. Génération — [`pipeline/etape_6_generation.py`](../src/rag/pipeline/etape_6_generation.py)
+### 5. Génération — [`pipeline/etape_5_generation.py`](../src/rag/pipeline/etape_5_generation.py)
 
 Rédiger la réponse à partir des chunks retrouvés, et d'eux seuls. Chaque phrase cite son extrait, [1], [2]… Si les extraits ne suffisent pas, le modèle répond une phrase fixe, « Je ne trouve pas cette information dans les documents. », au lieu d'inventer.
 
@@ -156,9 +130,7 @@ Tout est dans [`config/config.yaml`](../config/config.yaml) ; seule la clé est 
 | `recherche.k` | 5 | ou `RAG_K=3 docker compose up -d` (ou `--k 3` sur la ligne de commande) |
 | `documents` | `corpus_documentaire/`, vide | le dossier du corpus documentaire que le RAG sert à ses utilisateurs |
 | `liste_des_documents` | `documents/liste_des_documents.csv` | l'export de votre gestion documentaire, avec les mêmes colonnes |
-| `graphe.actif` | `false` (RAG vectoriel) | `true`, ou `RAG_GRAPHE=true docker compose up -d` (RAG hybride) |
-| `graphe.ontologie` | `config/ontologie.ttl` | l'ontologie de votre domaine |
-| `endpoints_evaluation` | `127.0.0.1`, port 8100 | l'adresse de les endpoints d'évaluation |
+| `endpoints_evaluation` | `127.0.0.1`, port 8100 | l'adresse des endpoints d'évaluation |
 
 ## Ses endpoints d'évaluation — [`endpoints_evaluation/`](../src/rag/endpoints_evaluation/)
 
@@ -172,7 +144,7 @@ flowchart LR
     E -- "④ une question" --> R["repondre.py"]
     subgraph RAG["Le RAG (pipeline/ et assistant.py)"]
         direction TB
-        X[("Index<br/>étapes 1 à 4")] --> P["Recherche<br/>étape 5"] --> G["Génération<br/>étape 6"]
+        X[("Index<br/>étapes 1 à 3")] --> P["Recherche<br/>étape 4"] --> G["Génération<br/>étape 5"]
     end
     I --> X
     M -.-> X
@@ -183,7 +155,7 @@ flowchart LR
 | Endpoint | Fichier | Ce qu'elle reçoit | Ce qu'elle rend |
 | --- | --- | --- | --- |
 | ① ingérer | [`ingerer.py`](../src/rag/endpoints_evaluation/ingerer.py) | les documents et leurs métadonnées | le nombre de documents, de chunks, de pages ; ils sont indexés dans l'espace « evaluation » |
-| ② montrer l'index | [`montrer_index.py`](../src/rag/endpoints_evaluation/montrer_index.py) | — | la version exacte du RAG, les chunks de l'index avec leurs métadonnées, le texte de chaque page lue, le graphe |
+| ② montrer l'index | [`montrer_index.py`](../src/rag/endpoints_evaluation/montrer_index.py) | — | la version exacte du RAG, les chunks de l'index avec leurs métadonnées, le texte de chaque page lue |
 | ③ rechercher | [`rechercher.py`](../src/rag/endpoints_evaluation/rechercher.py) | une question, un profil, l'échange précédent | les k chunks retrouvés, avant la génération |
 | ④ répondre | [`repondre.py`](../src/rag/endpoints_evaluation/repondre.py) | une question, un profil, l'échange précédent | la réponse, l'abstention, les chunks cités et ceux du contexte, la durée, le coût, la trace |
 
@@ -191,7 +163,7 @@ flowchart LR
 
 La règle complète, pour ouvrir les endpoints de **votre** RAG : [les endpoints du RAG](../../service-evaluation/documentation/0b_endpoints_du_rag.md).
 
-La **version du RAG** (`graphrag-vectoriel-k5-5954e822`, ou `graphrag-hybride-k5-…` avec le graphe) se calcule à partir de k, des modèles, du prompt et de l'index, graphe compris. Le préfixe `graphrag` n'est que le `nom` donné dans `config/config.yaml` : sans graphe, le RAG est bien vectoriel. Changer un réglage donne une nouvelle version, que le service d'évaluation range à part. Deux versions se comparent avec `kit comparer`.
+La **version du RAG** (`graphrag-vectoriel-k5-5954e822`) se calcule à partir de k, des modèles, du prompt et de l'index. Le préfixe `graphrag` n'est que le `nom` donné dans `config/config.yaml` : le RAG n'a pas de graphe. Changer un réglage donne une nouvelle version, que le service d'évaluation range à part. Deux versions se comparent avec `kit comparer`.
 
 ## Ses limites connues, et ce que l'évaluation en dit
 
@@ -202,6 +174,5 @@ La **version du RAG** (`graphrag-vectoriel-k5-5954e822`, ou `graphrag-hybride-k5
 | Toutes les versions des documents sont indexées, même celles qui ne sont plus en vigueur | évaluation 2 (recherche) : « périmé ou piège avant le bon passage » |
 | Recherche simple, sans reranker ni décomposition de la question | évaluation 2 (recherche) : les questions qui combinent plusieurs passages échouent plus souvent |
 | Un seul prompt, petit modèle (4 milliards de paramètres) | évaluation 3 (réponse) : les synthèses sur l'ensemble des documents sont fausses |
-| Graphe extrait par un petit modèle, page par page : il range parfois une personne « sur » un site, ou fait « secourir » un site par un onduleur | évaluation 1 (ingestion) : violations des règles de l'ontologie (25 sur le corpus d'exemple), et justesse des relations jugée par le métier |
 
 Pour aller plus loin, le document [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](reference/techniques_rag.md) décrit les techniques d'un RAG selon les cas, et ce qu'il faut corriger quand un score est mauvais.

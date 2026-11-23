@@ -1,4 +1,4 @@
-"""Étape 6 — Génération : rédiger la réponse à partir des chunks retrouvés, et seulement d'eux.
+"""Étape 5 — Génération : rédiger la réponse à partir des chunks retrouvés, et seulement d'eux.
 
 - Un seul prompt : chaque phrase cite l'extrait qui l'appuie, [1], [2]… ;
 - si les extraits ne suffisent pas, le modèle répond une phrase fixe (l'abstention) au lieu d'inventer ;

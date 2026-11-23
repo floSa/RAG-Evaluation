@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 
 from rag.endpoints_evaluation import adresse_web, ingerer as porte
 
-CONFIG = {"travail": None, "graphe": {"actif": False}, "modeles": {"embeddings": {"modele": "embed"}}}
+CONFIG = {"travail": None, "modeles": {"embeddings": {"modele": "embed"}}}
 DOCUMENT = {"reference_source": "NT-051", "titre": "Relais", "type_document": "Note technique", "version": "v2",
             "format": "pdf_natif", "droits_acces": "maintenance", "fichier": "NT-051.pdf",
             "contenu": base64.b64encode(b"%PDF-1.4 faux").decode()}

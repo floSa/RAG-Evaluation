@@ -14,7 +14,6 @@ app = typer.Typer(help="RAG d'exemple : indexer les documents, poser une questio
                   no_args_is_help=True)
 
 OPTION_K = typer.Option(None, help="nombre de chunks donnés au modèle, si différent de config/config.yaml")
-OPTION_GRAPHE = typer.Option(None, "--graphe/--sans-graphe", help="avec ou sans le graphe (étape 4 du RAG), si différent de config.yaml")
 
 
 @app.callback()
@@ -23,9 +22,9 @@ def principal():
 
 
 @app.command()
-def indexer(graphe: bool = OPTION_GRAPHE):
-    """Production : indexe le corpus documentaire de corpus_documentaire/ (étapes 1 à 3, et 4 si le graphe est actif)."""
-    config = dans_l_espace(regler(charger_config(), graphe=graphe), "production")
+def indexer():
+    """Production : indexe le corpus documentaire de corpus_documentaire/ (étapes 1 à 3)."""
+    config = dans_l_espace(charger_config(), "production")
     if not Path(config["liste_des_documents"]).exists():
         typer.echo(f"Aucun document de production : mettre les documents et leur liste ({config['liste_des_documents']}) "
                    "dans corpus_documentaire/. Les documents de l'évaluation arrivent, eux, par l'endpoint « ingérer ».", err=True)
@@ -33,22 +32,19 @@ def indexer(graphe: bool = OPTION_GRAPHE):
     resultat = construire_index(config, afficher=typer.echo)
     typer.echo(f"Index prêt : {resultat['chunks']} chunks, {resultat['pages']} pages, "
                f"version {resultat['version_index']}.")
-    if "noeuds" in resultat:
-        typer.echo(f"Graphe prêt : {resultat['noeuds']} éléments dans l'index, {resultat['triplets']} triplets RDF.")
 
 
 @app.command()
 def demander(question: str = typer.Argument(..., help="la question, entre guillemets"),
              profil: str = typer.Option("tous", help="profil de l'utilisateur : il ne voit que ses documents"),
-             k: int = OPTION_K, graphe: bool = OPTION_GRAPHE,
+             k: int = OPTION_K,
              espace: str = typer.Option("production", help="production, ou evaluation : les documents envoyés par le service d'évaluation")):
-    """Étapes 5 et 6 : pose une question et affiche la réponse avec ses sources."""
-    r = Assistant(k=k, graphe=graphe, espace=espace).demander(question, profil)
+    """Étapes 4 et 5 : pose une question et affiche la réponse avec ses sources."""
+    r = Assistant(k=k, espace=espace).demander(question, profil)
     typer.echo(f"\n{r['reponse']}\n")
     for n, c in enumerate(r["contexte"], start=1):
         marque = "cité" if c in r["cites"] else "    "
-        graphe = "  (graphe : " + c["metadonnees"]["entite"] + ")" if c["type_objet"] == "noeud" else ""
-        typer.echo(f"  [{n}] {marque}  {c['reference_source']} (version {c['version_document']}), page {c['page']}{graphe}")
+        typer.echo(f"  [{n}] {marque}  {c['reference_source']} (version {c['version_document']}), page {c['page']}")
     typer.echo(f"\n{r['duree_ms']} ms, {r['tokens'][0]} + {r['tokens'][1]} tokens.")
     if r["trace_id"]:
         typer.echo(f"Trace Langfuse : {r['trace_id']}")
