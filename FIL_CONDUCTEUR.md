@@ -37,17 +37,7 @@ sequenceDiagram
 
 C'est donc le service qui déclenche l'ingestion, mais c'est le code du RAG qui la fait.
 
-**Ce que le service rend.** Pour chaque configuration évaluée, un rapport, `RAPPORT.md`, qui donne les scores. Chaque score est écrit en une phrase, avec ses chiffres, pour que le métier comme l'équipe du projet le comprennent sans explication. Le service ne décide pas : c'est le métier qui tranche à la lecture des scores. Extrait du [rapport de l'exemple](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) :
-
-| Ce qui est mesuré | Résultat | Ce que ça veut dire |
-| --- | --- | --- |
-| Bon passage ramené | 69 % (entre 44 et 94 %) | Pour 9 questions sur 13, la recherche ramène le passage qui contient la réponse. |
-| Réponses justes | 77 % (entre 54 et 100 %) | Sur 13 questions, l'équivalent de 10 réponses justes (une réponse partielle compte pour moitié). |
-| Sait dire « je ne sais pas » | 100 % | Sur 5 questions sans réponse dans les documents ou interdites à la personne, le RAG dit « je ne sais pas » 5 fois. |
-| Erreurs graves | 1 | Réponses fausses, inventées ou données à tort, sur une question où l'erreur a des conséquences graves : 1. |
-| Temps de réponse médian | 8,0 s | La moitié des réponses arrivent en moins de 8,0 s. |
-
-Entre parenthèses, la fourchette où se trouve le vrai résultat : avec peu de questions, elle est large.
+**Ce que le service rend.** Pour chaque configuration évaluée, un rapport, `RAPPORT.md`. Chaque score y est écrit en une phrase, avec ses chiffres, pour que le métier comme l'équipe du projet le comprennent sans explication. Chaque pourcentage est donné avec son intervalle de confiance : la fourchette où se trouve le vrai résultat, large quand il y a peu de questions. Le service ne décide pas : c'est le métier qui tranche à la lecture des scores. Exemple : [le rapport de la configuration de référence du RAG d'exemple](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md).
 
 **Où se trouve la configuration du RAG.** Une configuration est l'ensemble des réglages du RAG : nombre de morceaux de texte ramenés par la recherche, modèle qui écrit les réponses, prompt, graphe ou non… Elle se règle **dans le RAG**, dans ses propres fichiers, jamais dans le service. Dans le service, on ne renseigne qu'une seule chose sur le RAG : son adresse, dans `config/kit.yaml`. C'est le RAG qui déclare sa configuration au service, en réponse à l'appel ②. Le service la range dans un fichier `rag.json`, et nomme l'évaluation d'après elle. Par exemple, le RAG d'exemple, réglé dans [`service-rag-exemple/config/config.yaml`](service-rag-exemple/config/config.yaml), déclare :
 
