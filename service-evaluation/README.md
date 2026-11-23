@@ -87,7 +87,11 @@ uv run kit comparer resultats/evaluations/<configuration A> resultats/evaluation
 Pour essayer le service sans corpus à soi, on lui donne celui de l'exemple, puis on suit les étapes 4 à 8. Le RAG d'exemple doit être lancé ([son README](../service-rag-exemple/README.md)).
 
 ```bash
-cp -r ../service-evaluation-exemple/corpus_annote/corpus_documentaire ../service-evaluation-exemple/corpus_annote/ontologie corpus_annote/
+cp ../service-evaluation-exemple/corpus_annote/corpus_documentaire/*.pdf corpus_annote/corpus_documentaire/
+```
+
+```bash
+cp ../service-evaluation-exemple/corpus_annote/ontologie/*.ttl corpus_annote/ontologie/
 ```
 
 ```bash
