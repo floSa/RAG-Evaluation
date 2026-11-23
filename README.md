@@ -1,5 +1,17 @@
 # Évaluer un RAG de bout en bout
 
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![uv](https://img.shields.io/badge/uv-0.12.17-DE5FE9?logo=uv&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker_Compose-v5.7-2496ED?logo=docker&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.165-009688?logo=fastapi&logoColor=white)
+![Langfuse](https://img.shields.io/badge/Langfuse-4.83-0A0A0A)
+![Ragas](https://img.shields.io/badge/Ragas-0.4.4-6E44FF)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.1-D71F00?logo=sqlalchemy&logoColor=white)
+![Docling Serve](https://img.shields.io/badge/Docling_Serve-1.38.2-1F6FEB)
+![rdflib](https://img.shields.io/badge/rdflib-7.6-4B8BBE)
+![pySHACL](https://img.shields.io/badge/pySHACL-0.40-4B8BBE)
+![Modèles](https://img.shields.io/badge/mod%C3%A8les-API_compatible_OpenAI-412991?logo=openai&logoColor=white)
+
 Ce dépôt présente le modèle complet pour **évaluer un RAG de bout en bout, à partir d'un corpus annoté par le métier**. Il est divisé en deux parties :
 
 | Partie | Dossier | Rôle |
@@ -37,7 +49,14 @@ flowchart LR
     P -- "son index, ses recherches,<br/>ses réponses" --> K
 ```
 
-## Mettre en place, étape par étape
+## Deux façons de s'en servir
+
+| Je veux… | Suivre |
+| --- | --- |
+| **tester tel quel** : voir l'évaluation marcher sur le corpus et le RAG d'exemple, sans rien écrire | [Tester tel quel, étape par étape](#tester-tel-quel-étape-par-étape), ci-dessous |
+| **l'adapter à mon RAG** : évaluer mon RAG, sur mes documents, avec les questions de mon métier | [Intégrer votre RAG, pas à pas](service-evaluation/documentation/integrer_votre_rag.md) : constituer le corpus, ouvrir les quatre portes (avec un [modèle de code](service-evaluation/modele_porte/porte_evaluation.py) à copier), vérifier, évaluer |
+
+## Tester tel quel, étape par étape
 
 On lance **d'abord le RAG, puis l'évaluation**.
 
@@ -135,6 +154,7 @@ Vos chiffres peuvent différer de quelques points de ceux des guides : le modèl
 | Je veux… | Lire |
 | --- | --- |
 | comprendre la méthode | le [document 3](service-evaluation/documentation/reference/methode_evaluation.md), sections 1 à 5, puis le [document 1](service-evaluation/documentation/reference/methode_corpus_annote.md) |
+| intégrer mon RAG, du corpus à la décision | [Intégrer votre RAG, pas à pas](service-evaluation/documentation/integrer_votre_rag.md) |
 | constituer le corpus de mon projet | [0a. Construction du corpus](service-evaluation/documentation/0a_construction_du_corpus.md) |
 | ouvrir les portes de mon RAG à l'évaluation | [0b. La porte du RAG](service-evaluation/documentation/0b_porte_du_rag.md), avec l'exemple [`porte_evaluation/`](service-rag/src/rag/porte_evaluation/) |
 | comprendre chaque évaluation | [1. Ingestion](service-evaluation/documentation/1_evaluation_ingestion.md), [2. Recherche](service-evaluation/documentation/2_evaluation_recherche.md), [3. Réponse](service-evaluation/documentation/3_evaluation_reponse.md), [4. Bout en bout](service-evaluation/documentation/4_evaluation_bout_en_bout.md) |
@@ -162,8 +182,9 @@ RAG-Evaluation/
 └── service-evaluation/          2. LE SERVICE D'ÉVALUATION (commande kit)
     ├── README.md                lancer l'évaluation : brancher le corpus, évaluer
     ├── docker-compose.yml       Langfuse
+    ├── modele_porte/            le modèle des quatre portes, à copier dans votre RAG
     ├── corpus_exemple/          50 documents fictifs et leur fichier Excel annoté
-    ├── documentation/           les guides, dans l'ordre, et la règle que chaque RAG doit suivre
+    ├── documentation/           le pas à pas pour intégrer votre RAG, les guides dans l'ordre, la règle des portes
     ├── config/                  le modèle juge, l'adresse du RAG, les seuils du métier
     ├── src/kit/                 le kit ; appel_du_rag/ est le seul endroit qui parle à un RAG
     └── tests/
