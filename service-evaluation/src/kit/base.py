@@ -116,7 +116,6 @@ class Evaluation(Base):
     version_rag: Mapped[str] = mapped_column(String)
     rag: Mapped[dict] = mapped_column(JSON)
     juge: Mapped[dict | None] = mapped_column(JSON, nullable=True)
-    seuils: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     scores: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 

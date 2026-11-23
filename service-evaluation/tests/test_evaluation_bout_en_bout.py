@@ -8,10 +8,6 @@ from kit.etape_4_evaluation_bout_en_bout.scores import FREQUENCE, GRAVITE
 from kit.etape_5_resultats.comparaison import mcnemar_exact
 from kit.etape_5_resultats.publication import Ligne, agreger, calculer_scores, marge
 
-SEUILS = {"n4_score_pondere": {"seuil": 0.8, "sens": "min", "bloquant": False},
-          "n3_erreurs_graves": {"seuil": 0, "sens": "max", "bloquant": True},
-          "n4_temps_median": {"seuil": 15000, "sens": "max", "bloquant": False}}
-
 
 def ligne(score, valeur, qid, reservee=False, poids=None):
     l = Ligne(score, valeur, qid, poids=poids)
@@ -44,18 +40,17 @@ def test_marge_document_3():
     assert marge("n3_erreurs_graves", 2, 50) is None
 
 
-def test_decision_reservees_et_bloquants():
+def test_scores_cles_sur_les_questions_reservees():
     lignes = [ligne("n4_score_pondere", 1.0, "R1", poids=1), ligne("n4_score_pondere", 1.0, "R2", poids=1),
               ligne("n4_score_pondere", 0.0, "R3", reservee=True, poids=1),
               ligne("n3_erreurs_graves", 0.0, "R1"), ligne("n3_erreurs_graves", 1.0, "R3", reservee=True)]
-    r = calculer_scores(lignes, SEUILS)
+    r = calculer_scores(lignes)
     pondere = next(s for s in r["scores"] if s["score"] == "n4_score_pondere")
-    assert pondere["valeur"] == 1.0 and pondere["atteint"] is True       # réglage : questions non réservées
-    decision = {x["score"]: x for x in r["decision"]["seuils"]}
-    assert decision["n4_score_pondere"]["valeur"] == 0.0                # décision : questions réservées
-    # une erreur grave sur une question réservée bloque quand même
-    assert r["decision"]["criteres_bloquants_declenches"] == [{"score": "n3_erreurs_graves", "valeur": 1.0, "seuil": 0}]
-    assert r["decision"]["mise_en_production_possible"] is False
+    assert pondere["valeur"] == 1.0                                      # réglage : questions non réservées
+    cles = {x["score"]: x for x in r["scores_cles"]}
+    assert cles["n4_score_pondere"]["valeur"] == 0.0                    # scores clés : questions réservées
+    assert cles["n3_erreurs_graves"]["valeur"] == 1.0                   # erreurs graves : sur toutes les questions
+    assert "decision" not in r
 
 
 @pytest.mark.parametrize("gagnees, perdues, p", [(0, 0, None), (5, 5, 1.0), (10, 0, 2 / 1024), (6, 1, 0.125)])

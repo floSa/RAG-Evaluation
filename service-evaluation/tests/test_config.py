@@ -1,6 +1,7 @@
-"""Configuration : kit.yaml se lit, et seuils.json couvre tous les scores minimaux du contrat."""
+"""Configuration : kit.yaml se lit ; chaque score minimal du contrat a son nom et sa phrase dans le rapport."""
 
-from kit.config import charger_config, charger_seuils
+from kit.config import charger_config
+from kit.etape_5_resultats.rapport import LIBELLES
 
 SCORES_MINIMAUX = {
     "n1_documents_indexes", "n1_metadonnees_completes", "n1_passages_rattaches", "n1_passages_coupes",
@@ -18,15 +19,5 @@ def test_kit_yaml_se_lit():
     assert config["modeles"]["juge"]["modele"]
 
 
-def test_seuils_couvrent_les_scores_minimaux():
-    seuils = charger_seuils(charger_config())
-    assert SCORES_MINIMAUX <= set(seuils)
-    for score, regle in seuils.items():
-        assert set(regle) == {"seuil", "sens", "bloquant"}, score
-        assert regle["sens"] in {"min", "max"}, score
-
-
-def test_criteres_bloquants_du_document_3():
-    seuils = charger_seuils(charger_config())
-    bloquants = {s for s, r in seuils.items() if r["bloquant"]}
-    assert bloquants == {"n2_fuite_droits", "n3_erreurs_graves", "n4_erreurs_graves"}
+def test_chaque_score_minimal_se_lit_en_clair():
+    assert SCORES_MINIMAUX <= set(LIBELLES)

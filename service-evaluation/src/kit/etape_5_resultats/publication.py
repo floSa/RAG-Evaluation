@@ -2,11 +2,13 @@
 
 Chaque niveau produit des « lignes » : un score pour un objet (une question, un passage, un document, un chunk,
 une page OCR). La publication les range dans la base, puis recalcule depuis la base tous les scores globaux,
-leur marge, leur ventilation et la décision. On peut donc lancer les niveaux un par un, dans l'ordre.
+leur marge et leur ventilation. On peut donc lancer les niveaux un par un, dans l'ordre.
 
-Questions réservées à la décision (DECISIONS.md, décision 5) : les scores de réglage (scores, CSV, Langfuse, rapport)
-portent sur les questions non réservées ; le bloc `decision` de scores.json donne les scores globaux des questions
-réservées, sans détail ; leur détail question par question reste dans la base.
+Le service ne décide pas : il donne les scores, et le métier tranche (DECISIONS.md, décision 14).
+
+Questions réservées (DECISIONS.md, décision 5) : les scores de réglage (scores, CSV, Langfuse, rapport) portent sur les
+questions non réservées ; le bloc `scores_cles` de scores.json donne les scores clés, à présenter au métier, calculés
+sur les questions réservées, sans détail ; leur détail question par question reste dans la base.
 """
 
 import csv
@@ -44,7 +46,11 @@ SCORES = {
     "n4_score_pondere": ("ponderee", True), "n4_erreurs_graves": ("somme", False),
     "n4_temps_median": ("mediane", False), "n4_temps_p95": ("p95", False), "n4_cout_moyen": ("moyenne", False),
 }
-# Un critère bloquant se juge sur toutes les questions : une seule fuite ou erreur grave bloque.
+# Les scores clés, à présenter au métier : en tête du rapport, calculés sur les questions réservées.
+SCORES_CLES = ["n1_documents_indexes", "n1_metadonnees_completes", "n1_passages_rattaches", "n1_erreur_caracteres",
+               "n2_reussite_k", "n2_fuite_droits", "n3_exactitude", "n3_abstention_correcte", "n3_fidelite",
+               "n3_erreurs_graves", "n4_score_pondere", "n4_temps_median", "n4_temps_p95", "n4_cout_moyen"]
+# Une seule fuite de droits ou erreur grave compte : ces scores se calculent sur toutes les questions.
 TOUTES_LES_QUESTIONS = {"n2_fuite_droits", "n3_erreurs_graves", "n4_erreurs_graves"}
 
 
@@ -83,7 +89,6 @@ class Evaluation:
         self.questions = {q["question_id"]: q for q in self.corpus["questions"]}
         self.documents = {d["reference_source"]: d for d in self.corpus["documents"]}
         self.passages = {p["passage_id"]: p for p in self.corpus["passages"]}
-        self.seuils = json.loads(Path(config["chemins"]["seuils"]).read_text(encoding="utf-8"))
 
     def fichier_rag(self, nom: str) -> list[dict]:
         chemin = self.dossier_rag / nom
@@ -109,7 +114,7 @@ class Evaluation:
         juge = self.config["modeles"]["juge"]
         return {"evaluation_id": self.evaluation_id, "date": dt.datetime.now().isoformat(timespec="seconds"),
                 "version_corpus": self.version_corpus, "version_kit": kit.__version__, "rag": self.rag,
-                "juge": {"modele": juge["modele"], "version_prompt": juge["version_prompt"]}, "seuils": self.seuils}
+                "juge": {"modele": juge["modele"], "version_prompt": juge["version_prompt"]}}
 
 
 # --- Agrégation -----------------------------------------------------------------------------
@@ -163,47 +168,30 @@ def arrondi(v):
     return round(v, 4) if isinstance(v, float) else v
 
 
-def atteint(score: str, valeur, seuils: dict) -> bool | None:
-    s = seuils.get(score)
-    if not s or s["seuil"] is None or valeur is None:
-        return None
-    return valeur >= s["seuil"] if s["sens"] == "min" else valeur <= s["seuil"]
-
-
-def calculer_scores(lignes: list, seuils: dict) -> dict:
-    """scores.json : scores de réglage (questions non réservées), puis décision (questions réservées)."""
+def calculer_scores(lignes: list) -> dict:
+    """scores.json : tous les scores sur les questions de réglage, puis les scores clés sur les questions réservées."""
     par_score: dict[str, list] = {}
     for l in lignes:
         par_score.setdefault(l.score, []).append(l)
-    scores, decision_seuils, bloquants = [], [], []
+    scores, cles = [], []
     for score in sorted(par_score, key=lambda s: list(SCORES).index(s)):
         toutes = par_score[score]
         reglage = [l for l in toutes if not l.reservee]
-        reservees = [l for l in toutes if l.reservee]
         valeur, n = agreger(score, reglage)
-        s = seuils.get(score, {"seuil": None, "sens": "min", "bloquant": False})
         scores.append({"score": score, "niveau": int(score[1]), "valeur": arrondi(valeur),
-                       "marge": marge(score, valeur, n), "n": n, "ventilation": ventiler(score, reglage),
-                       "seuil": s["seuil"], "atteint": atteint(score, valeur, seuils), "bloquant": s["bloquant"]})
-        if s["bloquant"]:
-            v_tout, _ = agreger(score, toutes)
-            if atteint(score, v_tout, seuils) is False:
-                bloquants.append({"score": score, "valeur": arrondi(v_tout), "seuil": s["seuil"]})
-        if s["seuil"] is not None:
-            # décision : sur les questions réservées ; scores de documents, chunks et pages : sur tous
-            base_decision = toutes if score in TOUTES_LES_QUESTIONS or not any(l.question_id for l in toutes) \
-                else reservees
-            v_dec, n_dec = agreger(score, base_decision)
-            decision_seuils.append({"score": score, "valeur": arrondi(v_dec), "marge": marge(score, v_dec, n_dec),
-                                    "n": n_dec, "seuil": s["seuil"], "sens": s["sens"],
-                                    "atteint": atteint(score, v_dec, seuils)})
-    manquants = [x["score"] for x in decision_seuils if x["atteint"] is None]
-    return {"scores": scores,
-            "decision": {"criteres_bloquants_declenches": bloquants, "seuils": decision_seuils,
-                         "mise_en_production_possible": not bloquants and not manquants
-                         and all(x["atteint"] for x in decision_seuils),
-                         "remarque": "seuils jugés sur les questions réservées à la décision ; critères bloquants sur "
-                                     "toutes les questions"}}
+                       "marge": marge(score, valeur, n), "n": n, "ventilation": ventiler(score, reglage)})
+    for score in SCORES_CLES:
+        if score not in par_score:
+            continue
+        toutes = par_score[score]
+        # scores de documents, morceaux et pages, fuites, erreurs graves : sur tout ; les autres : questions réservées
+        base_cle = toutes if score in TOUTES_LES_QUESTIONS or not any(l.question_id for l in toutes) \
+            else [l for l in toutes if l.reservee]
+        valeur, n = agreger(score, base_cle)
+        cles.append({"score": score, "valeur": arrondi(valeur), "marge": marge(score, valeur, n), "n": n})
+    return {"scores": scores, "scores_cles": cles,
+            "remarque": "scores clés calculés sur les questions réservées (fuites de droits et erreurs graves : sur "
+                        "toutes les questions) ; c'est au métier de décider à leur lecture"}
 
 
 # --- Écritures ------------------------------------------------------------------------------
@@ -227,11 +215,11 @@ def publier(ev: Evaluation, niveau: int, lignes: list[Ligne], langfuse=None) -> 
                                       objet=l.objet, attributs=l.attributs, poids=l.poids, reservee=l.reservee)
                         for l in lignes)
         toutes = session.scalars(select(base.Resultat).where(base.Resultat.evaluation_id == ev.evaluation_id)).all()
-        resultat = calculer_scores(toutes, ev.seuils)
+        resultat = calculer_scores(toutes)
         description = ev.description()
         enregistrement = session.get(base.Evaluation, ev.evaluation_id)
         enregistrement.date, enregistrement.juge = description["date"], description["juge"]
-        enregistrement.seuils, enregistrement.scores = ev.seuils, resultat
+        enregistrement.scores = resultat
         session.commit()
         ecrire_fichiers(ev, description, resultat, toutes)
         from kit.etape_5_resultats import rapport  # ici, pour éviter une importation circulaire
