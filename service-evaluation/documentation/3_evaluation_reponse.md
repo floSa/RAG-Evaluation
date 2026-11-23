@@ -50,8 +50,8 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`reference/methode_evaluation.md`](reference/methode_evaluation.md) | la méthode (document 3), section 8 |
-| [`reference/prompt_du_juge.md`](reference/prompt_du_juge.md) | le prompt du juge, sa sortie, sa vérification |
+| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document 3), section 8 |
+| [`methode_et_contrat/prompt_du_juge.md`](methode_et_contrat/prompt_du_juge.md) | le prompt du juge, sa sortie, sa vérification |
 | [`../config/kit.yaml`](../config/kit.yaml) | le modèle juge |
 | [`../src/kit/etape_3_evaluation_reponse/`](../src/kit/etape_3_evaluation_reponse/) | `juge.py` (le juge), `scores.py` (les scores), `relecture.py` (les files Langfuse) |
 
@@ -82,13 +82,13 @@ Elle est déjà lancée par `kit evaluer`. Pour la relancer seule, sur les derni
 uv run kit evaluer-reponse
 ```
 
-Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluation_recherche.md), et de `reponses.jsonl` ([porte du RAG, ④ répondre](0b_porte_du_rag.md)). Elle prend environ 3 minutes, le temps que le juge lise chaque réponse.
+Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluation_recherche.md), et de `reponses.jsonl` ([endpoints du RAG, ④ répondre](0b_endpoints_du_rag.md)). Elle prend environ 3 minutes, le temps que le juge lise chaque réponse.
 
 ## Comment le kit tranche
 
 | Qui | Ce qu'il vérifie |
 | --- | --- |
-| le **LLM juge** ([prompt](reference/prompt_du_juge.md)) | chaque point clé attendu : présent, absent ou contredit. Le verdict en découle : juste, partielle ou fausse |
+| le **LLM juge** ([prompt](methode_et_contrat/prompt_du_juge.md)) | chaque point clé attendu : présent, absent ou contredit. Le verdict en découle : juste, partielle ou fausse |
 | **Ragas** | la fidélité : chaque affirmation de la réponse est-elle appuyée par les chunks donnés au modèle ? Et la note des synthèses, sur la grille du prompt du juge |
 | un **script** | l'abstention (champ `abstention` du RAG), les citations, les valeurs chiffrées et leur unité |
 
@@ -125,7 +125,7 @@ Verdict : **partielle**. La réponse donne le courant de réglage, mais oublie l
 
 Pour chaque question dont la réponse est dans les documents, le kit croise deux faits : le bon passage a-t-il été retrouvé ([évaluation 2](2_evaluation_recherche.md)) ? la réponse est-elle juste ? Le résultat est dans `croisement.jsonl` et dans le rapport.
 
-| Bon passage retrouvé ? | Réponse | Diagnostic | Où agir ([document 2](../../service-rag/documentation/reference/techniques_rag.md)) |
+| Bon passage retrouvé ? | Réponse | Diagnostic | Où agir ([document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md)) |
 | --- | --- | --- | --- |
 | oui | juste | **ok** | — |
 | oui | fausse, partielle ou abstention | **génération** : le RAG avait la bonne information et l'a mal utilisée | prompt, citations obligatoires, modèle, calcul délégué |
@@ -159,7 +159,7 @@ flowchart LR
 
    Dans le banc d'essai, il n'y a pas de métier : cette commande inscrit les notes simulées (voir l'encadré plus bas) :
    ```bash
-   uv run python corpus_exemple/relecture_simulee/publier.py
+   uv run python ../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py
    ```
 3. Calculer l'accord :
    ```bash
@@ -181,12 +181,12 @@ flowchart LR
 
 Dans un vrai projet, on lirait ces désaccords, on préciserait le prompt du juge (par exemple : « contredit veut dire que la réponse affirme le contraire de la référence ; un détail que la référence ne dit pas n'est pas une contradiction »), on changerait `version_prompt`, puis on referait la vérification. Ici, le prompt est un document de référence du dépôt, qu'on ne modifie pas : le juge reste non validé, et ses verdicts se lisent avec prudence, surtout pour les réponses partielles.
 
-> **Dans le banc d'essai, le métier est simulé.** L'entreprise et le corpus sont fictifs : c'est Claude qui a joué le rôle du métier, en notant chaque réponse à partir de la question, de la réponse attendue et des points clés, sans voir la note du juge. Ses notes et leur raison sont dans [`../corpus_exemple/relecture_simulee/verdicts_metier.json`](../corpus_exemple/relecture_simulee/verdicts_metier.json) ; le script [`publier.py`](../corpus_exemple/relecture_simulee/publier.py) les inscrit dans Langfuse comme le ferait le métier dans l'interface. Ces notes visent les réponses obtenues par l'auteur, avec le RAG `graphrag-vectoriel-k5-5954e822` : si le vôtre a répondu autrement, certaines notes ne vont plus avec la réponse notée, et l'accord mesuré perd son sens. Dans un vrai projet, ce dossier n'existe pas : le métier note lui-même.
+> **Dans le banc d'essai, le métier est simulé.** L'entreprise et le corpus sont fictifs : c'est Claude qui a joué le rôle du métier, en notant chaque réponse à partir de la question, de la réponse attendue et des points clés, sans voir la note du juge. Ses notes et leur raison sont dans [`../corpus_annote/notes_du_metier_simulees/verdicts_metier.json`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/verdicts_metier.json) ; le script [`publier.py`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py) les inscrit dans Langfuse comme le ferait le métier dans l'interface. Ces notes visent les réponses obtenues par l'auteur, avec le RAG `graphrag-vectoriel-k5-5954e822` : si le vôtre a répondu autrement, certaines notes ne vont plus avec la réponse notée, et l'accord mesuré perd son sens. Dans un vrai projet, ce dossier n'existe pas : le métier note lui-même.
 
 On refait la vérification à chaque changement de modèle juge ou de prompt. Le **kappa de Cohen** est l'accord corrigé du hasard : il révèle un juge qui dit presque toujours « juste », et qui peut atteindre 90 % d'accord sans rien distinguer. Au-dessus de 0,8, l'accord est très bon ; sous 0,6, il faut se méfier, même si le taux d'accord passe.
 
 ## Si c'est mauvais
 
-Regarder d'abord le croisement. « Recherche » : revenir à l'[évaluation 2](2_evaluation_recherche.md). « Génération » : prompt, citations, abstention, modèle, dans le [document 2](../../service-rag/documentation/reference/techniques_rag.md), section 7.
+Regarder d'abord le croisement. « Recherche » : revenir à l'[évaluation 2](2_evaluation_recherche.md). « Génération » : prompt, citations, abstention, modèle, dans le [document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md), section 7.
 
 **Étape suivante** : [4. Évaluation de bout en bout](4_evaluation_bout_en_bout.md).

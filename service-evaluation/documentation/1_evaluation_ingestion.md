@@ -43,7 +43,7 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`reference/methode_evaluation.md`](reference/methode_evaluation.md) | la méthode (document 3), section 6 pour le rattachement |
+| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document 3), section 6 pour le rattachement |
 | [`../src/kit/etape_1_evaluation_ingestion/rattachement.py`](../src/kit/etape_1_evaluation_ingestion/rattachement.py) | le rattachement d'un passage à un chunk, et la cause probable d'un échec |
 | [`../src/kit/etape_1_evaluation_ingestion/scores.py`](../src/kit/etape_1_evaluation_ingestion/scores.py) | les scores de l'ingestion |
 
@@ -55,7 +55,7 @@ Elle est déjà lancée par `kit evaluer`. Pour la relancer seule :
 uv run kit evaluer-ingestion
 ```
 
-Sans option, le kit prend le dernier corpus importé et les dernières réponses du RAG, et les affiche ([les options](../README.md#les-options---corpus-et---rag)). Il suffit que `sorties/sorties_rag/<version du RAG>/` contienne `rag.json`, `chunks.jsonl` et, s'il y a des scans, `pages_extraites.jsonl` : le kit les y a rangés après la porte ② ([porte du RAG](0b_porte_du_rag.md)).
+Sans option, le kit prend le dernier corpus importé et les dernières réponses du RAG, et les affiche ([les options](../README.md#toutes-les-commandes)). Il suffit que `resultats/reponses_du_rag/<version du RAG>/` contienne `rag.json`, `chunks.jsonl` et, s'il y a des scans, `pages_extraites.jsonl` : le kit les y a rangés après l'endpoint ② ([endpoints du RAG](0b_endpoints_du_rag.md)).
 
 ## Comment le kit tranche : le rattachement
 
@@ -106,7 +106,7 @@ Sur une autre page (NT-040, page 3), il **mélange l'ordre des lignes**. Les pas
 
 ## Si le RAG a un graphe
 
-Un RAG de type `graphe` ou `hybride` rend aussi `graphe.ttl` ([porte du RAG, ② montrer l'index](0b_porte_du_rag.md)). Le kit vérifie alors deux choses de plus.
+Un RAG de type `graphe` ou `hybride` rend aussi `graphe.ttl` ([endpoints du RAG, ② montrer l'index](0b_endpoints_du_rag.md)). Le kit vérifie alors deux choses de plus.
 
 ```mermaid
 flowchart LR
@@ -123,9 +123,9 @@ flowchart LR
 | `n1_graphe_violations` | le nombre de règles de l'ontologie non respectées : une classe fausse (une personne « située sur » un site), une relation inconnue, trop de valeurs (un équipement sur deux sites), une provenance manquante | contraindre davantage l'extraction : consigne, exemples, contrôle par l'ontologie avant d'écrire le graphe |
 | `n1_graphe_justesse` | la part des relations jugées justes par le métier, d'après leur passage source | une relation conforme à l'ontologie peut être fausse : meilleur modèle d'extraction, relecture |
 
-Les règles sont celles du projet, pas celles du RAG : le chemin de `ontologie_formes.ttl` est dans [`../config/kit.yaml`](../config/kit.yaml) (`graphe.formes`). Pour le corpus d'exemple : [`../corpus_exemple/ontologie/`](../corpus_exemple/ontologie/). Le code : [`../src/kit/etape_1_evaluation_ingestion/graphe.py`](../src/kit/etape_1_evaluation_ingestion/graphe.py).
+Les règles sont celles du projet, pas celles du RAG : le chemin de `ontologie_formes.ttl` est dans [`../config/kit.yaml`](../config/kit.yaml) (`graphe.formes`). Pour le corpus d'exemple : [`../corpus_annote/ontologie/`](../../service-evaluation-exemple/corpus_annote/ontologie/). Le code : [`../src/kit/etape_1_evaluation_ingestion/graphe.py`](../src/kit/etape_1_evaluation_ingestion/graphe.py).
 
-Il faut d'abord évaluer le RAG hybride : `RAG_GRAPHE=true docker compose up -d` dans `service-rag/`, puis `uv run kit evaluer`. Ses réponses sont alors les plus récentes, et les commandes ci-dessous les prennent sans option.
+Il faut d'abord évaluer le RAG hybride : `RAG_GRAPHE=true docker compose up -d` dans `service-rag-exemple/`, puis `uv run kit evaluer`. Ses réponses sont alors les plus récentes, et les commandes ci-dessous les prennent sans option.
 
 Les violations sont calculées par `kit evaluer-ingestion`. La justesse demande le métier :
 
@@ -137,7 +137,7 @@ Les violations sont calculées par `kit evaluer-ingestion`. La justesse demande 
 
    Dans le banc d'essai, il n'y a pas de métier : cette commande inscrit les jugements simulés (voir l'encadré plus bas) :
    ```bash
-   uv run python corpus_exemple/relecture_simulee/publier.py
+   uv run python ../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py
    ```
 3. Voir où en est la relecture, puis inscrire le score dans les résultats :
    ```bash
@@ -157,10 +157,10 @@ Les violations sont calculées par `kit evaluer-ingestion`. La justesse demande 
 
 C'est la limite d'un petit modèle qui extrait page par page. La première sorte d'erreur ne se voit pas dans les violations : la relation respecte l'ontologie, seule la provenance est fausse. D'où l'intérêt de faire juger les relations par le métier, en plus des règles SHACL.
 
-> Comme pour la vérification du juge, le métier est simulé dans le banc d'essai : c'est Claude qui a jugé les 50 relations, d'après leur passage source. Ses jugements et leur raison sont dans [`../corpus_exemple/relecture_simulee/justesse_graphe.json`](../corpus_exemple/relecture_simulee/justesse_graphe.json). Ils visent les relations tirées chez l'auteur : si votre graphe en tire d'autres, celles-là restent sans jugement, et le script les compte.
+> Comme pour la vérification du juge, le métier est simulé dans le banc d'essai : c'est Claude qui a jugé les 50 relations, d'après leur passage source. Ses jugements et leur raison sont dans [`../corpus_annote/notes_du_metier_simulees/justesse_graphe.json`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/justesse_graphe.json). Ils visent les relations tirées chez l'auteur : si votre graphe en tire d'autres, celles-là restent sans jugement, et le script les compte.
 
 ## Si c'est mauvais
 
-Extraction, OCR, tableaux, images, découpage : le [document 2](../../service-rag/documentation/reference/techniques_rag.md), sections 3 et 4.
+Extraction, OCR, tableaux, images, découpage : le [document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md), sections 3 et 4.
 
 **Étape suivante** : [2. Évaluation de la recherche](2_evaluation_recherche.md).

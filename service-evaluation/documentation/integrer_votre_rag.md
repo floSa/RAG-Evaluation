@@ -4,10 +4,11 @@ Ce dépôt sert à deux choses différentes :
 
 | Usage | Pour quoi | Suivre |
 | --- | --- | --- |
-| **Tester tel quel** | voir l'évaluation marcher, sur le corpus d'exemple et le RAG d'exemple, sans rien écrire | le [README](../../README.md) : temps 1 et temps 2 |
+| **Voir les résultats** | voir à quoi ressemble une évaluation, sans rien installer | [`service-evaluation-exemple/`](../../service-evaluation-exemple/README.md) |
+| **Essayer avec l'exemple** | faire tourner le service sur le corpus d'exemple et le RAG d'exemple, sans rien écrire | le [README du service](../README.md#essayer-avec-le-corpus-dexemple) |
 | **L'adapter à votre RAG** | évaluer **votre** RAG, sur **vos** documents, avec les questions de **votre** métier | ce guide |
 
-Pour votre projet, vous gardez le service d'évaluation tel quel. Vous fournissez deux choses : **votre corpus annoté**, et **les quatre portes de votre RAG**. Le service RAG d'exemple ne sert plus que de modèle.
+Pour votre projet, vous gardez le service d'évaluation tel quel. Vous fournissez deux choses : **votre corpus annoté**, et **les quatre endpoints de votre RAG**. Le service RAG d'exemple ne sert plus que de modèle.
 
 ## Les étapes
 
@@ -16,8 +17,8 @@ Pour votre projet, vous gardez le service d'évaluation tel quel. Vous fournisse
 | [1. Installer le service d'évaluation](#1-installer-le-service-dévaluation) | équipe technique | lancer Langfuse, brancher le juge | `kit verifier-modeles` répond |
 | [2. Constituer votre corpus](#2-constituer-votre-corpus) | le métier, aidé de l'équipe technique | choisir les documents, écrire les questions, annoter les passages | `kit importer` accepte le fichier |
 | [3. Régler le kit pour votre projet](#3-régler-le-kit-pour-votre-projet) | équipe technique et métier | le nom du projet, les documents, l'adresse du RAG, les seuils | `config/` est à jour |
-| [4. Ouvrir les quatre portes de votre RAG](#4-ouvrir-les-quatre-portes-de-votre-rag) | l'équipe du RAG | ajouter à votre RAG un dossier `porte_evaluation/` | les quatre adresses répondent |
-| [5. Vérifier les portes](#5-vérifier-les-portes) | l'équipe du RAG | faire appeler les portes par le kit | « règle : respectée » |
+| [4. Ouvrir les quatre endpoints de votre RAG](#4-ouvrir-les-quatre-endpoints-de-votre-rag) | l'équipe du RAG | ajouter à votre RAG un dossier `endpoints_evaluation/` | les quatre adresses répondent |
+| [5. Vérifier les endpoints](#5-vérifier-les-endpoints) | l'équipe du RAG | faire appeler les endpoints par le kit | « règle : respectée » |
 | [6. Évaluer, lire, corriger](#6-évaluer-lire-corriger) | tous | évaluer, lire le rapport, corriger, comparer | la décision est prise |
 
 ## 1. Installer le service d'évaluation
@@ -48,8 +49,8 @@ Le juge doit être, de préférence, **un autre modèle que celui de votre RAG**
 
 C'est l'étape la plus longue, et la seule qui se fait à la main. Tout le détail : [0a. Construction du corpus](0a_construction_du_corpus.md).
 
-1. **Copier le fichier vierge** [`reference/modele_corpus_vierge.xlsx`](reference/modele_corpus_vierge.xlsx), et le donner au métier.
-2. **Le métier le remplit** : les documents retenus, les questions réelles des utilisateurs, la réponse attendue, et le passage exact où elle se trouve, copié-collé. Chaque feuille porte ses définitions. Le [corpus d'exemple](../corpus_exemple/Corpus_evaluation_RAG.xlsx) montre un fichier complet.
+1. **Copier le fichier vierge** [`corpus_annote/Corpus_evaluation_RAG.xlsx`](../corpus_annote/Corpus_evaluation_RAG.xlsx), et le donner au métier.
+2. **Le métier le remplit** : les documents retenus, les questions réelles des utilisateurs, la réponse attendue, et le passage exact où elle se trouve, copié-collé. Chaque feuille porte ses définitions. Le [corpus d'exemple](../../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx) montre un fichier complet.
 3. **Ranger les documents** dans un dossier, chacun nommé par sa référence : `<référence dans la source>.<extension>`, par exemple `PR-1101.pdf`. C'est sous cette forme que le kit les envoie à votre RAG.
 4. **Importer** :
 
@@ -66,30 +67,30 @@ Tout est dans [`config/`](../config/), sans toucher au code.
 | Réglage | Fichier | Quoi mettre |
 | --- | --- | --- |
 | `projet` | `kit.yaml` | le nom de votre projet (il nomme le jeu de questions dans Langfuse) |
-| `chemins.documents` | `kit.yaml` | le dossier de vos documents (étape 2) |
-| `rag.adresse` | `kit.yaml` | l'adresse des portes de votre RAG, par exemple `http://127.0.0.1:8100` |
+| `chemins.corpus_documentaire` | `kit.yaml` | le dossier de votre corpus documentaire (étape 2) ; par défaut `corpus_annote/corpus_documentaire/` |
+| `rag.adresse` | `kit.yaml` | l'adresse des endpoints de votre RAG, par exemple `http://127.0.0.1:8100` |
 | `graphe.formes` | `kit.yaml` | seulement si votre RAG a un graphe : les règles SHACL de **votre** ontologie |
-| les seuils | `seuils.json` | à fixer **avec le métier, avant d'évaluer** : la part de réponses justes exigée, les critères bloquants… ([document 3](reference/methode_evaluation.md), section 9) |
+| les seuils | `seuils.json` | à fixer **avec le métier, avant d'évaluer** : la part de réponses justes exigée, les critères bloquants… ([document 3](methode_et_contrat/methode_evaluation.md), section 9) |
 
 Fixer les seuils avant de voir les scores évite de les choisir pour faire passer le RAG.
 
-## 4. Ouvrir les quatre portes de votre RAG
+## 4. Ouvrir les quatre endpoints de votre RAG
 
-Le service d'évaluation n'entre jamais dans votre RAG : il appelle quatre adresses web. Votre RAG les ouvre, dans un dossier à part, `porte_evaluation/`, écrit pour l'évaluation et pour rien d'autre. La règle complète : [0b. La porte du RAG](0b_porte_du_rag.md).
+Le service d'évaluation n'entre jamais dans votre RAG : il appelle quatre adresses web. Votre RAG les ouvre, dans un dossier à part, `endpoints_evaluation/`, écrit pour l'évaluation et pour rien d'autre. La règle complète : [0b. Les endpoints du RAG](0b_endpoints_du_rag.md).
 
 ### Partir du modèle
 
-[`../modele_porte/porte_evaluation.py`](../modele_porte/porte_evaluation.py) est un modèle complet, à copier dans votre RAG. Tel quel, il marche déjà : c'est un « RAG » jouet, qui fait un chunk par page et cherche par mots communs. Il donne la forme exacte de chaque porte. Vous remplacez le contenu des quatre fonctions marquées **À REMPLACER** par l'appel à votre RAG ; les formes d'entrée et de sortie ne changent pas.
+[`../endpoints_a_copier/endpoints_evaluation.py`](../endpoints_a_copier/endpoints_evaluation.py) est un modèle complet, à copier dans votre RAG. Tel quel, il marche déjà : c'est un « RAG » jouet, qui fait un chunk par page et cherche par mots communs. Il donne la forme exacte de chaque endpoint. Vous remplacez le contenu des quatre fonctions marquées **À REMPLACER** par l'appel à votre RAG ; les formes d'entrée et de sortie ne changent pas.
 
-Avant de toucher à votre RAG, lancez le modèle tel quel, depuis `service-evaluation/modele_porte/`, puis faites l'étape 5 : vous verrez le kit appeler les portes et noter le RAG jouet de bout en bout. Il obtient un score pondéré d'environ 24 % : c'est un jouet.
+Avant de toucher à votre RAG, lancez le modèle tel quel, depuis `service-evaluation/endpoints_a_copier/`, puis faites l'étape 5 : vous verrez le kit appeler les endpoints et noter le RAG jouet de bout en bout. Il obtient un score pondéré d'environ 24 % : c'est un jouet.
 
 ```bash
-uv run --with fastapi --with uvicorn --with pypdf uvicorn porte_evaluation:app --host 127.0.0.1 --port 8100
+uv run --with fastapi --with uvicorn --with pypdf uvicorn endpoints_evaluation:app --host 127.0.0.1 --port 8100
 ```
 
-Votre RAG n'est pas en Python ? Il ouvre les mêmes quatre adresses, avec les mêmes champs ([contrat](reference/contrat_des_fichiers.md#la-porte-dévaluation)).
+Votre RAG n'est pas en Python ? Il ouvre les mêmes quatre adresses, avec les mêmes champs ([contrat](methode_et_contrat/contrat_des_fichiers.md#les-endpoints-dévaluation)).
 
-### ① Ingérer : la première porte
+### ① Ingérer : la premier endpoint
 
 Le service d'évaluation envoie ses documents. Votre RAG les indexe **comme en production** (même extraction, même découpage, mêmes modèles), mais **dans un espace à part** : un autre dossier, une autre collection, jamais l'index de production.
 
@@ -152,30 +153,30 @@ Pour une question, votre RAG rend sa réponse, telle qu'un utilisateur la recevr
 | l'abstention devinée dans le texte, au lieu d'être dite par le RAG | des abstentions mal comptées |
 | les documents de l'évaluation indexés avec ceux de la production | une évaluation faussée, et une production polluée |
 
-## 5. Vérifier les portes
+## 5. Vérifier les endpoints
 
-Lancer votre RAG, portes ouvertes. Une première vérification à la main :
+Lancer votre RAG, endpoints ouverts. Une première vérification à la main :
 
 ```bash
 curl -s http://127.0.0.1:8100/index
 ```
 
-Avant toute ingestion, la réponse attendue est une erreur claire : rien n'a encore été ingéré. Puis faire appeler les quatre portes par le kit, depuis `service-evaluation/` :
+Avant toute ingestion, la réponse attendue est une erreur claire : rien n'a encore été ingéré. Puis faire appeler les quatre endpoints par le kit, depuis `service-evaluation/` :
 
 ```bash
 uv run kit appeler-rag --rag http://127.0.0.1:8100
 ```
 
-Le kit envoie les documents, pose chaque question, range ce que votre RAG rend, puis le vérifie. Il finit par « règle : respectée », ou il dit **précisément ce qui ne va pas**, porte par porte et ligne par ligne :
+Le kit envoie les documents, pose chaque question, range ce que votre RAG rend, puis le vérifie. Il finit par « règle : respectée », ou il dit **précisément ce qui ne va pas**, porte par endpoint et ligne par ligne :
 
 ```
-Réponses du RAG rangées dans sorties/sorties_rag/mon-rag-k5-d2a069ef ; règle : 3 écart(s).
+Réponses du RAG rangées dans resultats/reponses_du_rag/mon-rag-k5-d2a069ef ; règle : 3 écart(s).
   - chunks.jsonl, ligne 13 : champ « texte » : ne doit pas être vide.
   - reponses.jsonl, ligne 3 : champ obligatoire « abstention » absent.
   - recherches.jsonl, Q-007 : posée avec le profil « tous » au lieu de « exploitation ».
 ```
 
-On corrige la porte, on relance, jusqu'à « règle : respectée ».
+On corrige les endpoints, on relance, jusqu'à « règle : respectée ».
 
 ## 6. Évaluer, lire, corriger
 
@@ -183,7 +184,7 @@ On corrige la porte, on relance, jusqu'à « règle : respectée ».
 uv run kit evaluer --rag http://127.0.0.1:8100
 ```
 
-Sans `--rag`, le kit prend l'adresse de `kit.yaml`. La commande appelle les portes, enchaîne les quatre évaluations, et finit par le chemin du rapport, `RAPPORT.md`.
+Sans `--rag`, le kit prend l'adresse de `kit.yaml`. La commande appelle les endpoints, enchaîne les quatre évaluations, et finit par le chemin du rapport, `RAPPORT.md`.
 
 | Ensuite | Où |
 | --- | --- |
@@ -198,6 +199,6 @@ Sans `--rag`, le kit prend l'adresse de `kit.yaml`. La commande appelle les port
 - [ ] le service d'évaluation est lancé, `kit verifier-modeles` répond ;
 - [ ] le corpus est annoté par le métier, et `kit importer` l'accepte ;
 - [ ] `kit.yaml` et `seuils.json` sont réglés, les seuils fixés avec le métier ;
-- [ ] votre RAG a son dossier `porte_evaluation/`, et indexe les documents de l'évaluation à part ;
+- [ ] votre RAG a son dossier `endpoints_evaluation/`, et indexe les documents de l'évaluation à part ;
 - [ ] `kit appeler-rag` finit par « règle : respectée » ;
 - [ ] `kit evaluer` produit le rapport, et le juge est vérifié.

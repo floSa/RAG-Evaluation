@@ -40,7 +40,7 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`reference/methode_evaluation.md`](reference/methode_evaluation.md) | la méthode (document 3), section 7 |
+| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document 3), section 7 |
 | [`../src/kit/etape_2_evaluation_recherche/scores.py`](../src/kit/etape_2_evaluation_recherche/scores.py) | les règles de réussite et les scores de la recherche |
 
 ## La commande
@@ -51,7 +51,7 @@ Elle est déjà lancée par `kit evaluer`. Pour la relancer seule, sur les derni
 uv run kit evaluer-recherche
 ```
 
-Elle a besoin de l'[évaluation de l'ingestion](1_evaluation_ingestion.md) (les liens passage ↔ chunk) et de `recherches.jsonl` ([porte du RAG, ③ rechercher](0b_porte_du_rag.md)).
+Elle a besoin de l'[évaluation de l'ingestion](1_evaluation_ingestion.md) (les liens passage ↔ chunk) et de `recherches.jsonl` ([endpoints du RAG, ③ rechercher](0b_endpoints_du_rag.md)).
 
 ## Comment le kit tranche : « la réponse est dans »
 
@@ -87,6 +87,6 @@ Ce dernier chiffre est une tendance, pas une mesure, mais il dit où regarder en
 
 ## Si c'est mauvais
 
-Recherche hybride, reranker, filtres, choix de k : le [document 2](../../service-rag/documentation/reference/techniques_rag.md), section 6.
+Recherche hybride, reranker, filtres, choix de k : le [document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md), section 6.
 
 **Étape suivante** : [3. Évaluation de la réponse](3_evaluation_reponse.md).

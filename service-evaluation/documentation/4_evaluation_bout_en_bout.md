@@ -39,7 +39,7 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`reference/methode_evaluation.md`](reference/methode_evaluation.md) | la méthode (document 3), section 9 |
+| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document 3), section 9 |
 | [`../config/seuils.json`](../config/seuils.json) | les seuils du métier |
 | [`../src/kit/etape_4_evaluation_bout_en_bout/scores.py`](../src/kit/etape_4_evaluation_bout_en_bout/scores.py) | les scores de bout en bout |
 | [`../src/kit/etape_5_resultats/`](../src/kit/etape_5_resultats/) | la décision, le rapport, la publication dans Langfuse |
@@ -62,9 +62,9 @@ En pratique, une seule commande fait tout, une fois le RAG lancé :
 uv run kit evaluer
 ```
 
-Elle appelle d'abord les quatre portes du RAG ([0b](0b_porte_du_rag.md)) : elle lui envoie les documents, lui pose les 60 questions, et range ses réponses (5 minutes environ pour le RAG d'exemple). Elle vérifie ce que le RAG a rendu : si quelque chose est faux, elle s'arrête et dit pourquoi. Puis elle enchaîne les évaluations 1 à 4, dans l'ordre (5 minutes environ, dont 3 pour le juge).
+Elle appelle d'abord les quatre endpoints du RAG ([0b](0b_endpoints_du_rag.md)) : elle lui envoie les documents, lui pose les 60 questions, et range ses réponses (5 minutes environ pour le RAG d'exemple). Elle vérifie ce que le RAG a rendu : si quelque chose est faux, elle s'arrête et dit pourquoi. Puis elle enchaîne les évaluations 1 à 4, dans l'ordre (5 minutes environ, dont 3 pour le juge).
 
-Pour réévaluer des réponses déjà rangées, sans rappeler le RAG : `uv run kit evaluer --rag sorties/sorties_rag/<version du RAG>`. Une évaluation s'appelle `<version du corpus>_<version du RAG>`. Relancer une étape remplace ses résultats. Évaluer une autre version du RAG crée une autre évaluation.
+Pour réévaluer des réponses déjà rangées, sans rappeler le RAG : `uv run kit evaluer --rag resultats/reponses_du_rag/<version du RAG>`. Une évaluation s'appelle `<version du corpus>_<version du RAG>`. Relancer une étape remplace ses résultats. Évaluer une autre version du RAG crée une autre évaluation.
 
 ## Les scores
 

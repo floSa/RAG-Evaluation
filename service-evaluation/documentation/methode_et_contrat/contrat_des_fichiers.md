@@ -19,7 +19,7 @@ Arborescence :
 | Dossier | Contenu | Écrit par |
 | --- | --- | --- |
 | `corpus/<version_corpus>/` | corpus.json, documents.jsonl, questions.jsonl, passages.jsonl, pages_ocr.jsonl | le module d'import du kit |
-| `sorties_rag/<version_rag>/` | rag.json, chunks.jsonl, pages_extraites.jsonl, graphe.ttl, recherches.jsonl, reponses.jsonl | le kit, avec ce que rend la porte d'évaluation du RAG ; ou le RAG lui-même, par fichiers |
+| `reponses_du_rag/<version_rag>/` | rag.json, chunks.jsonl, pages_extraites.jsonl, graphe.ttl, recherches.jsonl, reponses.jsonl | le kit, avec ce que rend les endpoints d'évaluation du RAG ; ou le RAG lui-même, par fichiers |
 | `resultats/<evaluation_id>/` | RAPPORT.md, rapport.html, evaluation.json, liens_index.jsonl, resultats_par_question.csv, scores.json | le kit |
 | `comparaisons/<A>_contre_<B>/` | RAPPORT.md, comparaison.json | le kit (`kit comparer`) |
 | `config/` | seuils.json, kit.yaml | l'équipe du projet |
@@ -120,7 +120,7 @@ L'import découpe la colonne « Points clés attendus » sur « ; » et reconna�
 
 ## 3. Ce que le RAG rend
 
-La porte d'évaluation du RAG (fin de cette section) rend ces objets ; le kit les range dans ces fichiers.
+Les endpoints d'évaluation du RAG (fin de cette section) rend ces objets ; le kit les range dans ces fichiers.
 
 ### rag.json — la version évaluée
 
@@ -199,11 +199,11 @@ Le graphe exporté en RDF (Turtle). Chaque nœud et chaque relation réifiée po
 | Isolement | le RAG ne reçoit jamais reponse_attendue, points_cles ni passages, sauf l'historique ci-dessus |
 | Toutes les questions | y compris réservées à la décision ; seul l'affichage des résultats diffère |
 
-### La porte d'évaluation
+### Les endpoints d'évaluation
 
-Chaque RAG ouvre quatre portes à une adresse web (par défaut http://127.0.0.1:8100). Le kit les appelle dans l'ordre et écrit lui-même les fichiers ci-dessus. Un RAG qui ne peut pas ouvrir d'adresse écrit ces fichiers lui-même.
+Chaque RAG ouvre quatre endpoints à une adresse web (par défaut http://127.0.0.1:8100). Le kit les appelle dans l'ordre et écrit lui-même les fichiers ci-dessus. Un RAG qui ne peut pas ouvrir d'adresse écrit ces fichiers lui-même.
 
-| Porte | Adresse | Corps de la demande | Réponse |
+| Endpoint | Adresse | Corps de la demande | Réponse |
 | --- | --- | --- | --- |
 | ① ingérer | `POST /ingerer` | `{"documents": [...]}` : pour chaque document, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces` (codes de documents.jsonl), `fichier` (nom) et `contenu` (le fichier, en base64) | `{"documents", "chunks", "pages"}` |
 | ② montrer l'index | `GET /index` | — | `{"rag": <rag.json>, "chunks": [<chunks.jsonl>], "pages": [<pages_extraites.jsonl>], "graphe": <graphe.ttl en Turtle, ou null>}` |
