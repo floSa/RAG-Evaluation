@@ -1,6 +1,39 @@
 # 3. Évaluation de la réponse
 
-**La question** : la réponse est-elle juste, appuyée sur les documents, bien citée ? Le RAG s'abstient-il quand il le faut, et seulement quand il le faut ?
+## Ce que vérifie cette évaluation
+
+Le RAG reçoit la question, ramène ses k morceaux, et demande au modèle de langage d'écrire une réponse à partir de ces morceaux, en citant ses sources. L'évaluation de la réponse vérifie que cette réponse est juste, fondée sur les documents, et prudente quand il le faut. Elle vérifie **six choses**.
+
+**1. La réponse est juste** (seuil : 80 %)
+
+Pour chaque question, le métier a écrit la bonne réponse et l'a découpée en points clés, par exemple « 72 A » et « temporisation de 500 ms ». Un modèle de langage, le juge, lit la réponse du RAG et classe chaque point clé : présent, absent ou contredit. La réponse est juste si tous les points sont présents sans contradiction, partielle s'il en manque sans qu'aucun soit contredit, fausse sinon. Juste compte 1, partielle 0,5, fausse 0. Le score est la moyenne sur les questions qui ont une réponse dans les documents.
+
+**2. La réponse ne dit que ce que disent les documents** (seuil : 90 %)
+
+On découpe la réponse en affirmations, puis on vérifie chacune dans les morceaux que le modèle avait sous les yeux. Le score est le nombre d'affirmations appuyées par un morceau divisé par le nombre d'affirmations. Une réponse peut être juste par chance tout en inventant une partie : ce score le voit.
+
+**3. Le RAG sait dire « je ne sais pas »** (seuil : 80 %)
+
+Certaines questions n'ont pas de réponse dans les documents, ou portent sur un document interdit au profil qui la pose. Le RAG doit alors s'abstenir. Le score est le nombre d'abstentions divisé par le nombre de ces questions. À l'inverse, un second score (sans seuil) compte les questions où le RAG s'est abstenu alors qu'il avait le bon passage : l'excès de prudence.
+
+**4. Les sources citées sont les bonnes** (sans seuil)
+
+Une question compte 1 si au moins une source citée par le RAG contient le passage du métier, et si aucune n'est un piège ni un document interdit. Le score est la part de questions qui comptent 1.
+
+**5. Aucune erreur grave** (seuil : 0, bloquant)
+
+Le métier a donné à chaque question une gravité : forte, moyenne ou faible. Une erreur grave, c'est, sur une question de gravité forte, une réponse fausse, une réponse qui invente, ou une réponse donnée là où il fallait s'abstenir. Le service les compte. Une seule suffit à refuser la mise en production, et chacune est relue par le métier.
+
+**6. La justesse sur les questions difficiles** (sans seuil)
+
+Les mêmes réponses, regardées par type de question :
+- pour une liste : la part des éléments attendus présents dans la réponse ;
+- pour un chiffre : la valeur attendue est-elle dans la réponse, avec la bonne unité ;
+- pour une question de suite, qui dépend de l'échange précédent : la même note juste, partielle ou fausse ;
+- pour une synthèse qui rassemble plusieurs documents : une note de 1 à 5 donnée par le juge sur une grille, ramenée sur 100 % ;
+- pour une même question posée avec d'autres mots : la part des cas où les réponses ne disent pas la même chose.
+
+Le détail est plus bas : [le juge](#le-modèle-juge), et [les scores avec leur code](#les-scores).
 
 ```mermaid
 flowchart LR
