@@ -1,6 +1,6 @@
 # Service d'évaluation de RAG
 
-Ce dossier est le **service d'évaluation, vierge**. On le prend tel quel pour son propre projet : on y met son corpus, on le branche sur son RAG, et il dit si ce RAG peut partir en production.
+Ce dossier est le **service d'évaluation, vierge**. On le prend tel quel pour son propre projet : on y met son corpus, on le branche sur son RAG, et il en donne les scores : pour choisir la meilleure configuration, mesurer une amélioration, et éclairer la décision de mise en production, que prend le métier.
 
 **Commencez par le [fil conducteur](FIL_CONDUCTEUR.md)** : il explique ce qu'on fait et pourquoi, dans l'ordre, et renvoie vers le guide de chaque étape.
 
@@ -107,6 +107,7 @@ Vos chiffres peuvent différer de quelques points de ceux de l'exemple : le mod�
 | [3. Évaluation de la réponse](documentation/3_evaluation_reponse.md) | la réponse est-elle juste, fondée sur les documents ? |
 | [4. Évaluation de bout en bout](documentation/4_evaluation_bout_en_bout.md) | le RAG est-il bon sur ce qui compte, assez rapide, pas trop cher ? Et les scores clés |
 | [5. Résultats et comparaison](documentation/5_resultats_et_comparaison.md) | lire un rapport, comparer deux configurations |
+| [6. Aide à la décision : lire les scores](documentation/6_aide_a_la_decision.md) | des repères pour lire chaque score et son intervalle de confiance, et présenter les scores à ceux qui décident |
 
 ## Toutes les commandes
 
