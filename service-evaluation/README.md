@@ -125,6 +125,7 @@ Vos chiffres peuvent différer de quelques points de ceux de l'exemple : le mod�
 | [La marche à suivre](documentation/integrer_votre_rag.md) | par où commencer pour votre projet : ce qu'il faut demander au métier, où le ranger, brancher le RAG, lancer, lire |
 | [0a. Construction du corpus](documentation/0a_construction_du_corpus.md) | comment le métier annote le corpus, et comment l'importer |
 | [0b. Les endpoints du RAG](documentation/0b_endpoints_du_rag.md) | ce que votre RAG doit ouvrir pour être évalué |
+| [0c. Les configurations du RAG](documentation/0c_configurations_du_rag.md) | quels réglages évaluer, où ils se remplissent, comment lancer l'évaluation |
 | [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md) | rien ne s'est-il perdu quand le RAG a rangé les documents dans sa base ? |
 | [2. Évaluation de la recherche](documentation/2_evaluation_recherche.md) | la recherche ramène-t-elle les morceaux qui contiennent la réponse ? |
 | [3. Évaluation de la réponse](documentation/3_evaluation_reponse.md) | la réponse est-elle juste, fondée sur les documents ? |
