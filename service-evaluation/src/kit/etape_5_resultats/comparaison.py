@@ -65,7 +65,7 @@ def comparer(config: dict, dossier_a: Path, dossier_b: Path) -> dict:
 
 # Les scores montrés dans le rapport, dans l'ordre des évaluations (tous sont dans comparaison.json).
 PRINCIPAUX = ["n1_passages_rattaches", "n1_erreur_caracteres", "n2_reussite_k", "n2_rappel_k", "n2_fuite_droits",
-              "n3_exactitude", "n3_fidelite", "n3_abstention_correcte", "n3_erreurs_graves", "n3_synthese",
+              "n3_exactitude", "n3_valeurs", "n3_fidelite", "n3_abstention_correcte", "n3_erreurs_graves", "n3_synthese",
               "n4_score_pondere", "n4_temps_median", "n4_cout_moyen"]
 
 
@@ -111,6 +111,8 @@ def markdown(r: dict, questions: dict) -> str:
     lignes = []
     for x in sorted((x for x in r["ecarts"] if x["score"] in PRINCIPAUX), key=lambda x: PRINCIPAUX.index(x["score"])):
         reel = {True: "oui : plus grand que la marge", False: "non prouvé : dans la marge"}.get(x["significatif_seul"], "—")
+        if round(x["b"] - x["a"], 4) == 0:
+            reel = "—"
         lignes.append([libelle(x["score"]), texte_valeur(x["score"], x["a"]), texte_valeur(x["score"], x["b"]),
                        ecart(x["score"], x["a"], x["b"]), reel])
     m += tableau(["Score", "A", "B", "Écart de A à B", "L'écart est-il réel ?"], lignes)
