@@ -1,5 +1,7 @@
 # 0a. Construction du corpus
 
+Ce guide détaille l'étape 1 du [fil conducteur](../FIL_CONDUCTEUR.md#1-construire-et-importer-le-corpus-dévaluation).
+
 Le corpus annoté est le cœur de l'évaluation. Le métier y écrit des questions réelles, la réponse attendue, et **l'endroit exact où elle se trouve** dans les documents. C'est la seule chose à faire à la main : le kit l'importe ensuite, et tout le reste est automatique.
 
 ```mermaid
@@ -131,6 +133,27 @@ Le premier script dessine les PDF à partir de `fabrication/contenus/*.json`. Le
 
 ## 3. Importer le corpus
 
+### Ce que le métier reçoit, ce qu'il rend, et où le ranger
+
+Donnez au métier deux choses :
+
+1. **Le fichier Excel vierge**, [`corpus_annote/Corpus_evaluation_RAG.xlsx`](../corpus_annote/Corpus_evaluation_RAG.xlsx). Chaque feuille porte ses définitions et ses listes de valeurs.
+2. **Les règles pour le remplir** : le [section 1 de ce guide](#1-ce-que-le-métier-annote). Elles disent quels documents choisir, combien de questions écrire et de quels types, comment copier-coller le passage qui contient la réponse, comment noter la fréquence et la gravité de chaque question, et quelles questions garder de côté, pour qu'elles ne servent jamais à régler le RAG.
+
+Il vous rend :
+
+- **les documents**, un fichier par document, nommé par sa référence : `<référence>.<extension>`, par exemple `PR-1101.pdf`. Les fiches d'une GED (tickets, comptes rendus) n'ont pas besoin de fichier : le métier les repère par leur numéro et le nom du champ, et le RAG les lit lui-même dans la GED ([plus haut](#les-sources--fichiers-et-fiches-de-ged)) ;
+- **le fichier Excel rempli** : la liste des documents, les questions, leur bonne réponse, les passages qui la contiennent, et quelques pages scannées retapées à la main.
+
+Un fichier rempli, pour montrer au métier ce qu'on attend : [celui de l'exemple](../../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx).
+
+| Ce que le métier a rendu | Où vous le mettez |
+| --- | --- |
+| les documents | `corpus_annote/corpus_documentaire/` |
+| le fichier Excel rempli | `corpus_annote/Corpus_evaluation_RAG.xlsx`, à la place du fichier vierge |
+
+### L'import
+
 L'import transforme le fichier Excel du métier en un **corpus standard** : des fichiers que n'importe quel RAG sait lire, et que le kit sait évaluer. Il faut d'abord avoir installé le service et démarré Langfuse : voir son [README](../../service-evaluation/README.md). Sans Langfuse, ajouter `--sans-langfuse`.
 
 ```bash
@@ -178,6 +201,6 @@ Deux évaluations ne se comparent que sur la même version du corpus : sinon, on
 
 Un passage garde son identifiant d'une version à l'autre tant que sa ligne ne change pas (voir [DECISIONS.md](../../DECISIONS.md), décision 1).
 
-Retour au [fil conducteur](../../FIL_CONDUCTEUR.md#1-construire-et-importer-le-corpus-dévaluation), étape 1.
+Retour au [fil conducteur](../FIL_CONDUCTEUR.md#1-construire-et-importer-le-corpus-dévaluation), étape 1.
 
 **Étape suivante** : [0b. Les endpoints du RAG](0b_endpoints_du_rag.md).

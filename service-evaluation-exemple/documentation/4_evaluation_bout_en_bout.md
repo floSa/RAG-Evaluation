@@ -1,5 +1,7 @@
 # 4. Évaluation de bout en bout
 
+Ce guide détaille la vérification 4, de bout en bout, présentée dans le [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation) : ce qu'elle vérifie, comment chaque score est calculé, et quoi faire si c'est mauvais.
+
 ## Ce que vérifie cette évaluation
 
 On regarde le RAG comme l'utilisateur le voit : une question, une réponse, au bout d'un certain temps et pour un certain coût. L'évaluation de bout en bout vérifie que le RAG est bon là où ça compte, assez rapide et pas trop cher. Elle vérifie **quatre choses**.
@@ -88,5 +90,7 @@ Pour le RAG d'exemple, le métier lit notamment :
 - sur les questions réservées : le bon passage ramené pour 9 questions sur 13 (69 %), 77 % de réponses justes, un score pondéré de 76 %.
 
 > **Deux jeux de questions.** Si l'on règle le RAG en regardant les questions qui servent à le juger, on finit par le régler « pour le test », et le score ne veut plus rien dire. Le rapport et le CSV montrent donc le détail des questions de réglage. Pour les questions réservées, ils ne montrent que les scores clés. Leur détail reste dans la base.
+
+Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 
 **Étape suivante** : [5. Résultats et comparaison](5_resultats_et_comparaison.md).

@@ -26,7 +26,7 @@ Les trois autres configurations changent **un seul réglage** chacune, pour mesu
 
 ## Ce qu'on a fait, dans l'ordre
 
-Les étapes de [la marche à suivre](../service-evaluation/documentation/integrer_votre_rag.md), faites pour de vrai. Toutes les commandes du service se lancent depuis ce dossier.
+Les étapes du [fil conducteur](FIL_CONDUCTEUR.md), faites pour de vrai. Toutes les commandes du service se lancent depuis ce dossier.
 
 | Étape | Ce qu'on a fait | Ce que ça a produit |
 | --- | --- | --- |
@@ -76,6 +76,6 @@ Les mêmes dossiers et les mêmes fichiers que dans `service-evaluation/`. Trois
 | [`resultats/`](resultats/) | le corpus contrôlé, les réponses du RAG pour chaque configuration, les 4 évaluations et les 3 comparaisons |
 | [`endpoints_a_copier/`](endpoints_a_copier/), [`documentation/`](documentation/), [`src/`](src/), [`tests/`](tests/) | identiques à `service-evaluation/` : un test vérifie qu'ils le restent |
 
-On peut donc aussi le faire tourner tel quel, depuis ce dossier, comme `service-evaluation/` : les commandes sont dans [son README](../service-evaluation/README.md#la-marche-à-suivre).
+On peut donc aussi le faire tourner tel quel, depuis ce dossier, comme `service-evaluation/` : les étapes sont dans le [fil conducteur](FIL_CONDUCTEUR.md), et les commandes dans [le README du service](../service-evaluation/README.md#toutes-les-commandes).
 
 Chaque évaluation et chaque comparaison est un dossier nommé d'après la version du RAG évaluée. Exemple : `2026-11-20.1_graphrag-vectoriel-k5-5954e822` = le corpus du 20 novembre, le RAG « graphrag » en recherche vectorielle, avec k = 5, et une empreinte de ses autres réglages. Le tableau de la partie 1 dit à quelle configuration chacun correspond.

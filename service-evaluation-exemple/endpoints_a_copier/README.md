@@ -12,4 +12,4 @@ Le lancer tel quel, depuis ce dossier :
 uv run --with fastapi --with uvicorn --with pypdf uvicorn endpoints_evaluation:app --host 127.0.0.1 --port 8100
 ```
 
-La règle complète : [guide 0b](../documentation/0b_endpoints_du_rag.md). Le pas à pas : [intégrer votre RAG](../documentation/integrer_votre_rag.md). Un RAG complet qui les ouvre : [`service-rag-exemple/`](../../service-rag-exemple/README.md).
+La règle complète : [guide 0b](../documentation/0b_endpoints_du_rag.md). Le pas à pas : [guide 0b, côté RAG](../documentation/0b_endpoints_du_rag.md#3-côté-rag--où-ranger-les-endpoints). Un RAG complet qui les ouvre : [`service-rag-exemple/`](../../service-rag-exemple/README.md).

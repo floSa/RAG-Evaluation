@@ -1,6 +1,6 @@
 # 0c. Les configurations du RAG : fixer les réglages, puis lancer l'évaluation
 
-Ce guide donne le côté pratique de l'étape 3 du [fil conducteur](../../FIL_CONDUCTEUR.md#3-évaluer-une-configuration-du-rag) : où fixer les réglages du RAG, et comment lancer l'évaluation. Ce qu'est une configuration, et quels réglages évaluer, sont expliqués dans le fil conducteur.
+Ce guide donne le côté pratique de l'étape 3 du [fil conducteur](../FIL_CONDUCTEUR.md#3-évaluer-une-configuration-du-rag) : où fixer les réglages du RAG, et comment lancer l'évaluation. Ce qu'est une configuration, et quels réglages évaluer, sont expliqués dans le fil conducteur.
 
 ## 1. Où se remplissent les réglages
 
@@ -18,7 +18,7 @@ Le service d'évaluation s'utilise dans un terminal, avec la commande `kit` inst
 uv run kit evaluer
 ```
 
-Cette seule commande fait tout le déroulé décrit dans le fil conducteur, à [« Comment ils se parlent »](../../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation) :
+Cette seule commande fait tout le déroulé décrit dans le fil conducteur, à [« Comment ils se parlent »](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation) :
 1. elle envoie les documents au RAG, qui les ingère ;
 2. elle lit ses morceaux de texte et sa configuration ;
 3. elle lui pose chaque question du fichier Excel ;
@@ -28,6 +28,6 @@ Cette seule commande fait tout le déroulé décrit dans le fil conducteur, à [
 
 Comment lire le rapport : [guide 5](5_resultats_et_comparaison.md).
 
-Retour au [fil conducteur](../../FIL_CONDUCTEUR.md#3-évaluer-une-configuration-du-rag), étape 3.
+Retour au [fil conducteur](../FIL_CONDUCTEUR.md#3-évaluer-une-configuration-du-rag), étape 3.
 
 **Étape suivante** : [1. Évaluation de l'ingestion](1_evaluation_ingestion.md).
