@@ -54,7 +54,7 @@ flowchart LR
 | Je veux… | Suivre |
 | --- | --- |
 | **tester tel quel** : voir l'évaluation marcher sur le corpus et le RAG d'exemple, sans rien écrire | [Tester tel quel, étape par étape](#tester-tel-quel-étape-par-étape), ci-dessous |
-| **voir des résultats**, sans rien lancer | [`service-evaluation/resultats_exemple/`](service-evaluation/resultats_exemple/) : ouvrir le `rapport.html` de la référence |
+| **voir des résultats**, sans rien lancer | [les résultats de l'évaluation d'exemple](service-evaluation/resultats_exemple/README.md) : une page à lire ici, avec la décision, les scores et comment les lire |
 | **l'adapter à mon RAG** : évaluer mon RAG, sur mes documents, avec les questions de mon métier | [Intégrer votre RAG, pas à pas](service-evaluation/documentation/integrer_votre_rag.md) : constituer le corpus, ouvrir les quatre portes (avec un [modèle de code](service-evaluation/modele_porte/porte_evaluation.py) à copier), vérifier, évaluer |
 
 ## Tester tel quel, étape par étape
@@ -144,7 +144,7 @@ uv run kit evaluer
 
 ### Lire les résultats
 
-À la fin, la commande affiche le chemin de `rapport.html` : l'ouvrir dans un navigateur. Pour comparer avec nos résultats : [`resultats_exemple/`](service-evaluation/resultats_exemple/). Les détails sont dans Langfuse (http://127.0.0.1:3100 ; identifiants : [README du service d'évaluation](service-evaluation/README.md#lancer-le-service)).
+À la fin, la commande affiche le chemin de `rapport.html` : l'ouvrir dans un navigateur. Pour comparer avec nos résultats : [les résultats de l'évaluation d'exemple](service-evaluation/resultats_exemple/README.md). Les détails sont dans Langfuse (http://127.0.0.1:3100 ; identifiants : [README du service d'évaluation](service-evaluation/README.md#lancer-le-service)).
 
 Facultatif : pour voir aussi les traces du RAG dans Langfuse, copier les trois lignes `LANGFUSE_*` de `service-evaluation/.env` dans `service-rag/.env`, puis relancer le RAG (`docker compose up -d`, dans `service-rag/`).
 
@@ -185,7 +185,7 @@ RAG-Evaluation/
     ├── docker-compose.yml       Langfuse
     ├── modele_porte/            le modèle des quatre portes, à copier dans votre RAG
     ├── corpus_exemple/          50 documents fictifs et leur fichier Excel annoté
-    ├── resultats_exemple/       les résultats de nos évaluations, pour voir à quoi ils ressemblent
+    ├── resultats_exemple/       nos résultats : README.md, le rapport à lire ; donnees/, les fichiers du kit
     ├── sorties/                 ce que le kit produit chez vous (vide dans le dépôt)
     ├── documentation/           le pas à pas pour intégrer votre RAG, les guides dans l'ordre, la règle des portes
     ├── config/                  le modèle juge, l'adresse du RAG, les seuils du métier
