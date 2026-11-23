@@ -316,7 +316,7 @@ def afficher_decision(resultat: dict, ev) -> None:
     for x in d["seuils"]:
         if x["atteint"] is False and x["score"] not in bloquants:
             typer.echo(f"    seuil non atteint : {x['score']} = {x['valeur']} (seuil {x['seuil']})")
-    typer.echo(f"  Rapport : {ev.dossier / 'rapport.html'}")
+    typer.echo(f"  Rapport : {ev.dossier / 'RAPPORT.md'} (et rapport.html, la même chose en page web)")
 
 
 @app.command("evaluer-bout-en-bout")
@@ -335,7 +335,7 @@ def evaluer(corpus: Path = OPTION_CORPUS,
                                                "déjà rempli ; par défaut, l'adresse de config/kit.yaml"),
             sans_langfuse: bool = OPTION_LANGFUSE):
     """Évalue un RAG de bout en bout : appelle ses quatre portes, puis enchaîne les évaluations 1 à 4 ; écrit les scores
-    et rapport.html, et publie dans Langfuse."""
+    et le rapport (RAPPORT.md, rapport.html), et publie dans Langfuse."""
     config = charger_config()
     corpus = corpus or le_plus_recent(config, "corpus")
     rag = rag or config["rag"]["adresse"]
@@ -349,7 +349,8 @@ def evaluer(corpus: Path = OPTION_CORPUS,
 @app.command()
 def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=False, help="resultats/<evaluation_a>/"),
              evaluation_b: Path = typer.Argument(..., exists=True, file_okay=False, help="resultats/<evaluation_b>/")):
-    """Compare deux évaluations du même corpus : écarts de scores, questions gagnées et perdues, test de McNemar."""
+    """Compare deux configurations déjà évaluées sur le même corpus : écarts de scores, questions gagnées et perdues,
+    test de McNemar. Écrit sorties/comparaisons/<A>_contre_<B>/ : RAPPORT.md et comparaison.json."""
     import json
 
     config = charger_config()
@@ -358,8 +359,6 @@ def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=Fal
     except ValueError as e:
         typer.echo(str(e), err=True)
         raise typer.Exit(1)
-    (evaluation_b / f"comparaison_avec_{evaluation_a.name}.json").write_text(
-        json.dumps(r, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     typer.echo(f"A = {r['a']}\nB = {r['b']}\n")
     typer.echo(f"  {'score':<28} {'A':>8} {'B':>8} {'écart':>8}  marge")
     for x in r["ecarts"]:
@@ -383,6 +382,13 @@ def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=Fal
             graves = [x for x in q["perdues"] if questions.get(x, {}).get("gravite") == "forte"]
             typer.echo(f"    perdues : {', '.join(q['perdues'])}"
                        + (f"  — RÉGRESSION sur une question grave : {', '.join(graves)}" if graves else ""))
+    # Une comparaison n'appartient à aucune des deux évaluations : elle a son propre dossier.
+    dossier = (Path(config["chemins"]["sorties"]) / "comparaisons" /
+               f"{evaluation_a.name}_contre_{r['rag_b']['version_rag']}")
+    dossier.mkdir(parents=True, exist_ok=True)
+    (dossier / "comparaison.json").write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (dossier / "RAPPORT.md").write_text(comparaison.markdown(r, questions), encoding="utf-8")
+    typer.echo(f"\n  Rapport : {dossier / 'RAPPORT.md'}")
 
 
 if __name__ == "__main__":
