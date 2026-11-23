@@ -1,8 +1,58 @@
 # Le fil conducteur : évaluer un RAG, du début à la fin
 
-Ce document donne, dans l'ordre, ce qu'il faut faire pour évaluer un RAG. Chaque action renvoie au document qui la détaille. Il s'adresse à la personne qui prend en charge l'évaluation. Le métier intervient deux fois : pour construire le corpus d'évaluation, et pour fixer les seuils.
+Ce document explique d'abord comment fonctionne l'évaluation, puis donne, dans l'ordre, ce qu'il faut faire. Chaque action renvoie au document qui la détaille. Il s'adresse à la personne qui prend en charge l'évaluation. Le métier intervient deux fois : pour construire le corpus d'évaluation, et pour fixer les seuils.
 
-Ce qui est générique, valable pour tout projet, est dans [`service-evaluation/`](service-evaluation/README.md) : le service, vierge. Ce qui est propre à l'exemple est dans [`service-rag-exemple/`](service-rag-exemple/README.md), un RAG simple, et dans [`service-evaluation-exemple/`](service-evaluation-exemple/README.md), le même service après avoir évalué ce RAG.
+Ce qui est générique, valable pour tout projet, est dans [`service-evaluation/`](service-evaluation/README.md) : le service d'évaluation, vierge. Ce qui est propre à l'exemple est dans [`service-rag-exemple/`](service-rag-exemple/README.md), un RAG simple, et dans [`service-evaluation-exemple/`](service-evaluation-exemple/README.md), le même service après avoir évalué ce RAG.
+
+## Comment fonctionne l'évaluation
+
+**Le principe.** Le service d'évaluation se comporte comme un utilisateur automatique qui connaîtrait les bonnes réponses. Il fait lire des documents au RAG, lui pose des questions dont le métier a écrit la bonne réponse, puis compare ce que le RAG a fait à ce qu'il aurait dû faire.
+
+**Qui fait quoi.**
+
+| | Le service d'évaluation | Le RAG évalué |
+| --- | --- | --- |
+| **Contient** | le corpus d'évaluation (les documents et le fichier Excel du métier), les seuils, le juge | son propre code et ses propres réglages |
+| **Fait** | envoie les documents au RAG, lui pose les questions, note ses réponses, décide, écrit le rapport | ingère les documents reçus, recherche, répond, avec son code habituel |
+| **Ne voit jamais** | le code du RAG | les bonnes réponses du métier |
+
+**Comment ils se parlent.** Le RAG ouvre quatre **endpoints**, quatre adresses web de forme fixe. Le service les appelle dans cet ordre :
+
+```mermaid
+sequenceDiagram
+    participant S as Service d'évaluation
+    participant R as RAG évalué
+    S->>R: ① ingérer : les documents du corpus
+    Note over R: ingestion habituelle du RAG<br/>(lecture, découpage, vectorisation),<br/>dans un espace séparé de la production
+    S->>R: ② montrer l'index
+    R-->>S: ses morceaux de texte, et sa configuration
+    loop pour chaque question du fichier Excel
+        S->>R: ③ rechercher, au nom du profil de la question
+        R-->>S: les morceaux de texte retrouvés
+        S->>R: ④ répondre
+        R-->>S: la réponse, ses sources, ou « je ne sais pas »
+    end
+    Note over S: compare au fichier du métier,<br/>calcule les scores, décide,<br/>écrit RAPPORT.md
+```
+
+C'est donc le service qui déclenche l'ingestion, mais c'est le code du RAG qui la fait.
+
+**Où se trouve la configuration du RAG.** Une configuration est l'ensemble des réglages du RAG : nombre de morceaux de texte ramenés par la recherche, modèle qui écrit les réponses, prompt, graphe ou non… Elle se règle **dans le RAG**, dans ses propres fichiers, jamais dans le service. Dans le service, on ne renseigne qu'une seule chose sur le RAG : son adresse, dans `config/kit.yaml`. C'est le RAG qui déclare sa configuration au service, en réponse à l'appel ②. Le service la range dans un fichier `rag.json`, et nomme l'évaluation d'après elle. Par exemple, le RAG d'exemple, réglé dans [`service-rag-exemple/config/config.yaml`](service-rag-exemple/config/config.yaml), déclare :
+
+```json
+{"nom": "graphrag", "version_rag": "graphrag-vectoriel-k5-5954e822", "type_rag": "vectoriel", "k": 5,
+ "versions": {"decoupage": "sections-1", "embedding": "embed", "generation": "gemma-4-e4b", "prompt": "1.0", "reranker": "aucun"}}
+```
+
+**Ce qui est générique, et ce que votre RAG doit savoir faire.** Le service est le même pour tous les RAG : il ne connaît que les quatre endpoints. Votre RAG, lui, doit savoir faire quatre choses, une par endpoint :
+1. ingérer une liste de fichiers qu'on lui envoie, avec sa chaîne d'ingestion habituelle, dans un espace séparé de la production ;
+2. rendre ses morceaux de texte, chacun avec son document, sa page et ses droits d'accès, et déclarer sa configuration ;
+3. rechercher pour une question, en écartant les documents interdits au profil qui la pose ;
+4. répondre, avec ses sources, et dire « je ne sais pas » quand c'est le cas.
+
+Le point à vérifier en premier est le 1. Si l'ingestion de votre RAG est une chaîne à part (un traitement planifié, une GED lue en direct), l'endpoint ① doit déclencher cette chaîne sur les fichiers reçus. C'est le principal travail d'intégration.
+
+## Les étapes
 
 ```mermaid
 flowchart TD
@@ -10,16 +60,16 @@ flowchart TD
     E0 --> E1["<b>1. Construire et importer le corpus d'évaluation</b>"]
     E1 -- "erreurs : à corriger par le métier" --> E1
     E1 --> E2["<b>2. Fixer les seuils</b>"]
-    E2 --> E3["<b>3. Brancher le RAG</b>"]
+    E2 --> E3["<b>3. Ouvrir les quatre endpoints du RAG au service</b>"]
     E3 --> E4["<b>4. Évaluer une configuration du RAG</b>"]
-    E4 -- "autre configuration :<br/>changer un réglage du RAG" --> E4
+    E4 -- "autre configuration :<br/>changer un réglage dans le RAG" --> E4
     E4 --> E5["<b>5. Lire le rapport, vérifier le juge, comparer, décider</b>"]
 ```
 
 ## 0. Installer le service d'évaluation
 
 Le service se compose :
-- du **programme d'évaluation**, qui importe le corpus, interroge le RAG, calcule les scores et écrit les rapports ;
+- du **programme d'évaluation**, qui importe le corpus, appelle le RAG, calcule les scores et écrit les rapports ;
 - de **Langfuse**, un site web local pour suivre les évaluations et faire relire les réponses par le métier ;
 - d'un accès à un **modèle de langage, le juge**, qui note chaque réponse du RAG en la comparant à la bonne réponse ;
 - d'une **base de données** qui garde les résultats.
@@ -53,41 +103,38 @@ Un seuil est le niveau minimal qu'un score doit atteindre pour que le RAG parte 
 
 **Dans l'exemple.** [Les seuils retenus](service-evaluation-exemple/config/seuils.json) : par exemple au moins 80 % de réponses justes, aucune erreur grave, une réponse en moins de 15 secondes.
 
-## 3. Brancher le RAG
+## 3. Ouvrir les quatre endpoints du RAG au service
 
-Le service ne connaît pas le code du RAG. Il l'interroge par quatre **endpoints**, quatre adresses web de forme fixe : ① lui envoyer les documents ; ② lire ce qu'il en a fait ; ③ lui faire rechercher ; ④ lui faire répondre.
+Il s'agit d'ajouter au RAG les quatre adresses web que le service appelle (voir « Comment ils se parlent », plus haut). Seule cette partie s'écrit pour l'évaluation : le reste du RAG ne change pas.
 
 **À faire.**
-- Copier [le code tout prêt des quatre endpoints](service-evaluation/endpoints_a_copier/) dans le RAG, et y brancher les fonctions du RAG, en suivant [ce que chaque endpoint reçoit et rend](service-evaluation/documentation/0b_endpoints_du_rag.md).
-- Lancer le RAG, et renseigner son adresse dans `config/kit.yaml`.
-- [Vérifier le branchement](service-evaluation/documentation/integrer_votre_rag.md#vérifier-les-endpoints) : le service interroge le RAG et dit précisément ce qui ne va pas, jusqu'à « règle : respectée ».
+- Copier dans le RAG [le code tout prêt des quatre endpoints](service-evaluation/endpoints_a_copier/), et le relier aux fonctions du RAG : son ingestion, sa recherche, sa génération. Ce que chaque endpoint reçoit et doit rendre : [guide 0b](service-evaluation/documentation/0b_endpoints_du_rag.md).
+- Lancer le RAG, et inscrire son adresse dans `config/kit.yaml` du service.
+- [Vérifier le branchement](service-evaluation/documentation/integrer_votre_rag.md#vérifier-les-endpoints) : le service appelle les quatre endpoints et dit précisément ce qui ne va pas, jusqu'à « règle : respectée ».
 
-**Dans l'exemple.** Le RAG d'exemple a déjà ses quatre endpoints, dans [`src/rag/endpoints_evaluation/`](service-rag-exemple/src/rag/endpoints_evaluation/). Il est lancé comme l'indique [son README](service-rag-exemple/README.md#le-lancer).
+**Dans l'exemple.** Le RAG d'exemple a ses quatre endpoints dans [`src/rag/endpoints_evaluation/`](service-rag-exemple/src/rag/endpoints_evaluation/), un fichier par endpoint, qui appelle son ingestion, sa recherche et sa génération. Il est lancé comme l'indique [son README](service-rag-exemple/README.md#le-lancer), à l'adresse http://127.0.0.1:8100, inscrite dans [`config/kit.yaml`](service-evaluation-exemple/config/kit.yaml).
 
 ## 4. Évaluer une configuration du RAG
 
-Une **configuration** est l'ensemble des réglages du RAG au moment de l'évaluation : nombre de morceaux de texte ramenés par la recherche, modèle qui écrit les réponses, prompt, graphe ou non… Ces réglages appartiennent au RAG : ils se trouvent dans sa propre configuration, et le RAG les déclare au service par l'endpoint ②.
-
-Évaluer une configuration se fait en une commande, `kit evaluer`, qui enchaîne, sur le corpus importé à l'étape 1 et le RAG branché à l'étape 3 :
-1. l'envoi au RAG des documents du corpus ;
-2. la lecture de ce que le RAG en a fait : ses morceaux de texte, et la version exacte de sa configuration ;
-3. chaque question du fichier Excel, posée au RAG au nom du profil indiqué, d'abord pour la recherche, puis pour la réponse ;
-4. le calcul des scores des quatre évaluations (l'ingestion, la recherche, la réponse, de bout en bout), et leur comparaison aux seuils ;
-5. l'écriture du rapport, `resultats/evaluations/<version du corpus>_<version du RAG>/RAPPORT.md`.
+Le RAG tourne avec les réglages à évaluer : c'est la configuration évaluée. Une commande du service, `kit evaluer`, lancée depuis le dossier `service-evaluation/`, fait tout le déroulé décrit plus haut :
+1. elle envoie les documents au RAG, qui les ingère ;
+2. elle lit ses morceaux de texte et sa configuration ;
+3. elle lui pose chaque question du fichier Excel ;
+4. elle calcule les scores, les compare aux seuils, et écrit le rapport dans `resultats/evaluations/`.
 
 **À faire.**
-- Lancer le RAG avec la configuration à évaluer.
-- Lancer [`kit evaluer`, comme l'indique le README du service](service-evaluation/README.md#la-marche-à-suivre), étape 4. Le service prend le dernier corpus importé, et l'adresse du RAG inscrite dans `config/kit.yaml`. Il affiche à la fin la décision et le chemin du rapport.
-- Pour évaluer une autre configuration : changer un réglage dans la configuration du RAG, relancer le RAG, puis relancer `kit evaluer`. La version du RAG change, et le service écrit un nouveau rapport, à côté du précédent.
+- Régler le RAG dans ses propres fichiers de configuration, puis le lancer.
+- Lancer [`kit evaluer`](service-evaluation/README.md#la-marche-à-suivre) (étape 4 du README du service). Le service affiche à la fin la décision et le chemin du rapport.
+- Pour évaluer une autre configuration : modifier un réglage du RAG, relancer le RAG, puis relancer `kit evaluer`. Le RAG déclare sa nouvelle configuration, et le service écrit un nouveau rapport, à côté du précédent.
 
-**Dans l'exemple.** Le RAG d'exemple se règle par [quelques commandes de lancement](service-rag-exemple/README.md#changer-de-configuration). Quatre configurations ont été évaluées, chacune avec son rapport :
+**Dans l'exemple.** Les réglages du RAG d'exemple sont dans [`config/config.yaml`](service-rag-exemple/config/config.yaml) ; deux d'entre eux se changent aussi au lancement ([comment](service-rag-exemple/README.md#changer-de-configuration)). Quatre configurations ont été évaluées :
 
-| Configuration | Ce qui change | Rapport |
+| Configuration | Réglage changé dans le RAG | Rapport |
 | --- | --- | --- |
-| Référence | 5 morceaux ramenés par question | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) |
-| k = 3 | 3 morceaux au lieu de 5 | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k3-5954e822/RAPPORT.md) |
-| Sans réflexion | le modèle répond sans raisonner d'abord | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) |
-| Hybride | un graphe ajouté à la recherche | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-hybride-k5-57001489/RAPPORT.md) |
+| Référence | aucun : 5 morceaux ramenés par question | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) |
+| k = 3 | 3 morceaux au lieu de 5 (`RAG_K=3` au lancement) | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k3-5954e822/RAPPORT.md) |
+| Sans réflexion | le modèle répond sans raisonner d'abord (`sans_reflexion: true` dans `config.yaml`) | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) |
+| Hybride | un graphe ajouté à la recherche (`RAG_GRAPHE=true` au lancement) | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-hybride-k5-57001489/RAPPORT.md) |
 
 ## 5. Lire le rapport, vérifier le juge, comparer, décider
 
