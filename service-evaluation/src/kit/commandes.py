@@ -265,50 +265,70 @@ def evaluer_reponse(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_l
 
 @app.command("verifier-juge")
 def verifier_juge(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
-                  envoyer: bool = typer.Option(False, help="tirer l'échantillon et l'envoyer au métier dans Langfuse")):
-    """Vérification du juge : --envoyer pour faire noter l'échantillon, puis sans option pour calculer l'accord."""
+                  preparer_fichier: bool = typer.Option(False, "--preparer", help="tirer les réponses au hasard et écrire "
+                                                        "le fichier Excel que le métier remplit")):
+    """Vérification du juge : --preparer écrit le fichier Excel à faire remplir par le métier ; sans option, lit ses
+    notes dans ce fichier, calcule l'accord avec le juge, et le reporte en tête du rapport."""
     import json
 
     from sqlalchemy import select
     from sqlalchemy.orm import Session
 
+    from kit.etape_3_evaluation_reponse import fichier_metier
+    from kit.etape_5_resultats import rapport
+
     config, ev = preparer(corpus, rag)
-    langfuse = client_langfuse(config)
-    traces = publication.experience_langfuse(ev, langfuse).get("traces", {})
-    chemin = ev.fichiers / "verification_juge.json"
     with Session(base.moteur(config["chemins"]["base"])) as session:
         verdicts = {r.question_id: r.verdict for r in session.scalars(select(base.Resultat).where(
             base.Resultat.evaluation_id == ev.evaluation_id, base.Resultat.score == "n3_exactitude",
             base.Resultat.reservee.is_(False)))}
     if not verdicts:
-        typer.echo("Aucun verdict du juge : lancer d'abord « kit evaluer-reponse ».", err=True)
+        typer.echo("Aucun verdict du juge : lancer d'abord « kit evaluer ».", err=True)
         raise typer.Exit(1)
     v = config["verification_juge"]
-    if envoyer:
-        ids = relecture.echantillon(verdicts, v["taille_echantillon"])
-        chemin.write_text(json.dumps({"juge": config["modeles"]["juge"], "questions": ids}, ensure_ascii=False,
-                                     indent=2) + "\n", encoding="utf-8")
-        n = relecture.envoyer(langfuse, "verification-juge", "Vérification du juge : noter juste, partielle ou fausse, "
-                              "sans regarder la note du juge (prompt du juge)", [traces[q] for q in ids])
-        typer.echo(f"{len(ids)} réponses envoyées dans la file « verification-juge » ({n} nouvelles). Le métier les "
-                   f"note avec le score « {relecture.CONFIG_VERDICT} », puis relancer cette commande sans --envoyer.")
+    fichier = ev.dossier / "verification_juge.xlsx"
+    if preparer_fichier:
+        if fichier.exists():
+            typer.echo(f"{fichier} existe déjà : le supprimer pour tirer d'autres réponses.", err=True)
+            raise typer.Exit(1)
+        reponses = {r["question_id"]: r for r in ev.fichier_rag("reponses.jsonl")}
+        lignes = []
+        for q in relecture.echantillon(verdicts, v["taille_echantillon"]):
+            question, r = ev.questions[q], reponses.get(q, {})
+            texte = ("(Le RAG dit ne pas savoir.) " if r.get("abstention") else "") + (r.get("reponse") or "")
+            lignes.append({"question_id": q, "question": question["question"],
+                           "reponse_attendue": question.get("reponse_attendue"),
+                           "points_cles": fichier_metier.points_cles(question), "reponse_rag": texte})
+        fichier_metier.ecrire(fichier, lignes)
+        typer.echo(f"Fichier à faire remplir par le métier : {fichier} ({len(lignes)} réponses). Une fois rempli, le "
+                   f"remettre à la même place, puis relancer « kit verifier-juge ».")
         return
-    if not chemin.exists():
-        typer.echo("Pas d'échantillon : lancer d'abord « kit verifier-juge --envoyer ».", err=True)
+    if not fichier.exists():
+        typer.echo("Pas de fichier de vérification : lancer d'abord « kit verifier-juge --preparer ».", err=True)
         raise typer.Exit(1)
-    ids = json.loads(chemin.read_text(encoding="utf-8"))["questions"]
-    par_trace = relecture.notes_metier(langfuse, [traces[q] for q in ids])
-    metier = {q: par_trace[traces[q]] for q in ids if traces[q] in par_trace}
-    r = relecture.accord({q: verdicts[q] for q in ids}, metier)
-    r["valide"] = r["accord"] is not None and len(metier) == len(ids) and r["accord"] >= v["accord_minimum"]
+    metier, commentaires, manquantes = fichier_metier.lire(fichier)
+    r = relecture.accord({q: verdicts[q] for q in metier if q in verdicts}, metier)
+    r["accord_minimum"] = v["accord_minimum"]
+    r["juge"] = {"modele": config["modeles"]["juge"]["modele"], "version_prompt": config["modeles"]["juge"]["version_prompt"]}
+    r["valide"] = r["accord"] is not None and not manquantes and r["accord"] >= v["accord_minimum"]
+    for d in r["desaccords"]:
+        if d["question_id"] in commentaires:
+            d["commentaire_metier"] = commentaires[d["question_id"]]
     (ev.fichiers / "verification_juge_resultat.json").write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n",
                                                                  encoding="utf-8")
-    typer.echo(f"Notes du métier : {len(metier)} sur {len(ids)}.")
+    typer.echo(f"Notes du métier : {len(metier)} sur {len(metier) + len(manquantes)}."
+               + (f" Sans note : {', '.join(manquantes)}." if manquantes else ""))
     if r["n"]:
-        typer.echo(f"Accord juge / métier : {r['accord']:.0%} (seuil {v['accord_minimum']:.0%}) ; kappa de Cohen : "
-                   f"{r['kappa']}. Juge {'VALIDÉ' if r['valide'] else 'NON validé'}.")
+        typer.echo(f"Accord juge / métier : {r['accord']:.0%} (il en faut {v['accord_minimum']:.0%}) ; kappa de Cohen : "
+                   f"{r['kappa']}. Juge {'validé' if r['valide'] else 'NON validé'}.")
         for d in r["desaccords"]:
             typer.echo(f"  - {d['question_id']} : juge « {d['juge']} », métier « {d['metier']} »")
+    # le rapport dit désormais si l'on peut croire le juge
+    with Session(base.moteur(config["chemins"]["base"])) as session:
+        toutes = session.scalars(select(base.Resultat).where(base.Resultat.evaluation_id == ev.evaluation_id)).all()
+        resultat = json.loads((ev.fichiers / "scores.json").read_text(encoding="utf-8"))
+        rapport.ecrire(ev, resultat, toutes)
+    typer.echo(f"Rapport mis à jour : {ev.dossier / 'RAPPORT.md'}")
 
 
 def afficher_scores_cles(resultat: dict, ev) -> None:
