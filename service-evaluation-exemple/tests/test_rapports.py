@@ -30,6 +30,13 @@ def test_configuration_en_une_ligne():
     assert rapport.configuration(REFERENCE).startswith("RAG vectoriel, k = 5, découpage sections-1")
 
 
+def test_configuration_en_grille():
+    lignes = rapport.reglages(REFERENCE)
+    assert lignes[0] == ["Type de recherche", "vectoriel"]
+    assert ["Morceaux de texte ramenés par question (k)", "5"] in lignes
+    assert ["Modèle qui écrit la réponse", "gemma-4-e4b"] in lignes
+
+
 def test_rapport_evaluation_commence_par_les_scores_cles_sans_decider():
     c = {"titre": "graphrag-vectoriel-k5-5954e822", "configuration": rapport.configuration(REFERENCE),
          "corpus": "2026-11-20.1", "questions": 60, "reservees": 20, "juge": "chat, prompt 1.0",

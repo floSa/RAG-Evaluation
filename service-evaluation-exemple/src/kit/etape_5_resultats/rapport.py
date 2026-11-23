@@ -161,6 +161,22 @@ def configuration(rag: dict) -> str:
     return ", ".join(reglages)
 
 
+# Les réglages déclarés par le RAG (rag.json), en clair, dans l'ordre où on les lit.
+REGLAGES = [("type_rag", "Type de recherche"), ("k", "Morceaux de texte ramenés par question (k)"),
+            ("decoupage", "Découpage des documents"), ("embedding", "Modèle qui vectorise le texte"),
+            ("generation", "Modèle qui écrit la réponse"), ("prompt", "Version du prompt"),
+            ("reranker", "Reclassement des morceaux (reranker)")]
+
+
+def reglages(rag: dict) -> list[list[str]]:
+    """La configuration évaluée, un réglage par ligne : [réglage, valeur]."""
+    valeurs = {**rag.get("versions", {}), "type_rag": rag.get("type_rag"), "k": rag.get("k")}
+    lignes = [[nom, str(valeurs[cle])] for cle, nom in REGLAGES if valeurs.get(cle) is not None]
+    connus = {cle for cle, _ in REGLAGES} | {"index"}
+    lignes += [[cle, str(v)] for cle, v in valeurs.items() if cle not in connus and v is not None]
+    return lignes
+
+
 # --- Le contenu, commun aux deux rapports ------------------------------------------------------
 
 def questions_a_voir(ev: Evaluation, lignes_base) -> list[tuple]:
@@ -237,6 +253,7 @@ def contenu(ev: Evaluation, resultat: dict, lignes_base) -> dict:
     return {
         "titre": ev.rag["version_rag"],
         "configuration": configuration(ev.rag),
+        "reglages": reglages(ev.rag),
         "corpus": ev.version_corpus,
         "questions": len(ev.questions),
         "reservees": sum(q["reservee_decision"] for q in ev.questions.values()),
@@ -268,10 +285,11 @@ def markdown(c: dict) -> str:
     m = [f"# Évaluation de la configuration `{c['titre']}`", "",
          "Ce rapport donne les scores d'**une configuration** du RAG sur le corpus du métier. Il ne décide pas : "
          "c'est au métier de dire, à leur lecture, si cette configuration peut partir en production.", "",
-         *tableau(["", ""], [["Configuration évaluée", c["configuration"]],
-                             ["Corpus", f"version {c['corpus']} : {c['questions']} questions, dont {c['reservees']} "
-                                        f"réservées aux scores clés"],
-                             ["Juge", c["juge"]]]), "",
+         f"Corpus : version {c['corpus']}, {c['questions']} questions, dont {c['reservees']} réservées aux scores "
+         f"clés. Juge : {c['juge']}.", "",
+         "## La configuration évaluée", "",
+         "Les réglages du RAG pendant cette évaluation, tels qu'il les a déclarés.", "",
+         *tableau(["Réglage", "Valeur"], c.get("reglages") or [["Configuration", c["configuration"]]]), "",
          "## 1. Les scores clés", "",
          f"Ce sont les scores à présenter au métier. Ils sont calculés sur les {c['reservees']} questions réservées, "
          f"jamais utilisées pour régler le RAG ; les fuites de droits et les erreurs graves, sur toutes les questions. "
@@ -332,9 +350,9 @@ def page_html(c: dict) -> str:
          f"<h1>Évaluation de la configuration <code>{e(c['titre'])}</code></h1>",
          "<p>Ce rapport donne les scores d'<b>une configuration</b> du RAG sur le corpus du métier. Il ne décide pas : "
          "c'est au métier de dire, à leur lecture, si cette configuration peut partir en production.</p>",
-         table_html(["", ""], [["Configuration évaluée", c["configuration"]],
-                               ["Corpus", f"version {c['corpus']} : {c['questions']} questions, dont "
-                                          f"{c['reservees']} réservées aux scores clés"], ["Juge", c["juge"]]]),
+         f"<p>Corpus : version {e(c['corpus'])}, {c['questions']} questions, dont {c['reservees']} réservées aux "
+         f"scores clés. Juge : {e(c['juge'])}.</p><h2>La configuration évaluée</h2>",
+         table_html(["Réglage", "Valeur"], c.get("reglages") or [["Configuration", c["configuration"]]]),
          f"<h2>1. Les scores clés</h2><p><small>Calculés sur les {c['reservees']} questions réservées ; fuites de "
          f"droits et erreurs graves sur toutes les questions. Entre parenthèses, la fourchette où se trouve le vrai "
          f"résultat.</small></p>",
