@@ -183,7 +183,7 @@ On corrige la porte, on relance, jusqu'à « règle : respectée ».
 uv run kit evaluer --rag http://127.0.0.1:8100
 ```
 
-Sans `--rag`, le kit prend l'adresse de `kit.yaml`. La commande appelle les portes, enchaîne les quatre évaluations, et finit par le chemin de `rapport.html`.
+Sans `--rag`, le kit prend l'adresse de `kit.yaml`. La commande appelle les portes, enchaîne les quatre évaluations, et finit par le chemin du rapport, `RAPPORT.md`.
 
 | Ensuite | Où |
 | --- | --- |
