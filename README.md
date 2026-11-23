@@ -35,8 +35,10 @@ Il s'adresse à la personne qui prend en charge l'évaluation : data scientist, 
 | 2. Ranger et importer le corpus | les documents dans `corpus_annote/corpus_documentaire/`, le fichier dans `corpus_annote/`, puis `kit importer` : il dit ligne par ligne ce que le métier doit corriger | `service-evaluation/corpus_annote/` |
 | 3. Fixer les seuils avec le métier | ce que le RAG doit atteindre pour partir en production, **avant** toute évaluation | `config/seuils.json` |
 | 4. Brancher votre RAG | copier le modèle des quatre endpoints dans votre RAG, y brancher ses fonctions, mettre l'adresse du RAG dans `config/kit.yaml` ; `kit appeler-rag` vérifie | `endpoints_a_copier/`, [guide 0b](service-evaluation/documentation/0b_endpoints_du_rag.md) |
-| 5. Lancer l'évaluation | `kit evaluer` : le service appelle lui-même votre RAG, lui envoie les documents, pose toutes les questions, calcule les scores | depuis `service-evaluation/` |
+| 5. Lancer l'évaluation | `kit evaluer`, une fois par configuration du RAG : le service appelle lui-même votre RAG, lui envoie les documents, pose toutes les questions, calcule les scores | depuis `service-evaluation/` |
 | 6. Lire, corriger, comparer | lire le `RAPPORT.md` ; changer un réglage du RAG, réévaluer, puis `kit comparer` | `resultats/evaluations/`, [guide 5](service-evaluation/documentation/5_resultats_et_comparaison.md) |
+
+**Les configurations.** Une configuration, ce sont les réglages de votre RAG à un moment donné : k, modèles, prompt, découpage… Ils sont propres à chaque RAG et **se changent dans le RAG, jamais dans le service**. Le service les lit dans ce que le RAG déclare (endpoint ②), et nomme l'évaluation d'après eux. Pour tester une autre configuration : vous changez le réglage dans le RAG, vous le relancez, puis vous relancez `kit evaluer`. Un run = une configuration.
 
 Le détail de chaque étape : [Évaluer votre RAG : la marche à suivre](service-evaluation/documentation/integrer_votre_rag.md). Ces étapes, faites pour de vrai sur le RAG d'exemple : [ce qu'on a fait](service-evaluation-exemple/README.md#ce-quon-a-fait-dans-lordre).
 
