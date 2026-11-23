@@ -198,7 +198,7 @@ La **version du RAG** (`graphrag-vectoriel-k5-5954e822`, ou `graphrag-hybride-k5
 | Limite | Ce que le kit mesure |
 | --- | --- |
 | Pas de modèle de vision : une figure n'est connue que par sa légende | évaluation 3 (réponse) : la question Q-034 (câbles du TGBT-A, lisibles seulement sur le schéma) reçoit une abstention |
-| Docling écarte l'en-tête et le pied de page, colle des mots, mélange parfois l'ordre des lignes d'un scan | évaluation 1 (ingestion) : 15 % d'erreur de caractères, pour un seuil de 2 % |
+| Docling écarte l'en-tête et le pied de page, colle des mots, mélange parfois l'ordre des lignes d'un scan | évaluation 1 (ingestion) : 15 caractères sur 100 mal lus |
 | Toutes les versions des documents sont indexées, même celles qui ne sont plus en vigueur | évaluation 2 (recherche) : « périmé ou piège avant le bon passage » |
 | Recherche simple, sans reranker ni décomposition de la question | évaluation 2 (recherche) : les questions qui combinent plusieurs passages échouent plus souvent |
 | Un seul prompt, petit modèle (4 milliards de paramètres) | évaluation 3 (réponse) : les synthèses sur l'ensemble des documents sont fausses |
