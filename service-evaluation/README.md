@@ -54,6 +54,7 @@ Le RAG est appelé à l'adresse de [`config/kit.yaml`](config/kit.yaml) (`rag.ad
 service-evaluation/
 ├── docker-compose.yml           Langfuse
 ├── initialiser.sh               écrit les secrets de Langfuse dans .env
+├── modele_porte/                le modèle des quatre portes, à copier dans votre RAG
 ├── config/                      le modèle juge et l'adresse du RAG (kit.yaml), les seuils du métier (seuils.json)
 ├── corpus_exemple/
 │   ├── documents/               les 50 documents fictifs : c'est eux que le kit envoie au RAG
@@ -79,6 +80,7 @@ Les quatre évaluations sont les niveaux 1 à 4 de la méthode (document 3) : d'
 
 | Guide | La question |
 | --- | --- |
+| [Intégrer votre RAG](documentation/integrer_votre_rag.md) | **par où commencer pour votre projet** : les étapes, du corpus à la décision |
 | [0a. Construction du corpus](documentation/0a_construction_du_corpus.md) | comment annoter le corpus, et l'importer |
 | [0b. La porte du RAG](documentation/0b_porte_du_rag.md) | ce que chaque RAG doit fournir |
 | [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md) | le passage est-il dans l'index ? |
