@@ -81,10 +81,6 @@ cp ../service-evaluation-exemple/corpus_annote/corpus_documentaire/*.pdf corpus_
 ```
 
 ```bash
-cp ../service-evaluation-exemple/corpus_annote/ontologie/*.ttl corpus_annote/ontologie/
-```
-
-```bash
 uv run kit importer ../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx
 ```
 
@@ -108,6 +104,7 @@ Vos chiffres peuvent différer de quelques points de ceux de l'exemple : le mod�
 | [4. Évaluation de bout en bout](documentation/4_evaluation_bout_en_bout.md) | le RAG est-il bon sur ce qui compte, assez rapide, pas trop cher ? Et les scores clés |
 | [5. Résultats et comparaison](documentation/5_resultats_et_comparaison.md) | lire un rapport, comparer deux configurations |
 | [6. Aide à la décision : lire les scores](documentation/6_aide_a_la_decision.md) | des repères pour lire chaque score et son intervalle de confiance, et présenter les scores à ceux qui décident |
+| [Pour aller plus loin : les cas particuliers](documentation/cas_particuliers.md) | un RAG avec un graphe de connaissances, un RAG qui se repose des questions, des réponses qui se calculent sur des données |
 
 ## Toutes les commandes
 

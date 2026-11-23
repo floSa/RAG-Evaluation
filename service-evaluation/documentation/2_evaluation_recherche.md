@@ -70,7 +70,7 @@ Un **bon chunk** est un chunk lié, à l'évaluation 1, à un passage de la ques
 
 | Score | Ce qu'il mesure | Exemple | Si c'est mauvais |
 | --- | --- | --- | --- |
-| `n2_reussite_k` | part des questions dont la recherche ramène le bon passage dans les k premiers chunks | **86 %** ± 13 % | voir la ventilation par type de document ; recherche hybride, phrase de contexte, filtres de métadonnées |
+| `n2_reussite_k` | part des questions dont la recherche ramène le bon passage dans les k premiers chunks | **86 %** ± 13 % | voir la ventilation par type de document ; recherche par mots-clés en plus des vecteurs, phrase de contexte, filtres de métadonnées |
 | `n2_rappel_k` | part des passages attendus retrouvés | 81 % | questions à combiner : décomposer la question |
 | `n2_rang_premier` | 1 si le premier bon chunk est 1er, 1/2 s'il est 2e… | 0,68 | bon chunk trouvé mais mal classé : un reranker |
 | `n2_reussite_1`, `_3`, `_5` | la réussite pour k = 1, 3, 5 | 54 %, 75 %, 86 % | aide à choisir k : ici, passer de 3 à 5 gagne 11 points |
@@ -89,7 +89,7 @@ Ce dernier chiffre est une tendance, pas une mesure, mais il dit où regarder en
 
 ## Si c'est mauvais
 
-Recherche hybride, reranker, filtres, choix de k : le document [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](../../service-rag-exemple/documentation/reference/techniques_rag.md), section 6.
+Recherche par vecteurs et par mots-clés, reranker, filtres, choix de k : le document [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](../../service-rag-exemple/documentation/reference/techniques_rag.md), section 6.
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 

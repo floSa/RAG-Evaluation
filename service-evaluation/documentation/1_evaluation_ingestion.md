@@ -108,60 +108,7 @@ Sur une autre page (NT-040, page 3), il **mélange l'ordre des lignes**. Les pas
 
 ## Si le RAG a un graphe
 
-Un RAG de type `graphe` ou `hybride` rend aussi `graphe.ttl` ([endpoints du RAG, ② montrer l'index](0b_endpoints_du_rag.md)). Le kit vérifie alors deux choses de plus.
-
-```mermaid
-flowchart LR
-    G["<b>graphe.ttl</b><br/>du RAG"] --> V{"<b>pySHACL</b><br/>règles de l'ontologie<br/>du projet"}
-    F["ontologie_formes.ttl"] --> V
-    V --> S1["n1_graphe_violations"]
-    G --> T["<b>50 relations</b> au hasard,<br/>avec leur passage source"]
-    T --> L["Fichier Excel<br/>justesse_graphe.xlsx<br/>le métier juge"]
-    L --> S2["n1_graphe_justesse"]
-```
-
-| Score | Ce qu'il mesure | Si c'est mauvais |
-| --- | --- | --- |
-| `n1_graphe_violations` | le nombre de règles de l'ontologie non respectées : une classe fausse (une personne « située sur » un site), une relation inconnue, trop de valeurs (un équipement sur deux sites), une provenance manquante | contraindre davantage l'extraction : consigne, exemples, contrôle par l'ontologie avant d'écrire le graphe |
-| `n1_graphe_justesse` | la part des relations jugées justes par le métier, d'après leur passage source | une relation conforme à l'ontologie peut être fausse : meilleur modèle d'extraction, relecture |
-
-Les règles sont celles du projet, pas celles du RAG : le chemin de `ontologie_formes.ttl` est dans [`../config/kit.yaml`](../config/kit.yaml) (`graphe.formes`). Pour le corpus d'exemple : [`../corpus_annote/ontologie/`](../../service-evaluation-exemple/corpus_annote/ontologie/). Le code : [`../src/kit/etape_1_evaluation_ingestion/graphe.py`](../src/kit/etape_1_evaluation_ingestion/graphe.py).
-
-Il faut d'abord évaluer le RAG hybride : `RAG_GRAPHE=true docker compose up -d` dans `service-rag-exemple/`, puis `uv run kit evaluer`. Ses réponses sont alors les plus récentes, et les commandes ci-dessous les prennent sans option.
-
-Les violations sont calculées par `kit evaluer-ingestion`. La justesse demande le métier :
-
-1. Écrire le fichier à faire remplir par le métier, `justesse_graphe.xlsx`, dans le dossier de l'évaluation : 50 relations tirées au hasard, chacune avec son document, sa page et le passage d'où elle vient.
-   ```bash
-   uv run kit verifier-graphe --preparer
-   ```
-2. Le remettre au métier. Pour chaque relation, il choisit dans « Votre jugement » : **juste** si le passage dit bien cette relation, **fausse** sinon. Il rend le fichier, qu'on remet à la même place.
-
-   Un métier qui a déjà Langfuse en main peut juger là plutôt que dans le fichier : ajouter `--langfuse` à la commande, et les relations sont aussi mises dans la file **`justesse-graphe`** (Annotation Queues, score `justesse_relation`). Le service relit les jugements là où ils ont été mis.
-
-   Dans le banc d'essai, il n'y a pas de métier : cette commande remplit le fichier avec les jugements simulés (voir l'encadré plus bas) :
-   ```bash
-   uv run python ../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py
-   ```
-3. Voir où en est la relecture, puis inscrire le score dans les résultats :
-   ```bash
-   uv run kit verifier-graphe
-   ```
-   ```bash
-   uv run kit evaluer-ingestion
-   ```
-
-**Le résultat sur le RAG hybride d'exemple** : 25 violations, et une justesse de **66 %** ± 13 % (33 relations justes sur 50). Les 17 relations fausses sont de trois sortes :
-
-| Sorte d'erreur | Exemple | Combien |
-| --- | --- | --- |
-| relation vraie dans l'entreprise, mais que le passage ne dit pas : le modèle déduit le site du repère (« AD-B01 » → site B), et la provenance est fausse | AD-B01 situeSur Site B, d'après une page qui liste les armoires sans dire leur site | 7 |
-| mauvais rôle ou mauvaise cible : une demandeuse, une responsable ou un bureau d'études comptés comme intervenants ; l'intervention rattachée au transformateur au lieu du TGBT | Sophie Lenoir intervientSur AD-B02 (elle est la demandeuse) | 5 |
-| relation inversée ou inventée | AD-B06 alimente TGBT-B (c'est l'inverse) ; OND-A secourt GE-A ; un « technicien » absent du passage | 5 |
-
-C'est la limite d'un petit modèle qui extrait page par page. La première sorte d'erreur ne se voit pas dans les violations : la relation respecte l'ontologie, seule la provenance est fausse. D'où l'intérêt de faire juger les relations par le métier, en plus des règles SHACL.
-
-> Comme pour la vérification du juge, le métier est simulé dans le banc d'essai : c'est Claude qui a jugé les 50 relations, d'après leur passage source. Ses jugements et leur raison sont dans [`../corpus_annote/notes_du_metier_simulees/justesse_graphe.json`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/justesse_graphe.json). Ils visent les relations tirées chez l'auteur : si votre graphe en tire d'autres, celles-là restent sans jugement, et le script les compte.
+Le graphe se contrôle à cette évaluation, parce qu'il est construit en lisant les documents. Comment, et ce que ces contrôles ne disent pas : [Pour aller plus loin : les cas particuliers](cas_particuliers.md#1-un-rag-avec-un-graphe-de-connaissances).
 
 ## Si c'est mauvais
 
