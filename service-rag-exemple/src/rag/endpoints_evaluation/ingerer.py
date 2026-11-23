@@ -2,10 +2,12 @@
 
 Ce qu'elle reçoit, pour chaque document :
     reference_source, titre, type_document, version,
-    format         pdf_natif, pdf_scanne ou fiche_base
+    format         pdf_natif, pdf_scanne ou fiche_base (une fiche de GED)
     droits_acces   le profil qui peut le voir : tous, maintenance…
     fichier        le nom du fichier
     contenu        le fichier lui-même, en base64
+Une fiche de GED peut arriver sans fichier ni contenu : un RAG qui a un connecteur de GED la lit alors lui-même,
+par sa référence. Le RAG d'exemple n'en a pas : ses fiches lui arrivent exportées en PDF.
 Ce qu'elle rend : le nombre de documents, de chunks et de pages, et la version de l'index.
 
 Les documents sont rangés dans l'espace « evaluation » (sorties/evaluation/), jamais avec ceux de la production.

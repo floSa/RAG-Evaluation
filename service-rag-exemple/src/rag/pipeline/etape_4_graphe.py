@@ -1,6 +1,6 @@
 """Étape 4 — Graphe (optionnelle) : extraire des documents un graphe d'équipements, de sites et de personnes.
 
-- Un modèle de langage lit chaque page (chaque champ, pour une fiche de base de données) et en sort les entités
+- Un modèle de langage lit chaque page (chaque champ, pour une fiche de GED) et en sort les entités
   et les relations, **contraint par l'ontologie** : il ne connaît que ses classes et ses relations, et tout ce
   qui n'y est pas est écarté.
 - Chaque nœud et chaque relation garde sa **provenance** : le document et la page d'où il vient.

@@ -39,7 +39,7 @@ Ce que l'extraction perd est perdu pour tout le reste : aucune étape suivante n
 | Tableau dans un document | un chunk par tableau ou par groupe de lignes, avec titre et en-têtes répétés ; lignes écrites « colonne : valeur » | un chiffre reste lié à sa ligne et à sa colonne | recherche, sur les passages de type tableau |
 | Tableur ou export de données | chargement dans une base et réponse en SQL, pas d'index | un calcul exact au lieu d'une recherche approximative | réponse, sur les questions de type calcul |
 | Image ou schéma | description par un modèle de vision ; chunk de type « image ou schéma » avec sa page | l'image devient cherchable | recherche, sur les passages de type image |
-| Fiche de base de données | export de la fiche en « champ : valeur », un chunk par fiche | chaque champ garde son nom | recherche, sur ce type de document |
+| Fiche de GED | export de la fiche en « champ : valeur », un chunk par fiche | chaque champ garde son nom | recherche, sur ce type de document |
 | Texte invisible dans un document | suppression du texte blanc sur blanc ou minuscule | empêche des consignes cachées d'atteindre le modèle | — |
 
 État de l'art : aucun OCR testé ne suffit seul, et ses erreurs se propagent jusqu'à la réponse (OHRBench, 2024).

@@ -3,7 +3,7 @@
 - Texte : un chunk par section, avec le chemin de titres en tête ; une section trop longue est recoupée.
 - Tableau : un chunk par tableau, chaque ligne écrite « colonne : valeur » (en-têtes répétés).
 - Figure : un chunk par figure, avec sa légende (pas de modèle de vision ici : c'est une limite connue).
-- Fiche de base de données : un chunk par champ.
+- Fiche de GED : un chunk par champ.
 Chaque chunk garde la référence du document, sa version, sa page, son type d'élément, ses droits d'accès et son
 ordre dans la page : sans eux, le RAG ne pourrait ni citer ses sources ni filtrer les droits.
 """

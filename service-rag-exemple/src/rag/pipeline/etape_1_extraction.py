@@ -1,7 +1,7 @@
 """Étape 1 — Extraction : lire chaque document et en sortir le texte, page par page.
 
 - PDF natif et PDF scanné : Docling (analyse de mise en page ; OCR forcé pour un scan), en Markdown page par page.
-- Fiche de base de données : pypdf en mode « mise en page », qui garde les deux colonnes « champ : valeur ».
+- Fiche de GED : pypdf en mode « mise en page », qui garde les deux colonnes « champ : valeur ».
 Le résultat est mis en cache sur disque : Docling prend quelques secondes par document.
 """
 
@@ -20,7 +20,8 @@ SAUT_DE_PAGE = "<!-- page -->"
 # --- La liste des documents à lire ------------------------------------------------------------
 
 # Les libellés de la gestion documentaire, traduits dans les codes du RAG.
-FORMATS = {"PDF natif": "pdf_natif", "PDF scanné": "pdf_scanne", "Fiche de base de données": "fiche_base"}
+FORMATS = {"PDF natif": "pdf_natif", "PDF scanné": "pdf_scanne", "Fiche de GED": "fiche_base",
+           "Fiche de base de données": "fiche_base"}   # ancien libellé, encore accepté
 
 
 def profil(droits: str) -> str:
@@ -58,7 +59,7 @@ SUITE = re.compile(r"^\s{20,}(\S.*)$")                             # suite de la
 
 
 def fiche(chemin: Path) -> list[tuple[str, str]]:
-    """Lit une fiche de base de données exportée en PDF : liste de (champ, valeur)."""
+    """Lit une fiche de GED exportée en PDF : liste de (champ, valeur)."""
     champs = []
     for page in PdfReader(chemin).pages:
         for ligne in page.extract_text(extraction_mode="layout").splitlines():

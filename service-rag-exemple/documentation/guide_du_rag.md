@@ -78,7 +78,7 @@ Lire chaque document et en sortir le texte, page par page.
 | --- | --- | --- |
 | PDF natif | Docling (conteneur du [`docker-compose.yml`](../docker-compose.yml)) | il rend la mise en page en Markdown : titres, listes, tableaux |
 | PDF scanné | Docling, OCR forcé | les pages ne sont que des images |
-| Fiche de base de données | pypdf, mode « mise en page » | il garde les deux colonnes « champ : valeur » |
+| Fiche de GED | pypdf, mode « mise en page » | il garde les deux colonnes « champ : valeur » |
 
 Chaque document arrive avec ses métadonnées : sa référence, son titre, son type, sa version, son format, ses droits d'accès et le nom de son fichier. En production, elles viennent de l'export de la gestion documentaire (`documents/liste_des_documents.csv`) :
 

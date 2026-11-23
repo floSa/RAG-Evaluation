@@ -27,8 +27,8 @@ class Document(BaseModel):
     version: str
     format: str
     droits_acces: str
-    fichier: str
-    contenu: str            # le fichier, en base64
+    fichier: str | None = None    # absent pour une fiche de GED : le RAG la lirait dans sa GED
+    contenu: str | None = None    # le fichier, en base64
 
 
 class Documents(BaseModel):
@@ -63,6 +63,9 @@ def assistant() -> Assistant:
 
 @app.post("/ingerer", summary="Endpoint 1 — ingérer les documents de l'évaluation")
 def porte_ingerer(demande: Documents) -> dict:
+    sans_fichier = [d.reference_source for d in demande.documents if d.contenu is None]
+    if sans_fichier:   # le RAG d'exemple n'a pas de connecteur de GED : chaque fiche doit lui arriver en fichier
+        raise HTTPException(400, f"Le RAG d'exemple ne lit pas de GED ; fiches sans fichier : {', '.join(sans_fichier[:10])}.")
     resultat = ingerer(charger_config(), [d.model_dump() for d in demande.documents])
     etat["assistant"] = None                 # le prochain appel relit le nouvel index
     return resultat
