@@ -19,6 +19,19 @@ Ce dépôt présente le modèle complet pour **évaluer un RAG de bout en bout, 
 | **1. Le service RAG** | [`service-rag/`](service-rag/) | un RAG d'exemple, volontairement simple. Il montre la règle à suivre : les portes qu'un RAG met à disposition du service d'évaluation |
 | **2. Le service d'évaluation** | [`service-evaluation/`](service-evaluation/) | le produit : un corpus annoté par le métier, et un kit qui évalue **n'importe quel RAG**. Il dit si le RAG lit bien les documents, s'il retrouve les bons passages, s'il répond juste, et s'il peut partir en production |
 
+## Ce que fait le service d'évaluation
+
+Il **évalue une configuration** du RAG, c'est-à-dire le RAG avec tous ses réglages fixés, et répond : *peut-elle partir en production ?* Il le fait en quatre évaluations, dans l'ordre :
+
+1. **Ingestion** : rien ne s'est perdu ni abîmé quand le RAG a découpé les documents, les a vectorisés et rangés dans sa base vectorielle.
+2. **Recherche** : pour chaque question, la recherche ramène les morceaux qui contiennent la réponse, et jamais un document interdit à la personne qui la pose.
+3. **Réponse** : la réponse est juste, ne dit que ce que disent les documents, et le RAG sait dire « je ne sais pas ».
+4. **Bout en bout** : le RAG est bon sur les questions qui comptent le plus, assez rapide et pas trop cher.
+
+Il peut aussi **comparer deux configurations** déjà évaluées (par exemple 5 ou 3 morceaux ramenés) : laquelle fait mieux, et l'écart est-il réel ?
+
+Chaque évaluation et chaque comparaison produit un `RAPPORT.md`, lisible directement sur GitHub : [les résultats d'exemple](service-evaluation/resultats_exemple/README.md).
+
 ## Les quatre portes
 
 Le service d'évaluation demande à chaque RAG **quatre portes de forme fixe**, à une adresse web :
@@ -42,7 +55,7 @@ flowchart LR
         direction TB
         C["Corpus annoté<br/>documents + fichier Excel du métier"]
         K["Kit d'évaluation<br/>évaluations 1 à 4"]
-        D["rapport.html<br/>Langfuse"]
+        D["RAPPORT.md<br/>Langfuse"]
         C --> K --> D
     end
     K -- "① les documents<br/>② montrer l'index<br/>③ ④ les questions" --> P
@@ -54,7 +67,7 @@ flowchart LR
 | Je veux… | Suivre |
 | --- | --- |
 | **tester tel quel** : voir l'évaluation marcher sur le corpus et le RAG d'exemple, sans rien écrire | [Tester tel quel, étape par étape](#tester-tel-quel-étape-par-étape), ci-dessous |
-| **voir des résultats**, sans rien lancer | [les résultats de l'évaluation d'exemple](service-evaluation/resultats_exemple/README.md) : une page à lire ici, avec la décision, les scores et comment les lire |
+| **voir des résultats**, sans rien lancer | [les résultats d'exemple](service-evaluation/resultats_exemple/README.md) : 4 configurations évaluées et 3 comparaisons, à lire ici |
 | **l'adapter à mon RAG** : évaluer mon RAG, sur mes documents, avec les questions de mon métier | [Intégrer votre RAG, pas à pas](service-evaluation/documentation/integrer_votre_rag.md) : constituer le corpus, ouvrir les quatre portes (avec un [modèle de code](service-evaluation/modele_porte/porte_evaluation.py) à copier), vérifier, évaluer |
 
 ## Tester tel quel, étape par étape
@@ -68,7 +81,7 @@ On lance **d'abord le RAG, puis l'évaluation**.
 | **Temps 2. Lancer l'évaluation** | démarrer Langfuse, vérifier les modèles | `service-evaluation/` | [README du service d'évaluation](service-evaluation/README.md) |
 | **Temps 2a. Brancher le corpus** | faire contrôler et ranger le fichier Excel du métier | `service-evaluation/` | [0a. Construction du corpus](service-evaluation/documentation/0a_construction_du_corpus.md) |
 | **Temps 2b. Évaluer** | envoyer les documents au RAG, lui poser les 60 questions, noter ses réponses | `service-evaluation/` | [guides 1 à 4](service-evaluation/documentation/1_evaluation_ingestion.md) |
-| **Lire les résultats** | ouvrir `rapport.html`, puis Langfuse ; comparer deux versions du RAG | `service-evaluation/sorties/resultats/` ; l'exemple : `service-evaluation/resultats_exemple/` | [5. Résultats et comparaison](service-evaluation/documentation/5_resultats_et_comparaison.md) |
+| **Lire les résultats** | ouvrir `RAPPORT.md`, puis Langfuse ; comparer deux configurations | `service-evaluation/sorties/resultats/` ; l'exemple : `service-evaluation/resultats_exemple/` | [5. Résultats et comparaison](service-evaluation/documentation/5_resultats_et_comparaison.md) |
 
 ### Avant de commencer
 
@@ -144,7 +157,7 @@ uv run kit evaluer
 
 ### Lire les résultats
 
-À la fin, la commande affiche le chemin de `rapport.html` : l'ouvrir dans un navigateur. Pour comparer avec nos résultats : [les résultats de l'évaluation d'exemple](service-evaluation/resultats_exemple/README.md). Les détails sont dans Langfuse (http://127.0.0.1:3100 ; identifiants : [README du service d'évaluation](service-evaluation/README.md#lancer-le-service)).
+À la fin, la commande affiche le chemin du rapport, `RAPPORT.md`. Pour comparer avec nos résultats : [les résultats d'exemple](service-evaluation/resultats_exemple/README.md). Les détails sont dans Langfuse (http://127.0.0.1:3100 ; identifiants : [README du service d'évaluation](service-evaluation/README.md#lancer-le-service)).
 
 Facultatif : pour voir aussi les traces du RAG dans Langfuse, copier les trois lignes `LANGFUSE_*` de `service-evaluation/.env` dans `service-rag/.env`, puis relancer le RAG (`docker compose up -d`, dans `service-rag/`).
 
@@ -159,7 +172,7 @@ Vos chiffres peuvent différer de quelques points de ceux des guides : le modèl
 | constituer le corpus de mon projet | [0a. Construction du corpus](service-evaluation/documentation/0a_construction_du_corpus.md) |
 | ouvrir les portes de mon RAG à l'évaluation | [0b. La porte du RAG](service-evaluation/documentation/0b_porte_du_rag.md), avec l'exemple [`porte_evaluation/`](service-rag/src/rag/porte_evaluation/) |
 | comprendre chaque évaluation | [1. Ingestion](service-evaluation/documentation/1_evaluation_ingestion.md), [2. Recherche](service-evaluation/documentation/2_evaluation_recherche.md), [3. Réponse](service-evaluation/documentation/3_evaluation_reponse.md), [4. Bout en bout](service-evaluation/documentation/4_evaluation_bout_en_bout.md) |
-| lire les résultats, comparer deux versions du RAG | [5. Résultats et comparaison](service-evaluation/documentation/5_resultats_et_comparaison.md) |
+| lire les résultats, comparer deux configurations | [5. Résultats et comparaison](service-evaluation/documentation/5_resultats_et_comparaison.md) |
 | voir comment le RAG d'exemple est construit | [Guide du RAG](service-rag/documentation/guide_du_rag.md), et le [document 2](service-rag/documentation/reference/techniques_rag.md) pour les techniques |
 | savoir pourquoi un choix a été fait | [DECISIONS.md](DECISIONS.md) |
 
@@ -185,7 +198,7 @@ RAG-Evaluation/
     ├── docker-compose.yml       Langfuse
     ├── modele_porte/            le modèle des quatre portes, à copier dans votre RAG
     ├── corpus_exemple/          50 documents fictifs et leur fichier Excel annoté
-    ├── resultats_exemple/       nos résultats : README.md, le rapport à lire ; donnees/, les fichiers du kit
+    ├── resultats_exemple/       nos résultats, à lire sans rien lancer : évaluations et comparaisons
     ├── sorties/                 ce que le kit produit chez vous (vide dans le dépôt)
     ├── documentation/           le pas à pas pour intégrer votre RAG, les guides dans l'ordre, la règle des portes
     ├── config/                  le modèle juge, l'adresse du RAG, les seuils du métier
