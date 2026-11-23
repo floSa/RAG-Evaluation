@@ -37,8 +37,6 @@ sequenceDiagram
 
 C'est donc le service qui déclenche l'ingestion, mais c'est le code du RAG qui la fait.
 
-**Ce que le service rend.** Pour chaque configuration évaluée, un rapport, `RAPPORT.md`. Chaque score y est écrit en une phrase, avec ses chiffres, pour que le métier comme l'équipe du projet le comprennent sans explication. Chaque pourcentage est donné avec son intervalle de confiance : la fourchette où se trouve le vrai résultat, large quand il y a peu de questions. Le service ne décide pas : c'est le métier qui tranche à la lecture des scores. Exemple : [le rapport de la configuration de référence du RAG d'exemple](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md).
-
 **Où se trouve la configuration du RAG.** Une configuration est l'ensemble des réglages du RAG : nombre de morceaux de texte ramenés par la recherche, modèle qui écrit les réponses, prompt, graphe ou non… Elle se règle **dans le RAG**, dans ses propres fichiers, jamais dans le service. Dans le service, on ne renseigne qu'une seule chose sur le RAG : son adresse, dans `config/kit.yaml`. C'est le RAG qui déclare sa configuration au service, en réponse à l'appel ②. Le service la range dans un fichier `rag.json`, et nomme l'évaluation d'après elle. Par exemple, le RAG d'exemple, réglé dans [`service-rag-exemple/config/config.yaml`](service-rag-exemple/config/config.yaml), déclare :
 
 ```json
@@ -113,6 +111,8 @@ Le RAG tourne avec les réglages à évaluer : c'est la configuration évaluée.
 2. elle lit ses morceaux de texte et sa configuration ;
 3. elle lui pose chaque question du fichier Excel ;
 4. elle calcule les scores, et écrit le rapport dans `resultats/evaluations/`.
+
+Le rapport, `RAPPORT.md`, donne chaque score en une phrase, avec ses chiffres, pour que le métier comme l'équipe du projet le comprennent sans explication. Chaque pourcentage est donné avec son intervalle de confiance : la fourchette où se trouve le vrai résultat, large quand il y a peu de questions. Le service ne décide pas : c'est le métier qui tranche à la lecture des scores. Exemple : [le rapport de la configuration de référence du RAG d'exemple](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md).
 
 **À faire.**
 - Régler le RAG dans ses propres fichiers de configuration, puis le lancer.
