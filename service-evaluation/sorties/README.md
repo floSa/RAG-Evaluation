@@ -9,4 +9,4 @@ Le kit écrit ici tout ce qu'il produit. Le dossier est **vide dans le dépôt**
 | `resultats/<corpus>_<version du RAG>/` | les résultats d'une évaluation, dont `rapport.html` | `kit evaluer` |
 | `base.sqlite` | la base : tout, y compris le détail des questions réservées | `kit init-base`, puis chaque commande |
 
-Pour voir des résultats sans rien lancer : [`resultats_exemple/`](../resultats_exemple/).
+Pour voir des résultats sans rien lancer : [les résultats de l'évaluation d'exemple](../resultats_exemple/README.md).
