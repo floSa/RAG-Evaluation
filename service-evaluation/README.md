@@ -30,11 +30,11 @@ Chaque évaluation et chaque comparaison produit un rapport, `RAPPORT.md`, lisib
 
 Les fichiers à la racine servent à l'installer : `docker-compose.yml` démarre Langfuse, l'outil web où le métier relit les réponses ; `initialiser.sh` prépare ses mots de passe ; `pyproject.toml` et `uv.lock` listent les bibliothèques Python ; `.env.example` montre les clés à fournir.
 
-## Le faire tourner, dans l'ordre
+## La marche à suivre
 
-Pas à pas détaillé, avec votre propre RAG : [intégrer votre RAG](documentation/integrer_votre_rag.md).
+Elle s'adresse à la personne qui prend en charge l'évaluation et sait lancer des commandes : c'est elle qui fait toutes les étapes. Le métier fournit le corpus annoté (étape 1) et fixe avec elle les seuils (étape 3). Le détail de chaque étape : [la marche à suivre](documentation/integrer_votre_rag.md). Toutes les commandes se lancent depuis ce dossier.
 
-**1. Installer.** Il faut Docker, [uv](https://docs.astral.sh/uv/), et un accès à des modèles de langage par une API compatible OpenAI. Depuis ce dossier :
+**0. Installer.** Il faut Docker, [uv](https://docs.astral.sh/uv/), et un accès à des modèles de langage par une API compatible OpenAI, pour le modèle juge.
 
 ```bash
 cp .env.example .env
@@ -56,27 +56,31 @@ Langfuse est à http://127.0.0.1:3100. L'identifiant est `evaluation@valtera.exa
 uv run kit verifier-modeles
 ```
 
-**2. Régler** [`config/`](config/) : le nom du projet, l'adresse de votre RAG, et les seuils, fixés avec le métier avant toute évaluation.
+**1. Demander le corpus au métier.** Lui donner le fichier vierge [`corpus_annote/Corpus_evaluation_RAG.xlsx`](corpus_annote/Corpus_evaluation_RAG.xlsx) et les règles pour le remplir ([guide 0a](documentation/0a_construction_du_corpus.md)). Il rend les documents, un fichier par document nommé par sa référence, et le fichier rempli.
 
-**3. Remplir** [`corpus_annote/`](corpus_annote/) : vos documents dans `corpus_documentaire/`, et le fichier Excel, rempli par le métier ([guide 0a](documentation/0a_construction_du_corpus.md)).
-
-**4. Importer le corpus.** Le service contrôle le fichier Excel et dit précisément ce qui ne va pas.
+**2. Ranger et importer le corpus.** Les documents dans [`corpus_annote/corpus_documentaire/`](corpus_annote/corpus_documentaire/), le fichier rempli à la place du fichier vierge, puis :
 
 ```bash
 uv run kit importer corpus_annote/Corpus_evaluation_RAG.xlsx
 ```
 
-**5. Brancher le RAG.** Votre RAG ouvre les quatre endpoints décrits dans le [guide 0b](documentation/0b_endpoints_du_rag.md), à partir du code de [`endpoints_a_copier/`](endpoints_a_copier/).
+Si une ligne est fausse, rien n'est importé, et chaque erreur est listée avec sa feuille et sa ligne : la liste à renvoyer au métier.
 
-**6. Évaluer une configuration.** Le service envoie les documents au RAG, lui pose toutes les questions, puis enchaîne les quatre évaluations.
+**3. Fixer les seuils avec le métier**, avant toute évaluation, dans [`config/seuils.json`](config/seuils.json).
+
+**4. Brancher votre RAG.** Copier [`endpoints_a_copier/`](endpoints_a_copier/) dans votre RAG, y brancher ses fonctions ([guide 0b](documentation/0b_endpoints_du_rag.md)), lancer le RAG, mettre son adresse dans `rag.adresse` de [`config/kit.yaml`](config/kit.yaml), puis vérifier :
+
+```bash
+uv run kit appeler-rag
+```
+
+**5. Lancer l'évaluation.** Le service appelle lui-même votre RAG : il lui envoie les documents, pose toutes les questions, puis enchaîne les quatre évaluations. Votre RAG n'a qu'à rester allumé.
 
 ```bash
 uv run kit evaluer
 ```
 
-**7. Lire le rapport.** La commande affiche à la fin le chemin du `RAPPORT.md`, dans `resultats/evaluations/`. Comment le lire : [guide 5](documentation/5_resultats_et_comparaison.md).
-
-**8. Comparer.** Après un changement de réglage, on évalue la nouvelle configuration, puis on la compare à l'ancienne :
+**6. Lire, corriger, comparer.** Le rapport est dans `resultats/evaluations/<configuration>/RAPPORT.md` ([guide 5](documentation/5_resultats_et_comparaison.md)). Pour tester un autre réglage : relancer le RAG avec ce réglage, `kit evaluer`, puis :
 
 ```bash
 uv run kit comparer resultats/evaluations/<configuration A> resultats/evaluations/<configuration B>
@@ -84,7 +88,7 @@ uv run kit comparer resultats/evaluations/<configuration A> resultats/evaluation
 
 ### Essayer avec le corpus d'exemple
 
-Pour essayer le service sans corpus à soi, on lui donne celui de l'exemple, puis on suit les étapes 4 à 8. Le RAG d'exemple doit être lancé ([son README](../service-rag-exemple/README.md)).
+Pour essayer le service sans corpus à soi, on lui donne celui de l'exemple, puis on suit les étapes 5 et 6. Le RAG d'exemple doit être lancé ([son README](../service-rag-exemple/README.md)).
 
 ```bash
 cp ../service-evaluation-exemple/corpus_annote/corpus_documentaire/*.pdf corpus_annote/corpus_documentaire/
@@ -108,7 +112,7 @@ Vos chiffres peuvent différer de quelques points de ceux de l'exemple : le mod�
 
 | Guide | Ce qu'il explique |
 | --- | --- |
-| [Intégrer votre RAG](documentation/integrer_votre_rag.md) | par où commencer pour votre projet, du corpus à la décision |
+| [La marche à suivre](documentation/integrer_votre_rag.md) | par où commencer pour votre projet : ce qu'il faut demander au métier, où le ranger, brancher le RAG, lancer, lire |
 | [0a. Construction du corpus](documentation/0a_construction_du_corpus.md) | comment le métier annote le corpus, et comment l'importer |
 | [0b. Les endpoints du RAG](documentation/0b_endpoints_du_rag.md) | ce que votre RAG doit ouvrir pour être évalué |
 | [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md) | rien ne s'est-il perdu quand le RAG a rangé les documents dans sa base ? |
