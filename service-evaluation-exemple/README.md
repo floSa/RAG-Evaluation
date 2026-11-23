@@ -24,6 +24,20 @@ Les trois autres configurations changent **un seul réglage** chacune, pour mesu
 | Sans réflexion | le modèle écrit sa réponse directement, sans raisonner d'abord |
 | Hybride | un graphe est ajouté : le RAG consulte aussi les liens entre équipements, sites et personnes, extraits des documents |
 
+## Ce qu'on a fait, dans l'ordre
+
+Les étapes de [la marche à suivre](../service-evaluation/documentation/integrer_votre_rag.md), faites pour de vrai. Toutes les commandes du service se lancent depuis ce dossier.
+
+| Étape | Ce qu'on a fait | Ce que ça a produit |
+| --- | --- | --- |
+| **0. Installer le service** | copié `service-evaluation/` ici ; démarré Langfuse (`./initialiser.sh`, `docker compose up -d`) ; choisi pour juge le modèle `chat`, différent du modèle qui écrit les réponses du RAG | `uv run kit verifier-modeles` répond |
+| **1. Demander le corpus au métier** | l'entreprise est fictive : c'est Claude qui a joué le métier, en suivant les règles du [guide 0a](documentation/0a_construction_du_corpus.md) | 50 documents et le fichier Excel rempli : 60 questions, 97 passages, 20 pages scannées retapées |
+| **2. Ranger et importer le corpus** | les documents dans [`corpus_annote/corpus_documentaire/`](corpus_annote/corpus_documentaire/), le fichier dans [`corpus_annote/`](corpus_annote/) ; puis `uv run kit importer corpus_annote/Corpus_evaluation_RAG.xlsx` | le corpus contrôlé, dans [`resultats/corpus/2026-11-20.1/`](resultats/corpus/) |
+| **3. Fixer les seuils** | dans [`config/seuils.json`](config/seuils.json), avant toute évaluation | les seuils de la partie « Sur quoi se fonde la décision » |
+| **4. Brancher le RAG** | le [RAG d'exemple](../service-rag-exemple/README.md) ouvre ses quatre endpoints dans `src/rag/endpoints_evaluation/` ; lancé avec `docker compose up -d --build` (dans `service-rag-exemple/`), à l'adresse http://127.0.0.1:8100, notée dans [`config/kit.yaml`](config/kit.yaml) ; vérifié avec `uv run kit appeler-rag` | « règle : respectée » |
+| **5. Lancer les évaluations** | une évaluation par configuration. Pour chacune : relancer le RAG avec son réglage, puis `uv run kit evaluer`. Référence : `docker compose up -d` ; k = 3 : `RAG_K=3 docker compose up -d` ; sans réflexion : `sans_reflexion: true` dans `config/config.yaml` du RAG, puis `docker compose restart rag` ; hybride : `RAG_GRAPHE=true docker compose up -d` | les réponses du RAG dans [`resultats/reponses_du_rag/`](resultats/reponses_du_rag/), et un `RAPPORT.md` par configuration dans [`resultats/evaluations/`](resultats/evaluations/) |
+| **6. Relire et comparer** | vérifié le juge : `uv run kit verifier-juge --envoyer`, puis les notes du métier (ici simulées : `uv run python corpus_annote/notes_du_metier_simulees/publier.py`), puis `uv run kit verifier-juge` ; comparé chaque configuration à la référence : `uv run kit comparer resultats/evaluations/<référence> resultats/evaluations/<autre>` | l'accord juge et métier : 89 %, pour 90 % exigés (juge à surveiller) ; les 3 rapports de comparaison dans [`resultats/comparaisons_de_configurations/`](resultats/comparaisons_de_configurations/) |
+
 ## Sur quoi se fonde la décision
 
 Avant d'évaluer, le métier a fixé des **seuils** dans [`config/seuils.json`](config/seuils.json). Par exemple : au moins 95 % des passages du métier retrouvés dans la base du RAG, au moins 90 % de questions où la recherche ramène le bon passage, au moins 80 % de réponses justes, une réponse en moins de 15 secondes.
@@ -67,6 +81,6 @@ Les mêmes dossiers et les mêmes fichiers que dans `service-evaluation/`. Trois
 | [`resultats/`](resultats/) | le corpus contrôlé, les réponses du RAG pour chaque configuration, les 4 évaluations et les 3 comparaisons |
 | [`endpoints_a_copier/`](endpoints_a_copier/), [`documentation/`](documentation/), [`src/`](src/), [`tests/`](tests/) | identiques à `service-evaluation/` : un test vérifie qu'ils le restent |
 
-On peut donc aussi le faire tourner tel quel, depuis ce dossier, comme `service-evaluation/` : les commandes sont dans [son README](../service-evaluation/README.md#le-faire-tourner-dans-lordre).
+On peut donc aussi le faire tourner tel quel, depuis ce dossier, comme `service-evaluation/` : les commandes sont dans [son README](../service-evaluation/README.md#la-marche-à-suivre).
 
 Chaque évaluation et chaque comparaison est un dossier nommé d'après la version du RAG évaluée. Exemple : `2026-11-20.1_graphrag-vectoriel-k5-5954e822` = le corpus du 20 novembre, le RAG « graphrag » en recherche vectorielle, avec k = 5, et une empreinte de ses autres réglages. Le tableau de la partie 1 dit à quelle configuration chacun correspond.
