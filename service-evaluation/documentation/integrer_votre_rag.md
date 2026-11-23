@@ -71,7 +71,7 @@ Le service contrôle tout le fichier. Si une seule ligne est fausse, rien n'est 
 
 ## 3. Fixer les seuils avec le métier
 
-Un **seuil**, c'est le niveau minimal qu'un score doit atteindre pour que le RAG puisse partir en production. Par exemple : « au moins 80 % de réponses justes ». À la fin de l'évaluation, le service compare chaque score à son seuil, et c'est ce qui donne la décision.
+Il y a **un seuil par score** : le niveau minimal que ce score doit atteindre, par exemple « au moins 80 % de réponses justes ». Il n'y a pas de seuil unique, parce que chaque score mesure une chose différente : une moyenne de tous les scores laisserait un bon score cacher un mauvais, par exemple d'excellentes réponses qui cachent une fuite de droits. Le RAG part en production seulement si **chaque** score atteint son seuil, sur les 20 questions réservées à la décision, et s'il n'y a aucune erreur grave ni aucune fuite de droits.
 
 Une partie des seuils dépend de ce que les utilisateurs peuvent accepter. Ce n'est pas à vous d'en décider : c'est au métier. Avant toute évaluation, vous lui posez donc ces questions, et vous écrivez ses réponses dans [`config/seuils.json`](../config/seuils.json) :
 
