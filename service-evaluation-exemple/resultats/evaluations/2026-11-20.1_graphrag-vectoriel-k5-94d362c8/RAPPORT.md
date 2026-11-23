@@ -122,6 +122,8 @@ Erreurs graves et fuites d'abord, puis réponses fausses, puis passages perdus �
 | **Q-044** : quelles sont les grandes différences entre les installations électriques du site A et du site B ? | Réponse fausse | 1. absent : La réponse ne mentionne ni le système TN-S pour le site A, ni le système IT pour le site B. ; 2. absent : La réponse ne précise pas le nombre de transformateurs (deux sur A, un seul sur B). ; 3. contredit : L'assistant affirme que le site B n'a pas d'onduleur centralisé mais possède des onduleurs locaux, alors que la référence indique simplement l'absence d'onduleur centralisé sans men |
 | **Q-055** : tous les combien faut-il nettoyer les filtres d'aération des variateurs de vitesse ? | A répondu au lieu de s'abstenir | le RAG a répondu au lieu de s'abstenir |
 
+**Relecture du métier** : pas encore faite. 30 réponses sont à relire dans `relecture_reponses.xlsx`, à côté de ce rapport ; puis `kit lire-relecture`.
+
 ## 4. La faute est-elle dans la recherche ou dans la réponse ?
 
 Pour chaque question qui a une réponse dans les documents : le bon passage a-t-il été ramené, et la réponse est-elle juste ?

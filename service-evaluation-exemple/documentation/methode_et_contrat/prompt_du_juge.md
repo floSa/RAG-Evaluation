@@ -80,6 +80,6 @@ Pour les questions de type `synthese`, note de 1 à 5 :
 | Étape | Détail |
 | --- | --- |
 | 1 | tirer au hasard 30 réponses (50 en configuration recommandée), hors questions réservées |
-| 2 | les écrire dans un fichier Excel, `verification_juge.xlsx`, avec la question, la bonne réponse, ses points clés et la réponse du RAG ; le métier note chacune juste, partielle ou fausse, avec le critère ci-dessus, sans voir la note du juge |
+| 2 | les écrire dans un fichier Excel, `verification_juge.xlsx`, avec la question, la bonne réponse, ses points clés et la réponse du RAG ; le métier note chacune juste, partielle ou fausse, avec le critère ci-dessus, sans voir la note du juge (s'il préfère, il note dans la file Langfuse `verification-juge`) |
 | 3 | le kit calcule l'accord : part des réponses où le métier et le juge donnent le même verdict |
 | 4 | accord d'au moins 90 % : juge validé ; sinon, lire les réponses où le juge et le métier ne sont pas d'accord, préciser la consigne du juge (son prompt, dont on change alors la version) ou changer de modèle juge, puis refaire la vérification |

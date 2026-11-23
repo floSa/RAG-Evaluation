@@ -116,6 +116,8 @@ Erreurs graves et fuites d'abord, puis réponses fausses, puis passages perdus �
 | **Q-043** : quels enseignements tirer des campagnes de thermographie depuis 2023 ? | Réponse fausse | 1. absent : L'assistant mentionne le desserrage des connexions mais ne précise pas qu'il s'agit de la 'première cause', contrairement à la référence. ; 2. absent : L'assistant ne cite aucun point chaud récurrent spécifique (TGBT-A ou AD-B04). ; 3. contredit : L'assistant indique que la périodicité est passée de 24 à 12 mois en 2025, alors que la référence précise que le changement s'est produit de |
 | **Q-044** : quelles sont les grandes différences entre les installations électriques du site A et du site B ? | Réponse fausse | 1. absent : La réponse ne mentionne ni le système TN-S pour le site A, ni le système IT pour le site B. ; 2. absent : La réponse ne précise pas le nombre de transformateurs (deux sur A, un seul sur B). ; 3. contredit : L'assistant affirme que le site B n'a pas d'onduleur centralisé mais possède des onduleurs locaux, alors que la référence indique simplement l'absence d'onduleur centralisé sans men |
 
+**Relecture du métier** : pas encore faite. 25 réponses sont à relire dans `relecture_reponses.xlsx`, à côté de ce rapport ; puis `kit lire-relecture`.
+
 ## 4. La faute est-elle dans la recherche ou dans la réponse ?
 
 Pour chaque question qui a une réponse dans les documents : le bon passage a-t-il été ramené, et la réponse est-elle juste ?

@@ -201,7 +201,7 @@ Croiser la recherche et la réponse dit où chercher la cause :
 | --- | --- | --- |
 | Le script du kit | abstention, citations, valeurs et calculs | code du kit |
 | Le LLM juge | exactitude, complétude, fidélité, synthèse | prompt du kit et Ragas |
-| L'équipe métier | les réponses fausses ou partielles ; toutes les questions de gravité forte ; 10 réponses au hasard ; les désaccords entre le script et le juge | file de relecture dans Langfuse |
+| L'équipe métier | les réponses fausses ou partielles ; toutes les questions de gravité forte ; 10 réponses au hasard ; les désaccords entre le script et le juge | fichier Excel à remplir (`relecture_reponses.xlsx`), ou file de relecture dans Langfuse |
 
 Le juge utilise un prompt fourni par le kit ([`prompt_du_juge.md`](prompt_du_juge.md)), le même pour tous les projets, avec une température à 0. C'est de préférence un autre modèle que celui du RAG : un modèle tend à favoriser ses propres réponses.
 

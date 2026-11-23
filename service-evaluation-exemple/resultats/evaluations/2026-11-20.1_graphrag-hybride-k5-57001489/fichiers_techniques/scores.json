@@ -182,6 +182,14 @@
       "ventilation": {}
     },
     {
+      "score": "n1_graphe_justesse",
+      "niveau": 1,
+      "valeur": 0.66,
+      "marge": 0.1313,
+      "n": 50,
+      "ventilation": {}
+    },
+    {
       "score": "n2_reussite_k",
       "niveau": 2,
       "valeur": 0.8214,

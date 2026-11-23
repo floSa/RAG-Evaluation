@@ -62,6 +62,7 @@ On vérifie que le RAG n'a rien perdu ni abîmé en lisant les documents, en les
 | Erreur de lecture des scans (caractères) | 15 % | Sur les pages scannées, 15 caractères sur 100 sont mal lus. | `n1_erreur_caracteres` |
 | Erreur de lecture des scans (mots) | 20 % | Sur les pages scannées, 20 mots sur 100 sont mal lus. | `n1_erreur_mots` |
 | Violations des règles du graphe | 25 | Relations du graphe qui ne respectent pas les règles de l'ontologie : 25. | `n1_graphe_violations` |
+| Justesse du graphe | 66 % (entre 53 et 79 %) | 33 relations du graphe sur 50 relues sont jugées justes. | `n1_graphe_justesse` |
 
 ### 2. Recherche
 
@@ -115,6 +116,8 @@ Erreurs graves et fuites d'abord, puis réponses fausses, puis passages perdus �
 | Question | Problème | Détail |
 | --- | --- | --- |
 | **Q-041** : quels problèmes électriques reviennent le plus souvent dans les interventions des deux usines ? | Réponse fausse | 1. contredit : La réponse de référence mentionne des 'échauffements', tandis que l'assistant parle de 'desserrage'. Bien que liés, ce n'est pas la même expression technique et cela peut être considéré comme une contradiction s'il faut exprimer exactement le même sens. ; 2. absent : L'information concernant les 'défauts d'isolement sur le site B' n'est pas mentionnée dans la réponse de l'assistant. |
+
+**Relecture du métier** : pas encore faite. 24 réponses sont à relire dans `relecture_reponses.xlsx`, à côté de ce rapport ; puis `kit lire-relecture`.
 
 ## 4. La faute est-elle dans la recherche ou dans la réponse ?
 

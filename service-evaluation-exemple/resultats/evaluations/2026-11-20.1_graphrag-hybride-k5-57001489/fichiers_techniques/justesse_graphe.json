@@ -4,349 +4,349 @@
     "texte": "OND-A secourt GE-A",
     "reference_source": "NT-060",
     "page": "1",
-    "trace_id": "486d0e49aeb5963bf6f47ffc34238437"
+    "passage": "NT-060 — Durée de vie et remplacement des batteries d'onduleur > 1. Objet\nLa présente note fixe les règles de suivi et de remplacement des batteries de l'onduleur OND-A (60 kVA) de l'usine de Lavernay (site A). Le site B n'a pas d'onduleur centralisé ; ses petits onduleurs locaux sont hors du champ de cette note.\n\nNT-060 — Durée de vie et remplacement des batteries d'onduleur > 2. Composition du parc\nL'onduleur OND-A est équipé de 32 batteries au plomb étanches de 12 V 9 Ah, montées en série, soit une tension nominale de batterie de 384 V. Son autonomie nominale à pleine charge est de 15 minutes, ce qui couvre largement le démarrage et la prise de charge du groupe électrogène GE-A, en moins de 15 secondes.\n\nNT-060 — Durée de vie et remplacement des batteries d'onduleur > 3. Durée de vie\nLa durée de vie prévue des batteries est de 5 ans. Elle suppose une température du local onduleur maintenue à 20 °C, avec un maximum de 25 °C. Au-delà, la durée de vie diminue fortement : on estime qu'elle est divisée par deux pour chaque tranche de 10 °C au-dessus de 25 °C.\nLe jeu de batteries en service a été installé en octobre 2020. Il atteint donc sa durée de vie prévue en octobre 2025 : son remplacement doit être planifié dès maintenant, même si les essais restent satisfaisants."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-117",
     "texte": "TR-B1 situeSur Site B",
     "reference_source": "NT-066",
     "page": "2",
-    "trace_id": "d12662ce081abee5aa4957c6949e2059"
+    "passage": "NT-066 — Pièces de rechange critiques : liste et stock minimal > 3. Pièces propres à un site ou à la HTA\nTableau 2 - Pièces spécifiques\nPièce : Fusible HTA 24 kV 43 A ; Équipement concerné : Cellules de TR-A1 et TR-A2 (site A) ; Stock minimal : 3 ; Délai d'approvis ionnement : 4 semaines ; Prix unitaire (€ HT) : 210\nPièce : Fusible HTA 24 kV 63 A ; Équipement concerné : Cellule de TR-B1 (site B) ; Stock minimal : 3 ; Délai d'approvis ionnement : 4 semaines ; Prix unitaire (€ HT) : 235\nPièce : Batterie 12 V 9 Ah ; Équipement concerné : Onduleur OND-A (site A) ; Stock minimal : 4 ; Délai d'approvis ionnement : 2 semaines ; Prix unitaire (€ HT) : 27\nPièce : Contrôleur permanent d'isolement ; Équipement concerné : CPI-B (site B) ; Stock minimal : 1 ; Délai d'approvis ionnement : 8 semaines ; Prix unitaire (€ HT) : 2 100\nPièce : Batterie de démarrage 12 V 180 Ah ; Équipement concerné : Groupes électrogènes GE-A et GE-B ; Stock minimal : 2 par site ; Délai d'approvis ionnement : 1 semaine ; Prix unitaire (€ HT) : 245\n\nNT-066 — Pièces de rechange critiques : liste et stock minimal > 3. Pièces propres à un site ou à la HTA\nLes 4 batteries 12 V 9 Ah en stock servent uniquement au dépannage ponctuel d'un bloc défaillant sur un jeu récent. Le remplacement complet des 32 batteries de l'OND-A fait l'objet d'une commande spécifique (voir la note NT-060).\n\nNT-066 — Pièces de rechange critiques : liste et stock minimal > 4. Gestion du stock\n- Réapprovisionner dès que le stock atteint le stock minimal, sans attendre la sortie suivante.\n- Inventaire des pièces critiques tous les 6 mois, sous la responsabilité de Hélène Morvan.\n- Toute sortie de pièce est enregistrée sur l'ordre de travail de la GMAO Atlas.\n- Les fusibles HTA ne sont manipulés que dans le cadre d'une consignation selon PR-1102."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-127",
     "texte": "GE-B situeSur Site B",
     "reference_source": "NT-070",
     "page": "1",
-    "trace_id": "f477ad678578f4c163a085eb0fd835e4"
+    "passage": "NT-070 — Procédure de crise en cas de perte totale d'alimentation > 1. Objet et domaine\nLa présente note décrit la conduite à tenir en cas de perte totale d'alimentation électrique d'une usine : perte du réseau 20 kV et absence de reprise par le groupe électrogène, ou perte du transformateur et du groupe. Elle s'applique aux deux sites : GE-A (500 kVA) et onduleur OND-A sur le site A, GE-B (400 kVA) sans onduleur centralisé sur le site B.\n\nNT-070 — Procédure de crise en cas de perte totale d'alimentation > 2. Chaîne d'alerte\n- Le premier témoin, en général l'opérateur de l'Exploitation en ronde, appelle le responsable Exploitation du site : Paul Verdier pour le site A, Sophie Lenoir pour le site B.\n- Le responsable Exploitation appelle le technicien d'astreinte de la Maintenance électrique.\n- Le technicien d'astreinte appelle Hélène Morvan, cheffe du service Maintenance électrique, dès que la coupure dépasse 15 minutes.\n- Hélène Morvan appelle Nadia Coste, chargée de consignation HTA, si l'origine se situe dans le poste HTA.\n- Le responsable Exploitation appelle le centre de dépannage du distributeur si la cause est sur le réseau 20 kV.\n\nNT-070 — Procédure de crise en cas de perte totale d'alimentation > 3. Premières actions (0 à 15 minutes)\n- Vérifier si le groupe électrogène a démarré : sur le site A, GE-A doit démarrer et prendre la charge en moins de 15 secondes.\n- Si le groupe n'a pas démarré après 2 minutes, tenter un démarrage manuel et le basculement selon la procédure PR-1111.\n- Mettre les ateliers en sécurité selon la procédure PR-1116 : arrêt des machines, ouverture des départs non prioritaires.\n- Site A : l'onduleur OND-A tient 15 minutes au nominal ; si le groupe n'est pas en charge après 10 minutes, arrêter proprement les serveurs et automates."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-132",
     "texte": "Thomas Rigaud intervientSur AD-A07",
     "reference_source": "OT-24101",
     "page": "Intervenant(s)",
-    "trace_id": "fee6552ffaa19b7704f18f0ae62570a6"
+    "passage": "OT-24101 — Déclenchements intempestifs du différentiel de l'armoire AD-A07 (Compte rendu d'intervention)\nIntervenant(s) : Thomas Rigaud"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-141",
     "texte": "TR-A2 alimente TGBT-A",
     "reference_source": "OT-24104",
     "page": "Date de l'intervention",
-    "trace_id": "6ca466b6a967b5cf54e02957a6db73f1"
+    "passage": "OT-24104 — Point chaud en thermographie sur l'arrivée TR-A2 du TGBT-A (Compte rendu d'intervention)\nDate de l'intervention : 08/07/2025"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-142",
     "texte": "TGBT-A situeSur Site A",
     "reference_source": "OT-24104",
     "page": "Site",
-    "trace_id": "937f6417450a66f2449c031645bb3f49"
+    "passage": "OT-24104 — Point chaud en thermographie sur l'arrivée TR-A2 du TGBT-A (Compte rendu d'intervention)\nSite : Site A"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-144",
     "texte": "TR-A2 alimente TGBT-A",
     "reference_source": "OT-24104",
     "page": "Équipement",
-    "trace_id": "6742a511f978fe6751dbb60fc40c36ee"
+    "passage": "OT-24104 — Point chaud en thermographie sur l'arrivée TR-A2 du TGBT-A (Compte rendu d'intervention)\nÉquipement : TGBT-A (arrivée transformateur TR-A2, jeu de barres 12 mm)"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-145",
     "texte": "Karim Benali intervientSur TR-A2",
     "reference_source": "OT-24104",
     "page": "Intervenant(s)",
-    "trace_id": "179e140ee255b1aeef85b6629f1d03c1"
+    "passage": "OT-24104 — Point chaud en thermographie sur l'arrivée TR-A2 du TGBT-A (Compte rendu d'intervention)\nIntervenant(s) : Karim Benali, Thomas Rigaud"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-163",
     "texte": "Lucie Ferrand intervientSur AD-B04",
     "reference_source": "OT-24108",
     "page": "Intervenant(s)",
-    "trace_id": "ff034197309d94799a39192adb61f6f5"
+    "passage": "OT-24108 — Déclenchements du différentiel du départ convoyeur de l'armoire AD-B04 (Compte rendu d'intervention)\nIntervenant(s) : Lucie Ferrand"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-167",
     "texte": "TR-A1 situeSur Site A",
     "reference_source": "OT-24109",
     "page": "Équipement",
-    "trace_id": "8f1f5dcb05cef53effef66ccb480e4ab"
+    "passage": "OT-24109 — Maintenance de la cellule de protection TR-A1 du poste HTA du site A (Compte rendu d'intervention)\nÉquipement : Poste de livraison HTA 20 kV du site A (cellule disjoncteur de protection du transformateur TR-A1)"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-193",
     "texte": "TGBT-B situeSur Site B",
     "reference_source": "OT-24113",
     "page": "Équipement",
-    "trace_id": "ab663f40c779a33d23b5d109790386d1"
+    "passage": "OT-24113 — Thermographie annuelle des armoires du site B (Compte rendu d'intervention)\nÉquipement : TGBT-B et armoires AD-B01 à AD-B09"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-2",
     "texte": "transformateur alimente demi-jeu de barres",
     "reference_source": "NT-031",
     "page": "1",
-    "trace_id": "07df7371e6252adaf29261496889f6e8"
+    "passage": "NT-031 — Étude de sélectivité du TGBT-A (2009) > 1. Objet\nLa présente note rend compte de l'étude de sélectivité des protections basse tension du TGBT-A de l'usine de Lavernay (site A). L'étude a été réalisée en mai 2009 par le bureau d'études Électrotech Conseil, à la demande du service Maintenanceélectrique.\nLa sélectivité est obtenue lorsqu'un défaut sur un départ provoque l'ouverture du seul disjoncteur placé immédiatement en amont du défaut. Les autres départs doivent rester alimentés.\n\nNT-031 — Étude de sélectivité du TGBT-A (2009) > 2. Installation étudiée\nLe l t   -  -      - kvA chacun, 20 kV / 400 V. Chaque transformateur alimente un demi-jeu de barres. Un disjoncteur de couplage relie les deux demi-jeux de barres ; il reste ouvert en fonctionnement normal.\nLe TGBT-A alimente 14 armoires divisionnaires, repérées AD-A01 à AD-Al4. Les armoires alimentent à leur tour les machines et l'éclairage des ateliers. Le courant nominal secondaire d'un transformateur de 1 000 kVA sous 400 V est\nde 1 443 A."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-214",
     "texte": "Lucie Ferrand intervientSur TR-B1",
     "reference_source": "OT-24114",
     "page": "Intervenant(s)",
-    "trace_id": "303a04b6bbf3fe21b146f8946313db78"
+    "passage": "OT-24114 — Maintenance du poste HTA et du transformateur TR-B1 du site B (Compte rendu d'intervention)\nIntervenant(s) : Nadia Coste (chargée de consignation HC), Karim Benali (H2V), Lucie Ferrand"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-218",
     "texte": "TR-B1 situeSur Site B",
     "reference_source": "OT-24114",
     "page": "Actions réalisées",
-    "trace_id": "a36084c782c3947fd81b111514eb53d9"
+    "passage": "OT-24114 — Maintenance du poste HTA et du transformateur TR-B1 du site B (Compte rendu d'intervention)\nActions réalisées : Basculement du site B sur GE-B (PR-1111), consignation du poste selon PR-1102, remplacement du thermomètre et de la pile du relais, prélèvement d'huile de TR-B1 pour analyse. Coupure du réseau principal : 4 heures."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-219",
     "texte": "GE-B situeSur Site B",
     "reference_source": "OT-24114",
     "page": "Actions réalisées",
-    "trace_id": "68b14a7e2f1c161c7b8ffcd36aa28256"
+    "passage": "OT-24114 — Maintenance du poste HTA et du transformateur TR-B1 du site B (Compte rendu d'intervention)\nActions réalisées : Basculement du site B sur GE-B (PR-1111), consignation du poste selon PR-1102, remplacement du thermomètre et de la pile du relais, prélèvement d'huile de TR-B1 pour analyse. Coupure du réseau principal : 4 heures."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-229",
     "texte": "AD-B06 alimente TGBT-B",
     "reference_source": "OT-24115",
     "page": "Équipement",
-    "trace_id": "572eb792f546d7eb93ff6d5c79556ef1"
+    "passage": "OT-24115 — Resserrage de la connexion du départ AD-B06 sur le TGBT-B (Compte rendu d'intervention)\nÉquipement : TGBT-B (connexion du départ AD-B06, barre de 10 mm)"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-239",
     "texte": "CPI-B protege AD-B02",
     "reference_source": "OT-24116",
     "page": "Équipement",
-    "trace_id": "0f71fee8040f75cba0a4878a55553985"
+    "passage": "OT-24116 — Défaut d'isolement sur le moteur de ventilation de la cabine de peinture (AD-B02) (Compte rendu d'intervention)\nÉquipement : AD-B02 (armoire divisionnaire atelier peinture, départ ventilateur d'extraction de la cabine) ; alarme CPI-B"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-241",
     "texte": "Sophie Lenoir intervientSur AD-B02",
     "reference_source": "OT-24116",
     "page": "Demandeur",
-    "trace_id": "dba1854ac561741816ae5e9156d95502"
+    "passage": "OT-24116 — Défaut d'isolement sur le moteur de ventilation de la cabine de peinture (AD-B02) (Compte rendu d'intervention)\nDemandeur : Sophie Lenoir (Exploitation, site B)"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-244",
     "texte": "GE-A situeSur Site A",
     "reference_source": "OT-24117",
     "page": "Site",
-    "trace_id": "ad39688bc56e9fdf3ebc15fb654f12ce"
+    "passage": "OT-24117 — Prise de charge lente du groupe électrogène GE-A (Compte rendu d'intervention)\nSite : Site A"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-251",
     "texte": "AD-B09 situeSur Site B",
     "reference_source": "PR-1101",
     "page": "1",
-    "trace_id": "9dddfa86b75a9f9702731a88aa26c4ed"
+    "passage": "PR-1101 — Consignation d'une armoire basse tension > 1. Objet\nCette procédure définit les opérations de consignation d'une armoire basse tension (400 V) avant tout travail hors tension sur les sites de Lavernay (site A) et de Brévannes (site B). Elle s'applique aux techniciens du service Maintenance électrique et aux entreprises extérieures intervenant sous leur contrôle.\n\nPR-1101 — Consignation d'une armoire basse tension > 2. Domaine d'application\nSont concernées les 14 armoires divisionnaires AD-A01 à AD-A14 du site A et les 9 armoires divisionnaires AD-B01 à AD-B09 du site B. La consignation complète d'un TGBT (TGBT-A ou TGBT-B) suit la même logique mais impose en plus la consignation côté HTA selon la PR-1102 ; les différences sont données au tableau 2. La consignation d'un seul départ à l'intérieur d'une armoire n'est pas admise : l'armoire entière est consignée.\n\nPR-1101 — Consignation d'une armoire basse tension > 3. Prérequis et habilitations\n- La consignation est réalisée par un chargé de consignation habilité BC, ou par un chargé d'intervention habilité BR pour sa propre intervention.\n- Les travaux qui suivent sont exécutés par du personnel habilité B1V au minimum, sous la conduite d'un chargé de travaux B2V.\n- Un bon de travail émis dans la GMAO Atlas et visé par le responsable Exploitation du site (Paul Verdier pour le site A, Sophie Lenoir pour le site B) est obligatoire avant toute manœuvre.\n- Le schéma unifilaire à jour de l'armoire est disponible sur place (NT-057 pour le site A, NT-058 pour le site B).\n\nPR-1101 — Consignation d'une armoire basse tension > 4. Matériel\nTableau 1 - Matériel requis pour la consignation\nMatériel : Vérificateur d'absence de tension (VAT) ; Caractéristique : bipolaire, 1 000 V, catégorie CAT IV ; Quantité : 1\nMatériel : Testeur de VAT ; Caractéristique : source de tension de contrôle ; Quantité : 1\nMatériel : Cadenas de consignation ; Caractéristique : personnels, à clé unique ; Quantité : 1 par intervenant\nMatériel : Pancarte « Ne pas manœuvrer - consignation en cours » ; Caractéristique : rigide, avec nom et date ; Quantité : 1 par organe\nMatériel : Dispositif de MALT-CC basse tension ; Caractéristique : câbles cuivre 25 mm², pinces de barres ; Quantité : 1\nMatériel : Gants isolants ; Caractéristique : classe 0 (1 000 V), vérifiés au gonflage ; Quantité : 1 paire\nMatériel : Écran facial anti-arc ; Caractéristique : classe 2 ; Quantité : 1\nMatériel : Registre de consignation ; Caractéristique : papier, numéroté ; Quantité : 1 par site"
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-262",
     "texte": "TR-A2 situeSur Site A",
     "reference_source": "PR-1102",
     "page": "1",
-    "trace_id": "d3e31c497f24f02cadc7ce00fafc9da4"
+    "passage": "PR-1102 — Consignation d'un poste HTA 20 kV > 1. Objet\nCette procédure fixe les règles de consignation des postes de livraison HTA 20 kV de Valtéra Industries et des transformateurs qu'ils alimentent. Elle est réservée au personnel du service Maintenance électrique. Toute manœuvre HTA réalisée hors de cette procédure est interdite.\n\nPR-1102 — Consignation d'un poste HTA 20 kV > 2. Domaine d'application\n- Site A (Lavernay) : poste de livraison 20 kV, cellule arrivée, cellule de protection générale, deux cellules de protection des transformateurs TR-A1 et TR-A2 (1 000 kVA chacun, 20 kV / 400 V).\n- Site B (Brévannes) : poste de livraison 20 kV, cellule arrivée, cellule de protection générale, une cellule de protection du transformateur TR-B1 (1 250 kVA, 20 kV / 400 V).\nLa consignation de la cellule arrivée du distributeur ne relève pas de cette procédure : elle est demandée au gestionnaire du réseau public au moins 15 jours à l'avance.\n\nPR-1102 — Consignation d'un poste HTA 20 kV > 3. Prérequis et habilitations\n- La consignation HTA est réalisée par un chargé de consignation habilité HC, assisté d'un second intervenant habilité H2V présent pendant toute la manœuvre.\n- Au sein du service, Nadia Coste (HC, H2V) est la chargée de consignation HTA pour les deux sites ; Karim Benali (H2V) peut tenir le rôle de second intervenant sur le site A.\n- Une manœuvre HTA n'est jamais réalisée par une personne seule.\n- Les réglages des protections du poste ne doivent pas être modifiés à cette occasion ; ils sont décrits dans la note NT-051.\n- Le responsable Exploitation du site donne son accord écrit au moins 10 jours ouvrés avant la coupure.\n\nPR-1102 — Consignation d'un poste HTA 20 kV > 4. Matériel\n- Perche de détection de tension 20 kV, testée sur son testeur avant et après usage.\n- Perche et dispositif de MALT-CC HTA, câbles cuivre 50 mm².\n- Gants isolants classe 3 (26,5 kV), tabouret ou tapis isolant 24 kV, casque avec écran facial.\n- Clés de verrouillage des cellules, cadenas de consignation HTA (couleur rouge), pancartes."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-264",
     "texte": "Karim Benali intervientSur Site A",
     "reference_source": "PR-1102",
     "page": "1",
-    "trace_id": "543c1121c0a2d1fd145b9288ca21dbfe"
+    "passage": "PR-1102 — Consignation d'un poste HTA 20 kV > 1. Objet\nCette procédure fixe les règles de consignation des postes de livraison HTA 20 kV de Valtéra Industries et des transformateurs qu'ils alimentent. Elle est réservée au personnel du service Maintenance électrique. Toute manœuvre HTA réalisée hors de cette procédure est interdite.\n\nPR-1102 — Consignation d'un poste HTA 20 kV > 2. Domaine d'application\n- Site A (Lavernay) : poste de livraison 20 kV, cellule arrivée, cellule de protection générale, deux cellules de protection des transformateurs TR-A1 et TR-A2 (1 000 kVA chacun, 20 kV / 400 V).\n- Site B (Brévannes) : poste de livraison 20 kV, cellule arrivée, cellule de protection générale, une cellule de protection du transformateur TR-B1 (1 250 kVA, 20 kV / 400 V).\nLa consignation de la cellule arrivée du distributeur ne relève pas de cette procédure : elle est demandée au gestionnaire du réseau public au moins 15 jours à l'avance.\n\nPR-1102 — Consignation d'un poste HTA 20 kV > 3. Prérequis et habilitations\n- La consignation HTA est réalisée par un chargé de consignation habilité HC, assisté d'un second intervenant habilité H2V présent pendant toute la manœuvre.\n- Au sein du service, Nadia Coste (HC, H2V) est la chargée de consignation HTA pour les deux sites ; Karim Benali (H2V) peut tenir le rôle de second intervenant sur le site A.\n- Une manœuvre HTA n'est jamais réalisée par une personne seule.\n- Les réglages des protections du poste ne doivent pas être modifiés à cette occasion ; ils sont décrits dans la note NT-051.\n- Le responsable Exploitation du site donne son accord écrit au moins 10 jours ouvrés avant la coupure.\n\nPR-1102 — Consignation d'un poste HTA 20 kV > 4. Matériel\n- Perche de détection de tension 20 kV, testée sur son testeur avant et après usage.\n- Perche et dispositif de MALT-CC HTA, câbles cuivre 50 mm².\n- Gants isolants classe 3 (26,5 kV), tabouret ou tapis isolant 24 kV, casque avec écran facial.\n- Clés de verrouillage des cellules, cadenas de consignation HTA (couleur rouge), pancartes."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-277",
     "texte": "TR-A1 situeSur Site A",
     "reference_source": "PR-1104-B",
     "page": "1",
-    "trace_id": "11266f294df53bd146e45b1e9137e100"
+    "passage": "PR-1104-B — Contrôle périodique des installations électriques > 1. Objet\nCette procédure fixe la liste et la périodicité des contrôles périodiques des installations électriques des sites de Lavernay (site A) et de Brévannes (site B), ainsi que l'organisation des campagnes et le traitement des écarts. Elle sert de base à l'établissement du plan annuel de maintenance préventive.\n\nPR-1104-B — Contrôle périodique des installations électriques > 2. Domaine d'application\nElle couvre les postes de livraison HTA, les transformateurs (TR-A1, TR-A2, TR-B1), les tableaux généraux TGBT-A et TGBT-B, les armoires divisionnaires AD-A01 à AD-A14 et AD-B01 à AD-B09, les groupes électrogènes GE-A et GE-B, l'onduleur OND-A, les dispositifs différentiels et les prises de terre des deux sites.\n\nPR-1104-B — Contrôle périodique des installations électriques > 3. Responsabilités\n- La cheffe du service Maintenance électrique, Hélène Morvan, établit le planning annuel des contrôles et suit la levée des écarts.\n- Les techniciens réalisent les contrôles internes selon les procédures citées au tableau 1.\n- Les responsables Exploitation (Paul Verdier pour le site A, Sophie Lenoir pour le site B) valident les créneaux de coupure et sont destinataires des rapports.\n- L'organisme agréé réalise la vérification réglementaire annuelle ; un technicien du service l'accompagne pendant toute sa visite."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-283",
     "texte": "OND-A situeSur Site A",
     "reference_source": "PR-1104-B",
     "page": "1",
-    "trace_id": "fc9b4eb3129c8f41f3ab5981416ecfe4"
+    "passage": "PR-1104-B — Contrôle périodique des installations électriques > 1. Objet\nCette procédure fixe la liste et la périodicité des contrôles périodiques des installations électriques des sites de Lavernay (site A) et de Brévannes (site B), ainsi que l'organisation des campagnes et le traitement des écarts. Elle sert de base à l'établissement du plan annuel de maintenance préventive.\n\nPR-1104-B — Contrôle périodique des installations électriques > 2. Domaine d'application\nElle couvre les postes de livraison HTA, les transformateurs (TR-A1, TR-A2, TR-B1), les tableaux généraux TGBT-A et TGBT-B, les armoires divisionnaires AD-A01 à AD-A14 et AD-B01 à AD-B09, les groupes électrogènes GE-A et GE-B, l'onduleur OND-A, les dispositifs différentiels et les prises de terre des deux sites.\n\nPR-1104-B — Contrôle périodique des installations électriques > 3. Responsabilités\n- La cheffe du service Maintenance électrique, Hélène Morvan, établit le planning annuel des contrôles et suit la levée des écarts.\n- Les techniciens réalisent les contrôles internes selon les procédures citées au tableau 1.\n- Les responsables Exploitation (Paul Verdier pour le site A, Sophie Lenoir pour le site B) valident les créneaux de coupure et sont destinataires des rapports.\n- L'organisme agréé réalise la vérification réglementaire annuelle ; un technicien du service l'accompagne pendant toute sa visite."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-286",
     "texte": "AD-B01 situeSur Site B",
     "reference_source": "PR-1104-B",
     "page": "1",
-    "trace_id": "725f94f370a2821726153e7cbb91f755"
+    "passage": "PR-1104-B — Contrôle périodique des installations électriques > 1. Objet\nCette procédure fixe la liste et la périodicité des contrôles périodiques des installations électriques des sites de Lavernay (site A) et de Brévannes (site B), ainsi que l'organisation des campagnes et le traitement des écarts. Elle sert de base à l'établissement du plan annuel de maintenance préventive.\n\nPR-1104-B — Contrôle périodique des installations électriques > 2. Domaine d'application\nElle couvre les postes de livraison HTA, les transformateurs (TR-A1, TR-A2, TR-B1), les tableaux généraux TGBT-A et TGBT-B, les armoires divisionnaires AD-A01 à AD-A14 et AD-B01 à AD-B09, les groupes électrogènes GE-A et GE-B, l'onduleur OND-A, les dispositifs différentiels et les prises de terre des deux sites.\n\nPR-1104-B — Contrôle périodique des installations électriques > 3. Responsabilités\n- La cheffe du service Maintenance électrique, Hélène Morvan, établit le planning annuel des contrôles et suit la levée des écarts.\n- Les techniciens réalisent les contrôles internes selon les procédures citées au tableau 1.\n- Les responsables Exploitation (Paul Verdier pour le site A, Sophie Lenoir pour le site B) valident les créneaux de coupure et sont destinataires des rapports.\n- L'organisme agréé réalise la vérification réglementaire annuelle ; un technicien du service l'accompagne pendant toute sa visite."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-293",
     "texte": "TGBT-A situeSur Site A",
     "reference_source": "PR-1104-C",
     "page": "1",
-    "trace_id": "856fc3328a732c248d00f4c5c9f73938"
+    "passage": "PR-1104-C — Contrôle périodique des installations électriques > 1. Objet\nCette procédure fixe la liste et la périodicité des contrôles périodiques des installations électriques des sites de Lavernay (site A) et de Brévannes (site B), ainsi que l'organisation des campagnes et le traitement des écarts. Elle sert de base à l'établissement du plan annuel de maintenance préventive.\n\nPR-1104-C — Contrôle périodique des installations électriques > 2. Domaine d'application\nElle couvre les postes de livraison HTA, les transformateurs (TR-A1, TR-A2, TR-B1), les tableaux généraux TGBT-A et TGBT-B, les armoires divisionnaires AD-A01 à AD-A14 et AD-B01 à AD-B09, les groupes électrogènes GE-A et GE-B, l'onduleur OND-A, les dispositifs différentiels et les prises de terre des deux sites.\n\nPR-1104-C — Contrôle périodique des installations électriques > 3. Responsabilités\n- La cheffe du service Maintenance électrique, Hélène Morvan, établit le planning annuel des contrôles et suit la levée des écarts.\n- Les techniciens réalisent les contrôles internes selon les procédures citées au tableau 1.\n- Les responsables Exploitation (Paul Verdier pour le site A, Sophie Lenoir pour le site B) valident les créneaux de coupure et sont destinataires des rapports.\n- L'organisme agréé réalise la vérification réglementaire annuelle ; un technicien du service l'accompagne pendant toute sa visite."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-3",
     "texte": "disjoncteur alimente demi-jeu de barres",
     "reference_source": "NT-031",
     "page": "1",
-    "trace_id": "586da51f2910120c04746220a41e2bd6"
+    "passage": "NT-031 — Étude de sélectivité du TGBT-A (2009) > 1. Objet\nLa présente note rend compte de l'étude de sélectivité des protections basse tension du TGBT-A de l'usine de Lavernay (site A). L'étude a été réalisée en mai 2009 par le bureau d'études Électrotech Conseil, à la demande du service Maintenanceélectrique.\nLa sélectivité est obtenue lorsqu'un défaut sur un départ provoque l'ouverture du seul disjoncteur placé immédiatement en amont du défaut. Les autres départs doivent rester alimentés.\n\nNT-031 — Étude de sélectivité du TGBT-A (2009) > 2. Installation étudiée\nLe l t   -  -      - kvA chacun, 20 kV / 400 V. Chaque transformateur alimente un demi-jeu de barres. Un disjoncteur de couplage relie les deux demi-jeux de barres ; il reste ouvert en fonctionnement normal.\nLe TGBT-A alimente 14 armoires divisionnaires, repérées AD-A01 à AD-Al4. Les armoires alimentent à leur tour les machines et l'éclairage des ateliers. Le courant nominal secondaire d'un transformateur de 1 000 kVA sous 400 V est\nde 1 443 A."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-302",
     "texte": "GE-B situeSur Site B",
     "reference_source": "PR-1104-C",
     "page": "1",
-    "trace_id": "0dd18529b93524457c6bb8f862e9b7ad"
+    "passage": "PR-1104-C — Contrôle périodique des installations électriques > 1. Objet\nCette procédure fixe la liste et la périodicité des contrôles périodiques des installations électriques des sites de Lavernay (site A) et de Brévannes (site B), ainsi que l'organisation des campagnes et le traitement des écarts. Elle sert de base à l'établissement du plan annuel de maintenance préventive.\n\nPR-1104-C — Contrôle périodique des installations électriques > 2. Domaine d'application\nElle couvre les postes de livraison HTA, les transformateurs (TR-A1, TR-A2, TR-B1), les tableaux généraux TGBT-A et TGBT-B, les armoires divisionnaires AD-A01 à AD-A14 et AD-B01 à AD-B09, les groupes électrogènes GE-A et GE-B, l'onduleur OND-A, les dispositifs différentiels et les prises de terre des deux sites.\n\nPR-1104-C — Contrôle périodique des installations électriques > 3. Responsabilités\n- La cheffe du service Maintenance électrique, Hélène Morvan, établit le planning annuel des contrôles et suit la levée des écarts.\n- Les techniciens réalisent les contrôles internes selon les procédures citées au tableau 1.\n- Les responsables Exploitation (Paul Verdier pour le site A, Sophie Lenoir pour le site B) valident les créneaux de coupure et sont destinataires des rapports.\n- L'organisme agréé réalise la vérification réglementaire annuelle ; un technicien du service l'accompagne pendant toute sa visite."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-316",
     "texte": "bureau d'études intervientSur AD-B09",
     "reference_source": "PR-1106",
     "page": "1",
-    "trace_id": "687542ebcd3f18d0dd6c767d89ed7cb3"
+    "passage": "PR-1106 — Thermographie infrarouge des armoires électriques > 1. Objet\nCette procédure décrit la campagne de thermographie infrarouge des tableaux et armoires électriques, destinée à détecter les échauffements anormaux (connexions desserrées, appareils surchargés, déséquilibres de phases) avant qu'ils ne provoquent une panne ou un départ de feu.\n\nPR-1106 — Thermographie infrarouge des armoires électriques > 2. Domaine d'application\nLa campagne porte sur le TGBT-A, les armoires AD-A01 à AD-A14, le TGBT-B et les armoires AD-B01 à AD-B09, soit 25 tableaux. Conformément à la PR-1104-C, elle est réalisée tous les 12 mois (et non plus tous les 24 mois comme le prévoyait l'indice B).\n\nPR-1106 — Thermographie infrarouge des armoires électriques > 3. Prérequis et habilitations\n- La mesure est réalisée par un thermographe du bureau d'études Électrotech Conseil, habilité BE Mesure, titulaire d'une certification de thermographie de niveau 1 au minimum.\n- Il est accompagné en permanence par un technicien du service habilité BR, qui ouvre les armoires et délimite la zone.\n- Les ateliers fonctionnent à au moins 40 % de leur charge habituelle depuis 1 heure au minimum.\n- Les portes sont ouvertes sous tension : port de l'écran facial anti-arc et des gants isolants classe 0 obligatoire.\n\nPR-1106 — Thermographie infrarouge des armoires électriques > 4. Matériel\n- Caméra thermique de résolution 320 × 240 pixels au minimum, étalonnée depuis moins de 12 mois.\n- Pince ampèremétrique pour relever le courant de chaque départ mesuré.\n- Rubans d'émissivité connue (0,95) pour les surfaces métalliques brillantes.\nDurée indicative : 2 jours pour le site A, 1,5 jour pour le site B."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-319",
     "texte": "technicien intervientSur AD-A14",
     "reference_source": "PR-1106",
     "page": "1",
-    "trace_id": "2f4e1fee3c191b005f4e0f450d761ac8"
+    "passage": "PR-1106 — Thermographie infrarouge des armoires électriques > 1. Objet\nCette procédure décrit la campagne de thermographie infrarouge des tableaux et armoires électriques, destinée à détecter les échauffements anormaux (connexions desserrées, appareils surchargés, déséquilibres de phases) avant qu'ils ne provoquent une panne ou un départ de feu.\n\nPR-1106 — Thermographie infrarouge des armoires électriques > 2. Domaine d'application\nLa campagne porte sur le TGBT-A, les armoires AD-A01 à AD-A14, le TGBT-B et les armoires AD-B01 à AD-B09, soit 25 tableaux. Conformément à la PR-1104-C, elle est réalisée tous les 12 mois (et non plus tous les 24 mois comme le prévoyait l'indice B).\n\nPR-1106 — Thermographie infrarouge des armoires électriques > 3. Prérequis et habilitations\n- La mesure est réalisée par un thermographe du bureau d'études Électrotech Conseil, habilité BE Mesure, titulaire d'une certification de thermographie de niveau 1 au minimum.\n- Il est accompagné en permanence par un technicien du service habilité BR, qui ouvre les armoires et délimite la zone.\n- Les ateliers fonctionnent à au moins 40 % de leur charge habituelle depuis 1 heure au minimum.\n- Les portes sont ouvertes sous tension : port de l'écran facial anti-arc et des gants isolants classe 0 obligatoire.\n\nPR-1106 — Thermographie infrarouge des armoires électriques > 4. Matériel\n- Caméra thermique de résolution 320 × 240 pixels au minimum, étalonnée depuis moins de 12 mois.\n- Pince ampèremétrique pour relever le courant de chaque départ mesuré.\n- Rubans d'émissivité connue (0,95) pour les surfaces métalliques brillantes.\nDurée indicative : 2 jours pour le site A, 1,5 jour pour le site B."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-322",
     "texte": "technicien intervientSur AD-B09",
     "reference_source": "PR-1106",
     "page": "1",
-    "trace_id": "41a6ffa4c15020354f7fdc2976c44aa6"
+    "passage": "PR-1106 — Thermographie infrarouge des armoires électriques > 1. Objet\nCette procédure décrit la campagne de thermographie infrarouge des tableaux et armoires électriques, destinée à détecter les échauffements anormaux (connexions desserrées, appareils surchargés, déséquilibres de phases) avant qu'ils ne provoquent une panne ou un départ de feu.\n\nPR-1106 — Thermographie infrarouge des armoires électriques > 2. Domaine d'application\nLa campagne porte sur le TGBT-A, les armoires AD-A01 à AD-A14, le TGBT-B et les armoires AD-B01 à AD-B09, soit 25 tableaux. Conformément à la PR-1104-C, elle est réalisée tous les 12 mois (et non plus tous les 24 mois comme le prévoyait l'indice B).\n\nPR-1106 — Thermographie infrarouge des armoires électriques > 3. Prérequis et habilitations\n- La mesure est réalisée par un thermographe du bureau d'études Électrotech Conseil, habilité BE Mesure, titulaire d'une certification de thermographie de niveau 1 au minimum.\n- Il est accompagné en permanence par un technicien du service habilité BR, qui ouvre les armoires et délimite la zone.\n- Les ateliers fonctionnent à au moins 40 % de leur charge habituelle depuis 1 heure au minimum.\n- Les portes sont ouvertes sous tension : port de l'écran facial anti-arc et des gants isolants classe 0 obligatoire.\n\nPR-1106 — Thermographie infrarouge des armoires électriques > 4. Matériel\n- Caméra thermique de résolution 320 × 240 pixels au minimum, étalonnée depuis moins de 12 mois.\n- Pince ampèremétrique pour relever le courant de chaque départ mesuré.\n- Rubans d'émissivité connue (0,95) pour les surfaces métalliques brillantes.\nDurée indicative : 2 jours pour le site A, 1,5 jour pour le site B."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-331",
     "texte": "AD-B09 situeSur Site B",
     "reference_source": "PR-1108",
     "page": "1",
-    "trace_id": "2eeccd7ba41c4f216d803971322ece6e"
+    "passage": "PR-1108 — Recherche d'un défaut d'isolement en régime IT (site B) > 1. Objet\nCette procédure décrit la recherche et l'élimination d'un défaut d'isolement sur l'installation du site B, exploitée en régime de neutre IT. En régime IT, un premier défaut ne provoque pas de coupure : il est seulement signalé par le contrôleur permanent d'isolement CPI-B. Un second défaut sur une autre phase provoquerait en revanche le déclenchement des protections. Le premier défaut doit donc être trouvé et éliminé rapidement.\n\nPR-1108 — Recherche d'un défaut d'isolement en régime IT (site B) > 2. Domaine d'application\nLa procédure s'applique au TGBT-B et aux armoires AD-B01 à AD-B09. Elle ne s'applique pas au site A, exploité en régime TN-S, où un défaut d'isolement provoque directement le déclenchement du disjoncteur ou du différentiel concerné. Le choix du régime IT pour le site B est justifié dans la note NT-038.\n\nPR-1108 — Recherche d'un défaut d'isolement en régime IT (site B) > 3. Seuils du contrôleur d'isolement\nTableau 1 - Seuils du CPI-B et actions associées\nSignal du CPI-B : Préalarme ; Seuil de résistance d'isolement : 100 kΩ ; Action : recherche planifiée dans la semaine\nSignal du CPI-B : Alarme ; Seuil de résistance d'isolement : 50 kΩ ; Action : recherche engagée immédiatement ; défaut éliminé sous 48 heures\n\nPR-1108 — Recherche d'un défaut d'isolement en régime IT (site B) > 4. Prérequis et habilitations\n- Technicien habilité BR (par exemple Lucie Ferrand), pour les recherches sous tension.\n- Information de la responsable Exploitation du site B, Sophie Lenoir, avant toute ouverture de départ.\n- Matériel : injecteur et pinces de détection du dispositif de recherche de défaut, mégohmmètre 500 V continu, VAT."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-334",
     "texte": "technicien intervientSur CPI-B",
     "reference_source": "PR-1108",
     "page": "1",
-    "trace_id": "d05c216b62ea6d48601c422e5180ecf2"
+    "passage": "PR-1108 — Recherche d'un défaut d'isolement en régime IT (site B) > 1. Objet\nCette procédure décrit la recherche et l'élimination d'un défaut d'isolement sur l'installation du site B, exploitée en régime de neutre IT. En régime IT, un premier défaut ne provoque pas de coupure : il est seulement signalé par le contrôleur permanent d'isolement CPI-B. Un second défaut sur une autre phase provoquerait en revanche le déclenchement des protections. Le premier défaut doit donc être trouvé et éliminé rapidement.\n\nPR-1108 — Recherche d'un défaut d'isolement en régime IT (site B) > 2. Domaine d'application\nLa procédure s'applique au TGBT-B et aux armoires AD-B01 à AD-B09. Elle ne s'applique pas au site A, exploité en régime TN-S, où un défaut d'isolement provoque directement le déclenchement du disjoncteur ou du différentiel concerné. Le choix du régime IT pour le site B est justifié dans la note NT-038.\n\nPR-1108 — Recherche d'un défaut d'isolement en régime IT (site B) > 3. Seuils du contrôleur d'isolement\nTableau 1 - Seuils du CPI-B et actions associées\nSignal du CPI-B : Préalarme ; Seuil de résistance d'isolement : 100 kΩ ; Action : recherche planifiée dans la semaine\nSignal du CPI-B : Alarme ; Seuil de résistance d'isolement : 50 kΩ ; Action : recherche engagée immédiatement ; défaut éliminé sous 48 heures\n\nPR-1108 — Recherche d'un défaut d'isolement en régime IT (site B) > 4. Prérequis et habilitations\n- Technicien habilité BR (par exemple Lucie Ferrand), pour les recherches sous tension.\n- Information de la responsable Exploitation du site B, Sophie Lenoir, avant toute ouverture de départ.\n- Matériel : injecteur et pinces de détection du dispositif de recherche de défaut, mégohmmètre 500 V continu, VAT."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-339",
     "texte": "TGBT situeSur Site A",
     "reference_source": "PR-1109",
     "page": "2",
-    "trace_id": "08e61c115b826ac4872b4ec5c303bc49"
+    "passage": "PR-1109 — Mesure de la résistance de la prise de terre > 4. Matériel\n- Telluromètre étalonné depuis moins de 12 mois, avec deux piquets auxiliaires et enrouleurs de 50 m.\n- Pince de mesure de boucle de terre, pour les cas où les piquets ne peuvent pas être plantés.\n- Masse, gants, plan de masse du site (NT-057 pour le site A, NT-058 pour le site B).\n\nPR-1109 — Mesure de la résistance de la prise de terre > 5.1 Méthode des trois piquets (méthode de référence)\n- 1. Repérer la barrette de mesure de la prise de terre principale, près du TGBT.\n- 2. Planter le piquet de courant à 40 m de la prise de terre, puis le piquet de tension à 62 % de cette distance, soit 25 m, dans le même alignement.\n- 3. Ouvrir la barrette de mesure ; la durée d'ouverture ne doit pas dépasser 15 minutes.\n- 4. Réaliser la mesure, puis la refaire avec le piquet de tension à 21 m et à 29 m.\n- 5. Si les trois valeurs diffèrent de plus de 10 %, éloigner le piquet de courant à 60 m et recommencer.\n- 6. Refermer la barrette, la serrer et vérifier sa continuité.\n\nPR-1109 — Mesure de la résistance de la prise de terre > 5.2 Méthode de la boucle\nLorsque les piquets ne peuvent pas être plantés (zones bitumées), la mesure est faite à la pince de boucle de terre sans ouvrir la barrette. Cette méthode donne une valeur par excès ; si elle dépasse le seuil d'alerte, la méthode des trois piquets est appliquée."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-344",
     "texte": "GE-A situeSur Site A",
     "reference_source": "PR-1111",
     "page": "1",
-    "trace_id": "3cc6292dcdf32727764939b2274cb1d3"
+    "passage": "PR-1111 — Manœuvre de basculement sur le groupe électrogène > 1. Objet\nCette procédure décrit le basculement de l'alimentation des départs prioritaires du réseau vers le groupe électrogène, de façon automatique en cas de perte du réseau ou de façon manuelle pour un essai ou une coupure programmée, ainsi que le retour sur le réseau.\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 2. Domaine d'application\nSur le site A, l'inverseur de sources automatique INV-A commute le jeu de barres secouru du TGBT-A entre le réseau (transformateurs TR-A1 et TR-A2) et le groupe GE-A (500 kVA). Le schéma est donné à la figure 1.\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 2. Domaine d'application\nFigure 1 - Schéma de basculement réseau / groupe électrogène GE-A : le réseau 20 kV alimente par TR-A1 et TR-A2 l'inverseur de sources INV-A, qui reçoit aussi le groupe GE-A en secours ; l'inverseur alimente le jeu de barres secouru du TGBT-A, qui dessert l'onduleur OND-A et les départs prioritaires.\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 2. Domaine d'application\nSur le site B, l'inverseur INV-B est motorisé mais commandé localement : le basculement sur GE-B (400 kVA) est manuel et demande environ 2 minutes."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-351",
     "texte": "GE-A secourt INV-A",
     "reference_source": "PR-1111",
     "page": "1",
-    "trace_id": "af7a8210bc20b252acdbff8d6c88098c"
+    "passage": "PR-1111 — Manœuvre de basculement sur le groupe électrogène > 1. Objet\nCette procédure décrit le basculement de l'alimentation des départs prioritaires du réseau vers le groupe électrogène, de façon automatique en cas de perte du réseau ou de façon manuelle pour un essai ou une coupure programmée, ainsi que le retour sur le réseau.\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 2. Domaine d'application\nSur le site A, l'inverseur de sources automatique INV-A commute le jeu de barres secouru du TGBT-A entre le réseau (transformateurs TR-A1 et TR-A2) et le groupe GE-A (500 kVA). Le schéma est donné à la figure 1.\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 2. Domaine d'application\nFigure 1 - Schéma de basculement réseau / groupe électrogène GE-A : le réseau 20 kV alimente par TR-A1 et TR-A2 l'inverseur de sources INV-A, qui reçoit aussi le groupe GE-A en secours ; l'inverseur alimente le jeu de barres secouru du TGBT-A, qui dessert l'onduleur OND-A et les départs prioritaires.\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 2. Domaine d'application\nSur le site B, l'inverseur INV-B est motorisé mais commandé localement : le basculement sur GE-B (400 kVA) est manuel et demande environ 2 minutes."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-353",
     "texte": "INV-A alimente OND-A",
     "reference_source": "PR-1111",
     "page": "1",
-    "trace_id": "701cb284ca4f12ab9d5517c37ef7d3b0"
+    "passage": "PR-1111 — Manœuvre de basculement sur le groupe électrogène > 1. Objet\nCette procédure décrit le basculement de l'alimentation des départs prioritaires du réseau vers le groupe électrogène, de façon automatique en cas de perte du réseau ou de façon manuelle pour un essai ou une coupure programmée, ainsi que le retour sur le réseau.\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 2. Domaine d'application\nSur le site A, l'inverseur de sources automatique INV-A commute le jeu de barres secouru du TGBT-A entre le réseau (transformateurs TR-A1 et TR-A2) et le groupe GE-A (500 kVA). Le schéma est donné à la figure 1.\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 2. Domaine d'application\nFigure 1 - Schéma de basculement réseau / groupe électrogène GE-A : le réseau 20 kV alimente par TR-A1 et TR-A2 l'inverseur de sources INV-A, qui reçoit aussi le groupe GE-A en secours ; l'inverseur alimente le jeu de barres secouru du TGBT-A, qui dessert l'onduleur OND-A et les départs prioritaires.\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 2. Domaine d'application\nSur le site B, l'inverseur INV-B est motorisé mais commandé localement : le basculement sur GE-B (400 kVA) est manuel et demande environ 2 minutes."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-357",
     "texte": "technicien intervientSur GE-A",
     "reference_source": "PR-1111",
     "page": "2",
-    "trace_id": "dd58f96b19637fc0003ce3bebbab3d4a"
+    "passage": "PR-1111 — Manœuvre de basculement sur le groupe électrogène > 3. Prérequis et habilitations\n- Basculement manuel réalisé par un technicien habilité BR, ou par un agent d'Exploitation habilité BE Manœuvre formé à cette procédure.\n- Pendant le basculement, l'OND-A assure la continuité des charges sensibles du site A ; le site B n'a pas d'onduleur centralisé, ses charges sensibles subissent la coupure.\n- La puissance du groupe étant inférieure à celle des transformateurs, seuls les départs prioritaires sont secourus : la liste figure sur la porte du TGBT et dans les notes NT-057 (site A) et NT-058 (site B).\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 4. Basculement automatique (site A)\nÀ la disparition du réseau, l'automate de l'inverseur INV-A attend 2 secondes pour écarter une microcoupure, puis donne l'ordre de démarrage au groupe GE-A. Le démarrage et la prise de charge doivent être obtenus en moins de 15 secondes. Les départs non prioritaires sont délestés automatiquement. L'agent d'Exploitation présent vérifie sur l'écran de l'inverseur que GE-A débite, puis prévient l'astreinte Maintenance.\n\nPR-1111 — Manœuvre de basculement sur le groupe électrogène > 5. Basculement manuel (essai ou coupure programmée)\n- 1. Prévenir le responsable Exploitation et vérifier l'absence d'alarme sur le groupe.\n- 2. Démarrer le groupe en mode manuel et attendre la stabilisation à 400 V et 50 Hz (environ 1 minute).\n- 3. Délester les départs non prioritaires au TGBT.\n- 4. Commander le passage de l'inverseur en position « Groupe ».\n- 5. Vérifier tensions et courants sur les trois phases."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-368",
     "texte": "TGBT-B situeSur Site B",
     "reference_source": "PR-1114",
     "page": "1",
-    "trace_id": "6e8b4c623f70fa3d92fa96a05e86d166"
+    "passage": "PR-1114 — Nettoyage et resserrage des connexions d'un TGBT > 1. Objet\nCette procédure décrit le nettoyage et le resserrage des connexions de puissance des tableaux généraux basse tension TGBT-A (site A) et TGBT-B (site B). Une connexion desserrée est la première cause d'échauffement relevée en thermographie.\n\nPR-1114 — Nettoyage et resserrage des connexions d'un TGBT > 2. Domaine d'application\n- Opération préventive, réalisée pendant l'arrêt annuel des ateliers au mois d'août.\n- Opération corrective, à la suite d'un échauffement relevé en thermographie (PR-1106) : sous 1 mois pour un ΔT de 10 à 30 °C, sous 48 heures pour un ΔT supérieur à 30 °C.\n- Les armoires divisionnaires sont traitées de la même manière, avec la consignation d'armoire de la PR-1101.\n\nPR-1114 — Nettoyage et resserrage des connexions d'un TGBT > 3. Prérequis et habilitations\n- TGBT consigné en totalité selon la PR-1101 (variante TGBT), avec consignation côté HTA par une chargée de consignation HC selon la PR-1102.\n- Chargé de travaux habilité B2V et au moins un exécutant B1V.\n- Accord du responsable Exploitation 10 jours ouvrés à l'avance : la consignation du TGBT prive le site de toute alimentation, hors départs secourus par le groupe électrogène.\n- Durée prévue : 6 heures pour le TGBT-A, 5 heures pour le TGBT-B.\n\nPR-1114 — Nettoyage et resserrage des connexions d'un TGBT > 4. Matériel\n- Clé dynamométrique étalonnée depuis moins de 12 mois, plage 20 à 100 N·m.\n- Aspirateur industriel, pinceaux, chiffons non pelucheux ; l'air comprimé et les solvants chlorés sont interdits.\n- Vernis témoin de serrage (couleur rouge), lampe frontale."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-377",
     "texte": "CPI-B situeSur Site B",
     "reference_source": "PR-1116",
     "page": "2",
-    "trace_id": "5d83ccd680f95a74e66abc6c99cc7505"
+    "passage": "PR-1116 — Mise hors tension d'urgence d'un atelier > 4. Conduite à tenir\n- 1. Frapper le coup-de-poing de coupure d'urgence de l'atelier.\n- 2. En cas d'électrisation, ne pas toucher la victime avant la coupure ; si elle reste en contact avec une partie sous tension secourue, l'écarter avec un objet isolant (perche, manche en bois sec).\n- 3. Alerter les secours (18 ou 112), puis le poste de garde du site.\n- 4. Faire évacuer l'atelier si nécessaire ; les secouristes du travail prennent en charge la victime.\n- 5. Prévenir le responsable Exploitation du site (Paul Verdier, site A ; Sophie Lenoir, site B) et l'astreinte Maintenance électrique.\n- 6. Interdire l'accès à l'armoire divisionnaire et au coffret à l'origine du danger jusqu'à l'arrivée de la Maintenance.\n\nPR-1116 — Mise hors tension d'urgence d'un atelier > 5. Remise sous tension\nLa remise sous tension n'est jamais faite par l'Exploitation. Elle est réalisée par un technicien de maintenance habilité BR après diagnostic : identification de la cause, consignation de la partie en défaut selon la PR-1101, réarmement du coup-de-poing à l'aide de sa clé, puis fermeture du départ au TGBT. Sur le site B, la valeur du contrôleur d'isolement CPI-B est vérifiée avant la remise sous tension. Le délai visé pour la reprise de la production est de 2 heures, hors cas d'incendie."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-40",
     "texte": "TR-B1 situeSur Site B",
     "reference_source": "NT-051",
     "page": "1",
-    "trace_id": "cd21d9f6684cde9dbb0a854779115c2f"
+    "passage": "NT-051 — Réglages des protections du poste HTA > 1. Objet et diffusion\nLa présente note donne les réglages en vigueur des protections des postes de livraison 20 kV des deux usines : Lavernay (site A) et Brévannes (site B). Elle sert de référence lors des essais par injection et après toute intervention sur un relais de protection.\nDiffusion restreinte au profil Maintenance. Ces réglages ne doivent pas être communiqués à des tiers ni affichés dans les locaux. Toute modification de réglage est validée par Hélène Morvan, cheffe du service Maintenance électrique, sur la base d'une étude de sélectivité d'Électrotech Conseil, et doit rester compatible avec les réglages imposés par le distributeur au point de livraison.\n\nNT-051 — Réglages des protections du poste HTA > 2. Rappel des installations\n- Site A : poste de livraison 20 kV, deux transformateurs TR-A1 et TR-A2 de 1 000 kVA chacun, soit 2 000 kVA installés et un courant nominal HTA de 58 A.\n- Site B : poste de livraison 20 kV, un transformateur TR-B1 de 1 250 kVA, soit un courant nominal HTA de 36 A.\nChaque poste est équipé d'un relais de protection numérique sur la cellule de protection générale. Les transformateurs sont équipés d'un relais de protection interne DGPT2 (dégagement gazeux, pression, température).\n\nNT-051 — Réglages des protections du poste HTA > 3. Principes de réglage\nLe seuil de maximum de courant phase est réglé à environ 1,25 fois le courant nominal HTA. Le seuil instantané doit rester supérieur au courant d'enclenchement des transformateurs, tout en restant inférieur au courant de court-circuit minimal au secondaire ramené en HTA."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-44",
     "texte": "Électrotech Conseil intervientSur relais de protection",
     "reference_source": "NT-051",
     "page": "1",
-    "trace_id": "669fd1f6f29afbffe7760b2f35ab82fb"
+    "passage": "NT-051 — Réglages des protections du poste HTA > 1. Objet et diffusion\nLa présente note donne les réglages en vigueur des protections des postes de livraison 20 kV des deux usines : Lavernay (site A) et Brévannes (site B). Elle sert de référence lors des essais par injection et après toute intervention sur un relais de protection.\nDiffusion restreinte au profil Maintenance. Ces réglages ne doivent pas être communiqués à des tiers ni affichés dans les locaux. Toute modification de réglage est validée par Hélène Morvan, cheffe du service Maintenance électrique, sur la base d'une étude de sélectivité d'Électrotech Conseil, et doit rester compatible avec les réglages imposés par le distributeur au point de livraison.\n\nNT-051 — Réglages des protections du poste HTA > 2. Rappel des installations\n- Site A : poste de livraison 20 kV, deux transformateurs TR-A1 et TR-A2 de 1 000 kVA chacun, soit 2 000 kVA installés et un courant nominal HTA de 58 A.\n- Site B : poste de livraison 20 kV, un transformateur TR-B1 de 1 250 kVA, soit un courant nominal HTA de 36 A.\nChaque poste est équipé d'un relais de protection numérique sur la cellule de protection générale. Les transformateurs sont équipés d'un relais de protection interne DGPT2 (dégagement gazeux, pression, température).\n\nNT-051 — Réglages des protections du poste HTA > 3. Principes de réglage\nLe seuil de maximum de courant phase est réglé à environ 1,25 fois le courant nominal HTA. Le seuil instantané doit rester supérieur au courant d'enclenchement des transformateurs, tout en restant inférieur au courant de court-circuit minimal au secondaire ramené en HTA."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-48",
     "texte": "TGBT-A situeSur Site A",
     "reference_source": "NT-053",
     "page": "2",
-    "trace_id": "38c5c043f65cdda28d0eaa23476518c1"
+    "passage": "NT-053 — Plan de maintenance préventive électrique 2026 > 3. Calendrier par site\nTableau 2 - Dates clés 2026\nOpération : Campagne de thermographie ; Site A : juillet 2026 ; Site B : mai 2026\nOpération : Vérification par l'organisme agréé ; Site A : mars 2026 ; Site B : septembre 2026\nOpération : Resserrage du TGBT (arrêt technique) ; Site A : août 2026 ; Site B : décembre 2026\nOpération : Mesure de la prise de terre ; Site A : mai 2026 ; Site B : mai 2026\n\nNT-053 — Plan de maintenance préventive électrique 2026 > 3. Calendrier par site\nLe resserrage des TGBT se fait hors tension, pendant les arrêts techniques d'été (site A) et de fin d'année (site B), au couple de 50 N·m pour les barres de 10 mm et de 70 N·m pour les barres de 12 mm.\n\nNT-053 — Plan de maintenance préventive électrique 2026 > 4. Valeurs de référence\n- Thermographie : ΔT &lt; 10 °C, surveiller ; 10 à 30 °C, intervenir sous 1 mois ; &gt; 30 °C, intervenir sous 48 heures.\n- Prise de terre : valeur limite 10 Ω sur le site A et 30 Ω sur le site B.\n- Groupe électrogène GE-A : démarrage et prise de charge en moins de 15 secondes.\n- Contrôleur d'isolement CPI-B : préalarme à 100 kΩ, alarme à 50 kΩ.\n\nNT-053 — Plan de maintenance préventive électrique 2026 > 5. Pilotage\nChaque activité est déclenchée sous forme d'ordre de travail préventif dans la GMAO Atlas. Hélène Morvan suit chaque mois le taux de réalisation du plan ; l'objectif 2026 est de 95 % des ordres préventifs soldés dans le mois prévu. Le coût de main-d'œuvre se calcule au coût horaire interne de 65 € HT par heure de technicien."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-54",
     "texte": "Hélène Morvan intervientSur TGBT-A",
     "reference_source": "NT-053",
     "page": "2",
-    "trace_id": "ca1248c07259f06bb0d1b22064b152ef"
+    "passage": "NT-053 — Plan de maintenance préventive électrique 2026 > 3. Calendrier par site\nTableau 2 - Dates clés 2026\nOpération : Campagne de thermographie ; Site A : juillet 2026 ; Site B : mai 2026\nOpération : Vérification par l'organisme agréé ; Site A : mars 2026 ; Site B : septembre 2026\nOpération : Resserrage du TGBT (arrêt technique) ; Site A : août 2026 ; Site B : décembre 2026\nOpération : Mesure de la prise de terre ; Site A : mai 2026 ; Site B : mai 2026\n\nNT-053 — Plan de maintenance préventive électrique 2026 > 3. Calendrier par site\nLe resserrage des TGBT se fait hors tension, pendant les arrêts techniques d'été (site A) et de fin d'année (site B), au couple de 50 N·m pour les barres de 10 mm et de 70 N·m pour les barres de 12 mm.\n\nNT-053 — Plan de maintenance préventive électrique 2026 > 4. Valeurs de référence\n- Thermographie : ΔT &lt; 10 °C, surveiller ; 10 à 30 °C, intervenir sous 1 mois ; &gt; 30 °C, intervenir sous 48 heures.\n- Prise de terre : valeur limite 10 Ω sur le site A et 30 Ω sur le site B.\n- Groupe électrogène GE-A : démarrage et prise de charge en moins de 15 secondes.\n- Contrôleur d'isolement CPI-B : préalarme à 100 kΩ, alarme à 50 kΩ.\n\nNT-053 — Plan de maintenance préventive électrique 2026 > 5. Pilotage\nChaque activité est déclenchée sous forme d'ordre de travail préventif dans la GMAO Atlas. Hélène Morvan suit chaque mois le taux de réalisation du plan ; l'objectif 2026 est de 95 % des ordres préventifs soldés dans le mois prévu. Le coût de main-d'œuvre se calcule au coût horaire interne de 65 € HT par heure de technicien."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-68",
     "texte": "TR-A2 alimente TGBT-A",
     "reference_source": "NT-057",
     "page": "1",
-    "trace_id": "cc67230ec8167431242523ecfa310a4f"
+    "passage": "NT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 1. Objet\nLa présente note décrit l'architecture électrique de l'usine de Lavernay (site A). Elle sert de document d'accueil pour les nouveaux techniciens et de support lors de la préparation des consignations.\n\nNT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 2. Alimentation HTA\nLe site est raccordé au réseau public de distribution par un poste de livraison 20 kV. Le poste alimente deux transformateurs, TR-A1 et TR-A2, de 1 000 kVA chacun, 20 kV / 400 V. Chaque transformateur alimente un demi-jeu de barres ; le disjoncteur de couplage, ouvert en fonctionnement normal, permet d'alimenter tout le TGBT-A par un seul transformateur en cas d'indisponibilité de l'autre, avec délestage des charges non prioritaires.\nLes interventions sur le poste HTA relèvent de la procédure PR-1102 et sont réservées à un chargé de consignation habilité HC, assisté d'un second intervenant H2V.\n\nNT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 3. Distribution basse tension\nLe régime de neutre du site A est TN-S. Le TGBT-A distribue l'énergie vers 14 armoires divisionnaires, repérées AD-A01 à AD-A14, qui alimentent les ateliers d'usinage et d'assemblage, ainsi que les utilités (air comprimé, éclairage, chauffage).\n\nNT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 4. Sources de secours\nLe groupe électrogène GE-A, de 500 kVA, prend le relais en cas de perte du réseau : il démarre et prend la charge en moins de 15 secondes. Il ne secourt qu'une partie des départs du TGBT-A. Les essais mensuels suivent la procédure PR-1105 et la manœuvre de basculement la procédure PR-1111.\nL'onduleur OND-A, de 60 kVA, assure une alimentation sans coupure aux équipements les plus sensibles pendant le démarrage du groupe. Son autonomie nominale est de 15 minutes, avec 32 batteries 12 V 9 Ah."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-75",
     "texte": "TR-A1 situeSur Site A",
     "reference_source": "NT-057",
     "page": "1",
-    "trace_id": "eadcea39c0524acb54bc487bb4102969"
+    "passage": "NT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 1. Objet\nLa présente note décrit l'architecture électrique de l'usine de Lavernay (site A). Elle sert de document d'accueil pour les nouveaux techniciens et de support lors de la préparation des consignations.\n\nNT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 2. Alimentation HTA\nLe site est raccordé au réseau public de distribution par un poste de livraison 20 kV. Le poste alimente deux transformateurs, TR-A1 et TR-A2, de 1 000 kVA chacun, 20 kV / 400 V. Chaque transformateur alimente un demi-jeu de barres ; le disjoncteur de couplage, ouvert en fonctionnement normal, permet d'alimenter tout le TGBT-A par un seul transformateur en cas d'indisponibilité de l'autre, avec délestage des charges non prioritaires.\nLes interventions sur le poste HTA relèvent de la procédure PR-1102 et sont réservées à un chargé de consignation habilité HC, assisté d'un second intervenant H2V.\n\nNT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 3. Distribution basse tension\nLe régime de neutre du site A est TN-S. Le TGBT-A distribue l'énergie vers 14 armoires divisionnaires, repérées AD-A01 à AD-A14, qui alimentent les ateliers d'usinage et d'assemblage, ainsi que les utilités (air comprimé, éclairage, chauffage).\n\nNT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 4. Sources de secours\nLe groupe électrogène GE-A, de 500 kVA, prend le relais en cas de perte du réseau : il démarre et prend la charge en moins de 15 secondes. Il ne secourt qu'une partie des départs du TGBT-A. Les essais mensuels suivent la procédure PR-1105 et la manœuvre de basculement la procédure PR-1111.\nL'onduleur OND-A, de 60 kVA, assure une alimentation sans coupure aux équipements les plus sensibles pendant le démarrage du groupe. Son autonomie nominale est de 15 minutes, avec 32 batteries 12 V 9 Ah."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-85",
     "texte": "TGBT-A alimente OND-A",
     "reference_source": "NT-057",
     "page": "2",
-    "trace_id": "92227475e84904812fb73580c4e7f814"
+    "passage": "NT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 5. Schéma unifilaire simplifié\nLa figure 1 représente les principales liaisons du site A, du poste de livraison jusqu'aux armoires divisionnaires.\n\nNT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 5. Schéma unifilaire simplifié\nFigure 1 - Schéma unifilaire simplifié du site A : le poste de livraison 20 kV alimente les transformateurs TR-A1 et TR-A2, qui alimentent le TGBT-A ; le TGBT-A distribue vers les armoires AD-A01 à AD-A14 et vers l'onduleur OND-A ; le groupe électrogène GE-A est raccordé au TGBT-A par un inverseur de source.\n\nNT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 6. Repères utiles\n- Chaque armoire divisionnaire porte son repère sur la porte et sur le départ correspondant du TGBT-A.\n- Les schémas détaillés sont disponibles au bureau de maintenance du site A.\n- Responsable Exploitation du site A : Paul Verdier."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-87",
     "texte": "TGBT-A situeSur Site A",
     "reference_source": "NT-057",
     "page": "2",
-    "trace_id": "ddd81325cf2239c24ee006cfa846b8c6"
+    "passage": "NT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 5. Schéma unifilaire simplifié\nLa figure 1 représente les principales liaisons du site A, du poste de livraison jusqu'aux armoires divisionnaires.\n\nNT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 5. Schéma unifilaire simplifié\nFigure 1 - Schéma unifilaire simplifié du site A : le poste de livraison 20 kV alimente les transformateurs TR-A1 et TR-A2, qui alimentent le TGBT-A ; le TGBT-A distribue vers les armoires AD-A01 à AD-A14 et vers l'onduleur OND-A ; le groupe électrogène GE-A est raccordé au TGBT-A par un inverseur de source.\n\nNT-057 — Architecture électrique du site A (avec schéma unifilaire simplifié, figure 1) > 6. Repères utiles\n- Chaque armoire divisionnaire porte son repère sur la porte et sur le départ correspondant du TGBT-A.\n- Les schémas détaillés sont disponibles au bureau de maintenance du site A.\n- Responsable Exploitation du site A : Paul Verdier."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-91",
     "texte": "CPI-B protege TGBT-B",
     "reference_source": "NT-058",
     "page": "1",
-    "trace_id": "705c00fefb63eac306885dac6adc7862"
+    "passage": "NT-058 — Architecture électrique du site B (avec schéma unifilaire simplifié, figure 1) > 1. Objet\nLa présente note décrit l'architecture électrique de l'usine de Brévannes (site B). Elle complète la note NT-057, qui décrit le site A ; les deux sites ont des architectures différentes.\n\nNT-058 — Architecture électrique du site B (avec schéma unifilaire simplifié, figure 1) > 2. Alimentation HTA\nLe site est raccordé au réseau public par un poste de livraison 20 kV. Le poste alimente un seul transformateur, TR-B1, de 1 250 kVA, 20 kV / 400 V. Il n'y a pas de transformateur de secours : une indisponibilité de TR-B1 arrête tout le site, hors départs secourus par le groupe électrogène.\n\nNT-058 — Architecture électrique du site B (avec schéma unifilaire simplifié, figure 1) > 3. Distribution basse tension\nLe TGBT-B distribue l'énergie vers 9 armoires divisionnaires, repérées AD-B01 à AD-B09, qui alimentent l'atelier de presses, les fours de traitement thermique, l'atelier de traitement de surface, l'atelier de peinture, la logistique et les utilités.\nLe site B est exploité en régime de neutre IT, choisi pour la continuité de service des fours (voir la note NT-038). Le contrôleur permanent d'isolement CPI-B surveille l'isolement de toute l'installation : préalarme à 100 kΩ, alarme à 50 kΩ. La recherche d'un défaut suit la procédure PR-1108.\n\nNT-058 — Architecture électrique du site B (avec schéma unifilaire simplifié, figure 1) > 4. Sources de secours\nLe groupe électrogène GE-B, de 400 kVA, secourt une partie des départs du TGBT-B. Contrairement au site A, le site B n'a pas d'onduleur centralisé : les automates et les postes informatiques sont protégés par de petits onduleurs locaux."
   },
   {
     "relation_id": "https://valtera.exemple/ontologie#relation-96",
     "texte": "TGBT-B alimente AD-B09",
     "reference_source": "NT-058",
     "page": "2",
-    "trace_id": "071e132e0565fa6b53bce817d8c3054e"
+    "passage": "NT-058 — Architecture électrique du site B (avec schéma unifilaire simplifié, figure 1) > 5. Schéma unifilaire simplifié\nLa figure 1 représente les principales liaisons du site B, du poste de livraison jusqu'aux armoires divisionnaires.\n\nNT-058 — Architecture électrique du site B (avec schéma unifilaire simplifié, figure 1) > 5. Schéma unifilaire simplifié\nFigure 1 - Schéma unifilaire simplifié du site B : le poste de livraison 20 kV alimente le transformateur TR-B1, qui alimente le TGBT-B ; le TGBT-B distribue vers les armoires AD-B01 à AD-B09 ; le groupe électrogène GE-B est raccordé au TGBT-B par un inverseur de source ; le contrôleur CPI-B est raccordé au point neutre de TR-B1.\n\nNT-058 — Architecture électrique du site B (avec schéma unifilaire simplifié, figure 1) > 6. Repères utiles\n- L'alarme du CPI-B est reportée au poste de conduite de l'Exploitation.\n- Les schémas détaillés sont disponibles au bureau de maintenance du site B.\n- Responsable Exploitation du site B : Sophie Lenoir."
   }
 ]

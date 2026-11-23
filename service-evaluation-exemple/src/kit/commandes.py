@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+import json
+
 import typer
 
 from kit import base
@@ -183,7 +185,7 @@ def evaluer_ingestion(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans
     lignes, liens, non_rattaches = scores_ingestion.evaluer(ev)
     scores_ingestion.enregistrer(ev, liens, non_rattaches)
     if graphe_n1.a_un_graphe(ev):
-        lignes += graphe_n1.lignes_violations(ev) + graphe_n1.lignes_justesse(ev, langfuse)
+        lignes += graphe_n1.lignes_violations(ev) + graphe_n1.lignes_justesse(ev, langfuse or langfuse_si_possible(config))
     resultat = publication.publier(ev, 1, lignes, langfuse)
     typer.echo(f"1. Ingestion — {ev.evaluation_id} → {ev.dossier}")
     afficher_scores(resultat, 1)
@@ -194,26 +196,48 @@ def evaluer_ingestion(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans
                        f"{p['type_element']}) : {p['cause_probable']}")
 
 
+def langfuse_si_possible(config: dict):
+    """Le client Langfuse si ses clés sont dans .env ; sinon None : le service lit alors seulement les fichiers Excel."""
+    try:
+        return client_langfuse(config)
+    except RuntimeError:
+        return None
+
+
 @app.command("verifier-graphe")
 def verifier_graphe(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
-                    envoyer: bool = typer.Option(False, help="tirer les relations et les envoyer au métier dans Langfuse")):
-    """Justesse du graphe : --envoyer pour faire juger 50 relations par le métier, puis sans option pour voir où il en est."""
-    import json
+                    preparer_fichier: bool = typer.Option(False, "--preparer", help="tirer les relations et écrire le "
+                                                          "fichier Excel que le métier remplit"),
+                    aussi_langfuse: bool = typer.Option(False, "--langfuse", help="avec --preparer : mettre aussi les "
+                                                        "relations dans la file Langfuse, pour un métier qui préfère y juger")):
+    """Justesse du graphe : --preparer écrit le fichier Excel des relations à juger ; sans option, dit où en est le
+    métier. Les jugements entrent dans les résultats à la prochaine évaluation de l'ingestion."""
+    from kit.etape_3_evaluation_reponse import fichier_metier
 
     config, ev = preparer(corpus, rag, ingestion_seule=True)
     if not graphe_n1.a_un_graphe(ev):
         typer.echo(f"Le RAG est de type « {ev.rag.get('type_rag')} » : il n'a pas de graphe.", err=True)
         raise typer.Exit(1)
-    langfuse = client_langfuse(config)
-    if envoyer:
-        n = graphe_n1.envoyer(ev, langfuse)
-        typer.echo(f"Relations envoyées dans la file « {graphe_n1.FILE} » ({n} nouvelles). Le métier juge chacune avec "
-                   f"le score « {graphe_n1.CONFIG_JUSTESSE} » (juste ou fausse), puis relancer « kit evaluer-ingestion ».")
+    fichier = ev.dossier / graphe_n1.FICHIER
+    if preparer_fichier:
+        if fichier_metier.deja_rempli(fichier, fichier_metier.FEUILLE_GRAPHE, fichier_metier.COLONNES_GRAPHE, "jugement"):
+            typer.echo(f"{fichier} est déjà rempli en partie : le supprimer pour tirer d'autres relations.", err=True)
+            raise typer.Exit(1)
+        tirees = graphe_n1.tirer(ev)
+        ev.dossier.mkdir(parents=True, exist_ok=True)
+        fichier_metier.ecrire_graphe(fichier, [{"relation": r["texte"], "reference_source": r["reference_source"],
+                                                "page": r["page"], "passage": r["passage"]} for r in tirees])
+        typer.echo(f"Fichier à faire remplir par le métier : {fichier} ({len(tirees)} relations).")
+        if aussi_langfuse:
+            n = graphe_n1.envoyer(ev, client_langfuse(config), tirees)
+            typer.echo(f"Aussi dans la file Langfuse « {graphe_n1.FILE} » ({n} nouvelles), score « "
+                       f"{graphe_n1.CONFIG_JUSTESSE} ».")
+        typer.echo("Une fois les relations jugées, relancer « kit evaluer-ingestion ».")
         return
     if not (ev.fichiers / graphe_n1.ECHANTILLON).exists():
-        typer.echo("Pas d'échantillon : lancer d'abord « kit verifier-graphe --envoyer ».", err=True)
+        typer.echo("Pas de relations tirées : lancer d'abord « kit verifier-graphe --preparer ».", err=True)
         raise typer.Exit(1)
-    lignes = graphe_n1.lignes_justesse(ev, langfuse)
+    lignes = graphe_n1.lignes_justesse(ev, langfuse_si_possible(config))
     total = len(json.loads((ev.fichiers / graphe_n1.ECHANTILLON).read_text(encoding="utf-8")))
     typer.echo(f"Relations jugées par le métier : {len(lignes)} sur {total}.")
     if lignes:
@@ -256,17 +280,86 @@ def evaluer_reponse(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_l
     typer.echo("  Croisement recherche × réponse (questions non réservées) :")
     for d, n in sorted(diagnostics.items(), key=lambda x: -x[1]):
         typer.echo(f"    {n:>3}  {d}")
+    ecrire_relecture(ev, visibles(file), lignes)
     if langfuse:
         traces = publication.experience_langfuse(ev, langfuse).get("traces", {})
         n = relecture.envoyer(langfuse, "relecture-reponses", "Réponses à relire par le métier (document 3, section 8)",
-                              [traces.get(f["question_id"]) for f in file])
-        typer.echo(f"  File « relecture-reponses » : {len(file)} réponse(s) à relire, {n} ajoutée(s) dans Langfuse.")
+                              [traces.get(f["question_id"]) for f in visibles(file)])
+        typer.echo(f"  Aussi dans la file Langfuse « relecture-reponses » : {n} ajoutée(s).")
+
+
+def ecrire_relecture(ev, file: list[dict], lignes) -> None:
+    """Le fichier Excel des réponses à relire par le métier : la question, la bonne réponse, la réponse du RAG, la note
+    du juge et ce qu'il a vu. On n'écrase jamais un fichier que le métier a commencé à remplir."""
+    from kit.etape_3_evaluation_reponse import fichier_metier
+
+    fichier = ev.dossier / "relecture_reponses.xlsx"
+    if fichier_metier.deja_rempli(fichier, fichier_metier.FEUILLE_RELECTURE, fichier_metier.COLONNES_RELECTURE, "accord"):
+        typer.echo(f"  {fichier} est déjà rempli en partie par le métier : gardé tel quel.")
+        return
+    juge = {l.question_id: l for l in lignes if l.score == "n3_exactitude"}
+    reponses = {r["question_id"]: r for r in ev.fichier_rag("reponses.jsonl")}
+    a_relire = []
+    for f in file:
+        q, r, j = ev.questions[f["question_id"]], reponses.get(f["question_id"], {}), juge.get(f["question_id"])
+        a_relire.append({"question_id": f["question_id"], "motif": f["motif"], "question": q["question"],
+                         "reponse_attendue": q.get("reponse_attendue"), "points_cles": fichier_metier.points_cles(q),
+                         "reponse_rag": ("(Le RAG dit ne pas savoir.) " if r.get("abstention") else "") + (r.get("reponse") or ""),
+                         "note_juge": j.verdict if j else "", "justification": (j.detail or "") if j else ""})
+    ev.dossier.mkdir(parents=True, exist_ok=True)
+    fichier_metier.ecrire_relecture(fichier, a_relire)
+    typer.echo(f"  Réponses à relire par le métier : {len(a_relire)}, dans {fichier}. Une fois rempli, lancer "
+               f"« kit lire-relecture ».")
+
+
+@app.command("lire-relecture")
+def lire_relecture(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG):
+    """Lit la relecture des réponses par le métier (fichier relecture_reponses.xlsx, ou file Langfuse), et la reporte
+    dans le rapport : les réponses où il n'est pas d'accord avec le juge, avec son commentaire."""
+    from sqlalchemy import select
+    from sqlalchemy.orm import Session
+
+    from kit.etape_3_evaluation_reponse import fichier_metier
+    from kit.etape_5_resultats import rapport
+
+    config, ev = preparer(corpus, rag)
+    fichier = ev.dossier / "relecture_reponses.xlsx"
+    if not fichier.exists():
+        typer.echo("Pas de fichier de relecture : lancer d'abord « kit evaluer ».", err=True)
+        raise typer.Exit(1)
+    r = fichier_metier.lire_relecture(fichier)
+    langfuse = langfuse_si_possible(config)
+    if langfuse is not None and r["sans_reponse"]:     # un métier qui a relu dans Langfuse plutôt que dans le fichier
+        traces = publication.experience_langfuse(ev, langfuse).get("traces", {})
+        notes = relecture.notes_metier(langfuse, [traces[q] for q in r["sans_reponse"] if q in traces])
+        juges = {l["question_id"]: l.get("note_juge") for l in fichier_metier.lire_tableau(
+            fichier, fichier_metier.FEUILLE_RELECTURE, fichier_metier.COLONNES_RELECTURE)}
+        for q in list(r["sans_reponse"]):
+            note = notes.get(traces.get(q))
+            if note:
+                r["sans_reponse"].remove(q)
+                r["relues"].append(q)
+                if note != juges.get(q):
+                    r["desaccords"].append({"question_id": q, "juge": juges.get(q), "metier": note, "commentaire": ""})
+    (ev.fichiers / "relecture_resultat.json").write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n",
+                                                         encoding="utf-8")
+    typer.echo(f"Réponses relues par le métier : {len(r['relues'])} sur {len(r['relues']) + len(r['sans_reponse'])} ; "
+               f"en désaccord avec le juge : {len(r['desaccords'])}.")
+    for d in r["desaccords"]:
+        typer.echo(f"  - {d['question_id']} : juge « {d['juge']} », métier « {d['metier']} »"
+                   + (f" — {d['commentaire']}" if d["commentaire"] else ""))
+    with Session(base.moteur(config["chemins"]["base"])) as session:
+        toutes = session.scalars(select(base.Resultat).where(base.Resultat.evaluation_id == ev.evaluation_id)).all()
+        rapport.ecrire(ev, json.loads((ev.fichiers / "scores.json").read_text(encoding="utf-8")), toutes)
+    typer.echo(f"Rapport mis à jour : {ev.dossier / 'RAPPORT.md'}")
 
 
 @app.command("verifier-juge")
 def verifier_juge(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
                   preparer_fichier: bool = typer.Option(False, "--preparer", help="tirer les réponses au hasard et écrire "
-                                                        "le fichier Excel que le métier remplit")):
+                                                        "le fichier Excel que le métier remplit"),
+                  aussi_langfuse: bool = typer.Option(False, "--langfuse", help="avec --preparer : mettre aussi les "
+                                                      "réponses dans la file Langfuse, pour un métier qui préfère y noter")):
     """Vérification du juge : --preparer écrit le fichier Excel à faire remplir par le métier ; sans option, lit ses
     notes dans ce fichier, calcule l'accord avec le juge, et le reporte en tête du rapport."""
     import json
@@ -302,11 +395,27 @@ def verifier_juge(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
         fichier_metier.ecrire(fichier, lignes)
         typer.echo(f"Fichier à faire remplir par le métier : {fichier} ({len(lignes)} réponses). Une fois rempli, le "
                    f"remettre à la même place, puis relancer « kit verifier-juge ».")
+        if aussi_langfuse:
+            langfuse = client_langfuse(config)
+            traces = publication.experience_langfuse(ev, langfuse).get("traces", {})
+            n = relecture.envoyer(langfuse, "verification-juge", "Vérification du juge : noter juste, partielle ou "
+                                  "fausse, sans regarder la note du juge (prompt du juge)",
+                                  [traces[l["question_id"]] for l in lignes if l["question_id"] in traces])
+            typer.echo(f"Aussi dans la file Langfuse « verification-juge » ({n} nouvelles), score « "
+                       f"{relecture.CONFIG_VERDICT} ».")
         return
     if not fichier.exists():
         typer.echo("Pas de fichier de vérification : lancer d'abord « kit verifier-juge --preparer ».", err=True)
         raise typer.Exit(1)
     metier, commentaires, manquantes = fichier_metier.lire(fichier)
+    langfuse = langfuse_si_possible(config)
+    if langfuse is not None and manquantes:     # un métier qui a noté dans Langfuse plutôt que dans le fichier
+        traces = publication.experience_langfuse(ev, langfuse).get("traces", {})
+        notes = relecture.notes_metier(langfuse, [traces[q] for q in manquantes if q in traces])
+        for q in list(manquantes):
+            if traces.get(q) in notes:
+                metier[q] = notes[traces[q]]
+                manquantes.remove(q)
     r = relecture.accord({q: verdicts[q] for q in metier if q in verdicts}, metier)
     r["accord_minimum"] = v["accord_minimum"]
     r["juge"] = {"modele": config["modeles"]["juge"]["modele"], "version_prompt": config["modeles"]["juge"]["version_prompt"]}

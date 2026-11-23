@@ -151,3 +151,33 @@ def test_fichier_de_verification_du_juge(tmp_path):
     f["F2"], f["G2"] = "Juste", "conforme"
     classeur.save(chemin)
     assert fichier_metier.lire(chemin) == ({"Q-001": "juste"}, {"Q-001": "conforme"}, ["Q-002"])
+
+
+def test_fichiers_de_relecture_et_du_graphe(tmp_path):
+    # La relecture des réponses et la justesse du graphe : écrites pour le métier, relues après qu'il les a remplies
+    import openpyxl
+
+    from kit.etape_3_evaluation_reponse import fichier_metier as fm
+
+    relecture = tmp_path / "relecture_reponses.xlsx"
+    fm.ecrire_relecture(relecture, [{"question_id": "Q-001", "motif": "gravité forte", "note_juge": "fausse"},
+                                    {"question_id": "Q-002", "motif": "tirée au hasard", "note_juge": "juste"},
+                                    {"question_id": "Q-003", "motif": "réponse partielle", "note_juge": "partielle"}])
+    classeur = openpyxl.load_workbook(relecture)
+    f = classeur[fm.FEUILLE_RELECTURE]
+    f["I2"], f["J2"], f["K2"] = "non", "partielle", "il manque seulement la date"
+    f["I3"] = "Oui"
+    classeur.save(relecture)
+    r = fm.lire_relecture(relecture)
+    assert r["relues"] == ["Q-001", "Q-002"] and r["sans_reponse"] == ["Q-003"]
+    assert r["desaccords"] == [{"question_id": "Q-001", "juge": "fausse", "metier": "partielle",
+                                "commentaire": "il manque seulement la date"}]
+    assert fm.deja_rempli(relecture, fm.FEUILLE_RELECTURE, fm.COLONNES_RELECTURE, "accord")
+
+    graphe = tmp_path / "justesse_graphe.xlsx"
+    fm.ecrire_graphe(graphe, [{"relation": "OND-A secourt GE-A", "reference_source": "NT-060", "page": "1",
+                               "passage": "…"}])
+    classeur = openpyxl.load_workbook(graphe)
+    classeur[fm.FEUILLE_GRAPHE]["E2"] = "fausse"
+    classeur.save(graphe)
+    assert [(l["relation"], l["jugement"]) for l in fm.lire_graphe(graphe)] == [("OND-A secourt GE-A", "fausse")]

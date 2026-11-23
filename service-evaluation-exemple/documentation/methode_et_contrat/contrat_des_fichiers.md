@@ -272,5 +272,5 @@ Il n'y a ni seuil ni décision : c'est le métier qui décide, à la lecture des
 | Jeu de données (dataset) | nom `corpus-<projet>-<version_corpus>` ; un élément par question : entrée = question, profil, historique ; sortie attendue = réponse attendue et points clés ; métadonnées = toutes les autres colonnes |
 | Expérience (dataset run) | nom = `evaluation_id` ; chaque élément relié à la trace de la réponse du RAG |
 | Scores | sur chaque trace, avec les identifiants standard ci-dessus |
-| Files de relecture | `relecture-reponses` (réponses à relire par le métier), `justesse-graphe` (50 relations) |
+| Fichiers du métier | dans `resultats/evaluations/<evaluation_id>/` : `verification_juge.xlsx`, `relecture_reponses.xlsx`, `justesse_graphe.xlsx`, que le métier remplit. S'il préfère Langfuse, les mêmes éléments sont dans les files `verification-juge`, `relecture-reponses` et `justesse-graphe` ; le service relit les deux |
 | Vérification du juge | un fichier Excel, `resultats/evaluations/<evaluation_id>/verification_juge.xlsx`, que le métier remplit (30 à 50 réponses) ; le résultat dans `fichiers_techniques/verification_juge_resultat.json` |

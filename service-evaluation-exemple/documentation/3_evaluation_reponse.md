@@ -47,7 +47,7 @@ flowchart LR
     G --> X
     S --> X
     X --> C["<b>Croisement</b><br/>recherche × réponse"]
-    X --> L["File Langfuse<br/>relecture-reponses"]
+    X --> L["Fichier Excel<br/>relecture_reponses.xlsx<br/>le métier relit"]
 ```
 
 | Où | Quoi |
@@ -139,7 +139,17 @@ Pour le RAG d'exemple, sur 32 questions : 20 ok, 6 « génération » (le bon ch
 
 ## La relecture par le métier
 
-La commande remplit la file **`relecture-reponses`** de Langfuse (http://127.0.0.1:3100, **Annotation Queues**) avec les réponses que le métier doit relire : les fausses ou partielles, toutes celles de gravité forte, 10 au hasard, et les désaccords du juge. Le métier note chacune avec le score **`verdict_metier`** : juste, partielle ou fausse.
+L'évaluation écrit, dans le dossier de l'évaluation, le fichier **`relecture_reponses.xlsx`** : les réponses que le métier doit relire, c'est-à-dire les fausses ou partielles, toutes celles de gravité forte, et 10 au hasard. Pour chacune, il lit la question, la bonne réponse et ses points clés, la réponse du RAG, la note du juge et ce que le juge a vu. Il dit s'il est d'accord avec le juge ; sinon, il donne sa note (juste, partielle ou fausse), avec le même critère que le juge. Un commentaire sert à tout signaler : une bonne réponse mal écrite dans le corpus, un document qui se trompe, une question ambiguë.
+
+Une fois le fichier rendu et remis à sa place :
+
+```bash
+uv run kit lire-relecture
+```
+
+Le rapport liste alors les réponses où le métier n'est pas d'accord avec le juge, avec son commentaire. Les scores ne changent pas, pour que les configurations restent comparables : ces désaccords disent où le juge se trompe, et où le corpus est à corriger.
+
+Un métier qui a déjà Langfuse en main peut relire là plutôt que dans le fichier : les mêmes réponses sont aussi dans la file **`relecture-reponses`** (Annotation Queues, score `verdict_metier`), et `kit lire-relecture` relit aussi ses notes de Langfuse.
 
 ## Vérifier le juge, avant de lui faire confiance
 
@@ -159,6 +169,8 @@ flowchart LR
    ```
    Le fichier, `verification_juge.xlsx`, est écrit dans le dossier de l'évaluation, à côté du `RAPPORT.md`. Sa première feuille donne le critère de notation. La seconde a une ligne par réponse : la question, la bonne réponse et ses points clés, tels que le métier les a écrits, et la réponse du RAG. La note du juge n'y est pas.
 2. Le remettre au métier. Pour chaque réponse, il regarde chacun des points clés : la réponse le dit, ne le dit pas, ou dit le contraire. Puis il choisit sa note dans la colonne « Votre note » : **juste** (tous les points clés, rien de contredit), **partielle** (au moins un point clé, rien de contredit) ou **fausse** (une contradiction, ou aucun point clé). C'est exactement le critère du juge ([Le LLM juge du kit — version 1.0](methode_et_contrat/prompt_du_juge.md)). Il peut ajouter un commentaire, puis il rend le fichier, qu'on remet à la même place.
+
+   Un métier qui a déjà Langfuse en main peut noter là plutôt que dans le fichier : `kit verifier-juge --preparer --langfuse` met aussi les réponses dans la file **`verification-juge`** (Annotation Queues, score `verdict_metier`). Le service relit les deux.
 
    Dans le banc d'essai, il n'y a pas de métier : cette commande remplit le fichier avec les notes simulées (voir l'encadré plus bas) :
    ```bash

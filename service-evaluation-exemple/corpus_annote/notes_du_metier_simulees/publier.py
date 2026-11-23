@@ -1,14 +1,14 @@
 """Inscrit la relecture simulée du métier, pour le banc d'essai.
 
-Dans un vrai projet, le métier note lui-même : les réponses du RAG dans le fichier Excel verification_juge.xlsx, et les
-relations du graphe dans Langfuse. Ici, le corpus et l'entreprise sont fictifs : Claude a joué le rôle du métier, et ses
+Dans un vrai projet, le métier note lui-même, dans les fichiers Excel que le service lui prépare (ou, s'il préfère,
+dans Langfuse) : verification_juge.xlsx pour les réponses du RAG, justesse_graphe.xlsx pour les relations du graphe. Ici, le corpus et l'entreprise sont fictifs : Claude a joué le rôle du métier, et ses
 notes sont écrites dans deux fichiers de ce dossier, avec leur raison :
 - verdicts_metier.json : les réponses à noter pour vérifier le juge, notées juste, partielle ou fausse ; ce script les
   écrit dans le fichier verification_juge.xlsx, comme le métier l'aurait rempli ;
-- justesse_graphe.json : les relations de la file « justesse-graphe », jugées juste ou fausse ; ce script crée les
-  scores que le métier créerait dans Langfuse (justesse_relation).
+- justesse_graphe.json : les relations tirées du graphe, jugées juste ou fausse ; ce script les écrit dans le fichier
+  justesse_graphe.xlsx, comme le métier l'aurait rempli.
 
-Usage, depuis service-evaluation/, après « kit verifier-juge --preparer » et « kit verifier-graphe --envoyer » :
+Usage, depuis service-evaluation/, après « kit verifier-juge --preparer » et « kit verifier-graphe --preparer » :
     uv run python ../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py
 puis « kit verifier-juge » et « kit verifier-graphe » calculent l'accord du juge et la justesse du graphe.
 
@@ -25,7 +25,7 @@ import json
 from pathlib import Path
 
 from kit.commandes import le_plus_recent
-from kit.config import charger_config, client_langfuse
+from kit.config import charger_config
 from kit.etape_1_evaluation_ingestion import graphe
 from kit.etape_3_evaluation_reponse import fichier_metier
 from kit.etape_5_resultats import publication
@@ -44,7 +44,7 @@ def dossier_rag(option: str | None, notes: dict, config: dict) -> Path:
 
 
 def main() -> None:
-    options = argparse.ArgumentParser(description="Inscrit dans Langfuse la relecture simulée du métier.")
+    options = argparse.ArgumentParser(description="Inscrit la relecture simulée du métier dans les fichiers Excel.")
     options.add_argument("--dossier", default=".", help="le dossier du service ; par défaut, le dossier courant")
     options.add_argument("--corpus", help="le dossier corpus/<version>/ ; par défaut, le dernier importé")
     options.add_argument("--rag-juge", help="la sortie du RAG notée pour vérifier le juge")
@@ -70,30 +70,24 @@ def main() -> None:
     classeur.save(fichier)
     print(f"verification_juge.xlsx : {notees} réponses notées.")
 
-    # 2. Les relations du graphe, jugées d'après leur passage source
-    try:
-        langfuse = client_langfuse(config)
-    except RuntimeError as erreur:      # sans Langfuse, seule la vérification du juge est faite
-        print(f"justesse-graphe : ignorée ({erreur})")
-        return
+    # 2. Les relations du graphe, jugées d'après leur passage source : écrites dans le fichier Excel
     notes = json.loads((ICI / "justesse_graphe.json").read_text(encoding="utf-8"))
     ev = publication.Evaluation(config, corpus, dossier_rag(arguments.rag_graphe, notes, config))
-    envoyees = json.loads((ev.dossier / graphe.ECHANTILLON).read_text(encoding="utf-8"))
-    par_relation = {(r["texte"], r["reference_source"], r["page"]): r["trace_id"] for r in envoyees}
-    config_justesse = graphe.config_justesse(langfuse)
-    absentes = 0
-    for i, n in enumerate(notes["relations"]):
-        trace = par_relation.get((n["relation"], n["reference_source"], n["page"]))
-        if trace is None:  # relation jugée chez l'auteur, mais absente de l'échantillon envoyé ici
-            absentes += 1
-            continue
-        langfuse.create_score(trace_id=trace, name=graphe.CONFIG_JUSTESSE, value=n["verdict"], data_type="CATEGORICAL",
-                              config_id=config_justesse, comment=COMMENTAIRE + n["raison"],
-                              score_id=f"simule-justesse-{ev.evaluation_id}-{i}"[:200])
-    print(f"justesse-graphe : {len(notes['relations']) - absentes} relations jugées inscrites"
-          + (f" ; {absentes} absentes de votre échantillon, ignorées." if absentes else "."))
-    langfuse.flush()
-
+    fichier = ev.dossier / graphe.FICHIER
+    if not fichier.exists():
+        print(f"justesse-graphe : {fichier} n'existe pas ; lancer d'abord « kit verifier-graphe --preparer ».")
+        return
+    jugees = {(n["relation"], n["reference_source"], str(n["page"])): n for n in notes["relations"]}
+    classeur = openpyxl.load_workbook(fichier)
+    feuille = classeur[fichier_metier.FEUILLE_GRAPHE]
+    ecrites = 0
+    for ligne in feuille.iter_rows(min_row=2):
+        n = jugees.get((ligne[0].value, ligne[1].value, str(ligne[2].value)))
+        if n:
+            ligne[4].value, ligne[5].value = n["verdict"], COMMENTAIRE + n["raison"]
+            ecrites += 1
+    classeur.save(fichier)
+    print(f"justesse_graphe.xlsx : {ecrites} relations jugées, sur {len(notes['relations'])} jugées chez l'auteur.")
 
 if __name__ == "__main__":
     main()

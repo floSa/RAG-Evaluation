@@ -118,6 +118,8 @@ Erreurs graves et fuites d'abord, puis réponses fausses, puis passages perdus �
 | **Q-041** : quels problèmes électriques reviennent le plus souvent dans les interventions des deux usines ? | Réponse fausse | 1. absent : L'assistant mentionne le desserrage des connexions (cause racine) mais ne cite pas explicitement l'échauffement de connexions comme problème électrique récurrent tel que défini dans les points clés. ; 2. absent : L'information concernant les défauts d'isolement sur le site B n'est pas mentionnée. ; 3. absent : L'information concernant les déclenchements intempestifs de différentiels n' |
 | **Q-043** : quels enseignements tirer des campagnes de thermographie depuis 2023 ? | Réponse fausse | 1. present : L'assistant identifie le desserrage des connexions comme la première cause d'échauffement. ; 2. present : Les points chauds récurrents sur les arrivées du TGBT-A et l'armoire AD-B04 sont mentionnés. ; 3. contredit : L'assistant indique que la périodicité est passée de 24 à 12 mois 'à partir de 2025', alors que la référence précise que le changement s'est produit depuis 2023. ; 4. pres |
 
+**Relecture du métier** : pas encore faite. 27 réponses sont à relire dans `relecture_reponses.xlsx`, à côté de ce rapport ; puis `kit lire-relecture`.
+
 ## 4. La faute est-elle dans la recherche ou dans la réponse ?
 
 Pour chaque question qui a une réponse dans les documents : le bon passage a-t-il été ramené, et la réponse est-elle juste ?

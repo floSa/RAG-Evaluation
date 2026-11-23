@@ -116,7 +116,7 @@ flowchart LR
     F["ontologie_formes.ttl"] --> V
     V --> S1["n1_graphe_violations"]
     G --> T["<b>50 relations</b> au hasard,<br/>avec leur passage source"]
-    T --> L["Langfuse, file<br/>justesse-graphe<br/>le métier juge"]
+    T --> L["Fichier Excel<br/>justesse_graphe.xlsx<br/>le métier juge"]
     L --> S2["n1_graphe_justesse"]
 ```
 
@@ -131,13 +131,15 @@ Il faut d'abord évaluer le RAG hybride : `RAG_GRAPHE=true docker compose up -d`
 
 Les violations sont calculées par `kit evaluer-ingestion`. La justesse demande le métier :
 
-1. Envoyer 50 relations au métier :
+1. Écrire le fichier à faire remplir par le métier, `justesse_graphe.xlsx`, dans le dossier de l'évaluation : 50 relations tirées au hasard, chacune avec son document, sa page et le passage d'où elle vient.
    ```bash
-   uv run kit verifier-graphe --envoyer
+   uv run kit verifier-graphe --preparer
    ```
-2. Dans Langfuse, **Annotation Queues → `justesse-graphe`** : chaque élément montre la relation, sa source et le passage. Le métier choisit `justesse_relation` : juste ou fausse.
+2. Le remettre au métier. Pour chaque relation, il choisit dans « Votre jugement » : **juste** si le passage dit bien cette relation, **fausse** sinon. Il rend le fichier, qu'on remet à la même place.
 
-   Dans le banc d'essai, il n'y a pas de métier : cette commande inscrit les jugements simulés (voir l'encadré plus bas) :
+   Un métier qui a déjà Langfuse en main peut juger là plutôt que dans le fichier : ajouter `--langfuse` à la commande, et les relations sont aussi mises dans la file **`justesse-graphe`** (Annotation Queues, score `justesse_relation`). Le service relit les jugements là où ils ont été mis.
+
+   Dans le banc d'essai, il n'y a pas de métier : cette commande remplit le fichier avec les jugements simulés (voir l'encadré plus bas) :
    ```bash
    uv run python ../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py
    ```
