@@ -9,7 +9,6 @@ chemins:
   corpus_documentaire: corpus_annote/corpus_documentaire   # ce que le RAG doit lire, un fichier par référence : le kit l'envoie au RAG
   resultats: resultats                  # corpus/, reponses_du_rag/, evaluations/, comparaisons_de_configurations/
   base: sqlite:///resultats/base.sqlite # SQLAlchemy : postgresql+psycopg://… pour PostgreSQL
-  seuils: config/seuils.json
 
 # Le RAG évalué : l'adresse de ses endpoints d'évaluation (documentation/0b_endpoints_du_rag.md)
 rag:

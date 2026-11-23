@@ -1,6 +1,5 @@
-"""Lecture de la configuration du kit : config/kit.yaml, config/seuils.json et les clés de .env."""
+"""Lecture de la configuration du kit : config/kit.yaml et les clés de .env."""
 
-import json
 import os
 from pathlib import Path
 
@@ -28,12 +27,6 @@ def charger_config(chemin: Path | str | None = None) -> dict:
     if config.get("graphe", {}).get("formes") and not Path(config["graphe"]["formes"]).is_absolute():
         config["graphe"]["formes"] = str(dossier / config["graphe"]["formes"])
     return config
-
-
-def charger_seuils(config: dict) -> dict:
-    """Lit seuils.json : pour chaque score, {seuil, sens, bloquant}."""
-    with open(config["chemins"]["seuils"], encoding="utf-8") as f:
-        return json.load(f)
 
 
 def cle(nom_variable: str) -> str:

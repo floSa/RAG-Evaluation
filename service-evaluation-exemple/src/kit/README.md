@@ -14,4 +14,4 @@ Un dossier par étape, dans l'ordre où elles s'enchaînent.
 | [`etape_2_evaluation_recherche/`](etape_2_evaluation_recherche/) | évaluation 2 : les scores de la recherche |
 | [`etape_3_evaluation_reponse/`](etape_3_evaluation_reponse/) | évaluation 3 : le juge, les scores de la réponse, la relecture par le métier |
 | [`etape_4_evaluation_bout_en_bout/`](etape_4_evaluation_bout_en_bout/) | évaluation 4 : score pondéré, temps, coût |
-| [`etape_5_resultats/`](etape_5_resultats/) | écrire les résultats, les rapports, la décision, et comparer deux configurations |
+| [`etape_5_resultats/`](etape_5_resultats/) | écrire les résultats, les scores clés, les rapports, et comparer deux configurations |

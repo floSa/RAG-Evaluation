@@ -54,7 +54,7 @@ Le détail de chaque champ est dans le [contrat](methode_et_contrat/contrat_des_
 | chaque question est posée **avec son profil**, et la recherche applique les droits de ce profil | tester les droits d'accès : un document interdit ne doit jamais remonter |
 | une question de suite reçoit en `historique` la question précédente **et sa réponse attendue** | évaluer la question de suite seule, sans hériter d'une erreur sur la précédente |
 | **le même k** pour toutes les questions | comparer les questions entre elles |
-| **toutes** les questions sont posées, y compris les réservées à la décision | seul l'affichage des résultats diffère |
+| **toutes** les questions sont posées, y compris les réservées | seul l'affichage des résultats diffère |
 | le RAG dit lui-même s'il s'abstient (`abstention`) | mesurer l'abstention sans deviner à partir du texte |
 | la version (`version_rag`) change dès que l'index, un modèle, le prompt ou k changent | comparer deux versions sans ambiguïté |
 

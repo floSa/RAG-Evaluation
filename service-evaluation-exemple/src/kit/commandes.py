@@ -172,8 +172,7 @@ def afficher_scores(resultat: dict, niveau: int) -> None:
     for s in resultat["scores"]:
         if s["niveau"] == niveau:
             marge = f" ± {s['marge']:.2f}" if s["marge"] is not None else ""
-            seuil = "" if s["atteint"] is None else (" ✔ seuil atteint" if s["atteint"] else f" ✘ seuil {s['seuil']}")
-            typer.echo(f"  {s['score']:<28} {s['valeur']}{marge}  (n = {s['n']}){seuil}")
+            typer.echo(f"  {s['score']:<28} {s['valeur']}{marge}  (n = {s['n']})")
 
 
 @app.command("evaluer-ingestion")
@@ -312,26 +311,24 @@ def verifier_juge(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
             typer.echo(f"  - {d['question_id']} : juge « {d['juge']} », métier « {d['metier']} »")
 
 
-def afficher_decision(resultat: dict, ev) -> None:
-    d = resultat["decision"]
-    typer.echo(f"  DÉCISION : {'mise en production possible' if d['mise_en_production_possible'] else 'mise en production non recommandée'}")
-    for b in d["criteres_bloquants_declenches"]:
-        typer.echo(f"    critère bloquant déclenché : {b['score']} = {b['valeur']:g} (seuil {b['seuil']})")
-    bloquants = {b["score"] for b in d["criteres_bloquants_declenches"]}
-    for x in d["seuils"]:
-        if x["atteint"] is False and x["score"] not in bloquants:
-            typer.echo(f"    seuil non atteint : {x['score']} = {x['valeur']} (seuil {x['seuil']})")
+def afficher_scores_cles(resultat: dict, ev) -> None:
+    """Les scores clés, en clair : c'est au métier de décider à leur lecture."""
+    from kit.etape_5_resultats.rapport import en_clair, libelle
+
+    typer.echo("  Les scores clés, à présenter au métier :")
+    for s in resultat["scores_cles"]:
+        typer.echo(f"    {libelle(s['score'])} : {en_clair(s['score'], s['valeur'], s['n'])}")
     typer.echo(f"  Rapport : {ev.dossier / 'RAPPORT.md'}")
 
 
 @app.command("evaluer-bout-en-bout")
 def evaluer_bout_en_bout(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_langfuse: bool = OPTION_LANGFUSE):
-    """4. Bout en bout : score pondéré, erreurs graves, temps, coût, puis décision et rapport."""
+    """4. Bout en bout : score pondéré, erreurs graves, temps, coût, puis scores clés et rapport."""
     config, ev = preparer(corpus, rag)
     resultat = publication.publier(ev, 4, scores_bout_en_bout.evaluer(ev), None if sans_langfuse else client_langfuse(config))
     typer.echo(f"4. Bout en bout — {ev.evaluation_id} → {ev.dossier}")
     afficher_scores(resultat, 4)
-    afficher_decision(resultat, ev)
+    afficher_scores_cles(resultat, ev)
 
 
 @app.command()

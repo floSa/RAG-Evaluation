@@ -10,28 +10,35 @@ K3 = {**REFERENCE, "version_rag": "graphrag-vectoriel-k3-5954e822", "k": 3}
 
 
 def test_valeurs_en_clair():
-    assert rapport.texte_valeur("n4_score_pondere", 0.8037, 0.12) == "80 % ± 12"
+    assert rapport.texte_valeur("n4_score_pondere", 0.8037, 0.12) == "80 % (entre 68 et 92 %)"
     assert rapport.texte_valeur("n4_temps_median", 7412) == "7,4 s"
     assert rapport.texte_valeur("n4_cout_moyen", 0.0) == "0,00 €"
     assert rapport.texte_valeur("n3_erreurs_graves", 1.0) == "1"
-    assert rapport.texte_seuil("n1_erreur_caracteres", 0.02, "max") == "≤ 2 %"
-    assert rapport.texte_seuil("n4_temps_p95", 30000, "max") == "≤ 30,0 s"
+
+
+def test_chaque_score_en_une_phrase():
+    assert rapport.en_clair("n2_reussite_k", 9 / 13, 13) == \
+        "Pour 9 questions sur 13, la recherche ramène le passage qui contient la réponse."
+    assert rapport.en_clair("n1_erreur_caracteres", 0.15, 20) == "Sur les pages scannées, 15 caractères sur 100 sont mal lus."
+    assert rapport.en_clair("n4_temps_median", 8000, 20) == "La moitié des réponses arrivent en moins de 8,0 s."
+    assert rapport.en_clair("n3_erreurs_graves", 1.0, 12).endswith("conséquences graves : 1.")
+    from kit.etape_5_resultats.publication import SCORES
+    assert set(rapport.LIBELLES) <= set(SCORES)
 
 
 def test_configuration_en_une_ligne():
     assert rapport.configuration(REFERENCE).startswith("RAG vectoriel, k = 5, découpage sections-1")
 
 
-def test_rapport_evaluation_commence_par_la_decision():
+def test_rapport_evaluation_commence_par_les_scores_cles_sans_decider():
     c = {"titre": "graphrag-vectoriel-k5-5954e822", "configuration": rapport.configuration(REFERENCE),
-         "corpus": "2026-11-20.1", "questions": 60, "reservees": 20, "juge": "chat, prompt 1.0", "possible": False,
-         "bloquants": [("Erreurs graves", 1.0)], "manquants": ["Score pondéré"],
-         "decision": [["Score pondéré", "76 % ± 19", "≥ 80 %", "❌ non", "20"]], "niveaux": [],
+         "corpus": "2026-11-20.1", "questions": 60, "reservees": 20, "juge": "chat, prompt 1.0",
+         "cles": [["Score pondéré", "76 % (entre 57 et 95 %)", "76 réponses justes sur 100…"]], "niveaux": [],
          "a_voir": [("Q-046", "quelles règles | de sécurité ?", "Erreur grave", "réponse fausse")],
          "croisement": [], "types": [], "lignes_types": [], "evaluation_id": "x"}
     md = rapport.markdown(c)
-    assert "**❌ Mise en production non recommandée.**" in md
-    assert "Critère bloquant déclenché : **Erreurs graves = 1**" in md
+    assert "## 1. Les scores clés" in md and "c'est au métier de dire" in md
+    assert "seuil" not in md.lower()
     assert "les 20 questions réservées" in md
     assert "quelles règles \\| de sécurité" in md   # une barre verticale ne casse pas le tableau
 

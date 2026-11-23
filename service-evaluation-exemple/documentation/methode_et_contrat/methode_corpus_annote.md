@@ -66,7 +66,7 @@ Chaque colonne est expliquée dans le fichier : en survolant son en-tête, et da
 | Difficulté | facile : une phrase, avec les mots de la question · moyenne : d'autres mots, ou un tableau · difficile : plusieurs passages, un calcul, un raisonnement |
 | Fréquence | fréquente : chaque semaine · occasionnelle : chaque mois · rare : moins souvent |
 | Gravité d'une erreur | faible : une gêne · moyenne : une perte de temps · forte : un risque pour la sûreté, la sécurité, un enjeu financier ou juridique |
-| Réservée à la décision | oui : la question ne sert qu'à décider de la mise en production ; l'équipe technique ne la regarde pas |
+| Réservée à la décision | oui : la question ne sert jamais à régler le RAG ; les scores présentés au métier, les scores clés, sont calculés dessus ; l'équipe technique n'en voit que ces scores globaux |
 | Question précédente | pour une question de suite (« et pour le site B ? ») : l'identifiant de la question qui la précède dans la conversation |
 | Variante de | pour une même question reformulée : l'identifiant de la question d'origine |
 
@@ -216,4 +216,4 @@ Un passage sans lien signifie que l'ingestion l'a perdu (scan mal lu, tableau ca
 2. L'ingestion garde la référence, la page, le type d'élément et les droits sur chaque chunk.
 3. Le lien entre passages et chunks est recalculé après chaque ingestion, jamais saisi à la main.
 4. Les questions sont écrites sans le document sous les yeux, et certaines n'ont pas de réponse.
-5. Les questions réservées à la décision ne servent jamais à régler le RAG.
+5. Les questions réservées ne servent jamais à régler le RAG.

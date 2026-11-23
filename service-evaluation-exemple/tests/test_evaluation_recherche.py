@@ -27,7 +27,7 @@ LIENS = [(2, "PR-1101#2#0"), (3, "PR-1101#2#1"), (18, "PR-1104-C#2#1"), (19, "PR
 def ev(tmp_path_factory):
     tmp = tmp_path_factory.mktemp("n2")
     config = yaml.safe_load(Path("config/kit.yaml").read_text(encoding="utf-8"))
-    config["chemins"] = {"base": f"sqlite:///{tmp}/base.sqlite", "resultats": str(tmp), "seuils": "config/seuils.json"}
+    config["chemins"] = {"base": f"sqlite:///{tmp}/base.sqlite", "resultats": str(tmp)}
     corpus = importer(Path("../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx"), config["chemins"]["base"], tmp,
                       "test").dossier
     docs = {d["reference_source"]: d for d in contrat.lire_jsonl(corpus / "documents.jsonl")}
@@ -92,17 +92,16 @@ def test_q030_a_combiner_un_passage_manque(ev):
     assert scores(scores_recherche.evaluer(ev, liens()), "Q-030")["n2_reussite_k"] == 1.0
 
 
-def test_q007_fuite_de_droits_bloquante(ev):
+def test_q007_fuite_de_droits(ev):
     # Q-007 est posée avec le profil exploitation ; NT-051 est réservé à la maintenance : fuite = 1.
     # La question « non accessible » n'est pas comptée en réussite.
     recherche(ev, {"Q-007": ["NT-051#2#0"]})
     lignes = scores_recherche.evaluer(ev, liens())
     s = scores(lignes, "Q-007")
     assert s == {"n2_fuite_droits": 1.0}
-    resultat = calculer_scores(lignes, ev.seuils)
-    assert resultat["decision"]["criteres_bloquants_declenches"] == [
-        {"score": "n2_fuite_droits", "valeur": 1.0, "seuil": 0}]
-    assert resultat["decision"]["mise_en_production_possible"] is False
+    resultat = calculer_scores(lignes)
+    # une fuite compte, même sur une question réservée : le score clé se calcule sur toutes les questions
+    assert next(x for x in resultat["scores_cles"] if x["score"] == "n2_fuite_droits")["valeur"] == 1.0
 
 
 def test_questions_non_comptees(ev):

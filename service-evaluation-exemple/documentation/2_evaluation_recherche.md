@@ -4,23 +4,23 @@
 
 Pour chaque question, la recherche du RAG compare la question aux vecteurs de la base et ramène les k morceaux les plus proches (ici 5), sans écrire de réponse. L'évaluation de la recherche vérifie que la bonne information est dans ce qui est ramené. Elle s'appuie sur l'[évaluation de l'ingestion](1_evaluation_ingestion.md), qui a déjà établi quels morceaux contiennent les passages du métier. Elle vérifie **cinq choses**, avec un score pour chacune.
 
-**1. Le bon passage est ramené** (seuil : 90 %)
+**1. Le bon passage est ramené**
 
 Pour chaque question, le service regarde si au moins un morceau contenant le passage du métier est parmi les k ramenés. Quand le métier a indiqué qu'il faut combiner plusieurs passages, il faut un bon morceau pour chacun. La question compte 1 si c'est le cas, 0 sinon. Le score est le nombre de questions réussies divisé par le nombre de questions. Une question ratée ici, c'est une question où le modèle écrira sa réponse sans avoir l'information sous les yeux. Le même score est recalculé comme si la recherche ne ramenait que 1, 3 ou 5 morceaux : cela aide à choisir k.
 
-**2. Tous les passages nécessaires sont ramenés** (sans seuil)
+**2. Tous les passages nécessaires sont ramenés**
 
 La même vérification, mais passage par passage au lieu de question par question. Le score est le nombre de passages attendus qui sont parmi les k morceaux, divisé par le nombre de passages attendus. Il montre les questions à plusieurs passages où un seul a été trouvé.
 
-**3. Le bon morceau arrive en tête** (sans seuil)
+**3. Le bon morceau arrive en tête**
 
 Chaque question reçoit 1 si le premier bon morceau est classé 1er, 1/2 s'il est 2e, 1/3 s'il est 3e, et 0 s'il n'est pas ramené. Le score est la moyenne. Si le bon passage est souvent ramené mais que ce score est bas, la bonne information arrive trop loin dans la liste.
 
-**4. Aucun document interdit n'est ramené** (seuil : 0, bloquant)
+**4. Aucun document interdit n'est ramené**
 
-Chaque question est posée au nom d'un profil, par exemple « Exploitation ». Le service compte les questions où au moins un morceau ramené vient d'un document réservé à un autre profil. Une seule fuite suffit à refuser la mise en production, quels que soient les autres scores.
+Chaque question est posée au nom d'un profil, par exemple « Exploitation ». Le service compte les questions où au moins un morceau ramené vient d'un document réservé à un autre profil. Une seule fuite est grave, quels que soient les autres scores : un document réservé a été montré à quelqu'un qui n'y a pas droit.
 
-**5. Les pièges ne passent pas devant** (sans seuil)
+**5. Les pièges ne passent pas devant**
 
 Le métier a désigné des passages pièges, qui ressemblent à la réponse sans l'être, et le corpus contient un document remplacé par une version plus récente. Le service compte les questions où un piège ou l'ancienne version est classé avant le bon morceau, et divise par le nombre de questions.
 
@@ -35,7 +35,7 @@ flowchart LR
     S --> V
     V --> R["réussite à k,<br/>rappel, rang"]
     S --> D{"Un chunk interdit<br/>au profil ?"}
-    D --> F["<b>fuite de droits</b><br/>bloquant"]
+    D --> F["<b>fuite de droits</b><br/>une seule est grave"]
 ```
 
 | Où | Quoi |
@@ -68,11 +68,11 @@ Un **bon chunk** est un chunk lié, à l'évaluation 1, à un passage de la ques
 
 | Score | Ce qu'il mesure | Exemple | Si c'est mauvais |
 | --- | --- | --- | --- |
-| `n2_reussite_k` | part des questions dont la recherche ramène le bon passage dans les k premiers chunks | **86 %** ± 13 % (seuil 90 %) | voir la ventilation par type de document ; recherche hybride, phrase de contexte, filtres de métadonnées |
+| `n2_reussite_k` | part des questions dont la recherche ramène le bon passage dans les k premiers chunks | **86 %** ± 13 % | voir la ventilation par type de document ; recherche hybride, phrase de contexte, filtres de métadonnées |
 | `n2_rappel_k` | part des passages attendus retrouvés | 81 % | questions à combiner : décomposer la question |
 | `n2_rang_premier` | 1 si le premier bon chunk est 1er, 1/2 s'il est 2e… | 0,68 | bon chunk trouvé mais mal classé : un reranker |
 | `n2_reussite_1`, `_3`, `_5` | la réussite pour k = 1, 3, 5 | 54 %, 75 %, 86 % | aide à choisir k : ici, passer de 3 à 5 gagne 11 points |
-| **`n2_fuite_droits`** | nombre de questions où un document **interdit au profil** est retrouvé | **0** | **bloquant** : filtrer les droits *pendant* la recherche, pas après |
+| **`n2_fuite_droits`** | nombre de questions où un document **interdit au profil** est retrouvé | **0** | **une seule est grave** : filtrer les droits *pendant* la recherche, pas après |
 | `n2_perimes_pieges` | part des questions où une version périmée ou un passage piège est classé avant le bon | 0 % | filtre sur la version en vigueur |
 
 ## Lire la ventilation

@@ -115,8 +115,7 @@ def evaluation(tmp_path):
     f.cell(ligne, 3).value = "4"
     classeur.save(faux_xlsx)
     config = yaml.safe_load(Path("config/kit.yaml").read_text(encoding="utf-8"))
-    config["chemins"] = {"base": f"sqlite:///{tmp_path}/base.sqlite", "resultats": str(tmp_path / "resultats"),
-                         "seuils": "config/seuils.json"}
+    config["chemins"] = {"base": f"sqlite:///{tmp_path}/base.sqlite", "resultats": str(tmp_path / "resultats")}
     faux = importer(faux_xlsx, config["chemins"]["base"], tmp_path / "resultats", "test").dossier
     rag = tmp_path / "rag"
     rag.mkdir()

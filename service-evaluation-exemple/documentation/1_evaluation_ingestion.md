@@ -4,25 +4,25 @@
 
 Le service d'ingestion du RAG lit les documents, les découpe en morceaux de texte (les *chunks*), transforme chaque morceau en vecteur et range le tout dans la base vectorielle. L'évaluation de l'ingestion vérifie que rien ne s'est perdu ni abîmé en route. Elle vérifie **cinq choses**, avec un score pour chacune.
 
-**1. Tous les documents sont arrivés dans la base** (seuil : 100 %)
+**1. Tous les documents sont arrivés dans la base**
 
 Le service prend les documents du corpus un par un et regarde si chacun a au moins un morceau dans la base. Le score est le nombre de documents présents divisé par le nombre de documents envoyés. Un document absent est invisible pour le RAG : aucune de ses informations ne pourra servir.
 
-**2. Les réponses aux questions sont arrivées intactes** (seuil : 95 %)
+**2. Les réponses aux questions sont arrivées intactes**
 
 Pour chaque question du corpus, le métier a identifié dans les documents le ou les passages qui contiennent la réponse, et les a copiés-collés dans le fichier d'annotation. Le service cherche chacun de ces passages dans les morceaux du même document et de la même page, avec une petite tolérance pour les fautes de lecture. Le score est le nombre de passages retrouvés divisé par le nombre de passages. Un passage perdu, c'est une question qui n'aura jamais de bonne réponse, quelle que soit la qualité de la suite.
 
 Les points 1 et 2 ne font pas doublon. Le premier compte les cartons ; le second ouvre ceux dont on a besoin et vérifie que les objets importants ne sont pas cassés. Un document peut être arrivé alors que la réponse qu'il contient a été abîmée.
 
-**3. Les pages scannées ont été bien lues** (seuil : 2 % d'erreurs au plus)
+**3. Les pages scannées ont été bien lues**
 
 Une page scannée est une image : le service d'ingestion doit en reconnaître le texte. Le métier a retapé à la main quelques-unes de ces pages. Le service compare ce texte à celui que le service d'ingestion a lu, caractère par caractère. Le score est le nombre de caractères mal lus divisé par le nombre de caractères retapés. Un mot mal lu ne sera plus reconnu par la recherche.
 
-**4. Chaque morceau sait d'où il vient et à qui il est réservé** (seuil : 100 %)
+**4. Chaque morceau sait d'où il vient et à qui il est réservé**
 
 Chaque morceau doit porter son document, sa page et ses droits d'accès (« ouvert à tous » ou « réservé à un service »). Le score est le nombre de morceaux qui ont ces trois informations divisé par le nombre de morceaux. Sans le document et la page, le RAG ne peut pas citer sa source. Sans les droits d'accès, il ne peut pas cacher un document réservé à la Maintenance à quelqu'un de l'Exploitation.
 
-**5. Le découpage n'a pas coupé de réponse en deux** (sans seuil, il sert à comprendre)
+**5. Le découpage n'a pas coupé de réponse en deux**
 
 Quand un passage n'est dans aucun morceau en entier, le service essaie de recoller deux morceaux qui se suivent. S'il le retrouve ainsi, le passage compte comme retrouvé au point 2, mais il est signalé comme coupé. Le score est le nombre de passages coupés divisé par le nombre de passages. S'il est élevé, il faut revoir le découpage.
 
@@ -80,7 +80,7 @@ Les identifiants (`n1_…`) sont ceux de `scores.json`, du CSV et de Langfuse. L
 | `n1_metadonnees_completes` | part des chunks qui portent référence, version, page, type d'élément et droits | 100 % | sans elles, ni rattachement, ni filtre des droits, ni citation possible |
 | `n1_passages_rattaches` | part des passages du métier retrouvés dans un chunk du même document, à la même page | 100 % | lire `passages_non_rattaches.jsonl` : chaque passage a sa cause probable (ci-dessous) |
 | `n1_passages_coupes` | part des passages coupés entre deux chunks | 0 % | découper par section, ajouter du chevauchement |
-| `n1_erreur_caracteres` | caractères à corriger pour passer du texte lu par l'OCR au texte retapé, divisé par le nombre de caractères retapés | **15 %** (seuil 2 %) | voir l'exemple ci-dessous |
+| `n1_erreur_caracteres` | caractères à corriger pour passer du texte lu par l'OCR au texte retapé, divisé par le nombre de caractères retapés | **15 %** | voir l'exemple ci-dessous |
 | `n1_erreur_mots` | la même chose en mots | 20 % | — |
 
 ## Les causes probables d'un passage non rattaché
