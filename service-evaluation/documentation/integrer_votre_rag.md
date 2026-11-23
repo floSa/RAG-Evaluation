@@ -5,7 +5,7 @@ Ce dépôt sert à deux choses différentes :
 | Usage | Pour quoi | Suivre |
 | --- | --- | --- |
 | **Voir les résultats** | voir à quoi ressemble une évaluation, sans rien installer | [`service-evaluation-exemple/`](../../service-evaluation-exemple/README.md) |
-| **Essayer avec l'exemple** | faire tourner le service sur le corpus d'exemple et le RAG d'exemple, sans rien écrire | le [README du service](../README.md#essayer-avec-le-corpus-dexemple) |
+| **Essayer avec l'exemple** | faire tourner le service sur le corpus d'exemple et le RAG d'exemple, sans rien écrire | le [README du service](../../service-evaluation/README.md#essayer-avec-le-corpus-dexemple) |
 | **L'adapter à votre RAG** | évaluer **votre** RAG, sur **vos** documents, avec les questions de **votre** métier | ce guide |
 
 Pour votre projet, vous gardez le service d'évaluation tel quel. Vous fournissez deux choses : **votre corpus annoté**, et **les quatre endpoints de votre RAG**. Le service RAG d'exemple ne sert plus que de modèle.

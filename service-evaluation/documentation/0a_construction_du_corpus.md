@@ -108,13 +108,13 @@ Le premier script dessine les PDF à partir de `fabrication/contenus/*.json`. Le
 
 ## 3. Importer le corpus
 
-L'import transforme le fichier Excel du métier en un **corpus standard** : des fichiers que n'importe quel RAG sait lire, et que le kit sait évaluer. Il faut d'abord avoir installé le service et démarré Langfuse : voir son [README](../README.md). Sans Langfuse, ajouter `--sans-langfuse`.
+L'import transforme le fichier Excel du métier en un **corpus standard** : des fichiers que n'importe quel RAG sait lire, et que le kit sait évaluer. Il faut d'abord avoir installé le service et démarré Langfuse : voir son [README](../../service-evaluation/README.md). Sans Langfuse, ajouter `--sans-langfuse`.
 
 ```bash
 uv run kit importer corpus_annote/Corpus_evaluation_RAG.xlsx
 ```
 
-Pour importer le corpus d'exemple à la place (voir [le README](../README.md#essayer-avec-le-corpus-dexemple)) :
+Pour importer le corpus d'exemple à la place (voir [le README](../../service-evaluation/README.md#essayer-avec-le-corpus-dexemple)) :
 
 ```bash
 uv run kit importer ../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx

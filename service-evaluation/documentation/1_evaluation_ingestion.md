@@ -55,7 +55,7 @@ Elle est déjà lancée par `kit evaluer`. Pour la relancer seule :
 uv run kit evaluer-ingestion
 ```
 
-Sans option, le kit prend le dernier corpus importé et les dernières réponses du RAG, et les affiche ([les options](../README.md#toutes-les-commandes)). Il suffit que `resultats/reponses_du_rag/<version du RAG>/` contienne `rag.json`, `chunks.jsonl` et, s'il y a des scans, `pages_extraites.jsonl` : le kit les y a rangés après l'endpoint ② ([endpoints du RAG](0b_endpoints_du_rag.md)).
+Sans option, le kit prend le dernier corpus importé et les dernières réponses du RAG, et les affiche ([les options](../../service-evaluation/README.md#toutes-les-commandes)). Il suffit que `resultats/reponses_du_rag/<version du RAG>/` contienne `rag.json`, `chunks.jsonl` et, s'il y a des scans, `pages_extraites.jsonl` : le kit les y a rangés après l'endpoint ② ([endpoints du RAG](0b_endpoints_du_rag.md)).
 
 ## Comment le kit tranche : le rattachement
 
