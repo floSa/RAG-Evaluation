@@ -153,3 +153,12 @@ def test_avertissement_configuration_minimale(tmp_path):
 ])
 def test_points_cles(texte, attendu):
     assert lire_points_cles(texte) == attendu
+
+
+def test_fiche_de_ged_et_ancien_libelle(tmp_path):
+    # « Fiche de GED » est le libellé du modèle ; l'ancien, « Fiche de base de données », reste accepté
+    docs = {d["reference_source"]: d for d in contrat.charger_corpus(lancer(tmp_path).dossier)["documents"]}
+    assert docs["OT-24109"]["format"] == "fiche_base"
+    n = ligne_de("Documents", "Référence dans la source", "OT-24109")
+    r = lancer(tmp_path / "ancien", copie_modifiee(tmp_path, [("Documents", n, "Format", "Fiche de base de données")]))
+    assert r.erreurs == []

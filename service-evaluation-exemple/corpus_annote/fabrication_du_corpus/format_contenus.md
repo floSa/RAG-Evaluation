@@ -36,7 +36,7 @@ Règles :
 
 | Champ | Règle |
 | --- | --- |
-| `format` | `PDF natif`, `PDF scanné` ou `Fiche de base de données` |
+| `format` | `PDF natif`, `PDF scanné` ou `Fiche de GED` |
 | `criticite` | `C1`, `C2`, `C2 export`, `C3` |
 | `droits_acces` | `Tous les utilisateurs`, `Maintenance` ou `Exploitation` |
 | `selection` | `Tiré au hasard` ou `Choisi par le métier` |

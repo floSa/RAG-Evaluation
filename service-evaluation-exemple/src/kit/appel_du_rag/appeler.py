@@ -1,6 +1,7 @@
 """Appeler les quatre endpoints d'un RAG, à son adresse web, et ranger ce qu'il rend.
 
-    1. ingérer         POST /ingerer      le kit envoie les documents du corpus (fichiers et métadonnées)
+    1. ingérer         POST /ingerer      le kit envoie les documents du corpus : un fichier, ou, pour une fiche de GED
+                                          sans fichier, sa seule référence (le RAG la lit lui-même dans sa GED)
     2. montrer l'index GET  /index        le kit reçoit la description du RAG, ses chunks, ses pages, son graphe
     3. rechercher      POST /rechercher   pour chaque question : les k chunks retrouvés
     4. répondre        POST /repondre     pour chaque question : la réponse, ses sources, l'abstention, la trace
@@ -21,20 +22,28 @@ from kit import contrat
 CHAMPS_DOCUMENT = ("reference_source", "titre", "type_document", "version", "format", "droits_acces")
 
 
-def fichier_du_document(dossier_documents: Path, reference: str) -> Path:
-    """Le fichier d'un document : <référence>.<extension> dans le dossier des documents du corpus."""
+def fichier_du_document(dossier_documents: Path, document: dict) -> Path | None:
+    """Le fichier d'un document : <référence>.<extension> dans le dossier des documents du corpus.
+
+    Une fiche de GED n'a pas besoin de fichier : sans fichier, le RAG la lit lui-même dans sa GED (None).
+    """
+    reference = document["reference_source"]
     trouves = sorted(dossier_documents.glob(f"{reference}.*"))
-    if not trouves:
-        raise FileNotFoundError(f"Document {reference} : aucun fichier {reference}.* dans {dossier_documents}/.")
-    return trouves[0]
+    if trouves:
+        return trouves[0]
+    if document["format"] == "fiche_base":
+        return None
+    raise FileNotFoundError(f"Document {reference} : aucun fichier {reference}.* dans {dossier_documents}/.")
 
 
 def documents_a_envoyer(corpus: dict, dossier_documents: Path) -> list[dict]:
+    """Pour chaque document, ses métadonnées et son fichier ; pour une fiche de GED sans fichier, rien de plus."""
     envoi = []
     for d in corpus["documents"]:
-        chemin = fichier_du_document(dossier_documents, d["reference_source"])
-        envoi.append({c: d[c] for c in CHAMPS_DOCUMENT}
-                     | {"fichier": chemin.name, "contenu": base64.b64encode(chemin.read_bytes()).decode()})
+        chemin = fichier_du_document(dossier_documents, d)
+        fichier = {"fichier": None, "contenu": None} if chemin is None else \
+            {"fichier": chemin.name, "contenu": base64.b64encode(chemin.read_bytes()).decode()}
+        envoi.append({c: d[c] for c in CHAMPS_DOCUMENT} | fichier)
     return envoi
 
 

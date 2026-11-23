@@ -54,7 +54,7 @@ def lignes_page(doc: dict, numero: int) -> list[str]:
     lignes = []
     if scanne:
         lignes.append("VALTÉRA INDUSTRIES — Archives techniques")
-    elif doc["format"] == "Fiche de base de données":
+    elif doc["format"] == "Fiche de GED":
         lignes.append(f"GMAO Atlas — export de la fiche {doc['reference_source']}")
     else:
         lignes.append(f"Valtéra Industries — {doc['type_document']} {doc['reference_source']} — {doc['version']}")
@@ -94,7 +94,7 @@ def verifier_passage(p: dict, docs: dict) -> str | None:
     doc = docs.get(p["reference"])
     if doc is None:
         return f"document inconnu {p['reference']}"
-    if doc["format"] == "Fiche de base de données":
+    if doc["format"] == "Fiche de GED":
         champs = dict(doc["pages"][0]["blocs"][0]["champs"])
         if p["page"] not in champs:
             return f"{p['reference']} : champ « {p['page']} » absent"
@@ -140,7 +140,7 @@ def remplir(docs: dict, questions: list[dict]):
     vider(f, "ABCDEFGHIJKLMNO")
     for i, d in enumerate(docs.values(), start=2):
         valeurs = [d["reference_source"], d["titre"], d["type_document"], d["source"], d["version"], d["date"],
-                   d["format"], None if d["format"] == "Fiche de base de données" else len(d["pages"]),
+                   d["format"], None if d["format"] == "Fiche de GED" else len(d["pages"]),
                    d["criticite"], d["droits_acces"], "Oui" if d["en_vigueur"] else "Non", d["remplace_par"],
                    d["selection"], d["service"], d["site"]]
         for j, v in enumerate(valeurs):

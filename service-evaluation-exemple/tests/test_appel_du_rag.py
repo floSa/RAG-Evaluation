@@ -77,3 +77,16 @@ def test_rag_absent(tmp_path, corpus):
     client = httpx.Client(base_url="http://127.0.0.1:9", timeout=2)
     with pytest.raises(RuntimeError, match="est-il lancé"):
         appeler.appeler("http://127.0.0.1:9", corpus, DOCUMENTS, tmp_path, afficher=lambda *_: None, client=client)
+
+
+def test_fiche_de_ged_sans_fichier_envoyee_par_sa_reference(tmp_path):
+    # Une fiche de GED sans fichier part avec sa seule référence : le RAG la lit dans sa GED.
+    corpus = {"documents": [
+        {"reference_source": "OT-99999", "titre": "Ticket", "type_document": "Compte rendu", "version": "1",
+         "format": "fiche_base", "droits_acces": "tous"},
+        {"reference_source": "PR-99999", "titre": "Procédure", "type_document": "Procédure", "version": "1",
+         "format": "pdf_natif", "droits_acces": "tous"}]}
+    envoi = appeler.documents_a_envoyer({"documents": corpus["documents"][:1]}, tmp_path)
+    assert envoi[0]["reference_source"] == "OT-99999" and envoi[0]["fichier"] is None and envoi[0]["contenu"] is None
+    with pytest.raises(FileNotFoundError):     # un PDF, lui, doit être fourni
+        appeler.documents_a_envoyer(corpus, tmp_path)

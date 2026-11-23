@@ -68,10 +68,13 @@ OBLIGATOIRES = {
     "Pages OCR": ["reference_source", "page", "texte_retape"],
 }
 
+# Anciens libellés encore acceptés, mais plus proposés dans les messages d'erreur.
+ANCIENS_LIBELLES = {"format": {"Fiche de base de données": "fiche_base"}}
+
 # Listes fermées : libellé du fichier Excel → code du contrat.
 CODES = {
     "format": {"PDF natif": "pdf_natif", "PDF scanné": "pdf_scanne", "Word": "word", "Excel": "excel",
-               "Fiche de base de données": "fiche_base"},
+               "Fiche de GED": "fiche_base"},
     "criticite": {"C1": "C1", "C2": "C2", "C2 export": "C2_export", "C3": "C3"},
     "selection": {"Tiré au hasard": "hasard", "Choisi par le métier": "choix_metier"},
     "redigee_par": {"Métier": "metier", "IA, relue par le métier": "ia_relue",
@@ -217,6 +220,7 @@ def convertir(ligne: Ligne, listes: dict, erreurs: list[str]) -> None:
         if nom in CODES:
             par_cle = {cle_libelle(lib): code for lib, code in CODES[nom].items()}
             par_cle.update({cle_libelle(str(code)): code for code in CODES[nom].values() if isinstance(code, str)})
+            par_cle.update({cle_libelle(lib): code for lib, code in ANCIENS_LIBELLES.get(nom, {}).items()})
             if cle_libelle(valeur) not in par_cle:
                 erreurs.append(f"{ligne.ou()} : « {valeur} » n'est pas une valeur admise pour « {titre} » "
                                f"({', '.join(CODES[nom])}).")

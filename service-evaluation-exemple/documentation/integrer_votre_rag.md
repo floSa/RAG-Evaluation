@@ -47,7 +47,7 @@ Donnez au métier deux choses :
 
 Il vous rend :
 
-- **les documents**, un fichier par document, nommé par sa référence : `<référence>.<extension>`, par exemple `PR-1101.pdf`. Si le RAG lit une application, chaque enregistrement utile (une fiche, un ticket) est exporté en fiche « champ : valeur » : sa référence est son identifiant dans l'application ;
+- **les documents**, un fichier par document, nommé par sa référence : `<référence>.<extension>`, par exemple `PR-1101.pdf`. Les fiches d'une GED (tickets, comptes rendus) n'ont pas besoin de fichier : le métier les repère par leur numéro et le nom du champ, et le RAG les lit lui-même dans la GED ([guide 0a](0a_construction_du_corpus.md#les-sources--fichiers-et-fiches-de-ged)) ;
 - **le fichier Excel rempli** : la liste des documents, les questions, leur bonne réponse, les passages qui la contiennent, et quelques pages scannées retapées à la main.
 
 Un fichier rempli, pour montrer au métier ce qu'on attend : [celui de l'exemple](../../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx).

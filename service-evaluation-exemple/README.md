@@ -4,7 +4,7 @@ Ce dossier montre le [service d'évaluation](../service-evaluation/README.md) **
 
 ## Ce qui a été évalué
 
-**Le corpus** : 50 documents fictifs sur la maintenance électrique d'une entreprise inventée (procédures, notes techniques dont 5 scannées, et comptes rendus d'intervention exportés d'une base de données en fiches « champ : valeur »), et 60 questions écrites par le métier, avec leur bonne réponse et l'endroit des documents où elle se trouve. 40 questions servent à régler le RAG. Les 20 autres sont **réservées** : on ne les regarde jamais pendant les réglages, pour ne pas régler le RAG « pour l'examen » ; les scores clés, ceux présentés au métier, sont calculés sur elles.
+**Le corpus** : 50 documents fictifs sur la maintenance électrique d'une entreprise inventée (procédures, notes techniques dont 5 scannées, et comptes rendus d'intervention, qui sont des fiches de GED exportées en PDF), et 60 questions écrites par le métier, avec leur bonne réponse et l'endroit des documents où elle se trouve. 40 questions servent à régler le RAG. Les 20 autres sont **réservées** : on ne les regarde jamais pendant les réglages, pour ne pas régler le RAG « pour l'examen » ; les scores clés, ceux présentés au métier, sont calculés sur elles.
 
 **Le RAG** : le RAG d'exemple, dans quatre configurations. Une configuration, c'est le RAG avec tous ses réglages fixés. La configuration de **référence** est celle de départ :
 

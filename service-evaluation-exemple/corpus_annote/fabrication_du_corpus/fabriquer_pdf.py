@@ -3,7 +3,7 @@
 - PDF natif : texte, titres, listes, tableaux, figures dessinées (reportlab).
 - PDF scanné : la page est d'abord dessinée, puis rendue en image, abîmée (rotation, bruit, flou,
   compression) et remise en PDF : il ne contient plus aucun texte, seulement des images.
-- Fiche de base de données : export « champ : valeur » sur une page.
+- Fiche de GED : export « champ : valeur » sur une page.
 Les PDF sont écrits dans corpus_annote/corpus_documentaire/, un par référence (<référence>.pdf) : c'est ce dossier que le kit
 envoie au RAG par son endpoint « ingérer ». Le RAG ne voit jamais le fichier Excel du métier.
 
@@ -155,7 +155,7 @@ def dessiner(doc: dict, scanne: bool) -> bytes:
         c.setFont(police, 8)
         if scanne:
             c.drawString(MARGE, HAUTEUR - 12 * mm, "VALTÉRA INDUSTRIES — Archives techniques")
-        elif doc["format"] == "Fiche de base de données":
+        elif doc["format"] == "Fiche de GED":
             c.drawString(MARGE, HAUTEUR - 12 * mm, f"GMAO Atlas — export de la fiche {doc['reference_source']}")
         else:
             c.drawString(MARGE, HAUTEUR - 12 * mm, f"Valtéra Industries — {doc['type_document']}")
