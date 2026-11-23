@@ -121,7 +121,7 @@ Chaque niveau est décrit ci-dessous selon la même fiche : ce qu'on évalue, ce
 
 | Type d'élément | Un chunk de même référence et même page correspond si | Mode |
 | --- | --- | --- |
-| Texte, fiche de base | il contient le passage ; sinon, il lui ressemble à 95 % au moins | exact, ou approché |
+| Texte, fiche de GED | il contient le passage ; sinon, il lui ressemble à 95 % au moins | exact, ou approché |
 | Tableau | il contient les mêmes mots que le passage, dans n'importe quel ordre, à 90 % au moins | approché |
 | Texte scanné | une partie du chunk ressemble au passage à 90 % au moins | approché |
 | Image ou schéma | c'est un chunk de type « image ou schéma » | image |

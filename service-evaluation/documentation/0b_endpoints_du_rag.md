@@ -38,7 +38,7 @@ flowchart LR
 
 | Endpoint | Adresse | Le service d'évaluation envoie | Le RAG rend | Pour l'évaluation |
 | --- | --- | --- | --- | --- |
-| ① **ingérer** | `POST /ingerer` | les documents du corpus : pour chacun, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces`, `fichier` (son nom) et `contenu` (le fichier, en base64) | « c'est fait » : nombre de documents, de chunks, de pages | [1](1_evaluation_ingestion.md) |
+| ① **ingérer** | `POST /ingerer` | les documents du corpus : pour chacun, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces`, `fichier` (son nom) et `contenu` (le fichier, en base64). Pour une fiche de GED sans fichier, `fichier` et `contenu` sont vides : le RAG lit la fiche dans sa GED, par sa référence | « c'est fait » : nombre de documents, de chunks, de pages | [1](1_evaluation_ingestion.md) |
 | ② **montrer l'index** | `GET /index` | rien | `rag` : sa description et sa version exacte ; `chunks` : chaque chunk de l'index avec la référence du document, sa version, la page, le type d'élément, les droits d'accès, l'ordre ; `pages` : le texte de chaque page lue, avant découpage ; `graphe` : son graphe en RDF, s'il en a un | [1](1_evaluation_ingestion.md) |
 | ③ **rechercher** | `POST /rechercher` | `question`, `profil`, `historique` | `resultats` : les k chunks retrouvés, dans l'ordre (`chunk_id`, `rang`, `score`), avant toute génération ; `duree_ms` | [2](2_evaluation_recherche.md) |
 | ④ **répondre** | `POST /repondre` | `question`, `profil`, `historique` | `reponse`, `abstention` (vrai si le RAG dit ne pas savoir), `chunks_cites`, `chunks_contexte`, `duree_ms`, `cout`, `tokens_entree`, `tokens_sortie`, `trace_id` | [3](3_evaluation_reponse.md), [4](4_evaluation_bout_en_bout.md) |
@@ -54,6 +54,7 @@ Le détail de chaque champ est dans le [contrat](methode_et_contrat/contrat_des_
 | chaque question est posée **avec son profil**, et la recherche applique les droits de ce profil | tester les droits d'accès : un document interdit ne doit jamais remonter |
 | une question de suite reçoit en `historique` la question précédente **et sa réponse attendue** | évaluer la question de suite seule, sans hériter d'une erreur sur la précédente |
 | **le même k** pour toutes les questions | comparer les questions entre elles |
+| pour une fiche de GED, chaque chunk garde la **référence de la fiche**, et en `page` le **nom du champ** tel qu'il s'affiche dans la GED | le service retrouve les passages du métier par la référence et le champ |
 | **toutes** les questions sont posées, y compris les réservées | seul l'affichage des résultats diffère |
 | le RAG dit lui-même s'il s'abstient (`abstention`) | mesurer l'abstention sans deviner à partir du texte |
 | la version (`version_rag`) change dès que l'index, un modèle, le prompt ou k changent | comparer deux versions sans ambiguïté |

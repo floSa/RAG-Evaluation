@@ -66,7 +66,7 @@ Langfuse est à http://127.0.0.1:3100. L'identifiant est `evaluation@valtera.exa
 uv run kit verifier-modeles
 ```
 
-**1. Construire et importer le corpus d'évaluation.** Les documents sont des fichiers (PDF, Word, Excel), ou des fiches « champ : valeur » exportées d'une application. C'est le métier qui construit le corpus : vous lui donnez le fichier vierge [`corpus_annote/Corpus_evaluation_RAG.xlsx`](corpus_annote/Corpus_evaluation_RAG.xlsx) et les règles pour le remplir ([guide 0a](documentation/0a_construction_du_corpus.md)). Il rend les documents, un fichier par document nommé par sa référence, et le fichier rempli.
+**1. Construire et importer le corpus d'évaluation.** Les documents sont des fichiers (PDF, Word, Excel), ou des fiches d'une GED (tickets, comptes rendus), que le RAG lit lui-même dans la GED. C'est le métier qui construit le corpus : vous lui donnez le fichier vierge [`corpus_annote/Corpus_evaluation_RAG.xlsx`](corpus_annote/Corpus_evaluation_RAG.xlsx) et les règles pour le remplir ([guide 0a](documentation/0a_construction_du_corpus.md)). Il rend les documents, un fichier par document nommé par sa référence, et le fichier rempli.
 
 Ranger les documents dans [`corpus_annote/corpus_documentaire/`](corpus_annote/corpus_documentaire/), le fichier rempli à la place du fichier vierge, puis :
 

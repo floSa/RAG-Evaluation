@@ -45,7 +45,7 @@ Chaque colonne est expliquée dans le fichier : en survolant son en-tête, et da
 | Référence dans la source | l'identifiant du document dans sa source : numéro dans la base EDF, référence Caméléon, chemin du fichier |
 | Titre, type de document, source | le titre ; un type de la feuille Listes ; le système d'où vient le document |
 | Version, date | la version annotée et sa date |
-| Format, nombre de pages | PDF natif, PDF scanné, Word, Excel, fiche de base de données ; nombre de pages |
+| Format, nombre de pages | PDF natif, PDF scanné, Word, Excel, fiche de GED ; nombre de pages |
 | Criticité | C1, C2, C2 export, C3 |
 | Droits d'accès | le profil qui a le droit de voir le document (feuille Listes) ; « tous les utilisateurs » s'il n'y a pas de restriction |
 | En vigueur, remplacé par | oui · non ; si non, la référence du document qui le remplace |
@@ -85,7 +85,7 @@ Chaque colonne est expliquée dans le fichier : en survolant son en-tête, et da
 | --- | --- |
 | Question | Q-001 |
 | Référence du document | la référence dans la source, comme dans la feuille Documents |
-| Page | la page ; pour une fiche de base de données, le nom du champ |
+| Page | la page ; pour une fiche de GED, le nom du champ |
 | Type d'élément | texte · tableau · texte scanné · image ou schéma |
 | Passage | voir le tableau ci-dessous |
 | Répond | entièrement · en partie · piège (ressemble à la réponse mais ne répond pas : ancienne version, autre site) |
@@ -98,7 +98,7 @@ Chaque colonne est expliquée dans le fichier : en survolant son en-tête, et da
 | Tableau | un copier-coller de la ligne qui répond, avec les en-têtes de colonnes |
 | Texte scanné | la phrase clé, recopiée (le copier-coller est impossible) |
 | Image ou schéma | une phrase qui dit ce que l'image montre et qui répond, avec le numéro de figure s'il existe |
-| Fiche de base de données | la valeur du champ, et le nom du champ dans « Page » |
+| Fiche de GED | la valeur du champ, et le nom du champ dans « Page » |
 
 ### Feuille Pages OCR : les pages de référence
 
@@ -155,7 +155,7 @@ Chaque chunk de la base vectorielle, ou chaque élément du graphe, garde dans s
 | --- | --- |
 | Référence du document dans sa source | PR-1234 |
 | Version du document | v4 |
-| Page (ou champ, pour une fiche de base) | 4 |
+| Page (ou champ, pour une fiche de GED) | 4 |
 | Type d'élément | texte, tableau, texte scanné, image ou schéma |
 | Droits d'accès | profil autorisé |
 
@@ -204,7 +204,7 @@ Le rattachement selon le type d'élément :
 
 | Type d'élément | Un chunk correspond si |
 | --- | --- |
-| Texte, tableau, fiche de base | même référence, même page, et son texte contient le passage |
+| Texte, tableau, fiche de GED | même référence, même page, et son texte contient le passage |
 | Texte scanné | même référence, même page, et son texte ressemble au passage (tolérance aux erreurs d'OCR) |
 | Image ou schéma | même référence, même page, et c'est un chunk de type « image ou schéma » |
 

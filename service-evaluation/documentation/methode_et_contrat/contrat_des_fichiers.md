@@ -47,7 +47,7 @@ Arborescence :
 | source | texte | oui | Source | valeur de la feuille Listes |
 | version | texte | oui | Version | |
 | date | date | non | Date | |
-| format | code | oui | Format | `pdf_natif`, `pdf_scanne`, `word`, `excel`, `fiche_base` |
+| format | code | oui | Format | `pdf_natif`, `pdf_scanne`, `word`, `excel`, `fiche_base` (libellé « Fiche de GED » ; l'ancien libellé « Fiche de base de données » reste accepté) |
 | nb_pages | entier | non | Nombre de pages | |
 | criticite | code | oui | Criticité | `C1`, `C2`, `C2_export`, `C3` |
 | droits_acces | texte | oui | Droits d'accès | profil de la feuille Listes ; `tous` si aucune restriction |
@@ -96,7 +96,7 @@ L'import découpe la colonne « Points clés attendus » sur « ; » et reconna�
 | passage_id | entier | oui | numéro de ligne | attribué par l'import, stable d'une version à l'autre tant que la ligne ne change pas |
 | question_id | texte | oui | Question | |
 | reference_source | texte | oui | Référence du document | existe dans documents.jsonl |
-| page | texte | oui | Page | numéro de page, ou nom du champ pour une fiche de base |
+| page | texte | oui | Page | numéro de page, ou nom du champ affiché pour une fiche de GED |
 | type_element | code | oui | Type d'élément | `texte`, `tableau`, `texte_scanne`, `image_schema` |
 | passage | texte | oui | Passage | |
 | repond | code | oui | Répond | `entierement`, `en_partie`, `piege` |
@@ -143,7 +143,7 @@ Les endpoints d'évaluation du RAG (fin de cette section) rend ces objets ; le k
 | type_objet | code | oui | `chunk`, `noeud`, `relation`, `resume` |
 | reference_source | texte | oui sauf `resume` | référence du document d'origine |
 | version_document | texte | oui sauf `resume` | |
-| page | texte | oui sauf `resume` | page, ou nom du champ pour une fiche de base |
+| page | texte | oui sauf `resume` | page, ou nom du champ affiché pour une fiche de GED |
 | type_element | code | oui sauf `resume` | `texte`, `tableau`, `texte_scanne`, `image_schema` |
 | droits_acces | texte | oui | profil autorisé, ou `tous` |
 | ordre | entier | oui sauf `resume` | rang du chunk dans la page (0, 1, 2…) ; sert à détecter les passages coupés |
@@ -205,7 +205,7 @@ Chaque RAG ouvre quatre endpoints à une adresse web (par défaut http://127.0.0
 
 | Endpoint | Adresse | Corps de la demande | Réponse |
 | --- | --- | --- | --- |
-| ① ingérer | `POST /ingerer` | `{"documents": [...]}` : pour chaque document, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces` (codes de documents.jsonl), `fichier` (nom) et `contenu` (le fichier, en base64) | `{"documents", "chunks", "pages"}` |
+| ① ingérer | `POST /ingerer` | `{"documents": [...]}` : pour chaque document, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces` (codes de documents.jsonl), `fichier` (nom) et `contenu` (le fichier, en base64) ; pour une fiche de GED sans fichier, `fichier` et `contenu` valent `null` et le RAG lit la fiche dans sa GED | `{"documents", "chunks", "pages"}` |
 | ② montrer l'index | `GET /index` | — | `{"rag": <rag.json>, "chunks": [<chunks.jsonl>], "pages": [<pages_extraites.jsonl>], "graphe": <graphe.ttl en Turtle, ou null>}` |
 | ③ rechercher | `POST /rechercher` | `{"question", "profil", "historique"}` | `{"resultats": [{"chunk_id", "rang", "score"}], "duree_ms"}` ; option `avant_reranking` |
 | ④ répondre | `POST /repondre` | `{"question", "profil", "historique"}` | un objet reponses.jsonl, sans `question_id` ni `profil` |

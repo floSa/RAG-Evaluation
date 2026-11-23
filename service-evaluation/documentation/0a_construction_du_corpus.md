@@ -48,7 +48,28 @@ Chaque feuille du fichier Excel porte ses définitions et ses listes de valeurs.
 | Pages OCR | une page scannée de référence | le texte retapé à la main : sert à mesurer la qualité de la lecture des scans |
 | Tableau de bord | — | se calcule tout seul ; doit être « OK » partout avant de transmettre le fichier |
 
-Une source n'est pas toujours un fichier. Pour un enregistrement d'une application (une fiche, un ticket, une ligne de base), on l'exporte en fiche « champ : valeur », de format « Fiche de base de données ». Sa référence est l'identifiant de l'enregistrement, et sa « page » est le nom du champ qui contient la réponse.
+### Les sources : fichiers et fiches de GED
+
+Le RAG peut lire deux sortes de sources, et un même corpus peut mélanger les deux :
+- des **fichiers** : PDF, Word, Excel ;
+- des **fiches de GED** : les fiches, tickets ou comptes rendus d'une base documentaire (une GED, un outil de tickets, une GMAO). Ce ne sont pas des fichiers : elles s'affichent à l'écran, et sont stockées dans une base de données.
+
+Le métier repère chaque source avec ce qu'il voit à l'écran :
+
+| Colonne | Pour un fichier | Pour une fiche de GED |
+| --- | --- | --- |
+| Source (feuille Documents) | l'espace où il est rangé : SharePoint, dossier partagé… | le nom de la GED : « GED Maintenance », « GMAO »… |
+| Référence dans la source (feuille Documents) | la référence du fichier, par exemple `PR-1101` | le numéro de la fiche affiché dans la GED, par exemple `OT-24102` |
+| Format (feuille Documents) | PDF natif, PDF scanné, Word, Excel | Fiche de GED |
+| Page (feuille Passages) | le numéro de la page | le nom du champ tel qu'il s'affiche, par exemple « Résolution » ; « Commentaire 3 » pour le troisième commentaire d'un fil |
+| Passage (feuille Passages) | le texte copié-collé depuis le fichier | le texte copié-collé depuis l'écran de la GED |
+
+Le numéro de la fiche et le nom du champ suffisent à désigner un endroit précis de la base : le métier n'a pas à connaître ses tables ni ses colonnes. Le RAG garde ces deux informations sur chaque morceau qu'il tire de la fiche, et le service retrouve ainsi le passage.
+
+Trois règles pour les fiches de GED :
+- une **pièce jointe** est une source à part : une ligne de plus dans la feuille Documents, avec sa référence dans la GED et son format (PDF…) ;
+- le corpus porte sur une **copie figée** de la GED, ou sur des fiches closes : une fiche modifiée pendant l'évaluation rendrait fausse la réponse attendue ;
+- une fiche **n'a pas de fichier à fournir** : le RAG la lit lui-même dans la GED, par son numéro. On peut aussi l'exporter en fichier, nommé `<référence>.pdf` : le service l'envoie alors au RAG comme les autres fichiers.
 
 ### Les règles qui comptent le plus
 
@@ -71,7 +92,7 @@ Le dossier [`service-evaluation-exemple/corpus_annote/`](../../service-evaluatio
 
 | Élément | Contenu |
 | --- | --- |
-| `corpus_annote/corpus_documentaire/` | 50 documents PDF, un par référence (`<référence>.pdf`) ; c'est ce dossier que le kit envoie au RAG par son endpoint « ingérer » : 17 procédures (PDF natifs), 16 notes techniques (11 natives, 5 scannées et bruitées), 17 comptes rendus d'intervention (fiches de base de données exportées en « champ : valeur ») |
+| `corpus_annote/corpus_documentaire/` | 50 documents PDF, un par référence (`<référence>.pdf`) ; c'est ce dossier que le kit envoie au RAG par son endpoint « ingérer » : 17 procédures (PDF natifs), 16 notes techniques (11 natives, 5 scannées et bruitées), 17 comptes rendus d'intervention (fiches de GED, exportées en PDF « champ : valeur » parce que le RAG d'exemple n'a pas de connecteur de GED) |
 | `corpus_annote/Corpus_evaluation_RAG.xlsx` | le fichier du métier, rempli : 50 documents, 60 questions, 97 passages, 20 pages OCR retapées |
 | `corpus_annote/questions_pour_relecture.md` | les 60 questions sur une page, pour les relire |
 | `corpus_annote/notes_du_metier_simulees/` | les notes du métier, **simulées** pour le banc d'essai : 28 réponses notées pour vérifier le juge, 50 relations du graphe jugées ; et le script qui les inscrit dans Langfuse |
@@ -82,7 +103,7 @@ Ce qu'il couvre :
 
 | Cas du document 1 | Dans le corpus d'exemple |
 | --- | --- |
-| Formats | PDF natif, PDF scanné (5 notes de 4 pages), fiche de base de données |
+| Formats | PDF natif, PDF scanné (5 notes de 4 pages), fiche de GED |
 | Éléments | texte, tableaux, schémas avec figure numérotée (PR-1101, PR-1111, NT-057, NT-058), texte scanné |
 | Droits | 4 documents réservés au profil « Maintenance » (PR-1102, NT-051, OT-24109, OT-24114) |
 | Versions | PR-1104-B (2021) remplacée par PR-1104-C (2025), avec des valeurs différentes |
@@ -92,7 +113,7 @@ Les conventions retenues pour l'annoter :
 
 | Point | Convention |
 | --- | --- |
-| Fiche de base de données | « Page » = nom du champ (par exemple « Pièces remplacées ») ; « Passage » = la valeur, ou la partie de la valeur qui répond |
+| Fiche de GED | « Page » = nom du champ (par exemple « Pièces remplacées ») ; « Passage » = la valeur, ou la partie de la valeur qui répond |
 | Question non accessible | posée avec le profil « Exploitation » sur un document réservé à « Maintenance » ; la réponse attendue est que le RAG ne donne pas l'information |
 | Pages OCR | tout ce qu'on lit sur la page, en-tête et pied de page compris, dans l'ordre de lecture |
 
