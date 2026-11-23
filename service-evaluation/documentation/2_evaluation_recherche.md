@@ -1,5 +1,7 @@
 # 2. Évaluation de la recherche
 
+Ce guide détaille la vérification 2, la recherche, présentée dans le [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation) : ce qu'elle vérifie, comment chaque score est calculé, et quoi faire si c'est mauvais.
+
 ## Ce que vérifie cette évaluation
 
 Pour chaque question, la recherche du RAG compare la question aux vecteurs de la base et ramène les k morceaux les plus proches (ici 5), sans écrire de réponse. L'évaluation de la recherche vérifie que la bonne information est dans ce qui est ramené. Elle s'appuie sur l'[évaluation de l'ingestion](1_evaluation_ingestion.md), qui a déjà établi quels morceaux contiennent les passages du métier. Elle vérifie **cinq choses**, avec un score pour chacune.
@@ -88,5 +90,7 @@ Ce dernier chiffre est une tendance, pas une mesure, mais il dit où regarder en
 ## Si c'est mauvais
 
 Recherche hybride, reranker, filtres, choix de k : le [document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md), section 6.
+
+Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 
 **Étape suivante** : [3. Évaluation de la réponse](3_evaluation_reponse.md).

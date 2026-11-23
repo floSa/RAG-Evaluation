@@ -4,7 +4,7 @@ Les guides se lisent dans l'ordre. Chacun dit ce qu'il faut faire, et, pour les 
 
 | Élément | À quoi il sert |
 | --- | --- |
-| [`integrer_votre_rag.md`](integrer_votre_rag.md) | **par où commencer** pour votre projet : les étapes, du corpus à la décision |
+| [`../FIL_CONDUCTEUR.md`](../FIL_CONDUCTEUR.md) | **par où commencer** : le fil conducteur, qui explique ce qu'on fait et renvoie, dans l'ordre, vers chacun de ces guides |
 | [`0a_construction_du_corpus.md`](0a_construction_du_corpus.md) | comment le métier annote le corpus, et comment l'importer |
 | [`0b_endpoints_du_rag.md`](0b_endpoints_du_rag.md) | les quatre endpoints que votre RAG doit ouvrir |
 | [`0c_configurations_du_rag.md`](0c_configurations_du_rag.md) | où fixer les réglages du RAG, et comment lancer l'évaluation |

@@ -14,7 +14,7 @@ Les formes d'entrée et de sortie, elles, ne changent pas.
 
 Lancer (dépendances : fastapi, uvicorn, pypdf) :
     uvicorn endpoints_evaluation:app --host 127.0.0.1 --port 8100
-Guide pas à pas : service-evaluation/documentation/integrer_votre_rag.md
+Guide pas à pas : service-evaluation/documentation/0b_endpoints_du_rag.md
 """
 
 import base64

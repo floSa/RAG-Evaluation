@@ -1,5 +1,7 @@
 # 1. Évaluation de l'ingestion
 
+Ce guide détaille la vérification 1, l'ingestion, présentée dans le [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation) : ce qu'elle vérifie, comment chaque score est calculé, et quoi faire si c'est mauvais.
+
 ## Ce que vérifie cette évaluation
 
 Le service d'ingestion du RAG lit les documents, les découpe en morceaux de texte (les *chunks*), transforme chaque morceau en vecteur et range le tout dans la base vectorielle. L'évaluation de l'ingestion vérifie que rien ne s'est perdu ni abîmé en route. Elle vérifie **cinq choses**, avec un score pour chacune.
@@ -162,5 +164,7 @@ C'est la limite d'un petit modèle qui extrait page par page. La première sorte
 ## Si c'est mauvais
 
 Extraction, OCR, tableaux, images, découpage : le [document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md), sections 3 et 4.
+
+Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 
 **Étape suivante** : [2. Évaluation de la recherche](2_evaluation_recherche.md).

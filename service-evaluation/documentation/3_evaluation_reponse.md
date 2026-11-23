@@ -1,5 +1,7 @@
 # 3. Évaluation de la réponse
 
+Ce guide détaille la vérification 3, la réponse, présentée dans le [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation) : ce qu'elle vérifie, comment chaque score est calculé, et quoi faire si c'est mauvais.
+
 ## Ce que vérifie cette évaluation
 
 Le RAG reçoit la question, ramène ses k morceaux, et demande au modèle de langage d'écrire une réponse à partir de ces morceaux, en citant ses sources. L'évaluation de la réponse vérifie que cette réponse est juste, fondée sur les documents, et prudente quand il le faut. Elle vérifie **six choses**.
@@ -188,5 +190,7 @@ On refait la vérification à chaque changement de modèle juge ou de prompt. Le
 ## Si c'est mauvais
 
 Regarder d'abord le croisement. « Recherche » : revenir à l'[évaluation 2](2_evaluation_recherche.md). « Génération » : prompt, citations, abstention, modèle, dans le [document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md), section 7.
+
+Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 
 **Étape suivante** : [4. Évaluation de bout en bout](4_evaluation_bout_en_bout.md).
