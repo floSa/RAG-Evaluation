@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "chunks.jsonl (une ligne)",
+  "description": "Un chunk de l'index, ou un élément du graphe.",
+  "type": "object",
+  "properties": {
+    "chunk_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type_objet": {
+      "type": "string",
+      "enum": [
+        "chunk",
+        "noeud",
+        "relation",
+        "resume"
+      ]
+    },
+    "droits_acces": {
+      "type": "string",
+      "minLength": 1
+    },
+    "texte": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version_index": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference_source": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "version_document": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "page": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "type_element": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "texte",
+            "tableau",
+            "texte_scanne",
+            "image_schema"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ordre": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "metadonnees": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "chunk_id",
+    "type_objet",
+    "droits_acces",
+    "texte",
+    "version_index"
+  ],
+  "additionalProperties": false,
+  "if": {
+    "properties": {
+      "type_objet": {
+        "not": {
+          "const": "resume"
+        }
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "reference_source",
+      "version_document",
+      "page",
+      "type_element",
+      "ordre"
+    ],
+    "properties": {
+      "reference_source": {
+        "type": "string",
+        "minLength": 1
+      },
+      "version_document": {
+        "type": "string",
+        "minLength": 1
+      },
+      "page": {
+        "type": "string",
+        "minLength": 1
+      },
+      "type_element": {
+        "type": "string",
+        "enum": [
+          "texte",
+          "tableau",
+          "texte_scanne",
+          "image_schema"
+        ]
+      },
+      "ordre": {
+        "type": "integer",
+        "minimum": 0
+      }
+    }
+  }
+}

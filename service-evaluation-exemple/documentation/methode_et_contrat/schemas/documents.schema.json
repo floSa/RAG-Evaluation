@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "documents.jsonl (une ligne)",
+  "description": "Un document du corpus.",
+  "type": "object",
+  "properties": {
+    "reference_source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "titre": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type_document": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "pdf_natif",
+        "pdf_scanne",
+        "word",
+        "excel",
+        "fiche_base"
+      ]
+    },
+    "criticite": {
+      "type": "string",
+      "enum": [
+        "C1",
+        "C2",
+        "C2_export",
+        "C3"
+      ]
+    },
+    "droits_acces": {
+      "type": "string",
+      "minLength": 1
+    },
+    "en_vigueur": {
+      "type": "boolean"
+    },
+    "selection": {
+      "type": "string",
+      "enum": [
+        "hasard",
+        "choix_metier"
+      ]
+    },
+    "date": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}(T.*)?$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nb_pages": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "remplace_par": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "colonnes_libres": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "reference_source",
+    "titre",
+    "type_document",
+    "source",
+    "version",
+    "format",
+    "criticite",
+    "droits_acces",
+    "en_vigueur",
+    "selection"
+  ],
+  "additionalProperties": false
+}

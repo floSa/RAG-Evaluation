@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "pages_extraites.jsonl (une ligne)",
+  "description": "Le texte d'une page tel que sorti de l'extraction.",
+  "type": "object",
+  "properties": {
+    "reference_source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "page": {
+      "type": "string",
+      "minLength": 1
+    },
+    "texte": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "reference_source",
+    "page",
+    "texte"
+  ],
+  "additionalProperties": false
+}

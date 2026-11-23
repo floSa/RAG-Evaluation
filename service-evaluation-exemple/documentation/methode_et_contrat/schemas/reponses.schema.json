@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "reponses.jsonl (une ligne)",
+  "description": "La réponse du RAG à une question.",
+  "type": "object",
+  "properties": {
+    "question_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profil": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reponse": {
+      "type": "string"
+    },
+    "abstention": {
+      "type": "boolean"
+    },
+    "chunks_cites": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "chunks_contexte": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "duree_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cout": {
+      "anyOf": [
+        {
+          "type": "number",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "tokens_entree": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "tokens_sortie": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "question_id",
+    "profil",
+    "reponse",
+    "abstention",
+    "chunks_cites",
+    "chunks_contexte",
+    "duree_ms",
+    "trace_id"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "passages.jsonl (une ligne)",
+  "description": "Un passage qui répond à une question.",
+  "type": "object",
+  "properties": {
+    "passage_id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "question_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference_source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "page": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type_element": {
+      "type": "string",
+      "enum": [
+        "texte",
+        "tableau",
+        "texte_scanne",
+        "image_schema"
+      ]
+    },
+    "passage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repond": {
+      "type": "string",
+      "enum": [
+        "entierement",
+        "en_partie",
+        "piege"
+      ]
+    }
+  },
+  "required": [
+    "passage_id",
+    "question_id",
+    "reference_source",
+    "page",
+    "type_element",
+    "passage",
+    "repond"
+  ],
+  "additionalProperties": false
+}

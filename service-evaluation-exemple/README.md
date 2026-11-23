@@ -1,6 +1,6 @@
 # Service d'évaluation, exemple
 
-Ce dossier montre le [service d'évaluation](../service-evaluation/README.md) **une fois qu'il a tourné** sur le [RAG d'exemple](../service-rag-exemple/README.md). Il a exactement les mêmes dossiers que `service-evaluation/`, mais remplis : la configuration, le corpus annoté, et tous les résultats. Tout se lit ici, sans rien installer.
+Ce dossier montre le [service d'évaluation](../service-evaluation/README.md) **une fois qu'il a tourné** sur le [RAG d'exemple](../service-rag-exemple/README.md). C'est **le même service, fichier pour fichier**, qui a en plus tourné : sa configuration, son corpus annoté et ses résultats sont remplis. Tout se lit ici, sans rien installer.
 
 ## Ce qui a été évalué
 
@@ -58,12 +58,15 @@ Les deux colonnes de chiffres portent sur les 40 questions de réglage ; la déc
 
 ## Ce qu'il y a dans ce dossier
 
-Les mêmes dossiers que dans `service-evaluation/`, remplis :
+Les mêmes dossiers et les mêmes fichiers que dans `service-evaluation/`. Trois sont remplis, parce que le service a tourné :
 
 | Dossier | Ce qu'il contient ici |
 | --- | --- |
 | [`config/`](config/) | nos réglages, et les seuils fixés par le métier |
 | [`corpus_annote/`](corpus_annote/) | le corpus documentaire (50 documents) et le fichier Excel du métier rempli ; plus, pour ce banc d'essai seulement, les notes du métier simulées et le script qui a fabriqué les documents |
 | [`resultats/`](resultats/) | le corpus contrôlé, les réponses du RAG pour chaque configuration, les 4 évaluations et les 3 comparaisons |
+| [`endpoints_a_copier/`](endpoints_a_copier/), [`documentation/`](documentation/), [`src/`](src/), [`tests/`](tests/) | identiques à `service-evaluation/` : un test vérifie qu'ils le restent |
+
+On peut donc aussi le faire tourner tel quel, depuis ce dossier, comme `service-evaluation/` : les commandes sont dans [son README](../service-evaluation/README.md#le-faire-tourner-dans-lordre).
 
 Chaque évaluation et chaque comparaison est un dossier nommé d'après la version du RAG évaluée. Exemple : `2026-11-20.1_graphrag-vectoriel-k5-5954e822` = le corpus du 20 novembre, le RAG « graphrag » en recherche vectorielle, avec k = 5, et une empreinte de ses autres réglages. Le tableau de la partie 1 dit à quelle configuration chacun correspond.
