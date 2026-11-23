@@ -1,0 +1,90 @@
+<!doctype html><html lang='fr'><head><meta charset='utf-8'><title>Évaluation 2026-11-20.1_graphrag-hybride-k5-57001489</title><style>
+body{font-family:system-ui,sans-serif;max-width:1050px;margin:2rem auto;padding:0 1rem;color:#1f2328;line-height:1.45}
+h1{font-size:1.6rem}h2{margin-top:2.2rem;border-bottom:2px solid #d0d7de;padding-bottom:.3rem}
+table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.93rem}
+th,td{border:1px solid #d0d7de;padding:.35rem .55rem;text-align:left;vertical-align:top}th{background:#f6f8fa}
+.ok{color:#1a7f37;font-weight:600}.ko{color:#cf222e;font-weight:600}.neutre{color:#57606a}
+.decision{padding:1rem 1.2rem;border-radius:8px;margin:1rem 0;font-size:1.05rem}
+.oui{background:#dafbe1;border:1px solid #1a7f37}.non{background:#ffebe9;border:1px solid #cf222e}
+small{color:#57606a}code{background:#f6f8fa;padding:0 .25rem}
+</style></head><body>
+<h1>Évaluation du RAG « graphrag »</h1>
+<p>Version du RAG <code>graphrag-hybride-k5-57001489</code> (type hybride, k = 5) · corpus <code>2026-11-20.1</code> · juge <code>chat</code>, prompt 1.0 · 60 questions dont 20 réservées à la décision</p>
+<h2>1. La décision</h2><div class='decision non'><b>Mise en production non recommandée</b>
+<br>Seuil(s) non atteint(s) sur les questions réservées : Erreur de l&#x27;OCR (caractères), Bon passage retrouvé (réussite à k), Score pondéré
+</div><p><small>Les seuils se jugent sur les questions <b>réservées à la décision</b>, jamais utilisées pour régler le RAG ; les critères bloquants (fuite de droits, erreur grave) sur toutes les questions. Seuils fixés par le métier dans <code>config/seuils.json</code>.</small></p>
+<table><tr><th>Score (questions réservées)</th><th>Valeur</th><th>n</th><th>Seuil</th><th>État</th></tr>
+<tr><td>Documents indexés</td><td>100%</td><td>50</td><td>≥ 100%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Métadonnées complètes</td><td>100%</td><td>1059</td><td>≥ 100%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Passages retrouvés dans l&#x27;index</td><td>100%</td><td>30</td><td>≥ 95%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Erreur de l&#x27;OCR (caractères)</td><td>15%</td><td>20</td><td>≤ 2%</td><td><span class="ko">non atteint</span></td></tr>
+<tr><td>Bon passage retrouvé (réussite à k)</td><td>69% <small>± 25%</small></td><td>13</td><td>≥ 90%</td><td><span class="ko">non atteint</span></td></tr>
+<tr><td>Fuites de droits</td><td>0</td><td>60</td><td>≤ 0</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Réponses justes</td><td>88% <small>± 19%</small></td><td>12</td><td>≥ 80%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Abstentions correctes</td><td>100%</td><td>5</td><td>≥ 80%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Fidélité aux sources</td><td>97% <small>± 9%</small></td><td>12</td><td>≥ 90%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Erreurs graves</td><td>0</td><td>12</td><td>≤ 0</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Score pondéré</td><td>78% <small>± 18%</small></td><td>20</td><td>≥ 80%</td><td><span class="ko">non atteint</span></td></tr>
+<tr><td>Erreurs graves</td><td>0</td><td>12</td><td>≤ 0</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Temps de réponse médian (ms)</td><td>7944</td><td>20</td><td>≤ 15000</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Temps de réponse à 95 % (ms)</td><td>12803</td><td>20</td><td>≤ 30000</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Coût moyen par question (€)</td><td>0.0000 €</td><td>20</td><td>≤ 0.05</td><td><span class="ok">atteint</span></td></tr>
+</table>
+<h2>2. Les scores, évaluation par évaluation</h2><p><small>Sur les questions non réservées. On lit les évaluations dans l'ordre : une réponse fausse vient souvent d'un passage perdu à l'ingestion ou mal retrouvé. La marge (±) est l'incertitude à 95 % ; un score calculé sur moins de 10 questions est une tendance.</small></p>
+<h3>1. Ingestion</h3><table><tr><th>Score</th><th>Ce qu'il mesure</th><th>Valeur</th><th>n</th><th>Seuil</th><th>État</th></tr>
+<tr><td>Documents indexés<br><small><code>n1_documents_indexes</code></small></td><td><small>part des documents du corpus qui ont au moins un chunk</small></td><td>100%</td><td>50</td><td>≥ 100%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Métadonnées complètes<br><small><code>n1_metadonnees_completes</code></small></td><td><small>part des chunks avec référence, version, page, type, droits</small></td><td>100%</td><td>1059</td><td>≥ 100%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Passages retrouvés dans l&#x27;index<br><small><code>n1_passages_rattaches</code></small></td><td><small>part des passages du métier reliés à un chunk</small></td><td>100%</td><td>61</td><td>≥ 95%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Passages coupés<br><small><code>n1_passages_coupes</code></small></td><td><small>part des passages répartis sur deux chunks</small></td><td>0%</td><td>61</td><td>—</td><td></td></tr>
+<tr><td>Erreur de l&#x27;OCR (caractères)<br><small><code>n1_erreur_caracteres</code></small></td><td><small>caractères à corriger ÷ caractères retapés</small></td><td>15%</td><td>20</td><td>≤ 2%</td><td><span class="ko">non atteint</span></td></tr>
+<tr><td>Erreur de l&#x27;OCR (mots)<br><small><code>n1_erreur_mots</code></small></td><td><small>mots à corriger ÷ mots retapés</small></td><td>20%</td><td>20</td><td>—</td><td></td></tr>
+<tr><td>Violations de l&#x27;ontologie<br><small><code>n1_graphe_violations</code></small></td><td><small>nombre de violations des règles SHACL</small></td><td>25</td><td>25</td><td>—</td><td></td></tr>
+</table>
+<h3>2. Recherche</h3><table><tr><th>Score</th><th>Ce qu'il mesure</th><th>Valeur</th><th>n</th><th>Seuil</th><th>État</th></tr>
+<tr><td>Bon passage retrouvé (réussite à k)<br><small><code>n2_reussite_k</code></small></td><td><small>part des questions dont la recherche ramène le bon passage</small></td><td>82% <small>± 14%</small></td><td>28</td><td>≥ 90%</td><td><span class="ko">non atteint</span></td></tr>
+<tr><td>Passages attendus retrouvés (rappel)<br><small><code>n2_rappel_k</code></small></td><td><small>part des passages attendus dans les k premiers</small></td><td>81% <small>± 12%</small></td><td>42</td><td>—</td><td></td></tr>
+<tr><td>Rang du premier bon passage (MRR)<br><small><code>n2_rang_premier</code></small></td><td><small>1 s&#x27;il est 1er, 1/2 s&#x27;il est 2e…</small></td><td>59% <small>± 18%</small></td><td>28</td><td>—</td><td></td></tr>
+<tr><td>Fuites de droits<br><small><code>n2_fuite_droits</code></small></td><td><small>questions où un document interdit au profil est retrouvé</small></td><td>0</td><td>40</td><td>≤ 0</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Réussite à 1<br><small><code>n2_reussite_1</code></small></td><td><small></small></td><td>39% <small>± 18%</small></td><td>28</td><td>—</td><td></td></tr>
+<tr><td>Réussite à 3<br><small><code>n2_reussite_3</code></small></td><td><small></small></td><td>71% <small>± 17%</small></td><td>28</td><td>—</td><td></td></tr>
+<tr><td>Réussite à 5<br><small><code>n2_reussite_5</code></small></td><td><small></small></td><td>82% <small>± 14%</small></td><td>28</td><td>—</td><td></td></tr>
+<tr><td>Périmé ou piège avant le bon passage<br><small><code>n2_perimes_pieges</code></small></td><td><small>part des questions concernées</small></td><td>4% <small>± 7%</small></td><td>28</td><td>—</td><td></td></tr>
+</table>
+<h3>3. Réponse</h3><table><tr><th>Score</th><th>Ce qu'il mesure</th><th>Valeur</th><th>n</th><th>Seuil</th><th>État</th></tr>
+<tr><td>Réponses justes<br><small><code>n3_exactitude</code></small></td><td><small>juste = 1, partielle = 0,5, fausse = 0 (LLM juge)</small></td><td>90% <small>± 12%</small></td><td>25</td><td>≥ 80%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Listes complètes<br><small><code>n3_completude_listes</code></small></td><td><small>part des éléments attendus présents</small></td><td>100%</td><td>3</td><td>—</td><td></td></tr>
+<tr><td>Valeurs et calculs exacts<br><small><code>n3_valeurs</code></small></td><td><small>valeurs attendues retrouvées dans la réponse</small></td><td>91% <small>± 14%</small></td><td>16</td><td>—</td><td></td></tr>
+<tr><td>Abstentions correctes<br><small><code>n3_abstention_correcte</code></small></td><td><small>le RAG dit ne pas savoir quand la réponse n&#x27;existe pas ou est interdite</small></td><td>100%</td><td>8</td><td>≥ 80%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Abstentions à tort<br><small><code>n3_abstention_a_tort</code></small></td><td><small>le RAG ne répond pas alors qu&#x27;il avait le bon passage</small></td><td>9% <small>± 10%</small></td><td>32</td><td>—</td><td></td></tr>
+<tr><td>Fidélité aux sources<br><small><code>n3_fidelite</code></small></td><td><small>part des affirmations appuyées par les chunks (Ragas)</small></td><td>95% <small>± 9%</small></td><td>25</td><td>≥ 90%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Citations correctes<br><small><code>n3_citations</code></small></td><td><small>au moins une source citée est la bonne, sans piège ni document interdit</small></td><td>100%</td><td>25</td><td>—</td><td></td></tr>
+<tr><td>Erreurs graves<br><small><code>n3_erreurs_graves</code></small></td><td><small>réponses fausses ou non fidèles à une question de gravité forte</small></td><td>0</td><td>11</td><td>≤ 0</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Synthèses<br><small><code>n3_synthese</code></small></td><td><small>note de 1 à 5 ramenée sur 100 % (Ragas)</small></td><td>73%</td><td>3</td><td>—</td><td></td></tr>
+<tr><td>Questions de suite justes<br><small><code>n3_questions_suite</code></small></td><td><small></small></td><td>100%</td><td>3</td><td>—</td><td></td></tr>
+<tr><td>Variantes incohérentes<br><small><code>n3_variantes</code></small></td><td><small>part des groupes de variantes dont les réponses diffèrent</small></td><td>0%</td><td>6</td><td>—</td><td></td></tr>
+</table>
+<h3>4. Bout en bout</h3><table><tr><th>Score</th><th>Ce qu'il mesure</th><th>Valeur</th><th>n</th><th>Seuil</th><th>État</th></tr>
+<tr><td>Score pondéré<br><small><code>n4_score_pondere</code></small></td><td><small>réponses justes pondérées par fréquence × gravité</small></td><td>82% <small>± 12%</small></td><td>40</td><td>≥ 80%</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Erreurs graves<br><small><code>n4_erreurs_graves</code></small></td><td><small>repris du niveau 3</small></td><td>0</td><td>11</td><td>≤ 0</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Temps de réponse médian (ms)<br><small><code>n4_temps_median</code></small></td><td><small></small></td><td>7373</td><td>40</td><td>≤ 15000</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Temps de réponse à 95 % (ms)<br><small><code>n4_temps_p95</code></small></td><td><small></small></td><td>10686</td><td>40</td><td>≤ 30000</td><td><span class="ok">atteint</span></td></tr>
+<tr><td>Coût moyen par question (€)<br><small><code>n4_cout_moyen</code></small></td><td><small></small></td><td>0.0000 €</td><td>40</td><td>≤ 0.05</td><td><span class="ok">atteint</span></td></tr>
+</table>
+<h2>3. Les questions à regarder en premier</h2><p><small>Erreurs graves et fuites d'abord, puis réponses fausses, puis passages perdus à l'ingestion. Le détail de chaque question est dans <code>resultats_par_question.csv</code> et dans Langfuse (expérience <code>2026-11-20.1_graphrag-hybride-k5-57001489</code>).</small></p>
+<table><tr><th>Question</th><th>Quoi</th><th>Détail</th></tr>
+<tr><td><b>Q-041</b><br><small>quels problèmes électriques reviennent le plus souvent dans les interventions des deux usines ?</small></td><td>Réponse fausse</td><td><small>1. contredit : La réponse de référence mentionne des &#x27;échauffements&#x27;, tandis que l&#x27;assistant parle de &#x27;desserrage&#x27;. Bien que liés, ce n&#x27;est pas la même expression technique et cela peut être considéré comme une contradiction s&#x27;il faut exprimer exactement le même sens. ; 2. absent : L&#x27;information concernant les &#x27;défauts d&#x27;isolement sur le site B&#x27; n&#x27;est pas mentionnée dans la réponse de l&#x27;assistant.</small></td></tr>
+</table>
+<h2>4. Où chercher la cause : recherche × réponse</h2><p><small>Pour chaque question qui a une réponse dans les documents : le bon passage était-il retrouvé, et la réponse est-elle juste ? « Recherche » : améliorer l'extraction, le découpage ou la recherche ; « génération » : le prompt, les citations, le modèle (document 2).</small></p><table><tr><th>Diagnostic</th><th>Questions</th></tr>
+<tr><td>ok</td><td>21</td></tr>
+<tr><td>génération : le bon chunk était retrouvé</td><td>4</td></tr>
+<tr><td>recherche : le bon chunk n&#x27;est pas retrouvé</td><td>4</td></tr>
+<tr><td>génération : le bon chunk était retrouvé (abstention à tort)</td><td>3</td></tr>
+</table>
+<h2>5. Par type de document</h2><table><tr><th>Score</th><th>Compte rendu d&#x27;intervention</th><th>Note technique</th><th>Procédure</th><th>questions sans passage</th></tr>
+<tr><td>Passages retrouvés dans l&#x27;index</td><td>100% <small>(n = 10)</small></td><td>100% <small>(n = 27)</small></td><td>100% <small>(n = 24)</small></td><td>—</td></tr>
+<tr><td>Bon passage retrouvé (réussite à k)</td><td>25% <small>(n = 4)</small></td><td>88% <small>(n = 16)</small></td><td>100% <small>(n = 14)</small></td><td>—</td></tr>
+<tr><td>Réponses justes</td><td>50% <small>(n = 2)</small></td><td>85% <small>(n = 17)</small></td><td>97% <small>(n = 16)</small></td><td>—</td></tr>
+<tr><td>Fidélité aux sources</td><td>100% <small>(n = 2)</small></td><td>95% <small>(n = 17)</small></td><td>92% <small>(n = 16)</small></td><td>—</td></tr>
+<tr><td>Score pondéré</td><td>18% <small>(n = 6)</small></td><td>80% <small>(n = 20)</small></td><td>91% <small>(n = 17)</small></td><td>100% <small>(n = 7)</small></td></tr>
+</table><p><small>Toutes les ventilations (difficulté, type de réponse, profil, type d'élément, service…) sont dans <code>scores.json</code>.</small></p>
+<p><small>Fichiers : <code>sorties/resultats/2026-11-20.1_graphrag-hybride-k5-57001489</code> — evaluation.json, scores.json, resultats_par_question.csv, liens_index.jsonl, passages_non_rattaches.jsonl, croisement.jsonl, relecture.jsonl.</small></p></body></html>

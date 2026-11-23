@@ -1,0 +1,310 @@
+{
+  "a": "2026-11-20.1_graphrag-vectoriel-k5-5954e822",
+  "b": "2026-11-20.1_graphrag-hybride-k5-57001489",
+  "rag_a": {
+    "contrat": "1.0",
+    "nom": "graphrag",
+    "version_rag": "graphrag-vectoriel-k5-5954e822",
+    "type_rag": "vectoriel",
+    "date": "2026-11-21",
+    "k": 5,
+    "versions": {
+      "index": "sections-1-embed-3fc47199",
+      "decoupage": "sections-1",
+      "embedding": "embed",
+      "generation": "gemma-4-e4b",
+      "prompt": "1.0",
+      "reranker": "aucun"
+    },
+    "filtre_droits": true
+  },
+  "rag_b": {
+    "contrat": "1.0",
+    "nom": "graphrag",
+    "version_rag": "graphrag-hybride-k5-57001489",
+    "type_rag": "hybride",
+    "date": "2026-11-21",
+    "k": 5,
+    "versions": {
+      "index": "sections-1-embed-3fc47199+graphe-1-362ece2e",
+      "decoupage": "sections-1",
+      "embedding": "embed",
+      "generation": "gemma-4-e4b",
+      "prompt": "1.0",
+      "reranker": "aucun"
+    },
+    "filtre_droits": true
+  },
+  "ecarts": [
+    {
+      "score": "n1_documents_indexes",
+      "a": 1.0,
+      "b": 1.0,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n1_metadonnees_completes",
+      "a": 1.0,
+      "b": 1.0,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n1_passages_rattaches",
+      "a": 1.0,
+      "b": 1.0,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n1_passages_coupes",
+      "a": 0.0,
+      "b": 0.0,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n1_erreur_caracteres",
+      "a": 0.1482,
+      "b": 0.1482,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n1_erreur_mots",
+      "a": 0.1982,
+      "b": 0.1982,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n2_reussite_k",
+      "a": 0.8571,
+      "b": 0.8214,
+      "ecart": -0.0357,
+      "marge": 0.1419,
+      "significatif_seul": false
+    },
+    {
+      "score": "n2_rappel_k",
+      "a": 0.8095,
+      "b": 0.8095,
+      "ecart": 0.0,
+      "marge": 0.1188,
+      "significatif_seul": false
+    },
+    {
+      "score": "n2_rang_premier",
+      "a": 0.6827,
+      "b": 0.5857,
+      "ecart": -0.097,
+      "marge": 0.1825,
+      "significatif_seul": false
+    },
+    {
+      "score": "n2_fuite_droits",
+      "a": 0.0,
+      "b": 0.0,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n2_reussite_1",
+      "a": 0.5357,
+      "b": 0.3929,
+      "ecart": -0.1428,
+      "marge": 0.1847,
+      "significatif_seul": false
+    },
+    {
+      "score": "n2_reussite_3",
+      "a": 0.75,
+      "b": 0.7143,
+      "ecart": -0.0357,
+      "marge": 0.1673,
+      "significatif_seul": false
+    },
+    {
+      "score": "n2_reussite_5",
+      "a": 0.8571,
+      "b": 0.8214,
+      "ecart": -0.0357,
+      "marge": 0.1419,
+      "significatif_seul": false
+    },
+    {
+      "score": "n2_perimes_pieges",
+      "a": 0.0,
+      "b": 0.0357,
+      "ecart": 0.0357,
+      "marge": 0.0687,
+      "significatif_seul": false
+    },
+    {
+      "score": "n3_exactitude",
+      "a": 0.7857,
+      "b": 0.9,
+      "ecart": 0.1143,
+      "marge": 0.152,
+      "significatif_seul": false
+    },
+    {
+      "score": "n3_completude_listes",
+      "a": 1.0,
+      "b": 1.0,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n3_valeurs",
+      "a": 0.9062,
+      "b": 0.9062,
+      "ecart": 0.0,
+      "marge": 0.1428,
+      "significatif_seul": false
+    },
+    {
+      "score": "n3_abstention_correcte",
+      "a": 1.0,
+      "b": 1.0,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n3_abstention_a_tort",
+      "a": 0.0625,
+      "b": 0.0938,
+      "ecart": 0.0313,
+      "marge": 0.101,
+      "significatif_seul": false
+    },
+    {
+      "score": "n3_fidelite",
+      "a": 0.9524,
+      "b": 0.9467,
+      "ecart": -0.0057,
+      "marge": 0.0881,
+      "significatif_seul": false
+    },
+    {
+      "score": "n3_citations",
+      "a": 0.9286,
+      "b": 1.0,
+      "ecart": 0.0714,
+      "marge": 0.0954,
+      "significatif_seul": false
+    },
+    {
+      "score": "n3_erreurs_graves",
+      "a": 1.0,
+      "b": 0.0,
+      "ecart": -1.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n3_synthese",
+      "a": 0.65,
+      "b": 0.7333,
+      "ecart": 0.0833,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n3_questions_suite",
+      "a": 1.0,
+      "b": 1.0,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n3_variantes",
+      "a": 0.0,
+      "b": 0.0,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n4_score_pondere",
+      "a": 0.8037,
+      "b": 0.8222,
+      "ecart": 0.0185,
+      "marge": 0.1231,
+      "significatif_seul": false
+    },
+    {
+      "score": "n4_erreurs_graves",
+      "a": 1.0,
+      "b": 0.0,
+      "ecart": -1.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n4_temps_median",
+      "a": 7412.0,
+      "b": 7373.0,
+      "ecart": -39.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n4_temps_p95",
+      "a": 12767.0,
+      "b": 10686.0,
+      "ecart": -2081.0,
+      "marge": null,
+      "significatif_seul": null
+    },
+    {
+      "score": "n4_cout_moyen",
+      "a": 0.0,
+      "b": 0.0,
+      "ecart": 0.0,
+      "marge": null,
+      "significatif_seul": null
+    }
+  ],
+  "questions": {
+    "n2_reussite_k": {
+      "gagnees": [],
+      "perdues": [
+        "Q-031"
+      ],
+      "n": 28,
+      "mcnemar_p": 1.0
+    },
+    "n3_exactitude": {
+      "gagnees": [
+        "Q-012",
+        "Q-043"
+      ],
+      "perdues": [],
+      "n": 25,
+      "mcnemar_p": 0.5
+    },
+    "n4_score_pondere": {
+      "gagnees": [
+        "Q-012",
+        "Q-043"
+      ],
+      "perdues": [
+        "Q-031"
+      ],
+      "n": 40,
+      "mcnemar_p": 1.0
+    }
+  }
+}

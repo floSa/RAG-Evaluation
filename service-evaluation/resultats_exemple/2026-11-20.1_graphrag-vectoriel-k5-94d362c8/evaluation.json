@@ -1,0 +1,154 @@
+{
+  "evaluation_id": "2026-11-20.1_graphrag-vectoriel-k5-94d362c8",
+  "date": "2026-11-21T12:23:06",
+  "version_corpus": "2026-11-20.1",
+  "version_kit": "0.1.0",
+  "rag": {
+    "contrat": "1.0",
+    "nom": "graphrag",
+    "version_rag": "graphrag-vectoriel-k5-94d362c8",
+    "type_rag": "vectoriel",
+    "date": "2026-11-21",
+    "k": 5,
+    "versions": {
+      "index": "sections-1-embed-3fc47199",
+      "decoupage": "sections-1",
+      "embedding": "embed",
+      "generation": "gemma-4-e4b",
+      "prompt": "1.0",
+      "reranker": "aucun"
+    },
+    "filtre_droits": true
+  },
+  "juge": {
+    "modele": "chat",
+    "version_prompt": "1.0"
+  },
+  "seuils": {
+    "n1_documents_indexes": {
+      "seuil": 1.0,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n1_metadonnees_completes": {
+      "seuil": 1.0,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n1_passages_rattaches": {
+      "seuil": 0.95,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n1_passages_coupes": {
+      "seuil": null,
+      "sens": "max",
+      "bloquant": false
+    },
+    "n1_erreur_caracteres": {
+      "seuil": 0.02,
+      "sens": "max",
+      "bloquant": false
+    },
+    "n1_graphe_violations": {
+      "seuil": null,
+      "sens": "max",
+      "bloquant": false
+    },
+    "n1_graphe_justesse": {
+      "seuil": null,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n2_reussite_k": {
+      "seuil": 0.9,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n2_rappel_k": {
+      "seuil": null,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n2_rang_premier": {
+      "seuil": null,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n2_fuite_droits": {
+      "seuil": 0,
+      "sens": "max",
+      "bloquant": true
+    },
+    "n3_exactitude": {
+      "seuil": 0.8,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n3_completude_listes": {
+      "seuil": null,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n3_valeurs": {
+      "seuil": null,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n3_abstention_correcte": {
+      "seuil": 0.8,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n3_abstention_a_tort": {
+      "seuil": null,
+      "sens": "max",
+      "bloquant": false
+    },
+    "n3_fidelite": {
+      "seuil": 0.9,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n3_citations": {
+      "seuil": null,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n3_erreurs_graves": {
+      "seuil": 0,
+      "sens": "max",
+      "bloquant": true
+    },
+    "n3_synthese": {
+      "seuil": null,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n4_score_pondere": {
+      "seuil": 0.8,
+      "sens": "min",
+      "bloquant": false
+    },
+    "n4_erreurs_graves": {
+      "seuil": 0,
+      "sens": "max",
+      "bloquant": true
+    },
+    "n4_temps_median": {
+      "seuil": 15000,
+      "sens": "max",
+      "bloquant": false
+    },
+    "n4_temps_p95": {
+      "seuil": 30000,
+      "sens": "max",
+      "bloquant": false
+    },
+    "n4_cout_moyen": {
+      "seuil": 0.05,
+      "sens": "max",
+      "bloquant": false
+    }
+  }
+}
