@@ -20,7 +20,6 @@
     "reglages": {
       "réflexion du modèle": true,
       "recherche par mots-clés": true,
-      "graphe": false,
       "candidats avant fusion": 30
     }
   },
@@ -43,7 +42,6 @@
     "reglages": {
       "réflexion du modèle": false,
       "recherche par mots-clés": true,
-      "graphe": false,
       "candidats avant fusion": 30
     }
   },

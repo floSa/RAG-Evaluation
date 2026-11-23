@@ -21,7 +21,6 @@ Les réglages du RAG pendant cette évaluation, tels qu'il les a déclarés.
 | Reclassement des morceaux (reranker) | aucun |
 | Réflexion du modèle | non |
 | Recherche par mots-clés | oui |
-| Graphe | non |
 | Candidats avant fusion | 30 |
 
 ## 1. Les scores clés

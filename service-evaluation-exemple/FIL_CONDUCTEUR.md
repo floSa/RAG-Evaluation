@@ -136,7 +136,7 @@ Il s'agit d'ajouter au RAG les quatre adresses web que le service appelle (voir 
 | Recherche par mots-clés | une recherche classique, par les mots, ajoutée à la recherche par vecteurs. Elle retrouve les références et les codes, que les vecteurs saisissent mal |
 | Reclassement (reranker) | l'ajout ou non d'un second modèle, et lequel, qui relit les morceaux ramenés et les reclasse, pour mettre le meilleur en tête. Plus juste, mais plus lent |
 | Réflexion du modèle | le modèle raisonne avant de répondre. Des réponses plus justes, surtout pour les calculs, mais plus lentes |
-| Graphe (GraphRAG) | l'ajout ou non d'une carte des liens entre les éléments des documents (équipements, sites, personnes), et le modèle qui l'extrait des documents. La recherche la consulte en plus des morceaux ; elle aide pour les questions qui croisent plusieurs documents |
+| Graphe (GraphRAG) | l'ajout ou non d'une carte des liens entre les éléments des documents (équipements, sites, personnes), et le modèle qui l'extrait des documents. La recherche la consulte en plus des morceaux ; elle aide pour les questions qui croisent plusieurs documents ([comment l'évaluer](documentation/cas_particuliers.md#1-un-rag-avec-un-graphe-de-connaissances)) |
 
 **Le juge n'est pas un réglage du RAG.** Le juge, le modèle de langage qui note les réponses (en anglais, *LLM as a judge*), appartient au service d'évaluation et se règle dans son `config/kit.yaml`. Il reste le même pour toutes les configurations : sinon, leurs scores ne se compareraient pas.
 
@@ -158,14 +158,13 @@ La commande, et où la taper : [0c. Les configurations du RAG : fixer les régla
 - Écrire la grille des configurations à tester, en commençant par les réglages que tout RAG possède, et en n'en changeant qu'un à la fois.
 - Pour chaque configuration : fixer ses réglages dans le RAG, relancer le RAG, puis lancer l'évaluation ([la commande](documentation/0c_configurations_du_rag.md#2-lancer-lévaluation)). À la fin, le service affiche les scores clés et le chemin du rapport.
 
-**Dans l'exemple.** Le RAG d'exemple fixe ses réglages dans son fichier [`config/config.yaml`](../service-rag-exemple/config/config.yaml) ; deux d'entre eux se changent aussi au lancement ([comment](../service-rag-exemple/README.md#changer-de-configuration)). La grille testée fait varier trois réglages, un à la fois :
+**Dans l'exemple.** Le RAG d'exemple fixe ses réglages dans son fichier [`config/config.yaml`](../service-rag-exemple/config/config.yaml) ; k se change aussi au lancement ([comment](../service-rag-exemple/README.md#changer-de-configuration)). La grille testée fait varier deux réglages, un à la fois :
 
-| Configuration | Nombre de morceaux ramenés (k) | Réflexion du modèle | Graphe | Rapport |
-| --- | --- | --- | --- | --- |
-| Référence | 5 | oui | non | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) |
-| k = 3 | **3** (`RAG_K=3` au lancement) | oui | non | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k3-5954e822/RAPPORT.md) |
-| Sans réflexion | 5 | **non** (`sans_reflexion: true` dans `config.yaml`) | non | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) |
-| Hybride | 5 | oui | **oui** (`RAG_GRAPHE=true` au lancement) | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-hybride-k5-57001489/RAPPORT.md) |
+| Configuration | Nombre de morceaux ramenés (k) | Réflexion du modèle | Rapport |
+| --- | --- | --- | --- |
+| Référence | 5 | oui | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) |
+| k = 3 | **3** (`RAG_K=3` au lancement) | oui | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k3-5954e822/RAPPORT.md) |
+| Sans réflexion | 5 | **non** (`sans_reflexion: true` dans `config.yaml`) | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) |
 
 En gras, le réglage changé par rapport à la référence. Les autres réglages sont restés fixes : des morceaux découpés par section, d'au plus 1 500 caractères ; le modèle gemma-4-e4b pour écrire la réponse ; la consigne 1.0 ; le modèle embed pour la vectorisation ; une recherche par mots-clés en plus des vecteurs ; pas de reclassement.
 
@@ -190,7 +189,7 @@ Pour un score faible, la partie « Si c'est mauvais » du guide de son évaluati
 **Dans l'exemple.**
 - Le [rapport de la référence](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) montre 1 erreur grave, 15 caractères sur 100 mal lus sur les pages scannées, et le bon passage ramené pour 9 questions sur 13 seulement.
 - Le juge n'est pas validé : il donne la même note que le métier dans 89 % des cas, il en faut 90 %.
-- Les comparaisons avec la référence : [k = 3](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k3-5954e822/RAPPORT.md) n'est pas meilleure ; [sans réflexion](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) est 9 fois plus rapide mais calcule mal ; [hybride](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-hybride-k5-57001489/RAPPORT.md) n'apporte rien de mesurable.
+- Les comparaisons avec la référence : [k = 3](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k3-5954e822/RAPPORT.md) n'est pas meilleure ; [sans réflexion](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) est 9 fois plus rapide mais calcule mal.
 - Ce qu'on présenterait au métier : l'erreur grave, les pages scannées mal lues, et la recherche qui ne ramène pas assez souvent le bon passage. C'est là qu'il faudrait corriger le RAG avant de lui demander de décider.
 
 ## Récapitulatif
@@ -214,4 +213,5 @@ Pour un score faible, la partie « Si c'est mauvais » du guide de son évaluati
 | [Les décisions](../DECISIONS.md) | les choix faits là où la méthode laissait une question ouverte, et pourquoi |
 | [Le RAG d'exemple](../service-rag-exemple/README.md) et [Guide du RAG d'exemple](../service-rag-exemple/documentation/guide_du_rag.md) | comment le RAG évalué dans l'exemple est construit, et comment il ouvre ses endpoints |
 | [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](../service-rag-exemple/documentation/reference/techniques_rag.md) | les techniques qu'un RAG peut employer, de la lecture des documents à la génération : à lire pour comprendre les réglages et les corrections proposées par les guides [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md) à [4. Évaluation de bout en bout](documentation/4_evaluation_bout_en_bout.md) |
+| [Pour aller plus loin : les cas particuliers](documentation/cas_particuliers.md) | un RAG avec un graphe de connaissances, un RAG qui se repose des questions, des réponses qui se calculent sur des données : ce que le service évalue, et ce qu'il faudrait de plus |
 | [L'exemple complet](../service-evaluation-exemple/README.md) | toutes ces étapes faites pour de vrai sur le RAG d'exemple, avec leurs résultats |

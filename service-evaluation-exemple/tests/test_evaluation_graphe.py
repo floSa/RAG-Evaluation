@@ -1,10 +1,10 @@
-"""Évaluation de l'ingestion, le graphe : les règles SHACL de l'ontologie du corpus d'exemple, appliquées par pySHACL."""
+"""Évaluation de l'ingestion, le graphe : les règles SHACL d'une ontologie de test, appliquées par pySHACL."""
 
 from pathlib import Path
 
 from kit.etape_1_evaluation_ingestion import graphe
 
-FORMES = Path("../service-evaluation-exemple/corpus_annote/ontologie/ontologie_formes.ttl")
+FORMES = Path(__file__).parent / "donnees" / "ontologie_formes.ttl"   # une ontologie de test : le RAG d'exemple n'a pas de graphe
 
 ENTETE = """@prefix vt: <https://valtera.exemple/ontologie#> .
 @prefix kit: <https://kit-eval-rag/ns#> .

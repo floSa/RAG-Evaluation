@@ -97,8 +97,7 @@ Le dossier [`service-evaluation-exemple/corpus_annote/`](../../service-evaluatio
 | `corpus_annote/corpus_documentaire/` | 50 documents PDF, un par référence (`<référence>.pdf`) ; c'est ce dossier que le kit envoie au RAG par son endpoint « ingérer » : 17 procédures (PDF natifs), 16 notes techniques (11 natives, 5 scannées et bruitées), 17 comptes rendus d'intervention (fiches de GED, exportées en PDF « champ : valeur » parce que le RAG d'exemple n'a pas de connecteur de GED) |
 | `corpus_annote/Corpus_evaluation_RAG.xlsx` | le fichier du métier, rempli : 50 documents, 60 questions, 97 passages, 20 pages OCR retapées |
 | `corpus_annote/questions_pour_relecture.md` | les 60 questions sur une page, pour les relire |
-| `corpus_annote/notes_du_metier_simulees/` | les notes du métier, **simulées** pour le banc d'essai : 28 réponses notées pour vérifier le juge, 50 relations du graphe jugées ; et le script qui les inscrit dans Langfuse |
-| `corpus_annote/ontologie/` | l'ontologie du domaine (`ontologie.ttl` : sites, équipements, personnes et leurs relations) et ses règles SHACL (`ontologie_formes.ttl`), pour un RAG à graphe |
+| `corpus_annote/notes_du_metier_simulees/` | les notes du métier, **simulées** pour le banc d'essai : 28 réponses notées pour vérifier le juge, et le script qui les écrit dans le fichier `verification_juge.xlsx` |
 | `corpus_annote/fabrication_du_corpus/` | de quoi tout refabriquer : le monde fictif, le contenu de chaque document, les scripts |
 
 Ce qu'il couvre :

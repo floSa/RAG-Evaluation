@@ -5,7 +5,7 @@ Ce rapport compare deux configurations du RAG, évaluées sur le même corpus, a
 |  | A | B |
 | --- | --- | --- |
 | Configuration | `graphrag-vectoriel-k5-5954e822` | `graphrag-vectoriel-k5-94d362c8` |
-| Réglages | RAG vectoriel, k = 5, découpage sections-1, embeddings embed, génération gemma-4-e4b, prompt 1.0, reranker aucun, réflexion du modèle oui, recherche par mots-clés oui, graphe non, candidats avant fusion 30 | RAG vectoriel, k = 5, découpage sections-1, embeddings embed, génération gemma-4-e4b, prompt 1.0, reranker aucun, réflexion du modèle non, recherche par mots-clés oui, graphe non, candidats avant fusion 30 |
+| Réglages | RAG vectoriel, k = 5, découpage sections-1, embeddings embed, génération gemma-4-e4b, prompt 1.0, reranker aucun, réflexion du modèle oui, recherche par mots-clés oui, candidats avant fusion 30 | RAG vectoriel, k = 5, découpage sections-1, embeddings embed, génération gemma-4-e4b, prompt 1.0, reranker aucun, réflexion du modèle non, recherche par mots-clés oui, candidats avant fusion 30 |
 
 **Ce qui change de A à B** : réflexion du modèle : oui → non.
 

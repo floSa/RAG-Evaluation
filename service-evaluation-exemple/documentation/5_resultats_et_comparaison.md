@@ -79,7 +79,7 @@ Pour chacune, le rapport donne la justification du juge, les chunks en cause, la
 
 ```
 Ingestion mauvaise ?   → extraction, OCR, tableaux, images, découpage      (document 2, sections 3 et 4)
-Recherche mauvaise ?   → recherche hybride, reranker, filtres, k           (document 2, section 6)
+Recherche mauvaise ?   → mots-clés + vecteurs, reranker, filtres, k          (document 2, section 6)
 Réponse mauvaise ?     → regarder d'abord le croisement :
                           « recherche »  → revenir à la recherche
                           « génération » → prompt, citations, abstention, modèle (document 2, section 7)
@@ -98,7 +98,7 @@ La marge est `± 1,96 × √(p × (1 − p) ÷ n)` (document 3). Ce qu'il faut r
 
 ## 5. Comparer deux versions
 
-Après un changement (k, prompt, modèle, découpage), on évalue la nouvelle configuration, puis on la compare à l'ancienne. `kit comparer A B` répond à la question : « la configuration B fait-elle mieux que A ? » Il écrit son propre dossier, `resultats/comparaisons_de_configurations/<A>_contre_<B>/`, avec un `RAPPORT.md` qui dit ce qui change de A à B, les écarts, s'ils sont réels, et les questions gagnées ou perdues. Les trois comparaisons ci-dessous sont dans les [résultats d'exemple](../../service-evaluation-exemple/README.md#2-les-trois-comparaisons-avec-la-référence).
+Après un changement (k, prompt, modèle, découpage), on évalue la nouvelle configuration, puis on la compare à l'ancienne. `kit comparer A B` répond à la question : « la configuration B fait-elle mieux que A ? » Il écrit son propre dossier, `resultats/comparaisons_de_configurations/<A>_contre_<B>/`, avec un `RAPPORT.md` qui dit ce qui change de A à B, les écarts, s'ils sont réels, et les questions gagnées ou perdues. Les trois comparaisons ci-dessous sont dans les [résultats d'exemple](../../service-evaluation-exemple/README.md#2-les-deux-comparaisons-avec-la-référence).
 
 1. **Même corpus** : sinon la comparaison est refusée.
 2. **Écart et marge** : un écart plus petit que la marge **ne prouve rien seul**.
@@ -137,26 +137,6 @@ Pour revenir au réglage de base (k = 5) : `cd ../service-rag-exemple && docker 
 **Conclusion** : k = 3 n'est pas meilleur. Il retrouve moins et répond moins ; il n'a plus d'erreur grave seulement parce qu'il se tait sur Q-046. Pour décider, il faudrait plus de questions (la configuration recommandée en prévoit 200), et un correctif ciblé de l'erreur grave sur k = 5.
 
 C'est tout l'intérêt de lire **plusieurs scores ensemble**. Une exactitude qui monte peut cacher un RAG qui répond moins.
-
-**Exemple : le RAG vectoriel (A) et le RAG hybride, avec son graphe (B), tous deux avec k = 5.** Le RAG hybride, c'est le RAG relancé avec `RAG_GRAPHE=true docker compose up -d` (dans `service-rag-exemple/`), puis évalué avec `uv run kit evaluer`. Le même kit les évalue sans changer une ligne de code : il voit seulement `type_rag` = `hybride` et un graphe de plus.
-
-```bash
-uv run kit comparer resultats/evaluations/<corpus>_graphrag-vectoriel-k5-5954e822 resultats/evaluations/<corpus>_graphrag-hybride-k5-57001489
-```
-
-| Score | vectoriel | hybride | Lecture |
-| --- | --- | --- | --- |
-| violations de l'ontologie (`n1_graphe_violations`) | — | 25 | le graphe existe, avec des erreurs d'extraction : des personnes « situées sur » un site, un onduleur qui « secourt » un site |
-| justesse des relations (`n1_graphe_justesse`) | — | 66 % (n = 50) | une relation sur trois est fausse d'après son passage source ([1. Évaluation de l'ingestion](1_evaluation_ingestion.md)) |
-| bon passage retrouvé (`n2_reussite_k`) | 86 % | 82 % | les éléments du graphe prennent des places parmi les k : 1 question perdue (Q-031) |
-| bon passage en tête (`n2_reussite_1`) | 54 % | 39 % | un élément du graphe passe souvent devant le bon passage |
-| réponses justes (`n3_exactitude`) | 79 % (n = 28) | 90 % (n = 25) | 2 questions gagnées (Q-012, Q-043), mais sur 3 questions de moins : le RAG hybride s'abstient plus souvent à tort (9 % contre 6 %) |
-| bonnes citations (`n3_citations`) | 93 % | 100 % | — |
-| erreurs graves | 1 | 0 | le RAG hybride s'abstient sur Q-046, comme k = 3 |
-| synthèses (`n3_synthese`) | 65 % | 73 % | sur 3 ou 4 questions : une tendance, pas une mesure |
-| score pondéré (`n4_score_pondere`) | 80 % | 82 % | 2 questions gagnées, 1 perdue ; McNemar p = 1 |
-
-**Conclusion** : sur ce corpus, le graphe n'apporte rien de mesurable. Aucun écart ne dépasse la marge, et le score pondéré bouge de deux points, sur trois questions. Le corpus d'exemple a peu de questions qui demandent de suivre des liens ou de faire une liste. C'est ce que dit le document 2 : le graphe s'ajoute quand l'évaluation montre des échecs que la recherche de passages ne peut pas corriger. Ici, elle n'en montre pas.
 
 **Exemple : corriger un défaut, et choisir entre deux corrections.** En relisant les réponses, on a vu que trois d'entre elles étaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046). Le modèle de génération « réfléchit » avant d'écrire, et cette réflexion consommait les 800 tokens de `max_tokens`. Deux corrections étaient possibles : laisser plus de place (`max_tokens` à 4 000), ou couper la réflexion (`sans_reflexion: true`). Le kit les départage. La version sans réflexion s'obtient avec `sans_reflexion: true` dans [`service-rag-exemple/config/config.yaml`](../../service-rag-exemple/config/config.yaml), puis `docker compose restart rag` (dans `service-rag-exemple/`) et `uv run kit evaluer` ; remettre ensuite `false`.
 
