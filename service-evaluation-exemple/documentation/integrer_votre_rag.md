@@ -9,8 +9,8 @@ Un exemple complet, où toutes ces étapes ont été faites : [`service-evaluati
 | [0. Installer le service](#0-installer-le-service) | copier `service-evaluation/`, démarrer Langfuse, brancher le modèle juge | `kit verifier-modeles` répond |
 | [1. Construire et importer le corpus d'évaluation](#1-construire-et-importer-le-corpus-dévaluation) | c'est le métier qui le construit : lui donner le fichier Excel vierge et les règles pour le remplir ; ranger ce qu'il rend, puis `kit importer` | l'import ne signale plus d'erreur |
 | [2. Fixer les seuils avec le métier](#2-fixer-les-seuils-avec-le-métier) | écrire dans `config/seuils.json` ce que le RAG doit atteindre | les seuils sont fixés **avant** toute évaluation |
-| [3. Brancher votre RAG](#3-brancher-votre-rag) | ouvrir dans votre RAG les quatre endpoints, à partir de `endpoints_a_copier/` | `kit appeler-rag` finit par « règle : respectée » |
-| [4. Lancer l'évaluation](#4-lancer-lévaluation) | `kit evaluer` | un `RAPPORT.md` est écrit |
+| [3. Ouvrir les quatre endpoints du RAG au service](#3-ouvrir-les-quatre-endpoints-du-rag-au-service) | ouvrir dans votre RAG les quatre endpoints, à partir de `endpoints_a_copier/` | `kit appeler-rag` finit par « règle : respectée » |
+| [4. Évaluer une configuration du RAG](#4-évaluer-une-configuration-du-rag) | `kit evaluer` | un `RAPPORT.md` est écrit |
 | [5. Lire, corriger, comparer](#5-lire-corriger-comparer) | lire le rapport ; changer un réglage du RAG, réévaluer, comparer | la décision est prise |
 
 ## 0. Installer le service
@@ -90,7 +90,7 @@ Les autres seuils sont techniques : la lecture des documents, la recherche du bo
 
 Les seuils se fixent **avant** de voir le moindre score : sinon, on finit par les choisir pour faire passer le RAG.
 
-## 3. Brancher votre RAG
+## 3. Ouvrir les quatre endpoints du RAG au service
 
 Le service n'entre jamais dans votre RAG : il appelle **quatre endpoints**, quatre adresses web de forme fixe que votre RAG ouvre. Vous les ajoutez dans un dossier à part, écrit pour l'évaluation et pour rien d'autre. La règle complète : [guide 0b](0b_endpoints_du_rag.md).
 
@@ -189,7 +189,7 @@ On corrige les endpoints, on relance, jusqu'à « règle : respectée ».
 | l'abstention devinée dans le texte, au lieu d'être dite par le RAG | des abstentions mal comptées |
 | les documents de l'évaluation indexés avec ceux de la production | une évaluation faussée, et une production polluée |
 
-## 4. Lancer l'évaluation
+## 4. Évaluer une configuration du RAG
 
 C'est vous qui lancez l'évaluation ; votre RAG n'a qu'à rester allumé.
 
