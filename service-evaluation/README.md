@@ -80,6 +80,8 @@ uv run kit appeler-rag
 uv run kit evaluer
 ```
 
+**Les configurations.** Une configuration, ce sont les réglages de votre RAG à un moment donné : k, modèles, prompt, découpage… Ils sont propres à chaque RAG et **se changent dans le RAG, jamais dans le service**. Le service les lit dans ce que le RAG déclare (endpoint ②), et nomme l'évaluation d'après eux. Pour tester une autre configuration : vous changez le réglage dans le RAG, vous le relancez, puis vous relancez `kit evaluer`. Un run = une configuration.
+
 **6. Lire, corriger, comparer.** Le rapport est dans `resultats/evaluations/<configuration>/RAPPORT.md` ([guide 5](documentation/5_resultats_et_comparaison.md)). Pour tester un autre réglage : relancer le RAG avec ce réglage, `kit evaluer`, puis :
 
 ```bash
