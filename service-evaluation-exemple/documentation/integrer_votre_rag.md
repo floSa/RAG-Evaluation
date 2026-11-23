@@ -192,7 +192,9 @@ On corrige les endpoints, on relance, jusqu'à « règle : respectée ».
 
 ## 5. Lancer l'évaluation
 
-C'est vous qui lancez l'évaluation ; votre RAG n'a qu'à rester allumé. Une évaluation porte sur **une configuration** de votre RAG, c'est-à-dire tous ses réglages tels qu'ils sont au moment du lancement.
+C'est vous qui lancez l'évaluation ; votre RAG n'a qu'à rester allumé.
+
+**Les configurations.** Une configuration, ce sont les réglages de votre RAG à un moment donné : k, modèles, prompt, découpage… Ils sont propres à chaque RAG et **se changent dans le RAG, jamais dans le service**. Le service les lit dans ce que le RAG déclare (endpoint ②), et nomme l'évaluation d'après eux. Pour tester une autre configuration : vous changez le réglage dans le RAG, vous le relancez, puis vous relancez `kit evaluer`. Un run = une configuration.
 
 ```bash
 uv run kit evaluer
