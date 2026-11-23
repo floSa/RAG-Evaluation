@@ -1,6 +1,30 @@
 # 2. Évaluation de la recherche
 
-**La question** : pour chaque question, la recherche du RAG ramène-t-elle le bon passage, bien classé, et jamais un document interdit au profil qui la pose ?
+## Ce que vérifie cette évaluation
+
+Pour chaque question, la recherche du RAG compare la question aux vecteurs de la base et ramène les k morceaux les plus proches (ici 5), sans écrire de réponse. L'évaluation de la recherche vérifie que la bonne information est dans ce qui est ramené. Elle s'appuie sur l'[évaluation de l'ingestion](1_evaluation_ingestion.md), qui a déjà établi quels morceaux contiennent les passages du métier. Elle vérifie **cinq choses**, avec un score pour chacune.
+
+**1. Le bon passage est ramené** (seuil : 90 %)
+
+Pour chaque question, le service regarde si au moins un morceau contenant le passage du métier est parmi les k ramenés. Quand le métier a indiqué qu'il faut combiner plusieurs passages, il faut un bon morceau pour chacun. La question compte 1 si c'est le cas, 0 sinon. Le score est le nombre de questions réussies divisé par le nombre de questions. Une question ratée ici, c'est une question où le modèle écrira sa réponse sans avoir l'information sous les yeux. Le même score est recalculé comme si la recherche ne ramenait que 1, 3 ou 5 morceaux : cela aide à choisir k.
+
+**2. Tous les passages nécessaires sont ramenés** (sans seuil)
+
+La même vérification, mais passage par passage au lieu de question par question. Le score est le nombre de passages attendus qui sont parmi les k morceaux, divisé par le nombre de passages attendus. Il montre les questions à plusieurs passages où un seul a été trouvé.
+
+**3. Le bon morceau arrive en tête** (sans seuil)
+
+Chaque question reçoit 1 si le premier bon morceau est classé 1er, 1/2 s'il est 2e, 1/3 s'il est 3e, et 0 s'il n'est pas ramené. Le score est la moyenne. Si le bon passage est souvent ramené mais que ce score est bas, la bonne information arrive trop loin dans la liste.
+
+**4. Aucun document interdit n'est ramené** (seuil : 0, bloquant)
+
+Chaque question est posée au nom d'un profil, par exemple « Exploitation ». Le service compte les questions où au moins un morceau ramené vient d'un document réservé à un autre profil. Une seule fuite suffit à refuser la mise en production, quels que soient les autres scores.
+
+**5. Les pièges ne passent pas devant** (sans seuil)
+
+Le métier a désigné des passages pièges, qui ressemblent à la réponse sans l'être, et le corpus contient un document remplacé par une version plus récente. Le service compte les questions où un piège ou l'ancienne version est classé avant le bon morceau, et divise par le nombre de questions.
+
+Le détail des règles est plus bas : [« la réponse est dans »](#comment-le-kit-tranche---la-réponse-est-dans-), et [les scores avec leur code](#les-scores).
 
 On regarde la recherche **seule, avant la génération** : si le bon passage n'arrive pas jusqu'au modèle, aucun prompt ne rattrapera la réponse.
 
