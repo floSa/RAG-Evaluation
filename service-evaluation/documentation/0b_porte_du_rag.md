@@ -30,6 +30,7 @@ flowchart LR
 | cette page | la règle : les quatre portes, ce qu'on envoie, ce qu'on attend |
 | [`reference/contrat_des_fichiers.md`](reference/contrat_des_fichiers.md) | chaque champ, en détail |
 | [`reference/schemas/`](reference/schemas/) | les schémas JSON de ce que le RAG rend |
+| [`../modele_porte/porte_evaluation.py`](../modele_porte/porte_evaluation.py) | le modèle des quatre portes, à copier dans votre RAG ; le pas à pas : [intégrer votre RAG](integrer_votre_rag.md) |
 | [`../src/kit/appel_du_rag/`](../src/kit/appel_du_rag/) | le côté évaluation : le seul endroit du kit qui appelle un RAG |
 | [`../../service-rag/src/rag/porte_evaluation/`](../../service-rag/src/rag/porte_evaluation/) | un exemple complet : la porte du RAG d'exemple, un fichier par porte |
 
