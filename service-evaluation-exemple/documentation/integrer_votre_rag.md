@@ -22,7 +22,7 @@ Copiez le dossier `service-evaluation/` dans votre projet : c'est le service, vi
 cp .env.example .env
 ```
 
-Mettez dans `.env` la clé de l'API (`KIT_LLM_CLE`), et dans [`config/kit.yaml`](../config/kit.yaml) son adresse, le nom des modèles (`modeles`) et le nom de votre projet (`projet`). Puis :
+Mettez dans `.env` la clé de l'API (`KIT_LLM_CLE`). Le service en a besoin parce qu'il utilise un modèle de langage, le **juge**, qui compare chaque réponse du RAG à la bonne réponse du métier. N'importe quel fournisseur compatible OpenAI convient (OpenAI, Mistral, ou un serveur local). Mettez ensuite dans [`config/kit.yaml`](../config/kit.yaml) son adresse, le nom des modèles (`modeles`) et le nom de votre projet (`projet`). Puis :
 
 ```bash
 ./initialiser.sh

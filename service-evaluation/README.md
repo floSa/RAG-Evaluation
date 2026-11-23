@@ -40,7 +40,7 @@ Elle s'adresse à la personne qui prend en charge l'évaluation et sait lancer d
 cp .env.example .env
 ```
 
-Mettre dans `.env` la clé de l'API des modèles (`KIT_LLM_CLE`), puis démarrer Langfuse :
+Mettre dans `.env` la clé de l'API des modèles (`KIT_LLM_CLE`). Le service en a besoin parce qu'il utilise un modèle de langage, le **juge**, qui compare chaque réponse du RAG à la bonne réponse du métier. N'importe quel fournisseur compatible OpenAI convient (OpenAI, Mistral, ou un serveur local) : son adresse et le nom du modèle sont dans `config/kit.yaml`. Puis démarrer Langfuse :
 
 ```bash
 ./initialiser.sh
