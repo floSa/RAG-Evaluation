@@ -8,6 +8,16 @@ Ce qui est générique, valable pour tout projet, est dans [`service-evaluation/
 
 **Le principe.** Le service d'évaluation se comporte comme un utilisateur automatique qui connaîtrait les bonnes réponses. Il fait lire des documents au RAG, lui pose des questions dont le métier a écrit la bonne réponse, puis compare ce que le RAG a fait à ce qu'il aurait dû faire. La méthode complète : [Évaluer le RAG avec le corpus](documentation/methode_et_contrat/methode_evaluation.md).
 
+**À quoi sert l'évaluation.** Évaluer un RAG, ce n'est pas seulement produire des chiffres : c'est pouvoir décider quelque chose à partir d'eux. L'évaluation sert à :
+1. **choisir la meilleure configuration** du RAG, parmi celles qu'on a testées ;
+2. **mesurer une amélioration** : après l'ajout d'une fonctionnalité (un reranker, un graphe…), comparer au RAG d'avant, sur le même corpus, et savoir si le gain est réel ou s'il peut venir du hasard ;
+3. **éclairer la décision de mise en production**, que le métier prend à partir de chiffres clairs ;
+4. **surveiller le RAG dans le temps** : relancer la même évaluation quand le fournisseur change de modèle, quand des documents sont ajoutés ou quand l'index est reconstruit, et comparer au dernier rapport ;
+5. **comparer des RAG différents** sur le même corpus, par exemple le RAG maison et celui d'un éditeur, puisque le service ne connaît que les quatre endpoints ;
+6. **savoir quoi corriger** : pour chaque question ratée, le rapport dit si la faute vient de la lecture des documents, de la recherche ou de la réponse ;
+7. **révéler les défauts des documents eux-mêmes** : scans illisibles, versions périmées encore en circulation, documents qui se contredisent, questions fréquentes auxquelles aucun document ne répond ;
+8. **prouver la sécurité et garder une trace** : un rapport daté, qui dit quelle configuration a été testée, et qu'aucun document n'a été montré à qui n'y a pas droit.
+
 **Qui fait quoi.**
 
 | | Le service d'évaluation | Le RAG évalué |
@@ -175,7 +185,7 @@ Pour un score faible, la partie « Si c'est mauvais » du guide de son évaluati
 
 **Comparer deux configurations**, une fois les deux évaluées, avec `kit comparer`. Le service écrit un rapport dans `resultats/comparaisons_de_configurations/` : ce qui change de l'une à l'autre, l'écart de chaque score, s'il est réel ou s'il peut venir du hasard, et les questions gagnées ou perdues. [Comment comparer](documentation/5_resultats_et_comparaison.md#5-comparer-deux-versions).
 
-**Faire décider le métier.** Lui présenter les scores clés et les questions ratées de la meilleure configuration. C'est lui qui dit si elle peut partir en production, ou ce qu'il faut corriger d'abord ; dans ce cas, corriger le RAG là où le rapport l'indique, puis évaluer la nouvelle configuration (étape 3).
+**Faire décider le métier.** Lui présenter les scores clés et les questions ratées de la meilleure configuration. Pour l'aider à les lire, des repères score par score, et la façon de lire l'intervalle de confiance : [6. Aide à la décision : lire les scores](documentation/6_aide_a_la_decision.md). C'est lui qui dit si elle peut partir en production, ou ce qu'il faut corriger d'abord ; dans ce cas, corriger le RAG là où le rapport l'indique, puis évaluer la nouvelle configuration (étape 3).
 
 **Dans l'exemple.**
 - Le [rapport de la référence](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) montre 1 erreur grave, 15 caractères sur 100 mal lus sur les pages scannées, et le bon passage ramené pour 9 questions sur 13 seulement.
