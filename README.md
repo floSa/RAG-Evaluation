@@ -33,12 +33,11 @@ Il s'adresse à la personne qui prend en charge l'évaluation : data scientist, 
 | Étape | Ce que vous faites | Où |
 | --- | --- | --- |
 | 0. Installer le service | copier `service-evaluation/` dans votre projet, démarrer Langfuse, brancher le modèle juge | [README du service](service-evaluation/README.md) |
-| 1. Construire le corpus d'évaluation | c'est le métier qui le remplit : vous lui donnez le fichier Excel vierge et les règles pour le remplir ; il vous rend les documents et le fichier rempli | `corpus_annote/Corpus_evaluation_RAG.xlsx`, [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md) |
-| 2. Ranger et importer le corpus | les documents dans `corpus_annote/corpus_documentaire/`, le fichier dans `corpus_annote/`, puis `kit importer` : il dit ligne par ligne ce que le métier doit corriger | `service-evaluation/corpus_annote/` |
-| 3. Fixer les seuils avec le métier | ce que le RAG doit atteindre pour partir en production, **avant** toute évaluation | `config/seuils.json` |
-| 4. Brancher votre RAG | copier le modèle des quatre endpoints dans votre RAG, y brancher ses fonctions, mettre l'adresse du RAG dans `config/kit.yaml` ; `kit appeler-rag` vérifie | `endpoints_a_copier/`, [guide 0b](service-evaluation/documentation/0b_endpoints_du_rag.md) |
-| 5. Lancer l'évaluation | `kit evaluer`, une fois par configuration du RAG : le service appelle lui-même votre RAG, lui envoie les documents, pose toutes les questions, calcule les scores | depuis `service-evaluation/` |
-| 6. Lire, corriger, comparer | lire le `RAPPORT.md` ; changer un réglage du RAG, réévaluer, puis `kit comparer` | `resultats/evaluations/`, [guide 5](service-evaluation/documentation/5_resultats_et_comparaison.md) |
+| 1. Construire et importer le corpus d'évaluation | c'est le métier qui le construit : vous lui donnez le fichier Excel vierge et les règles pour le remplir ; il vous rend les documents et le fichier rempli ; vous les rangez dans `corpus_annote/`, puis `kit importer` dit ligne par ligne ce que le métier doit corriger | [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md) |
+| 2. Fixer les seuils avec le métier | ce que le RAG doit atteindre pour partir en production, **avant** toute évaluation | `config/seuils.json` |
+| 3. Brancher votre RAG | copier le modèle des quatre endpoints dans votre RAG, y brancher ses fonctions, mettre l'adresse du RAG dans `config/kit.yaml` ; `kit appeler-rag` vérifie | `endpoints_a_copier/`, [guide 0b](service-evaluation/documentation/0b_endpoints_du_rag.md) |
+| 4. Lancer l'évaluation | `kit evaluer`, une fois par configuration du RAG : le service appelle lui-même votre RAG, lui envoie les documents, pose toutes les questions, calcule les scores | depuis `service-evaluation/` |
+| 5. Lire, corriger, comparer | lire le `RAPPORT.md` ; changer un réglage du RAG, réévaluer, puis `kit comparer` | `resultats/evaluations/`, [guide 5](service-evaluation/documentation/5_resultats_et_comparaison.md) |
 
 **Les configurations.** Une configuration, ce sont les réglages de votre RAG à un moment donné : k, modèles, prompt, découpage… Ils sont propres à chaque RAG et **se changent dans le RAG, jamais dans le service**. Le service les lit dans ce que le RAG déclare (endpoint ②), et nomme l'évaluation d'après eux. Pour tester une autre configuration : vous changez le réglage dans le RAG, vous le relancez, puis vous relancez `kit evaluer`. Un run = une configuration.
 
