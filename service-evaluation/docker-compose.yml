@@ -107,7 +107,7 @@ services:
       start_period: 1s
 
   redis:
-    image: redis:7.4
+    image: redis:7.4.12
     restart: unless-stopped
     command: --requirepass ${REDIS_PASSWORD} --maxmemory-policy noeviction
     healthcheck:
@@ -117,7 +117,7 @@ services:
       retries: 10
 
   postgres:
-    image: postgres:17.7-alpine
+    image: postgres:17.12-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
