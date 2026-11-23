@@ -41,7 +41,7 @@ C'est donc le service qui déclenche l'ingestion, mais c'est le code du RAG qui 
 
 **Ce qui est générique, et ce que votre RAG doit savoir faire.** Le service est le même pour tous les RAG : il ne connaît que les quatre endpoints. Votre RAG, lui, doit savoir faire quatre choses, une par endpoint :
 1. ingérer une liste de fichiers qu'on lui envoie, avec sa chaîne d'ingestion habituelle, dans un espace séparé de la production ;
-2. rendre ses morceaux de texte, chacun avec sa source, l'endroit de la source d'où il vient (la page d'un document, le champ d'une fiche) et ses droits d'accès, et déclarer sa configuration ;
+2. rendre ses morceaux de texte, chacun avec sa source, l'endroit de la source d'où il vient (la page d'un fichier, le champ d'une fiche de GED) et ses droits d'accès, et déclarer sa configuration ;
 3. rechercher pour une question, en écartant les sources interdites au profil qui la pose ;
 4. répondre, avec ses sources, et dire « je ne sais pas » quand c'est le cas.
 
@@ -72,7 +72,7 @@ Le service se compose :
 
 Le corpus d'évaluation se compose des **documents** que le RAG doit lire, et d'un **fichier Excel** qui donne, pour chaque question, la bonne réponse et le passage exact des documents où elle se trouve. Le RAG ne reçoit que les documents, jamais le fichier.
 
-Un document est le plus souvent un fichier : PDF, Word, Excel. Quand le RAG lit une application (une fiche d'équipement, un ticket, une ligne de base de données), chaque enregistrement est exporté en fiche « champ : valeur » : sa référence est son identifiant dans l'application, et l'endroit de la réponse est le nom du champ, à la place de la page.
+Les documents sont de deux sortes, mélangeables dans un même corpus. Ce sont des **fichiers** (PDF, Word, Excel), repérés par leur référence et leur page. Ou ce sont des **fiches de GED** : les fiches, tickets ou comptes rendus d'une base documentaire, qui s'affichent à l'écran sans être des fichiers. Le métier les repère par leur numéro dans la GED et le nom du champ où se trouve la réponse (« Résolution »…) ; le RAG les lit lui-même dans la GED. Les règles : [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md#les-sources--fichiers-et-fiches-de-ged).
 
 **À faire.**
 - Transmettre au métier [le fichier Excel vierge](service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx) et [les règles pour le remplir](service-evaluation/documentation/0a_construction_du_corpus.md#1-ce-que-le-métier-annote) : c'est lui qui construit le corpus, car il connaît les documents et les questions des utilisateurs.
@@ -80,7 +80,7 @@ Un document est le plus souvent un fichier : PDF, Word, Excel. Quand le RAG lit 
 - Ranger les documents dans `corpus_annote/corpus_documentaire/`, et le fichier dans `corpus_annote/`.
 - [Importer le corpus](service-evaluation/documentation/0a_construction_du_corpus.md#3-importer-le-corpus). Le service contrôle chaque ligne : s'il trouve une erreur, il n'importe rien et donne la liste des corrections à demander au métier.
 
-**Dans l'exemple.** Un corpus fictif, sur une entreprise inventée : [50 documents](service-evaluation-exemple/corpus_annote/corpus_documentaire/), dont 17 comptes rendus d'intervention exportés d'une base de données en fiches « champ : valeur », et [un fichier rempli](service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx) de 60 questions, 97 passages et 20 pages scannées retapées. L'import a produit [le corpus contrôlé](service-evaluation-exemple/resultats/corpus/).
+**Dans l'exemple.** Un corpus fictif, sur une entreprise inventée : [50 documents](service-evaluation-exemple/corpus_annote/corpus_documentaire/), dont 17 comptes rendus d'intervention qui sont des fiches de GED (exportées en PDF, car le RAG d'exemple ne lit pas de GED), et [un fichier rempli](service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx) de 60 questions, 97 passages et 20 pages scannées retapées. L'import a produit [le corpus contrôlé](service-evaluation-exemple/resultats/corpus/).
 
 ## 2. Ouvrir les quatre endpoints du RAG au service
 

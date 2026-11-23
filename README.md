@@ -44,7 +44,7 @@ Le détail de chaque étape : [Évaluer votre RAG : la marche à suivre](service
 
 ## Ce que fait le service d'évaluation
 
-Il **évalue une configuration** du RAG, c'est-à-dire le RAG avec tous ses réglages fixés (par exemple, le nombre de morceaux que la recherche ramène pour chaque question). Il fait lire au RAG les documents du corpus, qu'il s'agisse de fichiers (PDF, Word…) ou de fiches exportées d'une application, lui pose toutes les questions, et vérifie, dans l'ordre :
+Il **évalue une configuration** du RAG, c'est-à-dire le RAG avec tous ses réglages fixés (par exemple, le nombre de morceaux que la recherche ramène pour chaque question). Il fait lire au RAG les documents du corpus, qu'il s'agisse de fichiers (PDF, Word…) ou de fiches d'une GED (tickets, comptes rendus), lui pose toutes les questions, et vérifie, dans l'ordre :
 
 1. **L'ingestion** : rien ne s'est perdu ni abîmé quand le RAG a découpé les documents et les a rangés dans sa base.
 2. **La recherche** : pour chaque question, la recherche ramène les morceaux qui contiennent la réponse, et jamais un document interdit à la personne qui pose la question.
