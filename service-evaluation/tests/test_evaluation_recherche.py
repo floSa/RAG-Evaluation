@@ -27,8 +27,8 @@ LIENS = [(2, "PR-1101#2#0"), (3, "PR-1101#2#1"), (18, "PR-1104-C#2#1"), (19, "PR
 def ev(tmp_path_factory):
     tmp = tmp_path_factory.mktemp("n2")
     config = yaml.safe_load(Path("config/kit.yaml").read_text(encoding="utf-8"))
-    config["chemins"] = {"base": f"sqlite:///{tmp}/base.sqlite", "sorties": str(tmp), "seuils": "config/seuils.json"}
-    corpus = importer(Path("corpus_exemple/Corpus_evaluation_RAG.xlsx"), config["chemins"]["base"], tmp,
+    config["chemins"] = {"base": f"sqlite:///{tmp}/base.sqlite", "resultats": str(tmp), "seuils": "config/seuils.json"}
+    corpus = importer(Path("../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx"), config["chemins"]["base"], tmp,
                       "test").dossier
     docs = {d["reference_source"]: d for d in contrat.lire_jsonl(corpus / "documents.jsonl")}
     chunks = [{"chunk_id": c, "reference_source": c.split("#")[0], "droits_acces": docs[c.split("#")[0]]["droits_acces"]}

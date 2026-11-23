@@ -7,12 +7,19 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
-# Sorties produites par chaque service (index du RAG ; corpus exporté, réponses du RAG, résultats) :
-# non versionnées. Seuls restent dans git les dossiers vides (.gitkeep) et le README de sorties/.
-**/sorties/**
-!**/sorties/**/
-!**/sorties/README.md
-!**/sorties/**/.gitkeep
+# Ce que produit chaque service chez vous : non versionné.
+# - service-evaluation/ est vierge : seuls ses dossiers vides (.gitkeep) et leurs README sont versionnés ;
+#   le corpus documentaire de votre projet n'est pas versionné non plus (il peut être confidentiel).
+# - service-evaluation-exemple/ est versionné en entier : c'est l'exemple.
+service-evaluation/resultats/**
+!service-evaluation/resultats/**/
+!service-evaluation/resultats/**/README.md
+!service-evaluation/resultats/**/.gitkeep
+service-evaluation/corpus_annote/corpus_documentaire/*
+!service-evaluation/corpus_annote/corpus_documentaire/README.md
+service-evaluation/corpus_annote/ontologie/*
+!service-evaluation/corpus_annote/ontologie/README.md
+service-rag-exemple/sorties/
 
 # Base SQLite du bac à sable
 *.db

@@ -1,6 +1,6 @@
-"""Modèle de porte d'évaluation, à copier dans votre RAG.
+"""Modèle des quatre endpoints d'évaluation, à copier dans votre RAG.
 
-Il ouvre les quatre portes que le service d'évaluation appelle :
+Il ouvre les quatre endpoints que le service d'évaluation appelle :
 
     POST /ingerer      ① ENTRÉE : les documents de l'évaluation
     GET  /index        ② SORTIE : la version du RAG, ses chunks, les pages lues
@@ -8,12 +8,12 @@ Il ouvre les quatre portes que le service d'évaluation appelle :
     POST /repondre     ④ ENTRÉE une question → SORTIE la réponse, ses sources, l'abstention
 
 Tel quel, il marche : un « RAG » jouet, en mémoire, qui fait un chunk par page et cherche par mots communs.
-Il sert à voir la forme exacte de chaque porte, et à tester le kit de bout en bout.
+Il sert à voir la forme exacte de chaque endpoint, et à tester le kit de bout en bout.
 Pour votre RAG : remplacer le contenu des quatre fonctions marquées « À REMPLACER » par l'appel à votre RAG.
 Les formes d'entrée et de sortie, elles, ne changent pas.
 
 Lancer (dépendances : fastapi, uvicorn, pypdf) :
-    uvicorn porte_evaluation:app --host 127.0.0.1 --port 8100
+    uvicorn endpoints_evaluation:app --host 127.0.0.1 --port 8100
 Guide pas à pas : service-evaluation/documentation/integrer_votre_rag.md
 """
 
@@ -33,7 +33,7 @@ NOM = "mon-rag"
 K = 5
 REGLAGES = {"decoupage": "une-page", "embedding": "aucun", "generation": "aucune", "prompt": "aucun", "reranker": "aucun"}
 
-app = FastAPI(title="Porte d'évaluation", description="Les quatre portes que le service d'évaluation appelle.")
+app = FastAPI(title="Porte d'évaluation", description="Les quatre endpoints que le service d'évaluation appelle.")
 index: dict = {"chunks": [], "pages": [], "version_index": None}   # À REMPLACER : l'index de votre RAG
 
 

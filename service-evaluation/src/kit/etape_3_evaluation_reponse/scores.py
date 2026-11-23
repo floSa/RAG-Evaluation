@@ -1,6 +1,6 @@
 """Évaluation 3, réponse (niveau 3 du document 3, section 8).
 
-- Le juge du kit (documentation/reference/prompt_du_juge.md) : exactitude, complétude des listes.
+- Le juge du kit (documentation/methode_et_contrat/prompt_du_juge.md) : exactitude, complétude des listes.
 - Ragas : fidélité (Faithfulness) ; synthèse (RubricsScoreWithReference, grille de prompt_du_juge.md).
 - Le script : abstention correcte et à tort, citations, valeurs et calculs, erreurs graves.
 - Le croisement recherche × réponse, qui dit où chercher la cause (document 3, section 8).
@@ -18,7 +18,7 @@ from kit.etape_2_evaluation_recherche.scores import liens_par_passage
 from kit.etape_3_evaluation_reponse import juge
 from kit.etape_5_resultats.publication import Evaluation, Ligne
 
-GRILLE_SYNTHESE = {  # documentation/reference/prompt_du_juge.md, « Grille de synthèse »
+GRILLE_SYNTHESE = {  # documentation/methode_et_contrat/prompt_du_juge.md, « Grille de synthèse »
     "score1_description": "la réponse ne traite pas la question, ou n'est appuyée sur aucune source",
     "score2_description": "moins de la moitié des thèmes attendus, ou une erreur importante",
     "score3_description": "la moitié des thèmes attendus au moins, sans erreur importante",

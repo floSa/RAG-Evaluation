@@ -2,7 +2,7 @@
 
 from kit.etape_5_resultats import comparaison, rapport
 
-# La configuration de référence du RAG d'exemple, et sa variante k = 3 (resultats_exemple/).
+# La configuration de référence du RAG d'exemple, et sa variante k = 3 (service-evaluation-exemple/resultats/).
 REFERENCE = {"version_rag": "graphrag-vectoriel-k5-5954e822", "type_rag": "vectoriel", "k": 5,
              "versions": {"index": "sections-1-embed-3fc47199", "decoupage": "sections-1", "embedding": "embed",
                           "generation": "gemma-4-e4b", "prompt": "1.0", "reranker": "aucun"}}

@@ -9,11 +9,11 @@ import pytest
 from kit import contrat
 from kit.etape_0a_corpus.importer import importer, lire_points_cles
 
-EXEMPLE = Path("corpus_exemple/Corpus_evaluation_RAG.xlsx")
+EXEMPLE = Path("../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx")
 
 
 def lancer(tmp_path: Path, fichier: Path = EXEMPLE, jour: str = "2026-11-20"):
-    return importer(fichier, f"sqlite:///{tmp_path}/base.sqlite", tmp_path / "sorties", "test", aujourd_hui=jour)
+    return importer(fichier, f"sqlite:///{tmp_path}/base.sqlite", tmp_path / "resultats", "test", aujourd_hui=jour)
 
 
 def copie_modifiee(tmp_path: Path, modifications: list[tuple[str, int, str, object]], nom="faux.xlsx") -> Path:
@@ -102,7 +102,7 @@ def test_fichier_faux_rejete_avec_le_bon_message(tmp_path, modification, attendu
     r = lancer(tmp_path, copie_modifiee(tmp_path, [modification]))
     assert r.version_corpus is None
     assert any(attendu in e for e in r.erreurs), r.erreurs
-    assert not (tmp_path / "sorties").exists()  # rien n'est écrit
+    assert not (tmp_path / "resultats").exists()  # rien n'est écrit
 
 
 def test_question_oui_sans_passage_rejetee(tmp_path):

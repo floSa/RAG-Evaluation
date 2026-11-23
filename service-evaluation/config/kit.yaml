@@ -2,15 +2,16 @@
 # Aucune clé ici : les clés sont lues dans .env, sous le nom de variable indiqué.
 # Changer de fournisseur = changer « adresse » et « modele », sans toucher au code.
 
-projet: maintenance-electrique
+projet: mon-projet                 # le nom de votre projet : il nomme le jeu de questions dans Langfuse
 
+# Les chemins sont relatifs au dossier du service (celui qui contient config/).
 chemins:
-  base: sqlite:///sorties/base.sqlite   # SQLAlchemy : postgresql+psycopg://… pour PostgreSQL
-  sorties: sorties                      # corpus/, sorties_rag/, resultats/ sont créés dedans
-  documents: corpus_exemple/documents   # les documents du corpus, <référence>.pdf : le kit les envoie au RAG
+  corpus_documentaire: corpus_annote/corpus_documentaire   # ce que le RAG doit lire, un fichier par référence : le kit l'envoie au RAG
+  resultats: resultats                  # corpus/, reponses_du_rag/, evaluations/, comparaisons_de_configurations/
+  base: sqlite:///resultats/base.sqlite # SQLAlchemy : postgresql+psycopg://… pour PostgreSQL
   seuils: config/seuils.json
 
-# Le RAG évalué : l'adresse de sa porte d'évaluation (documentation/0b_porte_du_rag.md)
+# Le RAG évalué : l'adresse de ses endpoints d'évaluation (documentation/0b_endpoints_du_rag.md)
 rag:
   adresse: http://127.0.0.1:8100
 
@@ -21,7 +22,7 @@ modeles:
   juge:
     modele: chat                 # qwen3.5-4b ; différent du modèle de génération du RAG (prompt du juge)
     temperature: 0
-    version_prompt: "1.0"        # version du prompt de documentation/reference/prompt_du_juge.md
+    version_prompt: "1.0"        # version du prompt de documentation/methode_et_contrat/prompt_du_juge.md
     sans_reflexion: true         # chat_template_kwargs.enable_thinking = false
     max_tokens: 2048
   embeddings:
@@ -40,7 +41,7 @@ rattachement:
 
 # Évaluation 1 (ingestion), si le RAG a un graphe (document 3, section 6)
 graphe:
-  formes: corpus_exemple/ontologie/ontologie_formes.ttl   # les règles SHACL de l'ontologie du projet
+  formes: corpus_annote/ontologie/ontologie_formes.ttl   # les règles SHACL de l'ontologie du projet (seulement si le RAG a un graphe)
   taille_echantillon: 50     # relations envoyées au métier (file justesse-graphe)
 
 # Évaluation 3 (réponse)

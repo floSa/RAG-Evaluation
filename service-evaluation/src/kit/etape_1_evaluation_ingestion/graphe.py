@@ -22,7 +22,7 @@ KIT = Namespace("https://kit-eval-rag/ns#")       # la provenance, fixée par le
 FILE = "justesse-graphe"
 CONFIG_JUSTESSE = "justesse_relation"
 CATEGORIES = {"juste": 1.0, "fausse": 0.0}
-ECHANTILLON = "justesse_graphe.json"              # dans resultats/<évaluation>/ : les relations envoyées au métier
+ECHANTILLON = "justesse_graphe.json"              # dans resultats/evaluations/<évaluation>/fichiers_techniques/ : les relations envoyées au métier
 
 
 def a_un_graphe(ev: Evaluation) -> bool:
@@ -96,8 +96,8 @@ def envoyer(ev: Evaluation, langfuse) -> int:
                 metadata={"evaluation": ev.evaluation_id, "relation_id": r["relation_id"]}):
             r["trace_id"] = langfuse.get_current_trace_id()
     langfuse.flush()
-    (ev.dossier / ECHANTILLON).parent.mkdir(parents=True, exist_ok=True)
-    (ev.dossier / ECHANTILLON).write_text(json.dumps(tirees, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (ev.fichiers / ECHANTILLON).parent.mkdir(parents=True, exist_ok=True)
+    (ev.fichiers / ECHANTILLON).write_text(json.dumps(tirees, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return relecture.envoyer(langfuse, FILE, "Justesse du graphe : chaque relation est-elle juste, d'après son passage "
                              "source ? (document 3, section 6)", [r["trace_id"] for r in tirees],
                              score_config_id=config_justesse(langfuse))
@@ -105,7 +105,7 @@ def envoyer(ev: Evaluation, langfuse) -> int:
 
 def lignes_justesse(ev: Evaluation, langfuse) -> list[Ligne]:
     """Une ligne par relation déjà jugée par le métier ; aucune tant que rien n'est jugé."""
-    chemin = ev.dossier / ECHANTILLON
+    chemin = ev.fichiers / ECHANTILLON
     if langfuse is None or not chemin.exists():
         return []
     tirees = json.loads(chemin.read_text(encoding="utf-8"))

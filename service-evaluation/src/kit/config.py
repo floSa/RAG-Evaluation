@@ -7,14 +7,27 @@ from pathlib import Path
 import yaml
 from dotenv import load_dotenv
 
-CHEMIN_CONFIG = Path("config/kit.yaml")
+# Le dossier du service : celui qui contient config/, corpus_annote/ et resultats/. Par défaut, le dossier courant ;
+# « kit --dossier ../service-evaluation-exemple … » travaille sur l'exemple.
+DOSSIER = Path(".")
 
 
-def charger_config(chemin: Path | str = CHEMIN_CONFIG) -> dict:
-    """Lit kit.yaml et charge .env dans l'environnement (sans écraser une variable déjà définie)."""
+def charger_config(chemin: Path | str | None = None) -> dict:
+    """Lit <dossier>/config/kit.yaml et charge .env (sans écraser une variable déjà définie).
+    Les chemins de kit.yaml sont relatifs au dossier du service : ils sont rendus ici depuis ce dossier."""
     load_dotenv()
+    chemin = Path(chemin) if chemin else DOSSIER / "config" / "kit.yaml"
     with open(chemin, encoding="utf-8") as f:
-        return yaml.safe_load(f)
+        config = yaml.safe_load(f)
+    dossier = chemin.resolve().parent.parent
+    for cle_chemin, valeur in config.get("chemins", {}).items():
+        if cle_chemin == "base" and valeur.startswith("sqlite:///") and not valeur[10:].startswith("/"):
+            config["chemins"]["base"] = f"sqlite:///{dossier / valeur[10:]}"
+        elif cle_chemin != "base" and not Path(valeur).is_absolute():
+            config["chemins"][cle_chemin] = str(dossier / valeur)
+    if config.get("graphe", {}).get("formes") and not Path(config["graphe"]["formes"]).is_absolute():
+        config["graphe"]["formes"] = str(dossier / config["graphe"]["formes"])
+    return config
 
 
 def charger_seuils(config: dict) -> dict:

@@ -11,7 +11,7 @@ from kit import contrat
 from kit.appel_du_rag import appeler
 from kit.etape_0a_corpus.importer import importer
 
-DOCUMENTS = Path("corpus_exemple/documents")
+DOCUMENTS = Path("../service-evaluation-exemple/corpus_annote/corpus_documentaire")
 CHUNK = {"chunk_id": "PR-1101#2#0", "type_objet": "chunk", "reference_source": "PR-1101", "version_document": "v3",
          "page": "2", "type_element": "texte", "droits_acces": "tous", "ordre": 0, "texte": "…", "version_index": "x"}
 RAG = {"contrat": "1.0", "nom": "faux", "version_rag": "faux-k1", "type_rag": "vectoriel", "date": "2026-11-20",
@@ -20,7 +20,7 @@ RAG = {"contrat": "1.0", "nom": "faux", "version_rag": "faux-k1", "type_rag": "v
 
 
 class FauxRag:
-    """Les quatre portes d'un RAG qui renvoie toujours le même chunk, et note ce qu'il reçoit."""
+    """Les quatre endpoints d'un RAG qui renvoie toujours le même chunk, et note ce qu'il reçoit."""
 
     def __init__(self):
         self.documents, self.questions = [], []
@@ -44,15 +44,15 @@ class FauxRag:
 @pytest.fixture(scope="module")
 def corpus(tmp_path_factory) -> Path:
     tmp = tmp_path_factory.mktemp("corpus")
-    return importer(Path("corpus_exemple/Corpus_evaluation_RAG.xlsx"), f"sqlite:///{tmp}/base.sqlite",
-                    tmp / "sorties", "test", aujourd_hui="2026-11-20").dossier
+    return importer(Path("../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx"), f"sqlite:///{tmp}/base.sqlite",
+                    tmp / "resultats", "test", aujourd_hui="2026-11-20").dossier
 
 
 def test_les_quatre_portes(tmp_path, corpus):
     rag = FauxRag()
     client = httpx.Client(base_url="http://faux-rag", transport=httpx.MockTransport(rag))
     dossier = appeler.appeler("http://faux-rag", corpus, DOCUMENTS, tmp_path, afficher=lambda *_: None, client=client)
-    assert dossier == tmp_path / "sorties_rag" / "faux-k1"
+    assert dossier == tmp_path / "reponses_du_rag" / "faux-k1"
     assert contrat.verifier_dossier(dossier, corpus) == []
 
     # 1. les 50 documents, avec leurs fichiers, et rien des annotations

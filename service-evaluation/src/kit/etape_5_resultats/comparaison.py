@@ -34,13 +34,13 @@ def verdicts(config: dict, evaluation_id: str, score: str) -> dict[str, float]:
 
 
 def comparer(config: dict, dossier_a: Path, dossier_b: Path) -> dict:
-    a = json.loads((dossier_a / "evaluation.json").read_text(encoding="utf-8"))
-    b = json.loads((dossier_b / "evaluation.json").read_text(encoding="utf-8"))
+    a = json.loads((dossier_a / "fichiers_techniques" / "evaluation.json").read_text(encoding="utf-8"))
+    b = json.loads((dossier_b / "fichiers_techniques" / "evaluation.json").read_text(encoding="utf-8"))
     if a["version_corpus"] != b["version_corpus"]:
         raise ValueError(f"Corpus différents ({a['version_corpus']} et {b['version_corpus']}) : les évaluations ne se "
                          f"comparent pas.")
-    sa = {s["score"]: s for s in json.loads((dossier_a / "scores.json").read_text(encoding="utf-8"))["scores"]}
-    sb = {s["score"]: s for s in json.loads((dossier_b / "scores.json").read_text(encoding="utf-8"))["scores"]}
+    sa = {s["score"]: s for s in json.loads((dossier_a / "fichiers_techniques" / "scores.json").read_text(encoding="utf-8"))["scores"]}
+    sb = {s["score"]: s for s in json.loads((dossier_b / "fichiers_techniques" / "scores.json").read_text(encoding="utf-8"))["scores"]}
     ecarts = []
     for score in [s for s in sa if s in sb]:
         va, vb = sa[score]["valeur"], sb[score]["valeur"]
@@ -145,5 +145,5 @@ def markdown(r: dict, questions: dict) -> str:
         else:
             resume += "Cet écart est probablement réel."
         m.append(resume)
-    m += ["", "Le détail de tous les scores est dans `comparaison.json`.", ""]
+    m += ["", "Le détail de tous les scores est dans `fichiers_techniques/comparaison.json`.", ""]
     return "\n".join(m)

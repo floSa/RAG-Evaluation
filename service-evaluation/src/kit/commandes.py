@@ -18,12 +18,17 @@ from kit.etape_4_evaluation_bout_en_bout import scores as scores_bout_en_bout
 from kit.etape_5_resultats import comparaison
 from kit.etape_5_resultats import publication
 
-app = typer.Typer(help="Kit d'évaluation de RAG : corpus, porte du RAG, évaluations 1 à 4, rapport.", no_args_is_help=True)
+app = typer.Typer(help="Kit d'évaluation de RAG : corpus, endpoints du RAG, évaluations 1 à 4, rapport.", no_args_is_help=True)
 
 
 @app.callback()
-def principal():
-    """Kit d'évaluation de RAG (la configuration est lue dans config/kit.yaml et .env)."""
+def principal(dossier: Path = typer.Option(Path("."), "--dossier",
+                                           help="le dossier du service à utiliser (config/, corpus_annote/, resultats/) ; "
+                                                "par défaut, le dossier courant")):
+    """Kit d'évaluation de RAG (la configuration est lue dans <dossier>/config/kit.yaml, les clés dans .env)."""
+    from kit import config as module_config
+
+    module_config.DOSSIER = dossier
 
 
 @app.command("init-base")
@@ -63,7 +68,7 @@ def importer(fichier: Path = typer.Argument(..., exists=True, dir_okay=False, he
              sans_langfuse: bool = typer.Option(False, help="ne pas créer le jeu de données dans Langfuse")):
     """Importe le fichier Excel du corpus : contrôles, base, export corpus/<version>/, jeu de données Langfuse."""
     config = charger_config()
-    resultat = import_corpus.importer(fichier, config["chemins"]["base"], Path(config["chemins"]["sorties"]),
+    resultat = import_corpus.importer(fichier, config["chemins"]["base"], Path(config["chemins"]["resultats"]),
                                       config["projet"], None if sans_langfuse else client_langfuse(config))
     if resultat.erreurs:
         typer.echo(f"Import refusé : {len(resultat.erreurs)} ligne(s) à corriger dans {fichier.name}.", err=True)
@@ -84,10 +89,10 @@ def importer(fichier: Path = typer.Argument(..., exists=True, dir_okay=False, he
 
 @app.command("verifier-contrat")
 def verifier_contrat(dossier: Path = typer.Argument(..., exists=True, file_okay=False,
-                                                    help="corpus/<version>/ ou sorties_rag/<version>/"),
+                                                    help="corpus/<version>/ ou reponses_du_rag/<version>/"),
                      corpus: Path = typer.Option(None, exists=True, file_okay=False,
                                                  help="le corpus, pour vérifier que chaque question a sa réponse")):
-    """Valide les fichiers d'un dossier contre documentation/reference/schemas/ et dit précisément ce qui manque."""
+    """Valide les fichiers d'un dossier contre documentation/methode_et_contrat/schemas/ et dit précisément ce qui manque."""
     erreurs = contrat.verifier_dossier(dossier, corpus)
     if erreurs:
         typer.echo(f"{dossier} : {len(erreurs)} problème(s).", err=True)
@@ -100,9 +105,9 @@ def verifier_contrat(dossier: Path = typer.Argument(..., exists=True, file_okay=
 
 
 def appeler_le_rag(config: dict, corpus: Path, adresse: str) -> Path:
-    """Appelle les quatre portes du RAG (appel_du_rag/), vérifie ce qu'il rend ; rend le dossier sorties_rag/<version>/."""
+    """Appelle les quatre endpoints du RAG (appel_du_rag/), vérifie ce qu'il rend ; rend le dossier reponses_du_rag/<version>/."""
     try:
-        dossier = appeler.appeler(adresse, corpus, Path(config["chemins"]["documents"]), Path(config["chemins"]["sorties"]),
+        dossier = appeler.appeler(adresse, corpus, Path(config["chemins"]["corpus_documentaire"]), Path(config["chemins"]["resultats"]),
                                   afficher=typer.echo)
     except RuntimeError as e:
         typer.echo(str(e), err=True)
@@ -117,10 +122,10 @@ def appeler_le_rag(config: dict, corpus: Path, adresse: str) -> Path:
 
 
 @app.command()
-def appeler_rag(rag: str = typer.Option(None, help="l'adresse de la porte du RAG (http://…) ; par défaut, celle de config/kit.yaml"),
+def appeler_rag(rag: str = typer.Option(None, help="l'adresse de les endpoints du RAG (http://…) ; par défaut, celle de config/kit.yaml"),
                 corpus: Path = typer.Option(None, exists=True, file_okay=False,
                                             help="le dossier corpus/<version>/ ; par défaut, le dernier importé")):
-    """Appelle les quatre portes du RAG : lui envoie les documents, lui pose les questions, range ce qu'il rend."""
+    """Appelle les quatre endpoints du RAG : lui envoie les documents, lui pose les questions, range ce qu'il rend."""
     config = charger_config()
     appeler_le_rag(config, corpus or le_plus_recent(config, "corpus"), rag or config["rag"]["adresse"])
 
@@ -128,7 +133,7 @@ def appeler_rag(rag: str = typer.Option(None, help="l'adresse de la porte du RAG
 def le_plus_recent(config: dict, sous_dossier: str) -> Path:
     """Sans --corpus ou --rag : le dernier corpus importé, ou la dernière sortie du RAG (fichiers les plus récents).
     Le dossier choisi est affiché, pour qu'on sache toujours ce qui est évalué."""
-    dossier = Path(config["chemins"]["sorties"]) / sous_dossier
+    dossier = Path(config["chemins"]["resultats"]) / sous_dossier
     candidats = [d for d in dossier.glob("*") if d.is_dir() and any(d.iterdir())] if dossier.exists() else []
     if not candidats:
         typer.echo(f"Rien dans {dossier}/ : lancer d'abord « kit importer » (corpus) ou « kit appeler-rag » (réponses du RAG).",
@@ -145,7 +150,7 @@ def le_plus_recent(config: dict, sous_dossier: str) -> Path:
 OPTION_CORPUS = typer.Option(None, exists=True, file_okay=False,
                              help="le dossier corpus/<version>/ ; par défaut, le dernier importé")
 OPTION_RAG = typer.Option(None, exists=True, file_okay=False,
-                          help="le dossier sorties_rag/<version_rag>/ déjà rempli ; par défaut, le plus récent")
+                          help="le dossier reponses_du_rag/<version_rag>/ déjà rempli ; par défaut, le plus récent")
 OPTION_LANGFUSE = typer.Option(False, help="ne pas publier dans Langfuse")
 
 
@@ -153,7 +158,7 @@ def preparer(corpus: Path | None, rag: Path | None, ingestion_seule: bool = Fals
     """Vérifie le contrat avant toute mesure, puis ouvre l'évaluation (corpus × version du RAG)."""
     config = charger_config()
     corpus = corpus or le_plus_recent(config, "corpus")
-    rag = rag or le_plus_recent(config, "sorties_rag")
+    rag = rag or le_plus_recent(config, "reponses_du_rag")
     erreurs = contrat.verifier_dossier(rag, corpus, ingestion_seule)
     if erreurs:
         typer.echo(f"Sorties du RAG non conformes au contrat ({len(erreurs)} problème(s)) :", err=True)
@@ -206,11 +211,11 @@ def verifier_graphe(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
         typer.echo(f"Relations envoyées dans la file « {graphe_n1.FILE} » ({n} nouvelles). Le métier juge chacune avec "
                    f"le score « {graphe_n1.CONFIG_JUSTESSE} » (juste ou fausse), puis relancer « kit evaluer-ingestion ».")
         return
-    if not (ev.dossier / graphe_n1.ECHANTILLON).exists():
+    if not (ev.fichiers / graphe_n1.ECHANTILLON).exists():
         typer.echo("Pas d'échantillon : lancer d'abord « kit verifier-graphe --envoyer ».", err=True)
         raise typer.Exit(1)
     lignes = graphe_n1.lignes_justesse(ev, langfuse)
-    total = len(json.loads((ev.dossier / graphe_n1.ECHANTILLON).read_text(encoding="utf-8")))
+    total = len(json.loads((ev.fichiers / graphe_n1.ECHANTILLON).read_text(encoding="utf-8")))
     typer.echo(f"Relations jugées par le métier : {len(lignes)} sur {total}.")
     if lignes:
         typer.echo(f"Justesse du graphe : {sum(l.valeur for l in lignes) / len(lignes):.0%}. "
@@ -242,8 +247,8 @@ def evaluer_reponse(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_l
     langfuse = None if sans_langfuse else client_langfuse(config)
     resultat = publication.publier(ev, 3, lignes, langfuse)
     visibles = lambda objets: [o for o in objets if not ev.reservee(o["question_id"])]  # noqa: E731
-    contrat.ecrire_jsonl(ev.dossier / "croisement.jsonl", visibles(croisement))
-    contrat.ecrire_jsonl(ev.dossier / "relecture.jsonl", visibles(file))
+    contrat.ecrire_jsonl(ev.fichiers / "croisement.jsonl", visibles(croisement))
+    contrat.ecrire_jsonl(ev.fichiers / "relecture.jsonl", visibles(file))
     typer.echo(f"3. Réponse — {ev.evaluation_id} → {ev.dossier}")
     afficher_scores(resultat, 3)
     diagnostics: dict[str, int] = {}
@@ -271,7 +276,7 @@ def verifier_juge(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
     config, ev = preparer(corpus, rag)
     langfuse = client_langfuse(config)
     traces = publication.experience_langfuse(ev, langfuse).get("traces", {})
-    chemin = ev.dossier / "verification_juge.json"
+    chemin = ev.fichiers / "verification_juge.json"
     with Session(base.moteur(config["chemins"]["base"])) as session:
         verdicts = {r.question_id: r.verdict for r in session.scalars(select(base.Resultat).where(
             base.Resultat.evaluation_id == ev.evaluation_id, base.Resultat.score == "n3_exactitude",
@@ -297,7 +302,7 @@ def verifier_juge(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG,
     metier = {q: par_trace[traces[q]] for q in ids if traces[q] in par_trace}
     r = relecture.accord({q: verdicts[q] for q in ids}, metier)
     r["valide"] = r["accord"] is not None and len(metier) == len(ids) and r["accord"] >= v["accord_minimum"]
-    (ev.dossier / "verification_juge_resultat.json").write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n",
+    (ev.fichiers / "verification_juge_resultat.json").write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n",
                                                                  encoding="utf-8")
     typer.echo(f"Notes du métier : {len(metier)} sur {len(ids)}.")
     if r["n"]:
@@ -316,7 +321,7 @@ def afficher_decision(resultat: dict, ev) -> None:
     for x in d["seuils"]:
         if x["atteint"] is False and x["score"] not in bloquants:
             typer.echo(f"    seuil non atteint : {x['score']} = {x['valeur']} (seuil {x['seuil']})")
-    typer.echo(f"  Rapport : {ev.dossier / 'RAPPORT.md'} (et rapport.html, la même chose en page web)")
+    typer.echo(f"  Rapport : {ev.dossier / 'RAPPORT.md'}")
 
 
 @app.command("evaluer-bout-en-bout")
@@ -331,10 +336,10 @@ def evaluer_bout_en_bout(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, s
 
 @app.command()
 def evaluer(corpus: Path = OPTION_CORPUS,
-            rag: str = typer.Option(None, help="l'adresse de la porte du RAG (http://…), ou un dossier sorties_rag/<version>/ "
+            rag: str = typer.Option(None, help="l'adresse de les endpoints du RAG (http://…), ou un dossier reponses_du_rag/<version>/ "
                                                "déjà rempli ; par défaut, l'adresse de config/kit.yaml"),
             sans_langfuse: bool = OPTION_LANGFUSE):
-    """Évalue un RAG de bout en bout : appelle ses quatre portes, puis enchaîne les évaluations 1 à 4 ; écrit les scores
+    """Évalue un RAG de bout en bout : appelle ses quatre endpoints, puis enchaîne les évaluations 1 à 4 ; écrit les scores
     et le rapport (RAPPORT.md, rapport.html), et publie dans Langfuse."""
     config = charger_config()
     corpus = corpus or le_plus_recent(config, "corpus")
@@ -347,10 +352,10 @@ def evaluer(corpus: Path = OPTION_CORPUS,
 
 
 @app.command()
-def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=False, help="resultats/<evaluation_a>/"),
-             evaluation_b: Path = typer.Argument(..., exists=True, file_okay=False, help="resultats/<evaluation_b>/")):
+def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=False, help="resultats/evaluations/<evaluation_a>/"),
+             evaluation_b: Path = typer.Argument(..., exists=True, file_okay=False, help="resultats/evaluations/<evaluation_b>/")):
     """Compare deux configurations déjà évaluées sur le même corpus : écarts de scores, questions gagnées et perdues,
-    test de McNemar. Écrit sorties/comparaisons/<A>_contre_<B>/ : RAPPORT.md et comparaison.json."""
+    test de McNemar. Écrit resultats/comparaisons_de_configurations/<A>_contre_<B>/ : RAPPORT.md, et comparaison.json."""
     import json
 
     config = charger_config()
@@ -368,8 +373,8 @@ def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=Fal
         typer.echo(f"  {x['score']:<28} {nombre(x['a']):>8} {nombre(x['b']):>8} {nombre(x['ecart'], '+'):>8}  "
                    f"{marge}{signe}")
     questions = {}
-    dossier_corpus = Path(config["chemins"]["sorties"]) / "corpus" / json.loads(
-        (evaluation_a / "evaluation.json").read_text(encoding="utf-8"))["version_corpus"]
+    dossier_corpus = Path(config["chemins"]["resultats"]) / "corpus" / json.loads(
+        (evaluation_a / "fichiers_techniques" / "evaluation.json").read_text(encoding="utf-8"))["version_corpus"]
     if (dossier_corpus / "questions.jsonl").exists():
         questions = {q["question_id"]: q for q in contrat.lire_jsonl(dossier_corpus / "questions.jsonl")}
     for score, q in r["questions"].items():
@@ -383,10 +388,11 @@ def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=Fal
             typer.echo(f"    perdues : {', '.join(q['perdues'])}"
                        + (f"  — RÉGRESSION sur une question grave : {', '.join(graves)}" if graves else ""))
     # Une comparaison n'appartient à aucune des deux évaluations : elle a son propre dossier.
-    dossier = (Path(config["chemins"]["sorties"]) / "comparaisons" /
+    dossier = (Path(config["chemins"]["resultats"]) / "comparaisons_de_configurations" /
                f"{evaluation_a.name}_contre_{r['rag_b']['version_rag']}")
     dossier.mkdir(parents=True, exist_ok=True)
-    (dossier / "comparaison.json").write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (dossier / "fichiers_techniques").mkdir(exist_ok=True)
+    (dossier / "fichiers_techniques" / "comparaison.json").write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (dossier / "RAPPORT.md").write_text(comparaison.markdown(r, questions), encoding="utf-8")
     typer.echo(f"\n  Rapport : {dossier / 'RAPPORT.md'}")
 

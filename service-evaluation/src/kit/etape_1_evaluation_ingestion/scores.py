@@ -75,16 +75,16 @@ def evaluer(ev: Evaluation) -> tuple[list[Ligne], list[Lien], list[dict]]:
 
 
 def enregistrer(ev: Evaluation, liens: list[Lien], non_rattaches: list[dict]) -> None:
-    """liens_index.jsonl et passages_non_rattaches.jsonl dans resultats/<evaluation_id>/, et les liens dans la base."""
+    """liens_index.jsonl et passages_non_rattaches.jsonl dans resultats/evaluations/<evaluation_id>/fichiers_techniques/, et les liens dans la base."""
     from sqlalchemy import delete
     from sqlalchemy.orm import Session
 
     from kit import base
     from kit import contrat
 
-    ev.dossier.mkdir(parents=True, exist_ok=True)
-    contrat.ecrire_jsonl(ev.dossier / "liens_index.jsonl", (vars(l) for l in liens))
-    contrat.ecrire_jsonl(ev.dossier / "passages_non_rattaches.jsonl", non_rattaches)
+    ev.fichiers.mkdir(parents=True, exist_ok=True)
+    contrat.ecrire_jsonl(ev.fichiers / "liens_index.jsonl", (vars(l) for l in liens))
+    contrat.ecrire_jsonl(ev.fichiers / "passages_non_rattaches.jsonl", non_rattaches)
     versions = {l.version_index for l in liens}
     with Session(base.moteur(ev.config["chemins"]["base"])) as session:
         session.execute(delete(base.LienIndex).where(base.LienIndex.version_corpus == ev.version_corpus,
@@ -97,7 +97,7 @@ def lire_liens(ev: Evaluation) -> list[dict]:
     """Les liens écrits par le niveau 1 (nécessaires aux niveaux 2 et 3)."""
     from kit import contrat
 
-    chemin = ev.dossier / "liens_index.jsonl"
+    chemin = ev.fichiers / "liens_index.jsonl"
     if not chemin.exists():
         raise FileNotFoundError(f"{chemin} absent : lancer d'abord « kit evaluer-ingestion ».")
     return contrat.lire_jsonl(chemin)

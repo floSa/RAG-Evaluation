@@ -1,6 +1,6 @@
 """Import du fichier Excel du métier (document 1) dans le kit.
 
-Étapes : lire les feuilles, convertir les libellés en codes (documentation/reference/contrat_des_fichiers.md, section 1),
+Étapes : lire les feuilles, convertir les libellés en codes (documentation/methode_et_contrat/contrat_des_fichiers.md, section 1),
 contrôler chaque ligne (section 2), puis, si aucune ligne n'est rejetée :
 écrire dans la base, exporter corpus/<version_corpus>/ et créer le jeu de données Langfuse.
 
@@ -241,7 +241,7 @@ def convertir(ligne: Ligne, listes: dict, erreurs: list[str]) -> None:
 
 def controler(documents: list[Ligne], questions: list[Ligne], passages: list[Ligne], pages_ocr: list[Ligne],
               erreurs: list[str]) -> None:
-    """Contrôles de cohérence entre feuilles (documentation/reference/contrat_des_fichiers.md, section 2)."""
+    """Contrôles de cohérence entre feuilles (documentation/methode_et_contrat/contrat_des_fichiers.md, section 2)."""
     docs = {d.champs["reference_source"]: d.champs for d in documents}
     vus = {}
     for d in documents:
@@ -382,7 +382,7 @@ def nouvelle_version(session: Session, aujourd_hui: str) -> str:
 # --- Écritures -----------------------------------------------------------------------------
 
 def sans_vide(objet: dict) -> dict:
-    """Un champ facultatif absent est omis (documentation/reference/contrat_des_fichiers.md, section 1)."""
+    """Un champ facultatif absent est omis (documentation/methode_et_contrat/contrat_des_fichiers.md, section 1)."""
     return {k: v for k, v in objet.items() if v is not None and v != {}}
 
 
@@ -405,7 +405,7 @@ def ecrire_base(session: Session, corpus: dict, documents, questions, passages, 
 
 
 def creer_jeu_langfuse(langfuse, corpus: dict, questions: list[dict]) -> str:
-    """Jeu de données `corpus-<projet>-<version_corpus>` : un élément par question (documentation/reference/contrat_des_fichiers.md, section 4)."""
+    """Jeu de données `corpus-<projet>-<version_corpus>` : un élément par question (documentation/methode_et_contrat/contrat_des_fichiers.md, section 4)."""
     nom = f"corpus-{corpus['projet']}-{corpus['version_corpus']}"
     langfuse.create_dataset(name=nom, description=f"Corpus importé de {corpus['fichier_source']}",
                             metadata={"contrat": corpus["contrat"], "version_corpus": corpus["version_corpus"]})
@@ -433,7 +433,7 @@ class Resultat:
     jeu_langfuse: str | None = None
 
 
-def importer(chemin: Path, adresse_base: str, dossier_sorties: Path, projet: str, langfuse=None,
+def importer(chemin: Path, adresse_base: str, dossier_resultats: Path, projet: str, langfuse=None,
              aujourd_hui: str | None = None) -> Resultat:
     """Importe le fichier Excel. `langfuse` : un client Langfuse, ou None pour ne pas créer le jeu de données."""
     aujourd_hui = aujourd_hui or dt.date.today().isoformat()
@@ -470,7 +470,7 @@ def importer(chemin: Path, adresse_base: str, dossier_sorties: Path, projet: str
     with Session(moteur) as session:
         existante = session.scalar(select(base.Corpus).where(base.Corpus.fichier_source == signature))
         if existante:  # même fichier, octet pour octet : pas de nouvelle version
-            dossier = dossier_sorties / "corpus" / existante.version_corpus
+            dossier = dossier_resultats / "corpus" / existante.version_corpus
             resultat = Resultat(existante.version_corpus, [], [], dossier, deja_importe=True)
             if langfuse is not None:  # le jeu de données est recréé à l'identique (identifiants stables)
                 deja = contrat.charger_corpus(dossier)
@@ -483,7 +483,7 @@ def importer(chemin: Path, adresse_base: str, dossier_sorties: Path, projet: str
                                              for c in map(code_profil, libres)})}
         ecrire_base(session, corpus, docs, qs, ps, ocr)
         session.commit()
-    dossier = dossier_sorties / "corpus" / corpus["version_corpus"]
+    dossier = dossier_resultats / "corpus" / corpus["version_corpus"]
     exporter(dossier, corpus, docs, qs, ps, ocr)
     resultat = Resultat(corpus["version_corpus"], [], avertissements_configuration(docs, qs, ps, ocr), dossier)
     if langfuse is not None:

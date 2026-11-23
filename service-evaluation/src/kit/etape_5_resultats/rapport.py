@@ -77,6 +77,7 @@ NIVEAUX = {
                         "trop cher."),
 }
 FICHIERS = [
+    ("rapport.html", "ce rapport, en page web"),
     ("scores.json", "tous les scores, avec leur marge d'erreur et leur détail par type de document, de question…"),
     ("resultats_par_question.csv", "une ligne par question et par score, avec la justification du juge : "
                                    "à ouvrir dans un tableur"),
@@ -180,7 +181,7 @@ def que_corriger(diagnostic: str) -> str:
 
 
 def croisement(ev: Evaluation) -> list[tuple[str, int]]:
-    chemin = ev.dossier / "croisement.jsonl"
+    chemin = ev.fichiers / "croisement.jsonl"
     if not chemin.exists():
         return []
     compte: dict[str, int] = {}
@@ -304,7 +305,7 @@ def markdown(c: dict) -> str:
         m += ["", "## 5. Par type de document", "",
               *tableau(["Score", *c["types"]], [[nom, *cases] for nom, cases in c["lignes_types"]])]
     m += ["", "## Les fichiers techniques de cette évaluation", "",
-          "Ce rapport en est tiré. On ne les ouvre que pour creuser.", "",
+          "Ils sont dans `fichiers_techniques/`. Ce rapport en est tiré ; on ne les ouvre que pour creuser.", "",
           *tableau(["Fichier", "Contenu"], [[f"`{f}`", quoi] for f, quoi in FICHIERS]), ""]
     return "\n".join(m)
 
@@ -370,7 +371,8 @@ def page_html(c: dict) -> str:
 
 
 def ecrire(ev: Evaluation, resultat: dict, lignes_base) -> None:
-    """Écrit RAPPORT.md et rapport.html dans resultats/<evaluation_id>/."""
+    """Écrit RAPPORT.md dans le dossier de l'évaluation, et rapport.html dans fichiers_techniques/."""
     c = contenu(ev, resultat, lignes_base)
     (ev.dossier / "RAPPORT.md").write_text(markdown(c), encoding="utf-8")
-    (ev.dossier / "rapport.html").write_text(page_html(c), encoding="utf-8")
+    ev.fichiers.mkdir(parents=True, exist_ok=True)
+    (ev.fichiers / "rapport.html").write_text(page_html(c), encoding="utf-8")

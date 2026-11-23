@@ -9,7 +9,7 @@ from kit.commandes import le_plus_recent
 
 
 def test_le_plus_recent(tmp_path, capsys):
-    config = {"chemins": {"sorties": str(tmp_path)}}
+    config = {"chemins": {"resultats": str(tmp_path)}}
     for nom, date in (("2026-11-20.1", 1_000), ("2026-11-21.1", 2_000), ("vide", 3_000)):
         dossier = tmp_path / "corpus" / nom
         dossier.mkdir(parents=True)
@@ -22,4 +22,4 @@ def test_le_plus_recent(tmp_path, capsys):
 
 def test_rien_a_evaluer(tmp_path):
     with pytest.raises(typer.Exit):
-        le_plus_recent({"chemins": {"sorties": str(tmp_path)}}, "sorties_rag")
+        le_plus_recent({"chemins": {"resultats": str(tmp_path)}}, "reponses_du_rag")

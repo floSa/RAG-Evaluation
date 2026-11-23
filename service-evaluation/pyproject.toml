@@ -1,7 +1,7 @@
 [project]
 name = "kit-evaluation-rag"
 version = "0.1.0"
-description = "Service d'évaluation de RAG : corpus annoté, kit d'évaluation (commande kit). Il appelle la porte d'évaluation de n'importe quel RAG."
+description = "Service d'évaluation de RAG : corpus annoté, kit d'évaluation (commande kit). Il appelle les endpoints d'évaluation de n'importe quel RAG."
 requires-python = ">=3.12"
 dependencies = [
     "pyyaml>=6.0",
@@ -32,7 +32,7 @@ packages = ["src/kit"]
 
 [dependency-groups]
 dev = ["pytest>=8.0"]
-fabrication = [           # seulement pour refabriquer le corpus d'exemple (corpus_exemple/fabrication/)
+fabrication = [           # seulement pour refabriquer le corpus d'exemple (corpus_annote/fabrication_du_corpus/)
     "pillow>=13.0.0",
     "pypdfium2>=5.15.2",
     "reportlab>=5.1.0",

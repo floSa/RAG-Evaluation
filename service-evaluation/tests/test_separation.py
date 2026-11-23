@@ -1,6 +1,6 @@
 """Séparation stricte : le service d'évaluation n'importe rien d'un RAG.
 
-Il ne parle à un RAG que par sa porte d'évaluation, à une adresse web (src/kit/appel_du_rag/), ou par des fichiers.
+Il ne parle à un RAG que par ses endpoints d'évaluation, à une adresse web (src/kit/appel_du_rag/), ou par des fichiers.
 """
 
 import ast

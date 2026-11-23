@@ -1,6 +1,6 @@
-"""Le LLM juge du kit (documentation/reference/prompt_du_juge.md) : exactitude des réponses, point clé par point clé.
+"""Le LLM juge du kit (documentation/methode_et_contrat/prompt_du_juge.md) : exactitude des réponses, point clé par point clé.
 
-Le prompt est lu tel quel dans documentation/reference/prompt_du_juge.md (le même pour tous les projets). La sortie JSON est validée ;
+Le prompt est lu tel quel dans documentation/methode_et_contrat/prompt_du_juge.md (le même pour tous les projets). La sortie JSON est validée ;
 une sortie invalide est redemandée une fois, puis la question part en relecture. Le kit recalcule le verdict
 à partir des statuts ; en cas d'écart avec le verdict du juge, il garde le sien et envoie la question en relecture.
 """
@@ -13,14 +13,14 @@ from openai import OpenAI
 
 from kit.config import cle
 
-PROMPT_DU_JUGE = Path(__file__).resolve().parents[3] / "documentation" / "reference" / "prompt_du_juge.md"
+PROMPT_DU_JUGE = Path(__file__).resolve().parents[3] / "documentation" / "methode_et_contrat" / "prompt_du_juge.md"
 STATUTS = {"present", "absent", "contredit"}
 VERDICTS = {"juste", "partielle", "fausse"}
 VALEUR_VERDICT = {"juste": 1.0, "partielle": 0.5, "fausse": 0.0}
 
 
 def prompt_exactitude() -> str:
-    """Le bloc de code qui suit « ## Prompt d'exactitude » dans documentation/reference/prompt_du_juge.md."""
+    """Le bloc de code qui suit « ## Prompt d'exactitude » dans documentation/methode_et_contrat/prompt_du_juge.md."""
     texte = PROMPT_DU_JUGE.read_text(encoding="utf-8")
     section = texte.split("## Prompt d'exactitude", 1)[1]
     return re.search(r"```text\n(.*?)\n```", section, re.S)[1]

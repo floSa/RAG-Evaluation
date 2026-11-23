@@ -1,4 +1,4 @@
-"""Publication des résultats d'une évaluation : base, fichiers de resultats/<evaluation_id>/, Langfuse.
+"""Publication des résultats d'une évaluation : base, fichiers de resultats/evaluations/<evaluation_id>/, Langfuse.
 
 Chaque niveau produit des « lignes » : un score pour un objet (une question, un passage, un document, un chunk,
 une page OCR). La publication les range dans la base, puis recalcule depuis la base tous les scores globaux,
@@ -78,7 +78,8 @@ class Evaluation:
         self.rag = contrat.lire_json(self.dossier_rag / "rag.json")
         self.version_corpus = self.corpus["corpus"]["version_corpus"]
         self.evaluation_id = f"{self.version_corpus}_{self.rag['version_rag']}"
-        self.dossier = Path(config["chemins"]["sorties"]) / "resultats" / self.evaluation_id
+        self.dossier = Path(config["chemins"]["resultats"]) / "evaluations" / self.evaluation_id
+        self.fichiers = self.dossier / "fichiers_techniques"   # tout, sauf RAPPORT.md
         self.questions = {q["question_id"]: q for q in self.corpus["questions"]}
         self.documents = {d["reference_source"]: d for d in self.corpus["documents"]}
         self.passages = {p["passage_id"]: p for p in self.corpus["passages"]}
@@ -242,12 +243,12 @@ def publier(ev: Evaluation, niveau: int, lignes: list[Ligne], langfuse=None) -> 
 
 
 def ecrire_fichiers(ev: Evaluation, description: dict, resultat: dict, toutes) -> None:
-    ev.dossier.mkdir(parents=True, exist_ok=True)
-    (ev.dossier / "evaluation.json").write_text(json.dumps(description, ensure_ascii=False, indent=2) + "\n",
+    ev.fichiers.mkdir(parents=True, exist_ok=True)
+    (ev.fichiers / "evaluation.json").write_text(json.dumps(description, ensure_ascii=False, indent=2) + "\n",
                                                encoding="utf-8")
-    (ev.dossier / "scores.json").write_text(json.dumps({"evaluation_id": ev.evaluation_id, **resultat},
+    (ev.fichiers / "scores.json").write_text(json.dumps({"evaluation_id": ev.evaluation_id, **resultat},
                                                        ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    with (ev.dossier / "resultats_par_question.csv").open("w", encoding="utf-8", newline="") as f:
+    with (ev.fichiers / "resultats_par_question.csv").open("w", encoding="utf-8", newline="") as f:
         w = csv.writer(f)
         w.writerow(["evaluation_id", "question_id", "niveau", "score", "valeur", "detail"])
         for r in sorted(toutes, key=lambda r: (r.question_id or "", r.niveau, r.score, r.objet or "")):
@@ -266,7 +267,7 @@ def experience_langfuse(ev: Evaluation, langfuse) -> dict:
     réponses déjà produites par le RAG (aucun nouvel appel au RAG). Chaque trace de l'expérience garde l'identifiant
     de la trace du RAG (trace_rag), pour remonter à la recherche et à la génération.
     """
-    chemin = ev.dossier / "langfuse.json"
+    chemin = ev.fichiers / "langfuse.json"
     if chemin.exists():
         return json.loads(chemin.read_text(encoding="utf-8"))
     reponses = {r["question_id"]: r for r in ev.fichier_rag("reponses.jsonl")}

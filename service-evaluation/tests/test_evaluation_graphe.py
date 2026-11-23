@@ -4,7 +4,7 @@ from pathlib import Path
 
 from kit.etape_1_evaluation_ingestion import graphe
 
-FORMES = Path("corpus_exemple/ontologie/ontologie_formes.ttl")
+FORMES = Path("../service-evaluation-exemple/corpus_annote/ontologie/ontologie_formes.ttl")
 
 ENTETE = """@prefix vt: <https://valtera.exemple/ontologie#> .
 @prefix kit: <https://kit-eval-rag/ns#> .

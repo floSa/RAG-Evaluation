@@ -82,8 +82,8 @@ def test_accord_et_kappa():
 def ev(tmp_path_factory):
     tmp = tmp_path_factory.mktemp("n3")
     config = yaml.safe_load(Path("config/kit.yaml").read_text(encoding="utf-8"))
-    config["chemins"] = {"base": f"sqlite:///{tmp}/base.sqlite", "sorties": str(tmp), "seuils": "config/seuils.json"}
-    corpus = importer(Path("corpus_exemple/Corpus_evaluation_RAG.xlsx"), config["chemins"]["base"], tmp,
+    config["chemins"] = {"base": f"sqlite:///{tmp}/base.sqlite", "resultats": str(tmp), "seuils": "config/seuils.json"}
+    corpus = importer(Path("../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx"), config["chemins"]["base"], tmp,
                       "test").dossier
     questions = contrat.lire_jsonl(corpus / "questions.jsonl")
     rag = tmp / "rag"

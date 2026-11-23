@@ -15,7 +15,7 @@ from kit.etape_1_evaluation_ingestion import scores as scores_ingestion
 from kit.etape_5_resultats.publication import Evaluation
 
 SEUILS = {"texte_approche": 0.95, "tableau_mots": 0.90, "scanne_partiel": 0.90}
-EXEMPLE = Path("corpus_exemple/Corpus_evaluation_RAG.xlsx")
+EXEMPLE = Path("../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx")
 
 
 def passage(texte, type_element="texte", page="2", passage_id=1):
@@ -115,9 +115,9 @@ def evaluation(tmp_path):
     f.cell(ligne, 3).value = "4"
     classeur.save(faux_xlsx)
     config = yaml.safe_load(Path("config/kit.yaml").read_text(encoding="utf-8"))
-    config["chemins"] = {"base": f"sqlite:///{tmp_path}/base.sqlite", "sorties": str(tmp_path / "sorties"),
+    config["chemins"] = {"base": f"sqlite:///{tmp_path}/base.sqlite", "resultats": str(tmp_path / "resultats"),
                          "seuils": "config/seuils.json"}
-    faux = importer(faux_xlsx, config["chemins"]["base"], tmp_path / "sorties", "test").dossier
+    faux = importer(faux_xlsx, config["chemins"]["base"], tmp_path / "resultats", "test").dossier
     rag = tmp_path / "rag"
     rag.mkdir()
     (rag / "rag.json").write_text(json.dumps({"contrat": "1.0", "version_rag": "ideal", "k": 5}), encoding="utf-8")
