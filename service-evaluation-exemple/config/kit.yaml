@@ -1,0 +1,54 @@
+# Configuration du kit d'évaluation.
+# Aucune clé ici : les clés sont lues dans .env, sous le nom de variable indiqué.
+# Changer de fournisseur = changer « adresse » et « modele », sans toucher au code.
+
+projet: maintenance-electrique     # le nom du projet : il nomme le jeu de questions dans Langfuse
+
+# Les chemins sont relatifs au dossier du service (celui qui contient config/).
+chemins:
+  corpus_documentaire: corpus_annote/corpus_documentaire   # ce que le RAG doit lire, un fichier par référence : le kit l'envoie au RAG
+  resultats: resultats                  # corpus/, reponses_du_rag/, evaluations/, comparaisons_de_configurations/
+  base: sqlite:///resultats/base.sqlite # SQLAlchemy : postgresql+psycopg://… pour PostgreSQL
+  seuils: config/seuils.json
+
+# Le RAG évalué : l'adresse de ses endpoints d'évaluation (documentation/0b_endpoints_du_rag.md)
+rag:
+  adresse: http://127.0.0.1:8100
+
+# Point d'accès compatible OpenAI (ici LLM-Service, LiteLLM local)
+modeles:
+  adresse: http://127.0.0.1:8080/v1
+  variable_cle: KIT_LLM_CLE
+  juge:
+    modele: chat                 # qwen3.5-4b ; différent du modèle de génération du RAG (prompt du juge)
+    temperature: 0
+    version_prompt: "1.0"        # version du prompt de documentation/methode_et_contrat/prompt_du_juge.md
+    sans_reflexion: true         # chat_template_kwargs.enable_thinking = false
+    max_tokens: 2048
+  embeddings:
+    modele: embed                # bge-m3, utile aux scores Ragas qui en demandent
+
+langfuse:
+  variable_adresse: LANGFUSE_BASE_URL
+  variable_cle_publique: LANGFUSE_PUBLIC_KEY
+  variable_cle_secrete: LANGFUSE_SECRET_KEY
+
+# Évaluation 1 (ingestion) : seuils de ressemblance du rattachement (document 3, section 6)
+rattachement:
+  texte_approche: 0.95       # texte et fiche de base, si le chunk ne contient pas le passage
+  tableau_mots: 0.90         # tableau : mêmes mots, dans n'importe quel ordre
+  scanne_partiel: 0.90       # texte scanné : une partie du chunk ressemble au passage
+
+# Évaluation 1 (ingestion), si le RAG a un graphe (document 3, section 6)
+graphe:
+  formes: corpus_annote/ontologie/ontologie_formes.ttl   # les règles SHACL de l'ontologie du projet (seulement si le RAG a un graphe)
+  taille_echantillon: 50     # relations envoyées au métier (file justesse-graphe)
+
+# Évaluation 3 (réponse)
+reponse:
+  seuil_non_fidele: 1.0      # fidélité Ragas sous ce seuil = réponse non fidèle (erreurs graves) ; 1.0 = une seule affirmation non appuyée suffit
+
+# Vérification du juge (prompt du juge)
+verification_juge:
+  taille_echantillon: 30
+  accord_minimum: 0.9

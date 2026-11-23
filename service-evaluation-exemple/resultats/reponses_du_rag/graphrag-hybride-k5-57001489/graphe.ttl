@@ -1,0 +1,3787 @@
+@prefix kit: <https://kit-eval-rag/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vt: <https://valtera.exemple/ontologie#> .
+
+vt:entite-ad-a a vt:Equipement ;
+    rdfs:label "AD-A" ;
+    kit:page "1" ;
+    kit:referenceSource "NT-066" .
+
+vt:entite-ad-a06 a vt:Equipement ;
+    rdfs:label "AD-A06" ;
+    kit:page "2" ;
+    kit:referenceSource "NT-031" .
+
+vt:entite-ad-b a vt:Equipement ;
+    rdfs:label "AD-B" ;
+    kit:page "1" ;
+    kit:referenceSource "NT-066" .
+
+vt:entite-armoire a vt:Equipement ;
+    rdfs:label "armoire" ;
+    kit:page "2" ;
+    kit:referenceSource "NT-034" .
+
+vt:entite-controleur-d-installation a vt:Equipement ;
+    rdfs:label "Contrôleur d'installation" ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1115" .
+
+vt:entite-p-verdier a vt:Personne ;
+    rdfs:label "P.Verdier" ;
+    kit:page "4" ;
+    kit:referenceSource "NT-040" .
+
+vt:entite-pince-amperemetrique-de-fuite a vt:Equipement ;
+    rdfs:label "Pince ampèremétrique de fuite" ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1115" .
+
+vt:entite-pr-1113 a vt:Equipement ;
+    rdfs:label "PR-1113" ;
+    kit:page "Actions réalisées" ;
+    kit:referenceSource "OT-24108" .
+
+vt:entite-responsable-exploitation a vt:Personne ;
+    rdfs:label "Responsable Exploitation" ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1105",
+        "PR-1109",
+        "PR-1115" .
+
+vt:entite-s-lenoir a vt:Personne ;
+    rdfs:label "S. Lenoir" ;
+    kit:page "4" ;
+    kit:referenceSource "NT-038" .
+
+vt:entite-service-des-ressources-humaines a vt:Personne ;
+    rdfs:label "service des ressources humaines" ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1112" .
+
+vt:relation-1 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-10 a rdf:Statement ;
+    rdf:object vt:entite-tr-a2 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "4" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-100 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-101 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b01 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-102 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b09 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-103 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-sophie-lenoir ;
+    kit:page "2" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-104 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-060" .
+
+vt:relation-105 a rdf:Statement ;
+    rdf:object vt:entite-ge-a ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-060" .
+
+vt:relation-106 a rdf:Statement ;
+    rdf:object vt:entite-ond-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-technicien ;
+    kit:page "2" ;
+    kit:referenceSource "NT-060" .
+
+vt:relation-107 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a05 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-062" .
+
+vt:relation-108 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-062" .
+
+vt:relation-109 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-062" .
+
+vt:relation-11 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-h-morvan ;
+    kit:page "4" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-110 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b05 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-062" .
+
+vt:relation-111 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-062" .
+
+vt:relation-112 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-062" .
+
+vt:relation-113 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-062" .
+
+vt:relation-114 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-site-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-062" .
+
+vt:relation-115 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-066" .
+
+vt:relation-116 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-066" .
+
+vt:relation-117 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-066" .
+
+vt:relation-118 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-066" .
+
+vt:relation-119 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-066" .
+
+vt:relation-12 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-120 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-066" .
+
+vt:relation-121 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-066" .
+
+vt:relation-122 a rdf:Statement ;
+    rdf:object vt:entite-cpi-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-helene-morvan ;
+    kit:page "2" ;
+    kit:referenceSource "NT-066" .
+
+vt:relation-123 a rdf:Statement ;
+    rdf:object vt:entite-equipement ;
+    rdf:predicate vt:protege ;
+    rdf:subject vt:entite-disjoncteur ;
+    kit:page "1" ;
+    kit:referenceSource "NT-068" .
+
+vt:relation-124 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-068" .
+
+vt:relation-125 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-070" .
+
+vt:relation-126 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-070" .
+
+vt:relation-127 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "1" ;
+    kit:referenceSource "NT-070" .
+
+vt:relation-128 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-070" .
+
+vt:relation-129 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a07 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24101" .
+
+vt:relation-13 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b01 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-130 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a07 ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24101" .
+
+vt:relation-131 a rdf:Statement ;
+    rdf:object vt:entite-ad-a07 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-paul-verdier ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24101" .
+
+vt:relation-132 a rdf:Statement ;
+    rdf:object vt:entite-ad-a07 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-thomas-rigaud ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24101" .
+
+vt:relation-133 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b04 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24102" .
+
+vt:relation-134 a rdf:Statement ;
+    rdf:object vt:entite-ad-b04 ;
+    rdf:predicate vt:protege ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "Équipement" ;
+    kit:referenceSource "OT-24102" .
+
+vt:relation-135 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b04 ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24102" .
+
+vt:relation-136 a rdf:Statement ;
+    rdf:object vt:entite-ad-b04 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-sophie-lenoir ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24102" .
+
+vt:relation-137 a rdf:Statement ;
+    rdf:object vt:entite-ad-b04 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-lucie-ferrand ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24102" .
+
+vt:relation-138 a rdf:Statement ;
+    rdf:object vt:entite-ad-b04 ;
+    rdf:predicate vt:protege ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "Actions réalisées" ;
+    kit:referenceSource "OT-24102" .
+
+vt:relation-139 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24103" .
+
+vt:relation-14 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b02 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-140 a rdf:Statement ;
+    rdf:object vt:entite-ge-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-karim-benali ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24103" .
+
+vt:relation-141 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "Date de l'intervention" ;
+    kit:referenceSource "OT-24104" .
+
+vt:relation-142 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24104" .
+
+vt:relation-143 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24104" .
+
+vt:relation-144 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "Équipement" ;
+    kit:referenceSource "OT-24104" .
+
+vt:relation-145 a rdf:Statement ;
+    rdf:object vt:entite-tr-a2 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-karim-benali ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24104" .
+
+vt:relation-146 a rdf:Statement ;
+    rdf:object vt:entite-tr-a2 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-thomas-rigaud ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24104" .
+
+vt:relation-147 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "Actions réalisées" ;
+    kit:referenceSource "OT-24104" .
+
+vt:relation-148 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Actions réalisées" ;
+    kit:referenceSource "OT-24104" .
+
+vt:relation-149 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a03 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24105" .
+
+vt:relation-15 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b03 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-150 a rdf:Statement ;
+    rdf:object vt:entite-ad-a03 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-helene-morvan ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24105" .
+
+vt:relation-151 a rdf:Statement ;
+    rdf:object vt:entite-ad-a03 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-thomas-rigaud ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24105" .
+
+vt:relation-152 a rdf:Statement ;
+    rdf:object vt:entite-ad-a03 ;
+    rdf:predicate vt:protege ;
+    rdf:subject vt:entite-disjoncteur ;
+    kit:page "Pièces remplacées" ;
+    kit:referenceSource "OT-24105" .
+
+vt:relation-153 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b07 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24106" .
+
+vt:relation-154 a rdf:Statement ;
+    rdf:object vt:entite-ad-b07 ;
+    rdf:predicate vt:protege ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "Équipement" ;
+    kit:referenceSource "OT-24106" .
+
+vt:relation-155 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b07 ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24106" .
+
+vt:relation-156 a rdf:Statement ;
+    rdf:object vt:entite-ad-b07 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-sophie-lenoir ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24106" .
+
+vt:relation-157 a rdf:Statement ;
+    rdf:object vt:entite-ad-b07 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-lucie-ferrand ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24106" .
+
+vt:relation-158 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24107" .
+
+vt:relation-159 a rdf:Statement ;
+    rdf:object vt:entite-ond-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-karim-benali ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24107" .
+
+vt:relation-16 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b04 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-160 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b04 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24108" .
+
+vt:relation-161 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b04 ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24108" .
+
+vt:relation-162 a rdf:Statement ;
+    rdf:object vt:entite-ad-b04 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-sophie-lenoir ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24108" .
+
+vt:relation-163 a rdf:Statement ;
+    rdf:object vt:entite-ad-b04 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-lucie-ferrand ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24108" .
+
+vt:relation-164 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Numéro OT" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-165 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Date de l'intervention" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-166 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-167 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Équipement" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-168 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Type d'intervention" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-169 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-17 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b05 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-170 a rdf:Statement ;
+    rdf:object vt:entite-tr-a1 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-helene-morvan ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-171 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-172 a rdf:Statement ;
+    rdf:object vt:entite-tr-a1 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-nadia-coste ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-173 a rdf:Statement ;
+    rdf:object vt:entite-tr-a1 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-karim-benali ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-174 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Durée (heures)" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-175 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Symptôme constaté" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-176 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Diagnostic" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-177 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Actions réalisées" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-178 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Pièces remplacées" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-179 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Procédure appliquée" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-18 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-180 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Coût des pièces (€ HT)" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-181 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Remise en service" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-182 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "Suite à donner" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-183 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Suite à donner" ;
+    kit:referenceSource "OT-24109" .
+
+vt:relation-184 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24110" .
+
+vt:relation-185 a rdf:Statement ;
+    rdf:object vt:entite-ond-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-karim-benali ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24110" .
+
+vt:relation-186 a rdf:Statement ;
+    rdf:object vt:entite-ond-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-thomas-rigaud ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24110" .
+
+vt:relation-187 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24111" .
+
+vt:relation-188 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24111" .
+
+vt:relation-189 a rdf:Statement ;
+    rdf:object vt:entite-ge-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-sophie-lenoir ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24111" .
+
+vt:relation-19 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-190 a rdf:Statement ;
+    rdf:object vt:entite-ge-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-lucie-ferrand ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24111" .
+
+vt:relation-191 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a07 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24112" .
+
+vt:relation-192 a rdf:Statement ;
+    rdf:object vt:entite-ad-a07 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-thomas-rigaud ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24112" .
+
+vt:relation-193 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "Équipement" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-194 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b01 ;
+    kit:page "Équipement" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-195 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b09 ;
+    kit:page "Équipement" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-196 a rdf:Statement ;
+    rdf:object vt:entite-ad-a03 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-lucie-ferrand ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-197 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "Diagnostic" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-198 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Diagnostic" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-199 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b02 ;
+    kit:page "Diagnostic" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-2 a rdf:Statement ;
+    rdf:object vt:entite-demi-jeu-de-barres ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-transformateur ;
+    kit:page "1" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-20 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-200 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b08 ;
+    kit:page "Diagnostic" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-201 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Suite à donner" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-202 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "Suite à donner" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-203 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b02 ;
+    kit:page "Suite à donner" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-204 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b08 ;
+    kit:page "Suite à donner" ;
+    kit:referenceSource "OT-24113" .
+
+vt:relation-205 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Numéro OT" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-206 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Date de l'intervention" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-207 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-208 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Équipement" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-209 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Type d'intervention" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-21 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b01 ;
+    kit:page "3" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-210 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-211 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-212 a rdf:Statement ;
+    rdf:object vt:entite-tr-b1 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-nadia-coste ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-213 a rdf:Statement ;
+    rdf:object vt:entite-tr-b1 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-karim-benali ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-214 a rdf:Statement ;
+    rdf:object vt:entite-tr-b1 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-lucie-ferrand ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-215 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Durée (heures)" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-216 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Symptôme constaté" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-217 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Diagnostic" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-218 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Actions réalisées" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-219 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "Actions réalisées" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-22 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b02 ;
+    kit:page "3" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-220 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Pièces remplacées" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-221 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Procédure appliquée" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-222 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Coût des pièces (€ HT)" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-223 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Remise en service" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-224 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "Suite à donner" ;
+    kit:referenceSource "OT-24114" .
+
+vt:relation-225 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Numéro OT" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-226 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Date de l'intervention" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-227 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-228 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-229 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Équipement" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-23 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b03 ;
+    kit:page "3" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-230 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Type d'intervention" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-231 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-helene-morvan ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-232 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-lucie-ferrand ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-233 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Diagnostic" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-234 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Actions réalisées" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-235 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Pièces remplacées" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-236 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Coût des pièces (€ HT)" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-237 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "Suite à donner" ;
+    kit:referenceSource "OT-24115" .
+
+vt:relation-238 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b02 ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24116" .
+
+vt:relation-239 a rdf:Statement ;
+    rdf:object vt:entite-ad-b02 ;
+    rdf:predicate vt:protege ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "Équipement" ;
+    kit:referenceSource "OT-24116" .
+
+vt:relation-24 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b04 ;
+    kit:page "3" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-240 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b02 ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24116" .
+
+vt:relation-241 a rdf:Statement ;
+    rdf:object vt:entite-ad-b02 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-sophie-lenoir ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24116" .
+
+vt:relation-242 a rdf:Statement ;
+    rdf:object vt:entite-ad-b02 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-lucie-ferrand ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24116" .
+
+vt:relation-243 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b02 ;
+    kit:page "Symptôme constaté" ;
+    kit:referenceSource "OT-24116" .
+
+vt:relation-244 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "Site" ;
+    kit:referenceSource "OT-24117" .
+
+vt:relation-245 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24117" .
+
+vt:relation-246 a rdf:Statement ;
+    rdf:object vt:entite-ge-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-paul-verdier ;
+    kit:page "Demandeur" ;
+    kit:referenceSource "OT-24117" .
+
+vt:relation-247 a rdf:Statement ;
+    rdf:object vt:entite-ge-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-karim-benali ;
+    kit:page "Intervenant(s)" ;
+    kit:referenceSource "OT-24117" .
+
+vt:relation-248 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a01 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-249 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a14 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-25 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b05 ;
+    kit:page "3" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-250 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b01 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-251 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b09 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-252 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-253 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-254 a rdf:Statement ;
+    rdf:object vt:entite-armoire-divisionnaire ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-255 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-armoire-divisionnaire ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-256 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-257 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a07 ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-258 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-259 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a03 ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-26 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b06 ;
+    kit:page "3" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-260 a rdf:Statement ;
+    rdf:object vt:entite-tgbt ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-nadia-coste ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1101" .
+
+vt:relation-261 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1102" .
+
+vt:relation-262 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1102" .
+
+vt:relation-263 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1102" .
+
+vt:relation-264 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-karim-benali ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1102" .
+
+vt:relation-265 a rdf:Statement ;
+    rdf:object vt:entite-transformateur ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1102" .
+
+vt:relation-266 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1102" .
+
+vt:relation-267 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1102" .
+
+vt:relation-268 a rdf:Statement ;
+    rdf:object vt:entite-transformateur ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1102" .
+
+vt:relation-269 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1102" .
+
+vt:relation-27 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b04 ;
+    kit:page "4" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-270 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1102" .
+
+vt:relation-271 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a01 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1103" .
+
+vt:relation-272 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a14 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1103" .
+
+vt:relation-273 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b01 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1103" .
+
+vt:relation-274 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b09 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1103" .
+
+vt:relation-275 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-thomas-rigaud ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1103" .
+
+vt:relation-276 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1103" .
+
+vt:relation-277 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-278 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-279 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-28 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "4" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-280 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a01 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-281 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a14 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-282 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-283 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-284 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-285 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-286 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b01 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-287 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b09 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-288 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-289 a rdf:Statement ;
+    rdf:object vt:entite-equipement ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-29 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b01 ;
+    kit:page "4" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-290 a rdf:Statement ;
+    rdf:object vt:entite-equipement ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1104-B" .
+
+vt:relation-291 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-292 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-293 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-294 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a01 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-295 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a14 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-296 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-297 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-298 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-299 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-3 a rdf:Statement ;
+    rdf:object vt:entite-demi-jeu-de-barres ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-disjoncteur ;
+    kit:page "1" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-30 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b02 ;
+    kit:page "4" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-300 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b01 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-301 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b09 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-302 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-303 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-304 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-305 a rdf:Statement ;
+    rdf:object vt:entite-equipement ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-bureau-d-etudes ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1104-C" .
+
+vt:relation-306 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1105" .
+
+vt:relation-307 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1105" .
+
+vt:relation-308 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-paul-verdier ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1105" .
+
+vt:relation-309 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-sophie-lenoir ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1105" .
+
+vt:relation-31 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b07 ;
+    kit:page "4" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-310 a rdf:Statement ;
+    rdf:object vt:entite-ge-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-technicien ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1105" .
+
+vt:relation-311 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-bureau-d-etudes ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-312 a rdf:Statement ;
+    rdf:object vt:entite-ad-a01 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-bureau-d-etudes ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-313 a rdf:Statement ;
+    rdf:object vt:entite-ad-a14 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-bureau-d-etudes ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-314 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-bureau-d-etudes ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-315 a rdf:Statement ;
+    rdf:object vt:entite-ad-b01 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-bureau-d-etudes ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-316 a rdf:Statement ;
+    rdf:object vt:entite-ad-b09 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-bureau-d-etudes ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-317 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-technicien ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-318 a rdf:Statement ;
+    rdf:object vt:entite-ad-a01 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-technicien ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-319 a rdf:Statement ;
+    rdf:object vt:entite-ad-a14 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-technicien ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-32 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b09 ;
+    kit:page "4" ;
+    kit:referenceSource "NT-034" .
+
+vt:relation-320 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-technicien ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-321 a rdf:Statement ;
+    rdf:object vt:entite-ad-b01 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-technicien ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-322 a rdf:Statement ;
+    rdf:object vt:entite-ad-b09 ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-technicien ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-323 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-324 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-325 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-326 a rdf:Statement ;
+    rdf:object vt:entite-disjoncteur ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-disjoncteur ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1106" .
+
+vt:relation-327 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1107" .
+
+vt:relation-328 a rdf:Statement ;
+    rdf:object vt:entite-ond-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-karim-benali ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1107" .
+
+vt:relation-329 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1108" .
+
+vt:relation-33 a rdf:Statement ;
+    rdf:object vt:entite-tr-b1 ;
+    rdf:predicate vt:protege ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "3" ;
+    kit:referenceSource "NT-038" .
+
+vt:relation-330 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b01 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1108" .
+
+vt:relation-331 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b09 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1108" .
+
+vt:relation-332 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-site-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1108" .
+
+vt:relation-333 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1108" .
+
+vt:relation-334 a rdf:Statement ;
+    rdf:object vt:entite-cpi-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-technicien ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1108" .
+
+vt:relation-335 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-sophie-lenoir ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1108" .
+
+vt:relation-336 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1108" .
+
+vt:relation-337 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1108" .
+
+vt:relation-338 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1108" .
+
+vt:relation-339 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1109" .
+
+vt:relation-34 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-040" .
+
+vt:relation-340 a rdf:Statement ;
+    rdf:object vt:entite-armoire-divisionnaire ;
+    rdf:predicate vt:protege ;
+    rdf:subject vt:entite-disjoncteur ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1110" .
+
+vt:relation-341 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-342 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-343 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-344 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-345 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-inv-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-346 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-347 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-inv-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-348 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-349 a rdf:Statement ;
+    rdf:object vt:entite-inv-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-35 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-040" .
+
+vt:relation-350 a rdf:Statement ;
+    rdf:object vt:entite-inv-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-351 a rdf:Statement ;
+    rdf:object vt:entite-inv-a ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-352 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-inv-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-353 a rdf:Statement ;
+    rdf:object vt:entite-ond-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-inv-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-354 a rdf:Statement ;
+    rdf:object vt:entite-ge-b ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-inv-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-355 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-356 a rdf:Statement ;
+    rdf:object vt:entite-tgbt ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-357 a rdf:Statement ;
+    rdf:object vt:entite-ge-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-technicien ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-358 a rdf:Statement ;
+    rdf:object vt:entite-ge-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-responsable ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-359 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1111" .
+
+vt:relation-36 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-040" .
+
+vt:relation-360 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-karim-benali ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1112" .
+
+vt:relation-361 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-lucie-ferrand ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1112" .
+
+vt:relation-362 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-thomas-rigaud ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1112" .
+
+vt:relation-363 a rdf:Statement ;
+    rdf:object vt:entite-deux-sites ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-nadia-coste ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1112" .
+
+vt:relation-364 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1113" .
+
+vt:relation-365 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1113" .
+
+vt:relation-366 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1113" .
+
+vt:relation-367 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1114" .
+
+vt:relation-368 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1114" .
+
+vt:relation-369 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "3" ;
+    kit:referenceSource "PR-1115" .
+
+vt:relation-37 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-040" .
+
+vt:relation-370 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1116" .
+
+vt:relation-371 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1116" .
+
+vt:relation-372 a rdf:Statement ;
+    rdf:object vt:entite-ad-a03 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1116" .
+
+vt:relation-373 a rdf:Statement ;
+    rdf:object vt:entite-ad-a03 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1116" .
+
+vt:relation-374 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a03 ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1116" .
+
+vt:relation-375 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-paul-verdier ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1116" .
+
+vt:relation-376 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-sophie-lenoir ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1116" .
+
+vt:relation-377 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1116" .
+
+vt:relation-38 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-051" .
+
+vt:relation-39 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-051" .
+
+vt:relation-4 a rdf:Statement ;
+    rdf:object vt:entite-ad-a01 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-40 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-051" .
+
+vt:relation-41 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-relais-de-protection ;
+    kit:page "1" ;
+    kit:referenceSource "NT-051" .
+
+vt:relation-42 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-relais-de-protection ;
+    kit:page "1" ;
+    kit:referenceSource "NT-051" .
+
+vt:relation-43 a rdf:Statement ;
+    rdf:object vt:entite-relais-de-protection ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-helene-morvan ;
+    kit:page "1" ;
+    kit:referenceSource "NT-051" .
+
+vt:relation-44 a rdf:Statement ;
+    rdf:object vt:entite-relais-de-protection ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-electrotech-conseil ;
+    kit:page "1" ;
+    kit:referenceSource "NT-051" .
+
+vt:relation-45 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-051" .
+
+vt:relation-46 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-053" .
+
+vt:relation-47 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "1" ;
+    kit:referenceSource "NT-053" .
+
+vt:relation-48 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-053" .
+
+vt:relation-49 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-053" .
+
+vt:relation-5 a rdf:Statement ;
+    rdf:object vt:entite-ad-al4 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-50 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-053" .
+
+vt:relation-51 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-053" .
+
+vt:relation-52 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-053" .
+
+vt:relation-53 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-053" .
+
+vt:relation-54 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:intervientSur ;
+    rdf:subject vt:entite-helene-morvan ;
+    kit:page "2" ;
+    kit:referenceSource "NT-053" .
+
+vt:relation-55 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-56 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-57 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a07 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-58 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a11 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-59 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-6 a rdf:Statement ;
+    rdf:object vt:entite-ad-a07 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "3" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-60 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a03 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-61 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b04 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-62 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-63 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-b07 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-64 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-65 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-66 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-055" .
+
+vt:relation-67 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-68 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-69 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-disjoncteur ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-7 a rdf:Statement ;
+    rdf:object vt:entite-ad-a14 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "3" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-70 a rdf:Statement ;
+    rdf:object vt:entite-ad-a01 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-71 a rdf:Statement ;
+    rdf:object vt:entite-ad-a14 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-72 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-73 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-74 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-75 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-76 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-77 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a01 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-78 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ad-a14 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-79 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-8 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ad-a09 ;
+    kit:page "4" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-80 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-ond-a ;
+    kit:page "1" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-81 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-a1 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-82 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-a2 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-83 a rdf:Statement ;
+    rdf:object vt:entite-ad-a01 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-84 a rdf:Statement ;
+    rdf:object vt:entite-ad-a14 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-85 a rdf:Statement ;
+    rdf:object vt:entite-ond-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-86 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-a ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-ge-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-87 a rdf:Statement ;
+    rdf:object vt:entite-site-a ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "2" ;
+    kit:referenceSource "NT-057" .
+
+vt:relation-88 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "1" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-89 a rdf:Statement ;
+    rdf:object vt:entite-ad-b01 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-9 a rdf:Statement ;
+    rdf:object vt:entite-tr-a1 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-a ;
+    kit:page "4" ;
+    kit:referenceSource "NT-031" .
+
+vt:relation-90 a rdf:Statement ;
+    rdf:object vt:entite-ad-b09 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-91 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:protege ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "1" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-92 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "1" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-93 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "1" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-94 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tr-b1 ;
+    kit:page "2" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-95 a rdf:Statement ;
+    rdf:object vt:entite-ad-b01 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-96 a rdf:Statement ;
+    rdf:object vt:entite-ad-b09 ;
+    rdf:predicate vt:alimente ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-97 a rdf:Statement ;
+    rdf:object vt:entite-tgbt-b ;
+    rdf:predicate vt:secourt ;
+    rdf:subject vt:entite-ge-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-98 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-cpi-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-058" .
+
+vt:relation-99 a rdf:Statement ;
+    rdf:object vt:entite-site-b ;
+    rdf:predicate vt:situeSur ;
+    rdf:subject vt:entite-tgbt-b ;
+    kit:page "2" ;
+    kit:referenceSource "NT-058" .
+
+vt:entite-ad-a05 a vt:Equipement ;
+    rdfs:label "AD-A05" ;
+    kit:page "1" ;
+    kit:referenceSource "NT-062" ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-ad-a09 a vt:Equipement ;
+    rdfs:label "AD-A09" ;
+    kit:page "4" ;
+    kit:referenceSource "NT-031" ;
+    vt:alimente vt:entite-tgbt-a .
+
+vt:entite-ad-a11 a vt:Equipement ;
+    rdfs:label "AD-A11" ;
+    kit:page "1" ;
+    kit:referenceSource "NT-055" ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-electrotech-conseil a vt:Personne ;
+    rdfs:label "Électrotech Conseil" ;
+    kit:page "1",
+        "2" ;
+    kit:referenceSource "NT-051",
+        "PR-1112" ;
+    vt:intervientSur vt:entite-relais-de-protection .
+
+vt:entite-h-morvan a vt:Personne ;
+    rdfs:label "H. Morvan" ;
+    kit:page "4" ;
+    kit:referenceSource "NT-031",
+        "NT-038",
+        "NT-040",
+        "NT-042" ;
+    vt:intervientSur vt:entite-tgbt-a .
+
+vt:entite-responsable a vt:Personne ;
+    rdfs:label "responsable" ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1111" ;
+    vt:intervientSur vt:entite-ge-a .
+
+vt:entite-ad-al4 a vt:Equipement ;
+    rdfs:label "AD-Al4" ;
+    kit:page "1" ;
+    kit:referenceSource "NT-031" .
+
+vt:entite-ad-b03 a vt:Equipement ;
+    rdfs:label "AD-B03" ;
+    kit:page "1",
+        "3" ;
+    kit:referenceSource "NT-034" ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-ad-b08 a vt:Equipement ;
+    rdfs:label "AD-B08" ;
+    kit:page "Diagnostic",
+        "Suite à donner" ;
+    kit:referenceSource "OT-24113" ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-deux-sites a vt:Site ;
+    rdfs:label "Deux sites" ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1112" .
+
+vt:entite-inv-b a vt:Equipement ;
+    rdfs:label "INV-B" ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" ;
+    vt:secourt vt:entite-ge-b ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-ad-b05 a vt:Equipement ;
+    rdfs:label "AD-B05" ;
+    kit:page "1",
+        "2",
+        "3" ;
+    kit:referenceSource "NT-034",
+        "NT-062" ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-demi-jeu-de-barres rdfs:label "demi-jeu de barres" ;
+    kit:page "1" ;
+    kit:referenceSource "NT-031" .
+
+vt:entite-nadia-coste a vt:Personne ;
+    rdfs:label "Nadia Coste" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Intervenant(s)" ;
+    kit:referenceSource "NT-051",
+        "NT-070",
+        "OT-24109",
+        "OT-24114",
+        "PR-1101",
+        "PR-1102",
+        "PR-1112" ;
+    vt:intervientSur vt:entite-tgbt,
+        vt:entite-tr-a1,
+        vt:entite-tr-b1 ;
+    vt:situeSur vt:entite-deux-sites .
+
+vt:entite-paul-verdier a vt:Personne ;
+    rdfs:label "Paul Verdier" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Demandeur" ;
+    kit:referenceSource "NT-057",
+        "NT-062",
+        "NT-070",
+        "OT-24101",
+        "OT-24117",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1105",
+        "PR-1107",
+        "PR-1116" ;
+    vt:intervientSur vt:entite-ad-a07,
+        vt:entite-ge-a,
+        vt:entite-site-a ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-armoire-divisionnaire a vt:Equipement ;
+    rdfs:label "armoire divisionnaire" ;
+    kit:page "2" ;
+    kit:referenceSource "PR-1101",
+        "PR-1103",
+        "PR-1110" ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-transformateur a vt:Equipement ;
+    rdfs:label "transformateur" ;
+    kit:page "1",
+        "2" ;
+    kit:referenceSource "NT-031",
+        "PR-1102" ;
+    vt:alimente vt:entite-demi-jeu-de-barres .
+
+vt:entite-helene-morvan a vt:Personne ;
+    rdfs:label "Hélène Morvan" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Demandeur" ;
+    kit:referenceSource "NT-051",
+        "NT-053",
+        "NT-066",
+        "NT-070",
+        "OT-24103",
+        "OT-24104",
+        "OT-24105",
+        "OT-24107",
+        "OT-24109",
+        "OT-24110",
+        "OT-24112",
+        "OT-24113",
+        "OT-24114",
+        "OT-24115",
+        "PR-1103",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1106",
+        "PR-1112",
+        "PR-1116" ;
+    vt:intervientSur vt:entite-ad-a03,
+        vt:entite-cpi-b,
+        vt:entite-relais-de-protection,
+        vt:entite-tgbt-a,
+        vt:entite-tgbt-b,
+        vt:entite-tr-a1 .
+
+vt:entite-relais-de-protection a vt:Equipement ;
+    rdfs:label "relais de protection" ;
+    kit:page "1",
+        "Diagnostic",
+        "Pièces remplacées",
+        "Symptôme constaté" ;
+    kit:referenceSource "NT-051",
+        "OT-24109",
+        "OT-24114" ;
+    vt:situeSur vt:entite-site-a,
+        vt:entite-site-b .
+
+vt:entite-bureau-d-etudes a vt:Personne ;
+    rdfs:label "bureau d'études" ;
+    kit:page "1",
+        "3" ;
+    kit:referenceSource "NT-031",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1106" ;
+    vt:intervientSur vt:entite-ad-a01,
+        vt:entite-ad-a14,
+        vt:entite-ad-b01,
+        vt:entite-ad-b09,
+        vt:entite-equipement,
+        vt:entite-tgbt-a,
+        vt:entite-tgbt-b .
+
+vt:entite-tgbt a vt:Equipement ;
+    rdfs:label "TGBT" ;
+    kit:page "1",
+        "2",
+        "3" ;
+    kit:referenceSource "PR-1101",
+        "PR-1102",
+        "PR-1105",
+        "PR-1109",
+        "PR-1111" ;
+    vt:alimente vt:entite-transformateur ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-thomas-rigaud a vt:Personne ;
+    rdfs:label "Thomas Rigaud" ;
+    kit:page "1",
+        "2",
+        "Intervenant(s)" ;
+    kit:referenceSource "OT-24101",
+        "OT-24104",
+        "OT-24105",
+        "OT-24110",
+        "OT-24112",
+        "PR-1103",
+        "PR-1112" ;
+    vt:intervientSur vt:entite-ad-a03,
+        vt:entite-ad-a07,
+        vt:entite-ond-a,
+        vt:entite-site-a,
+        vt:entite-tr-a2 ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-disjoncteur a vt:Equipement ;
+    rdfs:label "disjoncteur" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Diagnostic",
+        "Pièces remplacées",
+        "Symptôme constaté" ;
+    kit:referenceSource "NT-031",
+        "NT-038",
+        "NT-057",
+        "NT-068",
+        "OT-24105",
+        "OT-24109",
+        "OT-24114",
+        "PR-1103",
+        "PR-1106",
+        "PR-1108",
+        "PR-1110" ;
+    vt:alimente vt:entite-demi-jeu-de-barres,
+        vt:entite-tgbt-a ;
+    vt:intervientSur vt:entite-disjoncteur ;
+    vt:protege vt:entite-ad-a03,
+        vt:entite-armoire-divisionnaire,
+        vt:entite-equipement .
+
+vt:entite-equipement rdfs:label "Equipement" ;
+    kit:page "1",
+        "2",
+        "3" ;
+    kit:referenceSource "NT-068",
+        "PR-1104-B",
+        "PR-1104-C" .
+
+vt:entite-inv-a a vt:Equipement ;
+    rdfs:label "INV-A" ;
+    kit:page "1" ;
+    kit:referenceSource "PR-1111" ;
+    vt:alimente vt:entite-ond-a,
+        vt:entite-tgbt-a ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-lucie-ferrand a vt:Personne ;
+    rdfs:label "Lucie Ferrand" ;
+    kit:page "1",
+        "2",
+        "Intervenant(s)" ;
+    kit:referenceSource "OT-24102",
+        "OT-24106",
+        "OT-24108",
+        "OT-24111",
+        "OT-24113",
+        "OT-24114",
+        "OT-24115",
+        "OT-24116",
+        "PR-1108",
+        "PR-1112" ;
+    vt:intervientSur vt:entite-ad-a03,
+        vt:entite-ad-b02,
+        vt:entite-ad-b04,
+        vt:entite-ad-b07,
+        vt:entite-ge-b,
+        vt:entite-tgbt-b,
+        vt:entite-tr-b1 ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-sophie-lenoir a vt:Personne ;
+    rdfs:label "Sophie Lenoir" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Demandeur" ;
+    kit:referenceSource "NT-058",
+        "NT-062",
+        "NT-070",
+        "OT-24102",
+        "OT-24106",
+        "OT-24108",
+        "OT-24111",
+        "OT-24116",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1105",
+        "PR-1108",
+        "PR-1116" ;
+    vt:intervientSur vt:entite-ad-b02,
+        vt:entite-ad-b04,
+        vt:entite-ad-b07,
+        vt:entite-ge-b,
+        vt:entite-site-b ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-ad-b07 a vt:Equipement ;
+    rdfs:label "AD-B07" ;
+    kit:page "2",
+        "4",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-034",
+        "NT-055",
+        "OT-24106" ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-karim-benali a vt:Personne ;
+    rdfs:label "Karim Benali" ;
+    kit:page "1",
+        "2",
+        "Intervenant(s)" ;
+    kit:referenceSource "OT-24103",
+        "OT-24104",
+        "OT-24107",
+        "OT-24109",
+        "OT-24110",
+        "OT-24114",
+        "OT-24117",
+        "PR-1102",
+        "PR-1107",
+        "PR-1112" ;
+    vt:intervientSur vt:entite-ge-a,
+        vt:entite-ond-a,
+        vt:entite-site-a,
+        vt:entite-tr-a1,
+        vt:entite-tr-a2,
+        vt:entite-tr-b1 ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-technicien a vt:Personne ;
+    rdfs:label "technicien" ;
+    kit:page "1",
+        "2",
+        "3",
+        "4" ;
+    kit:referenceSource "NT-038",
+        "NT-040",
+        "NT-053",
+        "NT-060",
+        "PR-1103",
+        "PR-1105",
+        "PR-1106",
+        "PR-1108",
+        "PR-1109",
+        "PR-1110",
+        "PR-1111",
+        "PR-1115" ;
+    vt:intervientSur vt:entite-ad-a01,
+        vt:entite-ad-a14,
+        vt:entite-ad-b01,
+        vt:entite-ad-b09,
+        vt:entite-cpi-b,
+        vt:entite-ge-a,
+        vt:entite-ond-a,
+        vt:entite-tgbt-a,
+        vt:entite-tgbt-b .
+
+vt:entite-ad-a07 a vt:Equipement ;
+    rdfs:label "AD-A07" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-031",
+        "NT-055",
+        "OT-24101",
+        "OT-24112",
+        "PR-1101",
+        "PR-1113" ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-ad-a01 a vt:Equipement ;
+    rdfs:label "AD-A01" ;
+    kit:page "1",
+        "2" ;
+    kit:referenceSource "NT-031",
+        "NT-057",
+        "PR-1101",
+        "PR-1103",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1106" ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-ad-a14 a vt:Equipement ;
+    rdfs:label "AD-A14" ;
+    kit:page "1",
+        "2",
+        "3" ;
+    kit:referenceSource "NT-031",
+        "NT-057",
+        "PR-1101",
+        "PR-1103",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1106" ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-ad-b02 a vt:Equipement ;
+    rdfs:label "AD-B02" ;
+    kit:page "1",
+        "3",
+        "4",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-034",
+        "OT-24113",
+        "OT-24116" ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-ad-b06 a vt:Equipement ;
+    rdfs:label "AD-B06" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-034",
+        "NT-062",
+        "OT-24113",
+        "OT-24115" ;
+    vt:alimente vt:entite-tgbt-b ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-ad-b09 a vt:Equipement ;
+    rdfs:label "AD-B09" ;
+    kit:page "1",
+        "2",
+        "4",
+        "Équipement" ;
+    kit:referenceSource "NT-034",
+        "NT-058",
+        "OT-24113",
+        "PR-1101",
+        "PR-1103",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1106",
+        "PR-1108" ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-ad-a03 a vt:Equipement ;
+    rdfs:label "AD-A03" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-055",
+        "OT-24104",
+        "OT-24105",
+        "OT-24113",
+        "PR-1101",
+        "PR-1103",
+        "PR-1116" ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-ad-b01 a vt:Equipement ;
+    rdfs:label "AD-B01" ;
+    kit:page "1",
+        "2",
+        "3",
+        "4",
+        "Équipement" ;
+    kit:referenceSource "NT-034",
+        "NT-058",
+        "OT-24113",
+        "PR-1101",
+        "PR-1103",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1106",
+        "PR-1108" ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-ad-b04 a vt:Equipement ;
+    rdfs:label "AD-B04" ;
+    kit:page "1",
+        "2",
+        "3",
+        "4",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-034",
+        "NT-055",
+        "OT-24102",
+        "OT-24108" ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-ge-b a vt:Equipement ;
+    rdfs:label "GE-B" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-053",
+        "NT-058",
+        "NT-062",
+        "NT-066",
+        "NT-070",
+        "OT-24111",
+        "OT-24114",
+        "PR-1102",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1105",
+        "PR-1111" ;
+    vt:secourt vt:entite-equipement,
+        vt:entite-site-b,
+        vt:entite-tgbt-a,
+        vt:entite-tgbt-b ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-tr-a2 a vt:Equipement ;
+    rdfs:label "TR-A2" ;
+    kit:page "1",
+        "2",
+        "4",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-031",
+        "NT-040",
+        "NT-051",
+        "NT-055",
+        "NT-057",
+        "NT-062",
+        "NT-066",
+        "OT-24104",
+        "OT-24109",
+        "PR-1102",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1111" ;
+    vt:alimente vt:entite-inv-a,
+        vt:entite-tgbt-a ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-cpi-b a vt:Equipement ;
+    rdfs:label "CPI-B" ;
+    kit:page "1",
+        "2",
+        "3",
+        "4",
+        "Actions réalisées",
+        "Diagnostic",
+        "Symptôme constaté",
+        "Équipement" ;
+    kit:referenceSource "NT-038",
+        "NT-053",
+        "NT-058",
+        "NT-062",
+        "NT-066",
+        "NT-068",
+        "NT-070",
+        "OT-24102",
+        "OT-24106",
+        "OT-24108",
+        "OT-24116",
+        "PR-1101",
+        "PR-1103",
+        "PR-1108",
+        "PR-1109",
+        "PR-1113",
+        "PR-1115",
+        "PR-1116" ;
+    vt:protege vt:entite-ad-b02,
+        vt:entite-ad-b04,
+        vt:entite-ad-b07,
+        vt:entite-tgbt-b,
+        vt:entite-tr-b1 ;
+    vt:situeSur vt:entite-site-a,
+        vt:entite-site-b .
+
+vt:entite-ond-a a vt:Equipement ;
+    rdfs:label "OND-A" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-053",
+        "NT-057",
+        "NT-060",
+        "NT-066",
+        "NT-070",
+        "OT-24107",
+        "OT-24110",
+        "PR-1101",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1107",
+        "PR-1111",
+        "PR-1116" ;
+    vt:secourt vt:entite-armoire-divisionnaire,
+        vt:entite-ge-a,
+        vt:entite-site-a,
+        vt:entite-tgbt-a,
+        vt:entite-tgbt-b ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-ge-a a vt:Equipement ;
+    rdfs:label "GE-A" ;
+    kit:page "1",
+        "2",
+        "3",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-053",
+        "NT-057",
+        "NT-060",
+        "NT-066",
+        "NT-070",
+        "OT-24103",
+        "OT-24117",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1105",
+        "PR-1111" ;
+    vt:alimente vt:entite-tgbt-a ;
+    vt:secourt vt:entite-equipement,
+        vt:entite-inv-a,
+        vt:entite-tgbt,
+        vt:entite-tgbt-a ;
+    vt:situeSur vt:entite-site-a,
+        vt:entite-site-b .
+
+vt:entite-tr-b1 a vt:Equipement ;
+    rdfs:label "TR-B1" ;
+    kit:page "1",
+        "2",
+        "3",
+        "4",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-034",
+        "NT-038",
+        "NT-051",
+        "NT-058",
+        "NT-066",
+        "NT-068",
+        "OT-24109",
+        "OT-24114",
+        "PR-1102",
+        "PR-1104-B",
+        "PR-1104-C" ;
+    vt:alimente vt:entite-tgbt-b ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-tr-a1 a vt:Equipement ;
+    rdfs:label "TR-A1" ;
+    kit:page "1",
+        "2",
+        "4",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-031",
+        "NT-040",
+        "NT-051",
+        "NT-055",
+        "NT-057",
+        "NT-066",
+        "OT-24104",
+        "OT-24109",
+        "PR-1102",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1111" ;
+    vt:alimente vt:entite-inv-a,
+        vt:entite-tgbt-a ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-tgbt-b a vt:Equipement ;
+    rdfs:label "TGBT-B" ;
+    kit:page "1",
+        "2",
+        "3",
+        "4",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-034",
+        "NT-055",
+        "NT-058",
+        "NT-062",
+        "NT-064",
+        "OT-24113",
+        "OT-24115",
+        "PR-1101",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1106",
+        "PR-1108",
+        "PR-1114",
+        "PR-1116" ;
+    vt:alimente vt:entite-ad-a03,
+        vt:entite-ad-b01,
+        vt:entite-ad-b09 ;
+    vt:situeSur vt:entite-site-b .
+
+vt:entite-tgbt-a a vt:Equipement ;
+    rdfs:label "TGBT-A" ;
+    kit:page "1",
+        "2",
+        "3",
+        "4",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-031",
+        "NT-040",
+        "NT-053",
+        "NT-055",
+        "NT-057",
+        "NT-064",
+        "NT-066",
+        "OT-24104",
+        "PR-1101",
+        "PR-1102",
+        "PR-1103",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1106",
+        "PR-1111",
+        "PR-1114",
+        "PR-1116" ;
+    vt:alimente vt:entite-ad-a01,
+        vt:entite-ad-a03,
+        vt:entite-ad-a07,
+        vt:entite-ad-a14,
+        vt:entite-ad-al4,
+        vt:entite-ond-a,
+        vt:entite-tr-a1,
+        vt:entite-tr-a2,
+        vt:entite-transformateur ;
+    vt:intervientSur vt:entite-tgbt-a ;
+    vt:situeSur vt:entite-site-a,
+        vt:entite-site-b .
+
+vt:entite-site-a a vt:Site ;
+    rdfs:label "Site A" ;
+    kit:page "1",
+        "2",
+        "3",
+        "4",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-031",
+        "NT-038",
+        "NT-040",
+        "NT-042",
+        "NT-051",
+        "NT-053",
+        "NT-055",
+        "NT-057",
+        "NT-060",
+        "NT-062",
+        "NT-064",
+        "NT-066",
+        "NT-068",
+        "NT-070",
+        "OT-24101",
+        "OT-24103",
+        "OT-24104",
+        "OT-24105",
+        "OT-24107",
+        "OT-24109",
+        "OT-24110",
+        "OT-24112",
+        "OT-24117",
+        "PR-1101",
+        "PR-1102",
+        "PR-1103",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1105",
+        "PR-1106",
+        "PR-1107",
+        "PR-1108",
+        "PR-1109",
+        "PR-1111",
+        "PR-1112",
+        "PR-1113",
+        "PR-1114",
+        "PR-1116" ;
+    vt:situeSur vt:entite-site-a .
+
+vt:entite-site-b a vt:Site ;
+    rdfs:label "Site B" ;
+    kit:page "1",
+        "2",
+        "3",
+        "4",
+        "Actions réalisées",
+        "Coût des pièces (€ HT)",
+        "Date de l'intervention",
+        "Demandeur",
+        "Diagnostic",
+        "Durée (heures)",
+        "Intervenant(s)",
+        "Numéro OT",
+        "Pièces remplacées",
+        "Procédure appliquée",
+        "Remise en service",
+        "Site",
+        "Suite à donner",
+        "Symptôme constaté",
+        "Type d'intervention",
+        "Équipement" ;
+    kit:referenceSource "NT-034",
+        "NT-038",
+        "NT-042",
+        "NT-051",
+        "NT-053",
+        "NT-055",
+        "NT-058",
+        "NT-062",
+        "NT-064",
+        "NT-066",
+        "NT-068",
+        "NT-070",
+        "OT-24102",
+        "OT-24106",
+        "OT-24108",
+        "OT-24109",
+        "OT-24111",
+        "OT-24113",
+        "OT-24114",
+        "OT-24115",
+        "OT-24116",
+        "PR-1101",
+        "PR-1102",
+        "PR-1103",
+        "PR-1104-B",
+        "PR-1104-C",
+        "PR-1105",
+        "PR-1106",
+        "PR-1107",
+        "PR-1108",
+        "PR-1109",
+        "PR-1111",
+        "PR-1112",
+        "PR-1113",
+        "PR-1114",
+        "PR-1115",
+        "PR-1116" .
+

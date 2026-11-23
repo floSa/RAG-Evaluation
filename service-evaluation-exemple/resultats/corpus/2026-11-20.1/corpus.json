@@ -1,0 +1,11 @@
+{
+  "contrat": "1.0",
+  "version_corpus": "2026-11-20.1",
+  "projet": "maintenance-electrique",
+  "date": "2026-11-20",
+  "fichier_source": "Corpus_evaluation_RAG.xlsx (sha256:1fe5dc75d4711826a5b4fe54e46be7ce57b765c0eda3648ae3c403da5a3028a4)",
+  "colonnes_libres": [
+    "service",
+    "site"
+  ]
+}
