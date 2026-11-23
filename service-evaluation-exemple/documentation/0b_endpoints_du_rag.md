@@ -40,7 +40,7 @@ flowchart LR
 
 | Endpoint | Adresse | Le service d'évaluation envoie | Le RAG rend | Pour l'évaluation |
 | --- | --- | --- | --- | --- |
-| ① **ingérer** | `POST /ingerer` | les documents du corpus : pour chacun, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces`, `fichier` (son nom) et `contenu` (le fichier, en base64). Pour une fiche de GED sans fichier, `fichier` et `contenu` sont vides : le RAG lit la fiche dans sa GED, par sa référence | « c'est fait » : nombre de documents, de chunks, de pages | [1. Évaluation de l'ingestion](1_evaluation_ingestion.md) |
+| ① **ingérer** | `POST /ingerer` | les documents du corpus : pour chacun, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces`, `fichier` (son nom) et `contenu` (le fichier, en base64). Pour une fiche de GED sans fichier, `fichier` et `contenu` valent `null` : le RAG lit la fiche dans sa GED, par sa référence | « c'est fait » : nombre de documents, de chunks, de pages | [1. Évaluation de l'ingestion](1_evaluation_ingestion.md) |
 | ② **montrer l'index** | `GET /index` | rien | `rag` : sa description et sa version exacte ; `chunks` : chaque chunk de l'index avec la référence du document, sa version, la page, le type d'élément, les droits d'accès, l'ordre ; `pages` : le texte de chaque page lue, avant découpage ; `graphe` : son graphe en RDF, s'il en a un | [1. Évaluation de l'ingestion](1_evaluation_ingestion.md) |
 | ③ **rechercher** | `POST /rechercher` | `question`, `profil`, `historique` | `resultats` : les k chunks retrouvés, dans l'ordre (`chunk_id`, `rang`, `score`), avant toute génération ; `duree_ms` | [2. Évaluation de la recherche](2_evaluation_recherche.md) |
 | ④ **répondre** | `POST /repondre` | `question`, `profil`, `historique` | `reponse`, `abstention` (vrai si le RAG dit ne pas savoir), `chunks_cites`, `chunks_contexte`, `duree_ms`, `cout`, `tokens_entree`, `tokens_sortie`, `trace_id` | [3. Évaluation de la réponse](3_evaluation_reponse.md), [4. Évaluation de bout en bout](4_evaluation_bout_en_bout.md) |
@@ -102,11 +102,15 @@ def ingerer(demande: Documents) -> dict:
     dossier = Path("espace_evaluation/documents")        # à part de la production
     dossier.mkdir(parents=True, exist_ok=True)
     metadonnees = []
+    fiches_ged = []
     for d in demande.documents:
+        if d.contenu is None:     # une fiche de GED sans fichier : votre RAG la lira dans la GED, par sa référence
+            fiches_ged.append({"reference": d.reference_source, "version": d.version, "droits": d.droits_acces})
+            continue
         (dossier / Path(d.fichier).name).write_bytes(base64.b64decode(d.contenu))
         metadonnees.append({"reference": d.reference_source, "version": d.version,
                             "droits": d.droits_acces, "fichier": Path(d.fichier).name})
-    resultat = mon_rag.indexer(dossier, metadonnees, collection="evaluation")
+    resultat = mon_rag.indexer(dossier, metadonnees, fiches_ged, collection="evaluation")
     return {"documents": len(demande.documents), "chunks": resultat.nb_chunks, "pages": resultat.nb_pages}
 ```
 
@@ -116,8 +120,8 @@ Le point qui compte : chaque morceau de votre index doit garder **la référence
 
 | Partie | Ce qu'on y met |
 | --- | --- |
-| `rag` | le nom du RAG, sa **version** (`version_rag`), son type (`vectoriel`, `graphe`, `hybride`, `agent`), k, les versions de ses briques, et ses **autres réglages** (`reglages`) |
-| `chunks` | chaque morceau de l'index : `chunk_id`, `reference_source`, `version_document`, `page`, `type_element`, `droits_acces`, `ordre`, `texte`, `version_index` |
+| `rag` | `contrat` (la version du contrat, `1.0`), le nom du RAG, sa **version** (`version_rag`), son type (`vectoriel`, `graphe`, `hybride`, `agent`), la `date`, k, les versions de ses briques (`versions`), s'il filtre les droits d'accès (`filtre_droits`), et ses **autres réglages** (`reglages`) |
+| `chunks` | chaque morceau de l'index : `chunk_id`, `type_objet` (`chunk` pour un morceau de document ; `noeud`, `relation` ou `resume` pour un élément du graphe), `reference_source`, `version_document`, `page` (pour une fiche de GED : le nom du champ), `type_element`, `droits_acces`, `ordre`, `texte`, `version_index` |
 | `pages` | le texte de chaque page lue, avant découpage : il sert à mesurer la lecture des scans |
 | `graphe` | le graphe en Turtle, si votre RAG en a un ; sinon `null` |
 

@@ -186,7 +186,7 @@ Si la configuration minimale du document 1 n'est pas atteinte (moins de 50 quest
 | Fichier | Une ligne = | Donné au RAG ? |
 | --- | --- | --- |
 | `corpus.json` | la description du corpus : version, projet, date, fichier source | non |
-| `documents.jsonl` | un document : référence, titre, type, version, date, format, droits d'accès, en vigueur | non : le RAG lit les mêmes métadonnées dans la gestion documentaire, comme en production. Le kit s'en sert pour vérifier ses chunks |
+| `documents.jsonl` | un document : référence, titre, type, version, date, format, droits d'accès, en vigueur | **en partie** : l'appel ① envoie au RAG, pour chaque document, sa référence, son titre, son type, sa version, son format et ses droits d'accès. Le kit s'en sert aussi pour vérifier ses chunks |
 | `questions.jsonl` | une question, avec ses annotations | **en partie** : le RAG n'en lit que la question, le profil, et l'historique d'une question de suite |
 | `passages.jsonl` | un passage annoté | **jamais** |
 | `pages_ocr.jsonl` | une page scannée retapée | **jamais** |

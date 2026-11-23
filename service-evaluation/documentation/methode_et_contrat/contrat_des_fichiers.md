@@ -20,8 +20,8 @@ Arborescence :
 | --- | --- | --- |
 | `corpus/<version_corpus>/` | corpus.json, documents.jsonl, questions.jsonl, passages.jsonl, pages_ocr.jsonl | le module d'import du kit |
 | `reponses_du_rag/<version_rag>/` | rag.json, chunks.jsonl, pages_extraites.jsonl, graphe.ttl, recherches.jsonl, reponses.jsonl | le kit, avec ce que rend les endpoints d'évaluation du RAG ; ou le RAG lui-même, par fichiers |
-| `resultats/<evaluation_id>/` | RAPPORT.md, rapport.html, evaluation.json, liens_index.jsonl, resultats_par_question.csv, scores.json | le kit |
-| `comparaisons/<A>_contre_<B>/` | RAPPORT.md, comparaison.json | le kit (`kit comparer`) |
+| `resultats/evaluations/<evaluation_id>/` | RAPPORT.md et verification_juge.xlsx ; dans `fichiers_techniques/` : rapport.html, evaluation.json, scores.json, resultats_par_question.csv, liens_index.jsonl… | le kit |
+| `resultats/comparaisons_de_configurations/<A>_contre_<B>/` | RAPPORT.md ; dans `fichiers_techniques/` : comparaison.json | le kit (`kit comparer`) |
 | `config/` | kit.yaml | l'équipe du projet |
 
 ## 2. Le corpus (écrit par l'import, depuis le fichier Excel du document 1)
@@ -195,7 +195,7 @@ Le graphe exporté en RDF (Turtle). Chaque nœud et chaque relation réifiée po
 | Règle | Détail |
 | --- | --- |
 | Profil | chaque question est posée avec son `profil` ; la recherche applique les droits de ce profil |
-| Historique | une question avec `question_precedente` reçoit `[{"question": <question précédente>, "reponse": <sa reponse_attendue>}]` |
+| Historique | une question avec `question_precedente` reçoit tous les échanges qui la précèdent, du plus ancien au plus récent : `[{"question": <question>, "reponse": <sa reponse_attendue>}, …]` |
 | Même k | pour toutes les questions d'une évaluation |
 | Isolement | le RAG ne reçoit jamais reponse_attendue, points_cles ni passages, sauf l'historique ci-dessus |
 | Toutes les questions | y compris les réservées ; seul l'affichage des résultats diffère |
@@ -208,7 +208,7 @@ Chaque RAG ouvre quatre endpoints à une adresse web (par défaut http://127.0.0
 | --- | --- | --- | --- |
 | ① ingérer | `POST /ingerer` | `{"documents": [...]}` : pour chaque document, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces` (codes de documents.jsonl), `fichier` (nom) et `contenu` (le fichier, en base64) ; pour une fiche de GED sans fichier, `fichier` et `contenu` valent `null` et le RAG lit la fiche dans sa GED | `{"documents", "chunks", "pages"}` |
 | ② montrer l'index | `GET /index` | — | `{"rag": <rag.json>, "chunks": [<chunks.jsonl>], "pages": [<pages_extraites.jsonl>], "graphe": <graphe.ttl en Turtle, ou null>}` |
-| ③ rechercher | `POST /rechercher` | `{"question", "profil", "historique"}` | `{"resultats": [{"chunk_id", "rang", "score"}], "duree_ms"}` ; option `avant_reranking` |
+| ③ rechercher | `POST /rechercher` | `{"question", "profil", "historique"}` | `{"resultats": [{"chunk_id", "rang", "score"}], "duree_ms"}` ; option `resultats_avant_reranking` (même forme, avant reclassement) |
 | ④ répondre | `POST /repondre` | `{"question", "profil", "historique"}` | un objet reponses.jsonl, sans `question_id` ni `profil` |
 
 Le RAG range les documents reçus à part de ceux de la production. Il ne reçoit jamais les annotations (règles d'appel ci-dessus).
