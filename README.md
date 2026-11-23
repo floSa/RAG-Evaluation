@@ -14,9 +14,9 @@
 
 Un **RAG** est un assistant qui répond à des questions en s'appuyant sur des documents : il les découpe en morceaux de texte, retrouve les morceaux utiles à une question, puis fait écrire la réponse par un modèle de langage.
 
-Ce dépôt donne un **service qui évalue n'importe quel RAG** à partir d'un **corpus annoté** : des documents, et un fichier Excel où le métier a écrit des questions, leur bonne réponse, et l'endroit exact des documents où elle se trouve. Le service dit si le RAG peut partir en production, et pourquoi.
+Ce dépôt donne un **service qui évalue n'importe quel RAG** à partir d'un **corpus annoté** : des documents, et un fichier Excel où le métier a écrit des questions, leur bonne réponse, et l'endroit exact des documents où elle se trouve. Le service mesure ce que le RAG fait bien et mal, et l'écrit en phrases simples ; c'est le métier qui décide, à leur lecture, si le RAG peut partir en production.
 
-Il s'adresse à la personne qui prend en charge l'évaluation : data scientist, chef de projet technique, quelqu'un qui sait lire un dépôt et lancer des commandes. C'est elle qui fait tout. Le métier ne fait que fournir le corpus annoté, selon les règles qu'elle lui transmet, et fixer avec elle les seuils.
+Il s'adresse à la personne qui prend en charge l'évaluation : data scientist, chef de projet technique, quelqu'un qui sait lire un dépôt et lancer des commandes. C'est elle qui fait tout. Le métier ne fait que fournir le corpus annoté, selon les règles qu'elle lui transmet, puis décider à la lecture des scores.
 
 **Commencez ici : [le fil conducteur](FIL_CONDUCTEUR.md)**, qui dit dans l'ordre ce qu'on fait, pourquoi, et ce que ça a donné sur l'exemple, de l'installation à la lecture des résultats.
 
@@ -34,10 +34,9 @@ Il s'adresse à la personne qui prend en charge l'évaluation : data scientist, 
 | --- | --- | --- |
 | 0. Installer le service | copier `service-evaluation/` dans votre projet, démarrer Langfuse, brancher le modèle juge | [README du service](service-evaluation/README.md) |
 | 1. Construire et importer le corpus d'évaluation | c'est le métier qui le construit : vous lui donnez le fichier Excel vierge et les règles pour le remplir ; il vous rend les documents et le fichier rempli ; vous les rangez dans `corpus_annote/`, puis `kit importer` dit ligne par ligne ce que le métier doit corriger | [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md) |
-| 2. Fixer les seuils avec le métier | ce que le RAG doit atteindre pour partir en production, **avant** toute évaluation | `config/seuils.json` |
-| 3. Ouvrir les quatre endpoints du RAG au service | copier le modèle des quatre endpoints dans votre RAG, y brancher ses fonctions, mettre l'adresse du RAG dans `config/kit.yaml` ; `kit appeler-rag` vérifie | `endpoints_a_copier/`, [guide 0b](service-evaluation/documentation/0b_endpoints_du_rag.md) |
-| 4. Évaluer une configuration du RAG | `kit evaluer`, une fois par configuration du RAG : le service appelle lui-même votre RAG, lui envoie les documents, pose toutes les questions, calcule les scores | depuis `service-evaluation/` |
-| 5. Lire, corriger, comparer | lire le `RAPPORT.md` ; changer un réglage du RAG, réévaluer, puis `kit comparer` | `resultats/evaluations/`, [guide 5](service-evaluation/documentation/5_resultats_et_comparaison.md) |
+| 2. Ouvrir les quatre endpoints du RAG au service | copier le modèle des quatre endpoints dans votre RAG, y brancher ses fonctions, mettre l'adresse du RAG dans `config/kit.yaml` ; `kit appeler-rag` vérifie | `endpoints_a_copier/`, [guide 0b](service-evaluation/documentation/0b_endpoints_du_rag.md) |
+| 3. Évaluer une configuration du RAG | `kit evaluer`, une fois par configuration du RAG : le service appelle lui-même votre RAG, lui envoie les documents, pose toutes les questions, calcule les scores | depuis `service-evaluation/` |
+| 4. Lire le rapport, comparer, faire décider le métier | lire le `RAPPORT.md` ; changer un réglage du RAG, réévaluer, puis `kit comparer` ; présenter les scores clés au métier, qui décide | `resultats/evaluations/`, [guide 5](service-evaluation/documentation/5_resultats_et_comparaison.md) |
 
 **Les configurations.** Une configuration, ce sont les réglages de votre RAG à un moment donné : k, modèles, prompt, découpage… Ils sont propres à chaque RAG et **se changent dans le RAG, jamais dans le service**. Le service les lit dans ce que le RAG déclare (endpoint ②), et nomme l'évaluation d'après eux. Pour tester une autre configuration : vous changez le réglage dans le RAG, vous le relancez, puis vous relancez `kit evaluer`. Un run = une configuration.
 
@@ -45,14 +44,14 @@ Le détail de chaque étape : [Évaluer votre RAG : la marche à suivre](service
 
 ## Ce que fait le service d'évaluation
 
-Il **évalue une configuration** du RAG, c'est-à-dire le RAG avec tous ses réglages fixés (par exemple, le nombre de morceaux que la recherche ramène pour chaque question). Il pose toutes les questions du corpus au RAG, et vérifie, dans l'ordre :
+Il **évalue une configuration** du RAG, c'est-à-dire le RAG avec tous ses réglages fixés (par exemple, le nombre de morceaux que la recherche ramène pour chaque question). Il fait lire au RAG les documents du corpus, qu'il s'agisse de fichiers (PDF, Word…) ou de fiches exportées d'une application, lui pose toutes les questions, et vérifie, dans l'ordre :
 
 1. **L'ingestion** : rien ne s'est perdu ni abîmé quand le RAG a découpé les documents et les a rangés dans sa base.
 2. **La recherche** : pour chaque question, la recherche ramène les morceaux qui contiennent la réponse, et jamais un document interdit à la personne qui pose la question.
 3. **La réponse** : elle est juste, ne dit que ce que disent les documents, et le RAG sait dire « je ne sais pas ». Pour juger si une réponse écrite en phrases est juste, le service utilise un modèle de langage, le **juge** : il appartient au service, pas au RAG, et compare chaque réponse du RAG à la bonne réponse écrite par le métier, point par point. On vérifie d'abord le juge lui-même : il doit donner les mêmes notes que le métier sur un échantillon.
 4. **De bout en bout** : le RAG est bon sur les questions qui comptent le plus, assez rapide, et pas trop cher.
 
-Puis il **décide** : la configuration peut partir en production si elle atteint les seuils fixés par le métier, sans erreur grave.
+Il **ne décide pas** : il donne les scores, chacun en une phrase que le métier comprend, par exemple « pour 9 questions sur 13, la recherche ramène le passage qui contient la réponse ». C'est le métier qui tranche.
 
 Il peut aussi **comparer deux configurations** déjà évaluées : laquelle fait mieux, et l'écart est-il réel ou dû au hasard ?
 
@@ -72,7 +71,7 @@ Les deux services ne se parlent que par ces endpoints : le service d'évaluation
 ```mermaid
 flowchart LR
     subgraph E["service-evaluation"]
-        C["Corpus annoté<br/>documents + fichier Excel du métier"] --> K["Les 4 évaluations,<br/>puis la décision"] --> D["RAPPORT.md"]
+        C["Corpus annoté<br/>documents + fichier Excel du métier"] --> K["Les 4 évaluations,<br/>puis les scores"] --> D["RAPPORT.md"]
     end
     subgraph R["votre RAG"]
         P["ses 4 endpoints"]
