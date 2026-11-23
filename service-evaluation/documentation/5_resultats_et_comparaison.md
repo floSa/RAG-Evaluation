@@ -1,6 +1,6 @@
 # 5. Résultats et comparaison
 
-Ce guide dit **où sont les résultats**, **dans quel ordre les lire**, et **comment comparer deux versions** du RAG. Il s'appuie sur une vraie évaluation : celle du RAG d'exemple (k = 5) sur le corpus d'exemple.
+Le service fait deux choses différentes. Il **évalue une configuration** du RAG (le RAG avec tous ses réglages fixés) : cette configuration peut-elle partir en production ? Et il **compare deux configurations** déjà évaluées : laquelle fait mieux, et l'écart est-il réel ? Ce guide dit **où sont les résultats** de chacune, **dans quel ordre les lire**, et **comment comparer**. Il s'appuie sur une vraie évaluation : celle du RAG d'exemple (k = 5) sur le corpus d'exemple.
 
 ```mermaid
 flowchart TD
@@ -12,19 +12,20 @@ flowchart TD
 
 | Où | Quoi |
 | --- | --- |
-| [`../src/kit/etape_5_resultats/`](../src/kit/etape_5_resultats/) | `publication.py` (base, fichiers, Langfuse), `rapport.py` (rapport.html), `comparaison.py` (kit comparer) |
+| [`../src/kit/etape_5_resultats/`](../src/kit/etape_5_resultats/) | `publication.py` (base, fichiers, Langfuse), `rapport.py` (RAPPORT.md et rapport.html d'une évaluation), `comparaison.py` (kit comparer et son RAPPORT.md) |
 
 ## 1. Où sont les résultats
 
-Une évaluation, c'est un corpus évalué avec une version du RAG. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_graphrag-vectoriel-k5-5954e822` chez l'auteur ; chez vous, la version du corpus est la date de votre import. `kit evaluer` affiche le dossier à la fin ; sinon : `ls sorties/resultats/`. Ses résultats sont à trois endroits.
+Une évaluation, c'est une configuration du RAG évaluée sur un corpus. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_graphrag-vectoriel-k5-5954e822` chez l'auteur ; chez vous, la version du corpus est la date de votre import. `kit evaluer` affiche le dossier à la fin ; sinon : `ls sorties/resultats/`. Ses résultats sont à trois endroits.
 
-Pour voir à quoi ils ressemblent sans rien lancer : [les résultats de l'évaluation d'exemple](../resultats_exemple/README.md), les quatre évaluations citées dans ce guide, lues pas à pas.
+Pour voir à quoi ils ressemblent sans rien lancer : [les résultats d'exemple](../resultats_exemple/README.md), les quatre évaluations et les trois comparaisons citées dans ce guide.
 
 **Dans un dossier**, `sorties/resultats/<évaluation>/` :
 
 | Fichier | Pour qui | Contenu |
 | --- | --- | --- |
-| **`rapport.html`** | **le métier** : à ouvrir en premier | une page : la décision, les scores avec leur seuil, les questions à regarder, la cause probable des erreurs |
+| **`RAPPORT.md`** | **tout le monde** : à ouvrir en premier, il se lit directement sur GitHub | la configuration évaluée, la décision, chaque score expliqué en clair avec son seuil, les questions à regarder, la cause probable des erreurs |
+| `rapport.html` | le métier, dans un navigateur | la même chose, en page web |
 | `scores.json` | l'équipe technique | chaque score : valeur, marge d'erreur, nombre de questions, ventilation, seuil ; puis la décision |
 | `resultats_par_question.csv` | les deux, dans un tableur | une ligne par question et par score, avec le détail (verdict et justification du juge, chunks en cause…) |
 | `passages_non_rattaches.jsonl` | l'équipe technique | les passages du métier introuvables dans l'index, avec leur **cause probable** ([évaluation 1](1_evaluation_ingestion.md)) |
@@ -97,7 +98,7 @@ La marge est `± 1,96 × √(p × (1 − p) ÷ n)` (document 3). Ce qu'il faut r
 
 ## 5. Comparer deux versions
 
-Après un changement (k, prompt, modèle, découpage), on évalue la nouvelle version, puis on compare. `kit comparer A B` répond à la question : « la nouvelle version est-elle meilleure ? »
+Après un changement (k, prompt, modèle, découpage), on évalue la nouvelle configuration, puis on la compare à l'ancienne. `kit comparer A B` répond à la question : « la configuration B fait-elle mieux que A ? » Il écrit son propre dossier, `sorties/comparaisons/<A>_contre_<B>/`, avec un `RAPPORT.md` qui dit ce qui change de A à B, les écarts, s'ils sont réels, et les questions gagnées ou perdues. Les trois comparaisons ci-dessous sont dans les [résultats d'exemple](../resultats_exemple/README.md#2-trois-comparaisons-avec-la-référence).
 
 1. **Même corpus** : sinon la comparaison est refusée.
 2. **Écart et marge** : un écart plus petit que la marge **ne prouve rien seul**.
