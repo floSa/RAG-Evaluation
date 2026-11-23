@@ -1,6 +1,32 @@
 # 1. Évaluation de l'ingestion
 
-**La question** : le RAG a-t-il bien lu et découpé les documents ? Les passages annotés par le métier sont-ils dans son index ?
+## Ce que vérifie cette évaluation
+
+Le service d'ingestion du RAG lit les documents, les découpe en morceaux de texte (les *chunks*), transforme chaque morceau en vecteur et range le tout dans la base vectorielle. L'évaluation de l'ingestion vérifie que rien ne s'est perdu ni abîmé en route. Elle vérifie **cinq choses**, avec un score pour chacune.
+
+**1. Tous les documents sont arrivés dans la base** (seuil : 100 %)
+
+Le service prend les documents du corpus un par un et regarde si chacun a au moins un morceau dans la base. Le score est le nombre de documents présents divisé par le nombre de documents envoyés. Un document absent est invisible pour le RAG : aucune de ses informations ne pourra servir.
+
+**2. Les réponses aux questions sont arrivées intactes** (seuil : 95 %)
+
+Pour chaque question du corpus, le métier a identifié dans les documents le ou les passages qui contiennent la réponse, et les a copiés-collés dans le fichier d'annotation. Le service cherche chacun de ces passages dans les morceaux du même document et de la même page, avec une petite tolérance pour les fautes de lecture. Le score est le nombre de passages retrouvés divisé par le nombre de passages. Un passage perdu, c'est une question qui n'aura jamais de bonne réponse, quelle que soit la qualité de la suite.
+
+Les points 1 et 2 ne font pas doublon. Le premier compte les cartons ; le second ouvre ceux dont on a besoin et vérifie que les objets importants ne sont pas cassés. Un document peut être arrivé alors que la réponse qu'il contient a été abîmée.
+
+**3. Les pages scannées ont été bien lues** (seuil : 2 % d'erreurs au plus)
+
+Une page scannée est une image : le service d'ingestion doit en reconnaître le texte. Le métier a retapé à la main quelques-unes de ces pages. Le service compare ce texte à celui que le service d'ingestion a lu, caractère par caractère. Le score est le nombre de caractères mal lus divisé par le nombre de caractères retapés. Un mot mal lu ne sera plus reconnu par la recherche.
+
+**4. Chaque morceau sait d'où il vient et à qui il est réservé** (seuil : 100 %)
+
+Chaque morceau doit porter son document, sa page et ses droits d'accès (« ouvert à tous » ou « réservé à un service »). Le score est le nombre de morceaux qui ont ces trois informations divisé par le nombre de morceaux. Sans le document et la page, le RAG ne peut pas citer sa source. Sans les droits d'accès, il ne peut pas cacher un document réservé à la Maintenance à quelqu'un de l'Exploitation.
+
+**5. Le découpage n'a pas coupé de réponse en deux** (sans seuil, il sert à comprendre)
+
+Quand un passage n'est dans aucun morceau en entier, le service essaie de recoller deux morceaux qui se suivent. S'il le retrouve ainsi, le passage compte comme retrouvé au point 2, mais il est signalé comme coupé. Le score est le nombre de passages coupés divisé par le nombre de passages. S'il est élevé, il faut revoir le découpage.
+
+Le détail des règles est plus bas : [le rattachement](#comment-le-kit-tranche--le-rattachement), et [les scores avec leur code](#les-scores).
 
 C'est la première évaluation, et elle peut tourner juste après l'ingestion, avant que le RAG ait répondu à une seule question. Un passage absent de l'index ne pourra jamais être retrouvé ([évaluation 2](2_evaluation_recherche.md)), ni donner une bonne réponse ([évaluation 3](3_evaluation_reponse.md)).
 
