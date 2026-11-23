@@ -12,7 +12,7 @@ Les trois dossiers du dépôt :
 
 **Pourquoi.** Le service a besoin de trois choses : son code, Langfuse (l'outil web où le métier relit les réponses), et un modèle de langage, le **juge**, qui note les réponses du RAG. Le juge appartient au service, pas au RAG.
 
-**Ce que vous faites.** Copier `service-evaluation/` dans votre projet. Mettre dans `.env` la clé de l'API du modèle juge, puis, depuis ce dossier :
+**Ce que vous faites.** Copier `service-evaluation/` dans votre projet, puis suivre l'étape 0 de [son README](service-evaluation/README.md#la-marche-à-suivre) : elle dit ce qui s'installe (la commande `kit`, Langfuse et ses bases de données, l'accès au modèle juge) et à quoi sert chaque chose. En résumé, depuis ce dossier, après avoir mis dans `.env` la clé de l'API du juge :
 
 ```bash
 ./initialiser.sh && docker compose up -d && uv run kit verifier-modeles
@@ -22,11 +22,11 @@ Les trois dossiers du dépôt :
 
 **Le détail.** [README du service, étape 0](service-evaluation/README.md#la-marche-à-suivre).
 
-## Étape 1. Demander le corpus au métier
+## Étape 1. Construire le corpus d'évaluation
 
 **Pourquoi.** Pour juger un RAG, il faut savoir ce qu'il aurait dû répondre. Le corpus annoté le dit : des questions réelles, leur bonne réponse, et le passage exact des documents où elle se trouve. Le RAG ne le voit jamais ; il ne reçoit que les documents.
 
-**Ce que vous faites.** Donner au métier le fichier Excel vierge, [`service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx`](service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx), et les règles pour le remplir : [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md), section 1. Il rend les documents, un fichier par document nommé par sa référence, et le fichier rempli.
+**Ce que vous faites.** C'est le métier qui le remplit. Vous lui donnez le fichier Excel vierge, [`service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx`](service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx), et les règles pour le remplir : [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md), section 1. Il rend les documents, un fichier par document nommé par sa référence, et le fichier rempli.
 
 **Dans l'exemple.** L'entreprise est fictive : Claude a joué le métier. Il a rendu [50 documents](service-evaluation-exemple/corpus_annote/corpus_documentaire/) et [le fichier rempli](service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx) : 60 questions, 97 passages, 20 pages scannées retapées. Les 60 questions sur une page : [questions_pour_relecture.md](service-evaluation-exemple/corpus_annote/questions_pour_relecture.md).
 
