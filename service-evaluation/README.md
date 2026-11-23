@@ -78,13 +78,13 @@ Si une ligne est fausse, rien n'est importé, et chaque erreur est listée avec 
 
 **2. Fixer les seuils avec le métier**, avant toute évaluation, dans [`config/seuils.json`](config/seuils.json).
 
-**3. Brancher votre RAG.** Copier [`endpoints_a_copier/`](endpoints_a_copier/) dans votre RAG, y brancher ses fonctions ([guide 0b](documentation/0b_endpoints_du_rag.md)), lancer le RAG, mettre son adresse dans `rag.adresse` de [`config/kit.yaml`](config/kit.yaml), puis vérifier :
+**3. Ouvrir les quatre endpoints du RAG au service.** Copier [`endpoints_a_copier/`](endpoints_a_copier/) dans votre RAG, y brancher ses fonctions ([guide 0b](documentation/0b_endpoints_du_rag.md)), lancer le RAG, mettre son adresse dans `rag.adresse` de [`config/kit.yaml`](config/kit.yaml), puis vérifier :
 
 ```bash
 uv run kit appeler-rag
 ```
 
-**4. Lancer l'évaluation.** Le service appelle lui-même votre RAG : il lui envoie les documents, pose toutes les questions, puis enchaîne les quatre évaluations. Votre RAG n'a qu'à rester allumé.
+**4. Évaluer une configuration du RAG.** Le service appelle lui-même votre RAG : il lui envoie les documents, pose toutes les questions, puis enchaîne les quatre évaluations. Votre RAG n'a qu'à rester allumé.
 
 ```bash
 uv run kit evaluer
