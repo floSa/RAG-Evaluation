@@ -18,6 +18,8 @@ flowchart TD
 
 Une évaluation, c'est un corpus évalué avec une version du RAG. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_graphrag-vectoriel-k5-5954e822` chez l'auteur ; chez vous, la version du corpus est la date de votre import. `kit evaluer` affiche le dossier à la fin ; sinon : `ls sorties/resultats/`. Ses résultats sont à trois endroits.
 
+Pour voir à quoi ils ressemblent sans rien lancer : [`resultats_exemple/`](../resultats_exemple/), les quatre évaluations citées dans ce guide.
+
 **Dans un dossier**, `sorties/resultats/<évaluation>/` :
 
 | Fichier | Pour qui | Contenu |
