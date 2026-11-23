@@ -1,7 +1,8 @@
 """Endpoint 2 — montrer l'index (SORTIE) : ce que le RAG a lu et découpé, et sa version exacte.
 
 Ce qu'elle rend :
-    rag      la description du RAG : nom, version_rag, type_rag (vectoriel ou hybride), k, versions des briques
+    rag      la description du RAG : nom, version_rag, type_rag (vectoriel ou hybride), k, versions des briques,
+             et ses autres réglages (« reglages ») : un par fonctionnalité du RAG qu'on peut changer
     chunks   chaque chunk de l'index, avec sa référence, sa version, sa page, son type, ses droits, son ordre
     pages    le texte de chaque page lue, avant découpage (pour mesurer l'OCR)
     graphe   le graphe en RDF (Turtle), avec sa provenance, si le RAG en a un ; sinon null
@@ -28,7 +29,12 @@ def decrire(assistant: Assistant) -> dict:
     return {"contrat": "1.0", "nom": config["nom"],
             "version_rag": f"{config['nom']}-{type_rag}-k{assistant.k}-{empreinte([versions, m['generation'], SYSTEME])}",
             "type_rag": type_rag, "date": time.strftime("%Y-%m-%d"), "k": assistant.k,
-            "versions": versions, "filtre_droits": True}
+            "versions": versions, "filtre_droits": True,
+            # Les réglages qui n'ont pas de champ à eux dans le contrat : autant qu'en a le RAG
+            "reglages": {"réflexion du modèle": not m["generation"].get("sans_reflexion", False),
+                         "recherche par mots-clés": True,                 # BM25, toujours fusionnée aux vecteurs
+                         "graphe": bool(assistant.index.graphe_ttl),
+                         "candidats avant fusion": config["recherche"]["candidats"]}}
 
 
 def montrer_index(assistant: Assistant) -> dict:
