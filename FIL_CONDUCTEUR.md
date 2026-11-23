@@ -72,10 +72,10 @@ Le service se compose :
 
 Le corpus d'évaluation se compose des **documents** que le RAG doit lire, et d'un **fichier Excel** qui donne, pour chaque question, la bonne réponse et le passage exact des documents où elle se trouve. Le RAG ne reçoit que les documents, jamais le fichier.
 
-Les documents sont de deux sortes, mélangeables dans un même corpus. Ce sont des **fichiers** (PDF, Word, Excel), repérés par leur référence et leur page. Ou ce sont des **fiches de GED** : les fiches, tickets ou comptes rendus d'une base documentaire, qui s'affichent à l'écran sans être des fichiers. Le métier les repère par leur numéro dans la GED et le nom du champ où se trouve la réponse (« Résolution »…) ; le RAG les lit lui-même dans la GED. Les règles : [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md#les-sources--fichiers-et-fiches-de-ged).
+Les documents peuvent être des fichiers (PDF, Word, Excel) ou des fiches d'une GED (tickets, comptes rendus), mélangés dans un même corpus.
 
 **À faire.**
-- Transmettre au métier [le fichier Excel vierge](service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx) et [les règles pour le remplir](service-evaluation/documentation/0a_construction_du_corpus.md#1-ce-que-le-métier-annote) : c'est lui qui construit le corpus, car il connaît les documents et les questions des utilisateurs.
+- Transmettre au métier [le fichier Excel vierge](service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx) et [les règles pour le remplir](service-evaluation/documentation/0a_construction_du_corpus.md#1-ce-que-le-métier-annote), dont [la façon de repérer un fichier ou une fiche de GED](service-evaluation/documentation/0a_construction_du_corpus.md#les-sources--fichiers-et-fiches-de-ged) : c'est lui qui construit le corpus, car il connaît les documents et les questions des utilisateurs.
 - Récupérer les documents, un fichier par document nommé par sa référence, et le fichier rempli.
 - Ranger les documents dans `corpus_annote/corpus_documentaire/`, et le fichier dans `corpus_annote/`.
 - [Importer le corpus](service-evaluation/documentation/0a_construction_du_corpus.md#3-importer-le-corpus). Le service contrôle chaque ligne : s'il trouve une erreur, il n'importe rien et donne la liste des corrections à demander au métier.
@@ -95,53 +95,14 @@ Il s'agit d'ajouter au RAG les quatre adresses web que le service appelle (voir 
 
 ## 3. Évaluer une configuration du RAG
 
-**Ce qu'est une configuration.** Une configuration est un ensemble de réglages du RAG. On en évalue plusieurs, qui ne diffèrent que par un réglage, pour savoir lequel améliore le RAG.
-
-**Les réglages que tout RAG possède**, à tester en premier :
-
-| Réglage | Ce que c'est, et ce qu'il change |
-| --- | --- |
-| Nombre de morceaux ramenés (k) | le nombre de morceaux de texte que la recherche renvoie pour une question, et que le modèle lit pour répondre. Plus il y en a, plus le bon morceau a de chances d'y être, mais plus la réponse est lente et noyée dans des morceaux inutiles |
-| Seuil de pertinence | la ressemblance minimale avec la question qu'un morceau doit avoir pour être ramené, même s'il fait partie des k premiers. Trop bas, le modèle lit des morceaux hors sujet ; trop haut, il ne lit plus rien et répond « je ne sais pas » |
-| Taille des morceaux | la longueur des morceaux découpés dans les documents, en caractères ou en tokens (un token vaut environ 4 caractères), et leur chevauchement. Trop petits, ils coupent une réponse en deux ; trop grands, ils la noient dans le reste du texte |
-| Modèle qui écrit la réponse | le modèle de langage qui rédige la réponse à partir des morceaux. Un modèle plus gros répond plus juste, mais plus lentement et plus cher |
-| Consigne du modèle (prompt) | le texte qui dit au modèle comment répondre : s'en tenir aux morceaux, citer ses sources, dire « je ne sais pas ». Elle joue sur les inventions et sur les abstentions |
-
-**Les réglages pour aller plus loin**, seulement si le RAG les possède :
-
-| Réglage | Ce que c'est, et ce qu'il change |
-| --- | --- |
-| Modèle de vectorisation (embedding) | le modèle qui transforme chaque morceau et chaque question en vecteur, pour que la recherche trouve les morceaux de même sens. Un modèle adapté à la langue et au vocabulaire du métier retrouve plus de bons passages. Le changer oblige à refaire l'ingestion |
-| Recherche par mots-clés | une recherche classique, par les mots, ajoutée à la recherche par vecteurs. Elle retrouve les références et les codes, que les vecteurs saisissent mal |
-| Reclassement (reranker) | l'ajout ou non d'un second modèle, et lequel, qui relit les morceaux ramenés et les reclasse, pour mettre le meilleur en tête. Plus juste, mais plus lent |
-| Réflexion du modèle | le modèle raisonne avant de répondre. Des réponses plus justes, surtout pour les calculs, mais plus lentes |
-| Graphe (GraphRAG) | l'ajout ou non d'une carte des liens entre les éléments des documents (équipements, sites, personnes), et le modèle qui l'extrait des documents. La recherche la consulte en plus des morceaux ; elle aide pour les questions qui croisent plusieurs documents |
-
-**Le juge n'est pas un réglage du RAG.** Le juge, le modèle de langage qui note les réponses (en anglais, *LLM as a judge*), appartient au service d'évaluation et se règle dans son `config/kit.yaml`. Il reste le même pour toutes les configurations : sinon, leurs scores ne se compareraient pas.
-
-**Ce qui ne change pas.** Les réglages qu'on ne fait pas varier restent les mêmes d'une configuration à l'autre. Le rapport les note quand même, pour qu'on sache toujours exactement ce qui a été évalué.
-
-**Où se remplissent les réglages.** Dans le RAG, pas dans le service d'évaluation. Chaque RAG a sa façon de les fixer : un fichier de réglages, souvent au format YAML ou `.env`, des options données au lancement, ou les deux. C'est l'équipe qui a construit le RAG qui sait où ils sont. Pour chaque configuration de la grille, fixer ses réglages dans le RAG, puis relancer le RAG pour qu'il les prenne en compte.
-
-**Lancer l'évaluation.** Le service d'évaluation s'utilise dans un terminal, avec la commande `kit` installée à l'étape 0. Le RAG doit tourner, avec la configuration à évaluer. Ouvrir un terminal dans le dossier `service-evaluation/`, puis taper :
-
-```bash
-uv run kit evaluer
-```
-
-Cette seule commande fait tout le déroulé décrit dans « Comment ils se parlent » :
-1. elle envoie les documents au RAG, qui les ingère ;
-2. elle lit ses morceaux de texte et sa configuration ;
-3. elle lui pose chaque question du fichier Excel ;
-4. elle calcule les scores, et écrit le rapport.
-
-**Le rapport.** Chaque évaluation écrit un rapport, `RAPPORT.md`, dans un dossier à son nom sous `resultats/evaluations/`. Il commence par la configuration évaluée, réglage par réglage. Il donne ensuite chaque score en une phrase, avec ses chiffres, pour que le métier comme l'équipe du projet le comprennent sans explication. Chaque pourcentage est donné avec son intervalle de confiance : la fourchette où se trouve le vrai résultat, large quand il y a peu de questions. Le service ne décide pas : c'est le métier qui tranche à la lecture des scores. Exemple : [le rapport de la configuration de référence du RAG d'exemple](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md).
+Une configuration est un ensemble de réglages du RAG : nombre de morceaux de texte ramenés, modèle qui écrit la réponse, consigne donnée à ce modèle… On en évalue plusieurs, qui ne diffèrent que par un réglage, pour savoir lequel améliore le RAG. Chaque évaluation produit un rapport.
 
 **À faire.**
-- Écrire la grille des configurations à tester, en commençant par les réglages que tout RAG possède, et en n'en changeant qu'un à la fois.
-- Pour chaque configuration : fixer ses réglages dans le RAG, relancer le RAG, puis lancer `uv run kit evaluer` dans `service-evaluation/`. À la fin, le service affiche les scores clés et le chemin du rapport.
+- Choisir les configurations à tester, en commençant par les réglages que tout RAG possède : [les réglages, expliqués](service-evaluation/documentation/0c_configurations_du_rag.md#2-les-réglages-que-tout-rag-possède).
+- Pour chaque configuration, fixer ses réglages dans le RAG, puis relancer le RAG : [où se remplissent les réglages](service-evaluation/documentation/0c_configurations_du_rag.md#5-où-se-remplissent-les-réglages).
+- Lancer l'évaluation : une commande à taper dans un terminal, dans le dossier du service, qui envoie les documents au RAG, lui pose les questions et écrit le rapport : [lancer l'évaluation](service-evaluation/documentation/0c_configurations_du_rag.md#6-lancer-lévaluation).
 
-**Dans l'exemple.** Le RAG d'exemple fixe ses réglages dans son fichier [`config/config.yaml`](service-rag-exemple/config/config.yaml) ; deux d'entre eux se changent aussi au lancement ([comment](service-rag-exemple/README.md#changer-de-configuration)). La grille testée fait varier trois réglages, un à la fois :
+**Dans l'exemple.** Quatre configurations, qui font varier trois réglages, un à la fois :
 
 | Configuration | Nombre de morceaux ramenés (k) | Réflexion du modèle | Graphe | Rapport |
 | --- | --- | --- | --- | --- |
@@ -150,11 +111,13 @@ Cette seule commande fait tout le déroulé décrit dans « Comment ils se parle
 | Sans réflexion | 5 | **non** (`sans_reflexion: true` dans `config.yaml`) | non | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) |
 | Hybride | 5 | oui | **oui** (`RAG_GRAPHE=true` au lancement) | [RAPPORT.md](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-hybride-k5-57001489/RAPPORT.md) |
 
-En gras, le réglage changé par rapport à la référence. Les autres réglages sont restés fixes : des morceaux découpés par section, d'au plus 1 500 caractères ; le modèle gemma-4-e4b pour écrire la réponse ; la consigne 1.0 ; le modèle embed pour la vectorisation ; une recherche par mots-clés en plus des vecteurs ; pas de reclassement.
+En gras, le réglage changé par rapport à la référence, et où il se change dans le RAG d'exemple. Les autres réglages sont restés fixes.
 
 ## 4. Lire le rapport, comparer, faire décider le métier
 
-**Lire le rapport.** Ouvrir le `RAPPORT.md` de la configuration, et le lire [dans cet ordre](service-evaluation/documentation/5_resultats_et_comparaison.md#2-lire-le-rapport-dans-lordre) :
+**Lire le rapport.** Chaque score y est écrit en une phrase, avec ses chiffres, et chaque pourcentage avec son intervalle de confiance : la fourchette où se trouve le vrai résultat, large quand il y a peu de questions. Le service ne décide pas : c'est le métier qui tranche. Exemple : [le rapport de la configuration de référence du RAG d'exemple](service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md).
+
+Ouvrir le `RAPPORT.md` de la configuration, et le lire [dans cet ordre](service-evaluation/documentation/5_resultats_et_comparaison.md#2-lire-le-rapport-dans-lordre) :
 1. les scores clés : ceux à présenter au métier, chacun en une phrase ;
 2. tous les scores, évaluation par évaluation : le premier score faible est souvent la cause des suivants ;
 3. les questions à regarder en premier : erreurs graves, réponses fausses, passages perdus ;
