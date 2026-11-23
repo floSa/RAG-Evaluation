@@ -50,7 +50,7 @@ Règles à suivre pour tout projet RAG : base vectorielle, graphe, ou agent. On 
 | Résultats par question | table resultats ; fichier resultats_par_question.csv | une ligne par question : chaque score de chaque niveau |
 | Scores globaux | table evaluations ; fichier scores.json | chaque score avec sa marge d'erreur, au total et par type de document, difficulté, type d'élément, profil et colonne ajoutée par le projet |
 | Langfuse | une « expérience » par évaluation, sur le jeu de questions du corpus | les scores attachés à chaque question ; les files de relecture du métier ; la comparaison de deux évaluations |
-| Rapport | rapport.html | une page : seuils atteints ou non, critères bloquants, questions à regarder en premier |
+| Rapport | RAPPORT.md (et rapport.html) | une page : seuils atteints ou non, critères bloquants, questions à regarder en premier |
 
 Chaque évaluation enregistre `rag.json`, la version du corpus et la version du kit : deux évaluations ne se comparent que si le corpus est le même.
 
@@ -349,7 +349,7 @@ On prend sur étagère ce qui existe. On code ce qu'aucun outil ne fait : le rat
 | Niveau 2 | recherches ; liens | scores du niveau 2 |
 | Niveau 3 | réponses ; recherches ; corpus | verdicts du juge ; scores du niveau 3 ; files de relecture |
 | Niveau 4 et décision | scores des niveaux 1 à 3 ; seuils | score pondéré, marges, décision |
-| Publication | tous les scores | base relationnelle, Langfuse, rapport.html |
+| Publication | tous les scores | base relationnelle, Langfuse, RAPPORT.md et rapport.html |
 | Vérification du juge | notes du métier et du juge | taux d'accord |
 
 Le bac à sable met en œuvre ce kit avec un RAG très simple, séparé du kit, et un petit corpus annoté selon le document 1 (consignes : `CLAUDE.md`).
