@@ -8,7 +8,7 @@ On regarde le RAG comme l'utilisateur le voit : une question, une réponse, au b
 
 **1. Le RAG est bon sur les questions qui comptent**
 
-Le métier a donné à chaque question une fréquence (rare 1, occasionnelle 2, fréquente 3) et une gravité (faible 1, moyenne 2, forte 3). Le poids de la question est fréquence × gravité, de 1 à 9. Chaque question reçoit sa note de l'[évaluation de la réponse](3_evaluation_reponse.md) : juste 1, partielle 0,5, fausse 0. Une abstention compte juste si la question n'a pas de réponse, et fausse si elle en a une. Le score est la moyenne des notes, pondérée par les poids. Une erreur sur une question fréquente et grave coûte 9 fois plus qu'une erreur sur une question rare et sans risque.
+Le métier a donné à chaque question une fréquence (rare 1, occasionnelle 2, fréquente 3) et une gravité (faible 1, moyenne 2, forte 3). Le poids de la question est fréquence × gravité, de 1 à 9. Chaque question reçoit sa note du guide [3. Évaluation de la réponse](3_evaluation_reponse.md) : juste 1, partielle 0,5, fausse 0. Une abstention compte juste si la question n'a pas de réponse, et fausse si elle en a une. Le score est la moyenne des notes, pondérée par les poids. Une erreur sur une question fréquente et grave coûte 9 fois plus qu'une erreur sur une question rare et sans risque.
 
 **2. Aucune erreur grave**
 
@@ -53,7 +53,7 @@ Elle est déjà lancée par `kit evaluer`. Pour la relancer seule, sur les derni
 uv run kit evaluer-bout-en-bout
 ```
 
-Elle a besoin de l'[évaluation 3](3_evaluation_reponse.md). Elle affiche les scores clés en clair et écrit le rapport.
+Elle a besoin du guide [3. Évaluation de la réponse](3_evaluation_reponse.md). Elle affiche les scores clés en clair et écrit le rapport.
 
 ## Tout en une commande
 
@@ -63,7 +63,7 @@ En pratique, une seule commande fait tout, une fois le RAG lancé :
 uv run kit evaluer
 ```
 
-Elle appelle d'abord les quatre endpoints du RAG ([0b](0b_endpoints_du_rag.md)) : elle lui envoie les documents, lui pose les 60 questions, et range ses réponses (5 minutes environ pour le RAG d'exemple). Elle vérifie ce que le RAG a rendu : si quelque chose est faux, elle s'arrête et dit pourquoi. Puis elle enchaîne les évaluations 1 à 4, dans l'ordre (5 minutes environ, dont 3 pour le juge).
+Elle appelle d'abord les quatre endpoints du RAG ([0b. Les endpoints du RAG : ce que chaque RAG doit fournir](0b_endpoints_du_rag.md)) : elle lui envoie les documents, lui pose les 60 questions, et range ses réponses (5 minutes environ pour le RAG d'exemple). Elle vérifie ce que le RAG a rendu : si quelque chose est faux, elle s'arrête et dit pourquoi. Puis elle enchaîne les évaluations 1 à 4, dans l'ordre (5 minutes environ, dont 3 pour le juge).
 
 Pour réévaluer des réponses déjà rangées, sans rappeler le RAG : `uv run kit evaluer --rag resultats/reponses_du_rag/<version du RAG>`. Une évaluation s'appelle `<version du corpus>_<version du RAG>`. Relancer une étape remplace ses résultats. Évaluer une autre version du RAG crée une autre évaluation.
 

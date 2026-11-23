@@ -40,12 +40,12 @@ flowchart LR
 
 | Endpoint | Adresse | Le service d'évaluation envoie | Le RAG rend | Pour l'évaluation |
 | --- | --- | --- | --- | --- |
-| ① **ingérer** | `POST /ingerer` | les documents du corpus : pour chacun, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces`, `fichier` (son nom) et `contenu` (le fichier, en base64). Pour une fiche de GED sans fichier, `fichier` et `contenu` sont vides : le RAG lit la fiche dans sa GED, par sa référence | « c'est fait » : nombre de documents, de chunks, de pages | [1](1_evaluation_ingestion.md) |
-| ② **montrer l'index** | `GET /index` | rien | `rag` : sa description et sa version exacte ; `chunks` : chaque chunk de l'index avec la référence du document, sa version, la page, le type d'élément, les droits d'accès, l'ordre ; `pages` : le texte de chaque page lue, avant découpage ; `graphe` : son graphe en RDF, s'il en a un | [1](1_evaluation_ingestion.md) |
-| ③ **rechercher** | `POST /rechercher` | `question`, `profil`, `historique` | `resultats` : les k chunks retrouvés, dans l'ordre (`chunk_id`, `rang`, `score`), avant toute génération ; `duree_ms` | [2](2_evaluation_recherche.md) |
-| ④ **répondre** | `POST /repondre` | `question`, `profil`, `historique` | `reponse`, `abstention` (vrai si le RAG dit ne pas savoir), `chunks_cites`, `chunks_contexte`, `duree_ms`, `cout`, `tokens_entree`, `tokens_sortie`, `trace_id` | [3](3_evaluation_reponse.md), [4](4_evaluation_bout_en_bout.md) |
+| ① **ingérer** | `POST /ingerer` | les documents du corpus : pour chacun, `reference_source`, `titre`, `type_document`, `version`, `format`, `droits_acces`, `fichier` (son nom) et `contenu` (le fichier, en base64). Pour une fiche de GED sans fichier, `fichier` et `contenu` sont vides : le RAG lit la fiche dans sa GED, par sa référence | « c'est fait » : nombre de documents, de chunks, de pages | [1. Évaluation de l'ingestion](1_evaluation_ingestion.md) |
+| ② **montrer l'index** | `GET /index` | rien | `rag` : sa description et sa version exacte ; `chunks` : chaque chunk de l'index avec la référence du document, sa version, la page, le type d'élément, les droits d'accès, l'ordre ; `pages` : le texte de chaque page lue, avant découpage ; `graphe` : son graphe en RDF, s'il en a un | [1. Évaluation de l'ingestion](1_evaluation_ingestion.md) |
+| ③ **rechercher** | `POST /rechercher` | `question`, `profil`, `historique` | `resultats` : les k chunks retrouvés, dans l'ordre (`chunk_id`, `rang`, `score`), avant toute génération ; `duree_ms` | [2. Évaluation de la recherche](2_evaluation_recherche.md) |
+| ④ **répondre** | `POST /repondre` | `question`, `profil`, `historique` | `reponse`, `abstention` (vrai si le RAG dit ne pas savoir), `chunks_cites`, `chunks_contexte`, `duree_ms`, `cout`, `tokens_entree`, `tokens_sortie`, `trace_id` | [3. Évaluation de la réponse](3_evaluation_reponse.md), [4. Évaluation de bout en bout](4_evaluation_bout_en_bout.md) |
 
-Le détail de chaque champ est dans le [contrat](methode_et_contrat/contrat_des_fichiers.md#3-ce-que-le-rag-rend). Le RAG d'exemple publie aussi la documentation de ses endpoints, générée, à http://127.0.0.1:8100/docs.
+Le détail de chaque champ est dans le [Contrat entre un RAG et le kit d'évaluation — version 1.0](methode_et_contrat/contrat_des_fichiers.md#3-ce-que-le-rag-rend). Le RAG d'exemple publie aussi la documentation de ses endpoints, générée, à http://127.0.0.1:8100/docs.
 
 ## 2. Les règles
 
@@ -82,7 +82,7 @@ Avant de toucher à votre RAG, lancez le modèle tel quel, depuis `endpoints_a_c
 uv run --with fastapi --with uvicorn --with pypdf uvicorn endpoints_evaluation:app --host 127.0.0.1 --port 8100
 ```
 
-Votre RAG n'est pas en Python ? Il ouvre les mêmes quatre adresses, avec les mêmes champs ([contrat](methode_et_contrat/contrat_des_fichiers.md#les-endpoints-dévaluation)).
+Votre RAG n'est pas en Python ? Il ouvre les mêmes quatre adresses, avec les mêmes champs ([Contrat entre un RAG et le kit d'évaluation — version 1.0](methode_et_contrat/contrat_des_fichiers.md#les-endpoints-dévaluation)).
 
 ### ① Ingérer
 

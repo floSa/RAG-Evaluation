@@ -26,7 +26,7 @@ Le service d'évaluation appelle ces quatre adresses web, à http://127.0.0.1:81
 | ③ `POST /rechercher` | pour une question, rend les k morceaux retrouvés |
 | ④ `POST /repondre` | pour une question, rend la réponse, ses sources, et s'il s'abstient |
 
-Leur code est dans [`src/rag/endpoints_evaluation/`](src/rag/endpoints_evaluation/). C'est la seule partie du RAG écrite pour l'évaluation : si on la supprime, le RAG marche toujours. La règle que chaque RAG doit suivre : [guide 0b](../service-evaluation/documentation/0b_endpoints_du_rag.md).
+Leur code est dans [`src/rag/endpoints_evaluation/`](src/rag/endpoints_evaluation/). C'est la seule partie du RAG écrite pour l'évaluation : si on la supprime, le RAG marche toujours. La règle que chaque RAG doit suivre : [0b. Les endpoints du RAG : ce que chaque RAG doit fournir](../service-evaluation/documentation/0b_endpoints_du_rag.md).
 
 ## Ce qu'il y a dans ce dossier
 

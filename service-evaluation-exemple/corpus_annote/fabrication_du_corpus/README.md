@@ -12,4 +12,4 @@ De quoi refabriquer le corpus fictif. Rarement utile : seulement pour modifier l
 | [`remplir_excel.py`](remplir_excel.py) | vérifie chaque passage contre son document, et remplit le fichier Excel |
 | [`polices/`](polices/) | les polices utilisées dans les PDF |
 
-Les commandes : [guide 0a](../../../service-evaluation/documentation/0a_construction_du_corpus.md#2-le-corpus-dexemple-prêt-à-lemploi).
+Les commandes : [0a. Construction du corpus](../../../service-evaluation/documentation/0a_construction_du_corpus.md#2-le-corpus-dexemple-prêt-à-lemploi).

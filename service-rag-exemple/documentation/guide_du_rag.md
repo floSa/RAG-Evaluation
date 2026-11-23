@@ -140,7 +140,7 @@ Trouver les k chunks les plus utiles. Deux recherches, par le sens et par les mo
 
 Rédiger la réponse à partir des chunks retrouvés, et d'eux seuls. Chaque phrase cite son extrait, [1], [2]… Si les extraits ne suffisent pas, le modèle répond une phrase fixe, « Je ne trouve pas cette information dans les documents. », au lieu d'inventer.
 
-Le modèle « réfléchit » avant d'écrire, et cette réflexion compte dans `max_tokens`. Avec 800, les réponses longues revenaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046) ; avec 4 000, la plus longue en prend 1 265. Couper la réflexion (`sans_reflexion: true`) corrige aussi la coupure, et répond 9 fois plus vite, mais l'évaluation montre qu'elle fait perdre des calculs : [guide 5](../../service-evaluation/documentation/5_resultats_et_comparaison.md#5-comparer-deux-versions).
+Le modèle « réfléchit » avant d'écrire, et cette réflexion compte dans `max_tokens`. Avec 800, les réponses longues revenaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046) ; avec 4 000, la plus longue en prend 1 265. Couper la réflexion (`sans_reflexion: true`) corrige aussi la coupure, et répond 9 fois plus vite, mais l'évaluation montre qu'elle fait perdre des calculs : [5. Résultats et comparaison](../../service-evaluation/documentation/5_resultats_et_comparaison.md#5-comparer-deux-versions).
 
 ## Le régler : un seul fichier
 
@@ -204,4 +204,4 @@ La **version du RAG** (`graphrag-vectoriel-k5-5954e822`, ou `graphrag-hybride-k5
 | Un seul prompt, petit modèle (4 milliards de paramètres) | évaluation 3 (réponse) : les synthèses sur l'ensemble des documents sont fausses |
 | Graphe extrait par un petit modèle, page par page : il range parfois une personne « sur » un site, ou fait « secourir » un site par un onduleur | évaluation 1 (ingestion) : violations des règles de l'ontologie (25 sur le corpus d'exemple), et justesse des relations jugée par le métier |
 
-Pour aller plus loin, le [document 2](reference/techniques_rag.md) décrit les techniques d'un RAG selon les cas, et ce qu'il faut corriger quand un score est mauvais.
+Pour aller plus loin, le document [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](reference/techniques_rag.md) décrit les techniques d'un RAG selon les cas, et ce qu'il faut corriger quand un score est mauvais.

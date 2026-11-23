@@ -30,7 +30,7 @@ Quand un passage n'est dans aucun morceau en entier, le service essaie de recoll
 
 Le détail des règles est plus bas : [le rattachement](#comment-le-kit-tranche--le-rattachement), et [les scores avec leur code](#les-scores).
 
-C'est la première évaluation, et elle peut tourner juste après l'ingestion, avant que le RAG ait répondu à une seule question. Un passage absent de l'index ne pourra jamais être retrouvé ([évaluation 2](2_evaluation_recherche.md)), ni donner une bonne réponse ([évaluation 3](3_evaluation_reponse.md)).
+C'est la première évaluation, et elle peut tourner juste après l'ingestion, avant que le RAG ait répondu à une seule question. Un passage absent de l'index ne pourra jamais être retrouvé ([2. Évaluation de la recherche](2_evaluation_recherche.md)), ni donner une bonne réponse ([3. Évaluation de la réponse](3_evaluation_reponse.md)).
 
 ```mermaid
 flowchart LR
@@ -163,7 +163,7 @@ C'est la limite d'un petit modèle qui extrait page par page. La première sorte
 
 ## Si c'est mauvais
 
-Extraction, OCR, tableaux, images, découpage : le [document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md), sections 3 et 4.
+Extraction, OCR, tableaux, images, découpage : le document [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](../../service-rag-exemple/documentation/reference/techniques_rag.md), sections 3 et 4.
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 

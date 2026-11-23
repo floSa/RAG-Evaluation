@@ -6,7 +6,7 @@ Ce qui est générique, valable pour tout projet, est dans [`service-evaluation/
 
 ## Comment fonctionne l'évaluation
 
-**Le principe.** Le service d'évaluation se comporte comme un utilisateur automatique qui connaîtrait les bonnes réponses. Il fait lire des documents au RAG, lui pose des questions dont le métier a écrit la bonne réponse, puis compare ce que le RAG a fait à ce qu'il aurait dû faire. La méthode complète : [méthode d'évaluation](documentation/methode_et_contrat/methode_evaluation.md).
+**Le principe.** Le service d'évaluation se comporte comme un utilisateur automatique qui connaîtrait les bonnes réponses. Il fait lire des documents au RAG, lui pose des questions dont le métier a écrit la bonne réponse, puis compare ce que le RAG a fait à ce qu'il aurait dû faire. La méthode complète : [Évaluer le RAG avec le corpus](documentation/methode_et_contrat/methode_evaluation.md).
 
 **Qui fait quoi.**
 
@@ -16,7 +16,7 @@ Ce qui est générique, valable pour tout projet, est dans [`service-evaluation/
 | **Fait** | envoie les documents au RAG, lui pose les questions, note ses réponses, écrit le rapport | ingère les documents reçus, recherche, répond, avec son code habituel |
 | **Ne voit jamais** | le code du RAG | les bonnes réponses du métier |
 
-**Comment ils se parlent.** Le RAG ouvre quatre **endpoints**, quatre adresses web de forme fixe, décrits dans le [guide 0b](documentation/0b_endpoints_du_rag.md). Le service les appelle dans cet ordre :
+**Comment ils se parlent.** Le RAG ouvre quatre **endpoints**, quatre adresses web de forme fixe, décrits dans le guide [0b. Les endpoints du RAG : ce que chaque RAG doit fournir](documentation/0b_endpoints_du_rag.md). Le service les appelle dans cet ordre :
 
 ```mermaid
 sequenceDiagram
@@ -39,16 +39,16 @@ C'est donc le service qui déclenche l'ingestion, mais c'est le code du RAG qui 
 
 **Ce que vérifie le service.** Il **évalue une configuration** du RAG, c'est-à-dire le RAG avec tous ses réglages fixés (par exemple, le nombre de morceaux que la recherche ramène pour chaque question). Il vérifie, dans l'ordre :
 
-1. **L'ingestion** : rien ne s'est perdu ni abîmé quand le RAG a découpé les documents et les a rangés dans sa base. Le détail des scores : [guide 1](documentation/1_evaluation_ingestion.md).
-2. **La recherche** : pour chaque question, la recherche ramène les morceaux qui contiennent la réponse, et jamais un document interdit à la personne qui pose la question. Le détail : [guide 2](documentation/2_evaluation_recherche.md).
-3. **La réponse** : elle est juste, ne dit que ce que disent les documents, et le RAG sait dire « je ne sais pas ». Pour juger si une réponse écrite en phrases est juste, le service utilise un modèle de langage, le **juge** : il appartient au service, pas au RAG, et compare chaque réponse du RAG à la bonne réponse écrite par le métier, point par point. On vérifie d'abord le juge lui-même : il doit donner les mêmes notes que le métier sur un échantillon. Le détail : [guide 3](documentation/3_evaluation_reponse.md), et la consigne donnée au juge : [prompt du juge](documentation/methode_et_contrat/prompt_du_juge.md).
-4. **De bout en bout** : le RAG est bon sur les questions qui comptent le plus, assez rapide, et pas trop cher. Le détail : [guide 4](documentation/4_evaluation_bout_en_bout.md).
+1. **L'ingestion** : rien ne s'est perdu ni abîmé quand le RAG a découpé les documents et les a rangés dans sa base. Le détail des scores : [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md).
+2. **La recherche** : pour chaque question, la recherche ramène les morceaux qui contiennent la réponse, et jamais un document interdit à la personne qui pose la question. Le détail : [2. Évaluation de la recherche](documentation/2_evaluation_recherche.md).
+3. **La réponse** : elle est juste, ne dit que ce que disent les documents, et le RAG sait dire « je ne sais pas ». Pour juger si une réponse écrite en phrases est juste, le service utilise un modèle de langage, le **juge** : il appartient au service, pas au RAG, et compare chaque réponse du RAG à la bonne réponse écrite par le métier, point par point. On vérifie d'abord le juge lui-même : il doit donner les mêmes notes que le métier sur un échantillon. Le détail : [3. Évaluation de la réponse](documentation/3_evaluation_reponse.md), et la consigne donnée au juge : [Le LLM juge du kit — version 1.0](documentation/methode_et_contrat/prompt_du_juge.md).
+4. **De bout en bout** : le RAG est bon sur les questions qui comptent le plus, assez rapide, et pas trop cher. Le détail : [4. Évaluation de bout en bout](documentation/4_evaluation_bout_en_bout.md).
 
 Il **ne décide pas** : il donne les scores, chacun en une phrase que le métier comprend, par exemple « pour 9 questions sur 13, la recherche ramène le passage qui contient la réponse ». C'est le métier qui tranche.
 
-Il peut aussi **comparer deux configurations** déjà évaluées : laquelle fait mieux, et l'écart est-il réel ou dû au hasard ? Chaque évaluation et chaque comparaison produit un rapport, `RAPPORT.md`, lisible directement sur GitHub ([guide 5](documentation/5_resultats_et_comparaison.md)).
+Il peut aussi **comparer deux configurations** déjà évaluées : laquelle fait mieux, et l'écart est-il réel ou dû au hasard ? Chaque évaluation et chaque comparaison produit un rapport, `RAPPORT.md`, lisible directement sur GitHub ([5. Résultats et comparaison](documentation/5_resultats_et_comparaison.md)).
 
-**Où se remplit la configuration.** Une configuration est l'ensemble des réglages du RAG pendant une évaluation : nombre de morceaux de texte ramenés, modèle qui écrit les réponses, consigne donnée à ce modèle… Elle se remplit dans le RAG lui-même, avant chaque évaluation ; l'étape 3 explique quels réglages, et comment. Le service n'a qu'une chose à savoir du RAG : son adresse. Le RAG lui déclare sa configuration à l'appel ②, et le service la recopie en tête du rapport. Ce que le RAG déclare, champ par champ : [contrat des fichiers](documentation/methode_et_contrat/contrat_des_fichiers.md).
+**Où se remplit la configuration.** Une configuration est l'ensemble des réglages du RAG pendant une évaluation : nombre de morceaux de texte ramenés, modèle qui écrit les réponses, consigne donnée à ce modèle… Elle se remplit dans le RAG lui-même, avant chaque évaluation ; l'étape 3 explique quels réglages, et comment. Le service n'a qu'une chose à savoir du RAG : son adresse. Le RAG lui déclare sa configuration à l'appel ②, et le service la recopie en tête du rapport. Ce que le RAG déclare, champ par champ : [Contrat entre un RAG et le kit d'évaluation — version 1.0](documentation/methode_et_contrat/contrat_des_fichiers.md).
 
 **Ce qui est générique, et ce que votre RAG doit savoir faire.** Le service est le même pour tous les RAG : il ne connaît que les quatre endpoints. Votre RAG, lui, doit savoir faire quatre choses, une par endpoint :
 1. ingérer une liste de fichiers qu'on lui envoie, avec sa chaîne d'ingestion habituelle, dans un espace séparé de la production ;
@@ -56,7 +56,7 @@ Il peut aussi **comparer deux configurations** déjà évaluées : laquelle fait
 3. rechercher pour une question, en écartant les sources interdites au profil qui la pose ;
 4. répondre, avec ses sources, et dire « je ne sais pas » quand c'est le cas.
 
-Le point à vérifier en premier est le 1. Si l'ingestion de votre RAG est une chaîne à part (un traitement planifié, une GED lue en direct, une application interrogée), l'endpoint ① doit déclencher cette chaîne sur les fichiers reçus. C'est le principal travail d'intégration ([guide 0b](documentation/0b_endpoints_du_rag.md)).
+Le point à vérifier en premier est le 1. Si l'ingestion de votre RAG est une chaîne à part (un traitement planifié, une GED lue en direct, une application interrogée), l'endpoint ① doit déclencher cette chaîne sur les fichiers reçus. C'est le principal travail d'intégration ([0b. Les endpoints du RAG : ce que chaque RAG doit fournir](documentation/0b_endpoints_du_rag.md)).
 
 ## Les étapes
 
@@ -83,7 +83,7 @@ Le service se compose :
 
 Le corpus d'évaluation se compose des **documents** que le RAG doit lire, et d'un **fichier Excel** qui donne, pour chaque question, la bonne réponse et le passage exact des documents où elle se trouve. Le RAG ne reçoit que les documents, jamais le fichier.
 
-Les documents sont de deux sortes, mélangeables dans un même corpus. Ce sont des **fichiers** (PDF, Word, Excel), repérés par leur référence et leur page. Ou ce sont des **fiches de GED** : les fiches, tickets ou comptes rendus d'une base documentaire, qui s'affichent à l'écran sans être des fichiers. Le métier les repère par leur numéro dans la GED et le nom du champ où se trouve la réponse (« Résolution »…) ; le RAG les lit lui-même dans la GED. Les règles : [guide 0a](documentation/0a_construction_du_corpus.md#les-sources--fichiers-et-fiches-de-ged).
+Les documents sont de deux sortes, mélangeables dans un même corpus. Ce sont des **fichiers** (PDF, Word, Excel), repérés par leur référence et leur page. Ou ce sont des **fiches de GED** : les fiches, tickets ou comptes rendus d'une base documentaire, qui s'affichent à l'écran sans être des fichiers. Le métier les repère par leur numéro dans la GED et le nom du champ où se trouve la réponse (« Résolution »…) ; le RAG les lit lui-même dans la GED. Les règles : [0a. Construction du corpus](documentation/0a_construction_du_corpus.md#les-sources--fichiers-et-fiches-de-ged).
 
 **À faire.**
 - Transmettre au métier [le fichier Excel vierge](corpus_annote/Corpus_evaluation_RAG.xlsx) et [les règles pour le remplir](documentation/0a_construction_du_corpus.md#1-ce-que-le-métier-annote) : c'est lui qui construit le corpus, car il connaît les documents et les questions des utilisateurs.
@@ -98,7 +98,7 @@ Les documents sont de deux sortes, mélangeables dans un même corpus. Ce sont d
 Il s'agit d'ajouter au RAG les quatre adresses web que le service appelle (voir « Comment ils se parlent », plus haut). Seule cette partie s'écrit pour l'évaluation : le reste du RAG ne change pas.
 
 **À faire.**
-- Copier dans le RAG [le code tout prêt des quatre endpoints](endpoints_a_copier/), et le relier aux fonctions du RAG : son ingestion, sa recherche, sa génération. Ce que chaque endpoint reçoit et doit rendre : [guide 0b](documentation/0b_endpoints_du_rag.md).
+- Copier dans le RAG [le code tout prêt des quatre endpoints](endpoints_a_copier/), et le relier aux fonctions du RAG : son ingestion, sa recherche, sa génération. Ce que chaque endpoint reçoit et doit rendre : [0b. Les endpoints du RAG : ce que chaque RAG doit fournir](documentation/0b_endpoints_du_rag.md).
 - Lancer le RAG, et inscrire son adresse dans `config/kit.yaml` du service.
 - [Vérifier le branchement](documentation/0b_endpoints_du_rag.md#4-vérifier-les-endpoints) : le service appelle les quatre endpoints et dit précisément ce qui ne va pas, jusqu'à « règle : respectée ».
 
@@ -132,7 +132,7 @@ Il s'agit d'ajouter au RAG les quatre adresses web que le service appelle (voir 
 
 **Ce qui ne change pas.** Les réglages qu'on ne fait pas varier restent les mêmes d'une configuration à l'autre. Le rapport les note quand même, pour qu'on sache toujours exactement ce qui a été évalué.
 
-**Où se remplissent les réglages.** Dans le RAG, pas dans le service d'évaluation. Chaque RAG a sa façon de les fixer : un fichier de réglages, souvent au format YAML ou `.env`, des options données au lancement, ou les deux. C'est l'équipe qui a construit le RAG qui sait où ils sont. Pour chaque configuration de la grille, fixer ses réglages dans le RAG, puis relancer le RAG pour qu'il les prenne en compte. Le détail : [guide 0c](documentation/0c_configurations_du_rag.md#1-où-se-remplissent-les-réglages).
+**Où se remplissent les réglages.** Dans le RAG, pas dans le service d'évaluation. Chaque RAG a sa façon de les fixer : un fichier de réglages, souvent au format YAML ou `.env`, des options données au lancement, ou les deux. C'est l'équipe qui a construit le RAG qui sait où ils sont. Pour chaque configuration de la grille, fixer ses réglages dans le RAG, puis relancer le RAG pour qu'il les prenne en compte. Le détail : [0c. Les configurations du RAG : fixer les réglages, puis lancer l'évaluation](documentation/0c_configurations_du_rag.md#1-où-se-remplissent-les-réglages).
 
 **Lancer l'évaluation.** Le service d'évaluation s'utilise dans un terminal, avec la commande `kit` installée à l'étape 0. Le RAG doit tourner, avec la configuration à évaluer. Une seule commande fait alors tout le déroulé décrit dans « Comment ils se parlent » :
 1. elle envoie les documents au RAG, qui les ingère ;
@@ -140,7 +140,7 @@ Il s'agit d'ajouter au RAG les quatre adresses web que le service appelle (voir 
 3. elle lui pose chaque question du fichier Excel ;
 4. elle calcule les scores, et écrit le rapport.
 
-La commande, et où la taper : [guide 0c](documentation/0c_configurations_du_rag.md#2-lancer-lévaluation).
+La commande, et où la taper : [0c. Les configurations du RAG : fixer les réglages, puis lancer l'évaluation](documentation/0c_configurations_du_rag.md#2-lancer-lévaluation).
 
 **Le rapport.** Chaque évaluation écrit un rapport, `RAPPORT.md`, dans un dossier à son nom sous `resultats/evaluations/`. Il commence par la configuration évaluée, réglage par réglage. Il donne ensuite chaque score en une phrase, avec ses chiffres, pour que le métier comme l'équipe du projet le comprennent sans explication. Chaque pourcentage est donné avec son intervalle de confiance : la fourchette où se trouve le vrai résultat, large quand il y a peu de questions. Le service ne décide pas : c'est le métier qui tranche à la lecture des scores. Exemple : [le rapport de la configuration de référence du RAG d'exemple](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md).
 
@@ -167,7 +167,7 @@ En gras, le réglage changé par rapport à la référence. Les autres réglages
 3. les questions à regarder en premier : erreurs graves, réponses fausses, passages perdus ;
 4. le diagnostic : pour chaque question ratée, la faute vient-elle de la recherche ou de la réponse.
 
-Pour un score faible, la partie « Si c'est mauvais » du guide de son évaluation dit quoi changer dans le RAG : [ingestion](documentation/1_evaluation_ingestion.md#si-cest-mauvais), [recherche](documentation/2_evaluation_recherche.md#si-cest-mauvais), [réponse](documentation/3_evaluation_reponse.md#si-cest-mauvais), [bout en bout](documentation/4_evaluation_bout_en_bout.md).
+Pour un score faible, la partie « Si c'est mauvais » du guide de son évaluation dit quoi changer dans le RAG : [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md#si-cest-mauvais), [2. Évaluation de la recherche](documentation/2_evaluation_recherche.md#si-cest-mauvais), [3. Évaluation de la réponse](documentation/3_evaluation_reponse.md#si-cest-mauvais), [4. Évaluation de bout en bout](documentation/4_evaluation_bout_en_bout.md).
 
 **Vérifier le juge**, une fois, avant de croire ses notes. Le service envoie 30 réponses au hasard dans Langfuse ; le métier note chacune juste, partielle ou fausse, sans voir la note du juge ; le service mesure l'accord. Le juge est validé à 90 % d'accord au moins ; sinon, changer de modèle juge. [Le pas à pas](documentation/3_evaluation_reponse.md#vérifier-le-juge-avant-de-lui-faire-confiance).
 
@@ -197,11 +197,11 @@ Pour un score faible, la partie « Si c'est mauvais » du guide de son évaluati
 | --- | --- |
 | [README du service](../service-evaluation/README.md) | l'installation, et toutes les commandes du service |
 | [La documentation du service](documentation/README.md) | la liste de tous les guides, dans l'ordre |
-| [Méthode du corpus annoté](documentation/methode_et_contrat/methode_corpus_annote.md) | la méthode complète pour construire le corpus d'évaluation : la référence du guide 0a |
-| [Méthode d'évaluation](documentation/methode_et_contrat/methode_evaluation.md) | la méthode complète des quatre évaluations : chaque score, son calcul, ses outils |
-| [Contrat des fichiers](documentation/methode_et_contrat/contrat_des_fichiers.md) | chaque fichier échangé entre le service et le RAG, champ par champ, et leurs [schémas](documentation/methode_et_contrat/schemas/) |
-| [Prompt du juge](documentation/methode_et_contrat/prompt_du_juge.md) | la consigne exacte donnée au juge, et la forme de sa note |
+| [Constituer le corpus d'évaluation d'un RAG](documentation/methode_et_contrat/methode_corpus_annote.md) | la méthode complète pour construire le corpus d'évaluation : la référence de [0a. Construction du corpus](documentation/0a_construction_du_corpus.md) |
+| [Évaluer le RAG avec le corpus](documentation/methode_et_contrat/methode_evaluation.md) | la méthode complète des quatre évaluations : chaque score, son calcul, ses outils |
+| [Contrat entre un RAG et le kit d'évaluation — version 1.0](documentation/methode_et_contrat/contrat_des_fichiers.md) | chaque fichier échangé entre le service et le RAG, champ par champ, et leurs [schémas](documentation/methode_et_contrat/schemas/) |
+| [Le LLM juge du kit — version 1.0](documentation/methode_et_contrat/prompt_du_juge.md) | la consigne exacte donnée au juge, et la forme de sa note |
 | [Les décisions](../DECISIONS.md) | les choix faits là où la méthode laissait une question ouverte, et pourquoi |
-| [Le RAG d'exemple](../service-rag-exemple/README.md) et [son guide](../service-rag-exemple/documentation/guide_du_rag.md) | comment le RAG évalué dans l'exemple est construit, et comment il ouvre ses endpoints |
-| [Les techniques de RAG](../service-rag-exemple/documentation/reference/techniques_rag.md) | les techniques qu'un RAG peut employer, de la lecture des documents à la génération : à lire pour comprendre les réglages et les corrections proposées par les guides 1 à 4 |
+| [Le RAG d'exemple](../service-rag-exemple/README.md) et [Guide du RAG d'exemple](../service-rag-exemple/documentation/guide_du_rag.md) | comment le RAG évalué dans l'exemple est construit, et comment il ouvre ses endpoints |
+| [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](../service-rag-exemple/documentation/reference/techniques_rag.md) | les techniques qu'un RAG peut employer, de la lecture des documents à la génération : à lire pour comprendre les réglages et les corrections proposées par les guides [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md) à [4. Évaluation de bout en bout](documentation/4_evaluation_bout_en_bout.md) |
 | [L'exemple complet](../service-evaluation-exemple/README.md) | toutes ces étapes faites pour de vrai sur le RAG d'exemple, avec leurs résultats |

@@ -4,7 +4,7 @@ Ce guide détaille la vérification 2, la recherche, présentée dans le [fil co
 
 ## Ce que vérifie cette évaluation
 
-Pour chaque question, la recherche du RAG compare la question aux vecteurs de la base et ramène les k morceaux les plus proches (ici 5), sans écrire de réponse. L'évaluation de la recherche vérifie que la bonne information est dans ce qui est ramené. Elle s'appuie sur l'[évaluation de l'ingestion](1_evaluation_ingestion.md), qui a déjà établi quels morceaux contiennent les passages du métier. Elle vérifie **cinq choses**, avec un score pour chacune.
+Pour chaque question, la recherche du RAG compare la question aux vecteurs de la base et ramène les k morceaux les plus proches (ici 5), sans écrire de réponse. L'évaluation de la recherche vérifie que la bonne information est dans ce qui est ramené. Elle s'appuie sur le guide [1. Évaluation de l'ingestion](1_evaluation_ingestion.md), qui a déjà établi quels morceaux contiennent les passages du métier. Elle vérifie **cinq choses**, avec un score pour chacune.
 
 **1. Le bon passage est ramené**
 
@@ -53,7 +53,7 @@ Elle est déjà lancée par `kit evaluer`. Pour la relancer seule, sur les derni
 uv run kit evaluer-recherche
 ```
 
-Elle a besoin de l'[évaluation de l'ingestion](1_evaluation_ingestion.md) (les liens passage ↔ chunk) et de `recherches.jsonl` ([endpoints du RAG, ③ rechercher](0b_endpoints_du_rag.md)).
+Elle a besoin du guide [1. Évaluation de l'ingestion](1_evaluation_ingestion.md) (les liens passage ↔ chunk) et de `recherches.jsonl` ([endpoints du RAG, ③ rechercher](0b_endpoints_du_rag.md)).
 
 ## Comment le kit tranche : « la réponse est dans »
 
@@ -89,7 +89,7 @@ Ce dernier chiffre est une tendance, pas une mesure, mais il dit où regarder en
 
 ## Si c'est mauvais
 
-Recherche hybride, reranker, filtres, choix de k : le [document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md), section 6.
+Recherche hybride, reranker, filtres, choix de k : le document [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](../../service-rag-exemple/documentation/reference/techniques_rag.md), section 6.
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 

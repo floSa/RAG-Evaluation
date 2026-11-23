@@ -36,7 +36,7 @@ flowchart LR
     P1 --> D1
 ```
 
-Pourquoi tant de détail ? Pour savoir **d'où vient une erreur**. Avec le passage exact, le kit peut dire si le RAG l'a bien *lu* ([évaluation 1](1_evaluation_ingestion.md)), s'il l'a *retrouvé* ([évaluation 2](2_evaluation_recherche.md)), et seulement ensuite si la réponse est *juste* ([évaluation 3](3_evaluation_reponse.md)). Sans passage, on sait qu'une réponse est fausse, mais pas pourquoi.
+Pourquoi tant de détail ? Pour savoir **d'où vient une erreur**. Avec le passage exact, le kit peut dire si le RAG l'a bien *lu* ([1. Évaluation de l'ingestion](1_evaluation_ingestion.md)), s'il l'a *retrouvé* ([2. Évaluation de la recherche](2_evaluation_recherche.md)), et seulement ensuite si la réponse est *juste* ([3. Évaluation de la réponse](3_evaluation_reponse.md)). Sans passage, on sait qu'une réponse est fausse, mais pas pourquoi.
 
 ### Le fichier à remplir
 
@@ -168,7 +168,7 @@ uv run kit importer ../service-evaluation-exemple/corpus_annote/Corpus_evaluatio
 
 L'import fait, dans l'ordre :
 
-**1. Les contrôles** ([contrat des fichiers](methode_et_contrat/contrat_des_fichiers.md), section 2). L'import signale une colonne obligatoire vide, une valeur hors liste, un passage dont le document n'existe pas, un identifiant en double, une question « oui » sans passage, une question « non accessible » sans document interdit… **Une seule ligne fausse bloque tout l'import** : un corpus importé à moitié fausserait l'évaluation sans que personne ne s'en aperçoive. Le message donne la feuille, la ligne et la correction attendue :
+**1. Les contrôles** ([Contrat entre un RAG et le kit d'évaluation — version 1.0](methode_et_contrat/contrat_des_fichiers.md), section 2). L'import signale une colonne obligatoire vide, une valeur hors liste, un passage dont le document n'existe pas, un identifiant en double, une question « oui » sans passage, une question « non accessible » sans document interdit… **Une seule ligne fausse bloque tout l'import** : un corpus importé à moitié fausserait l'évaluation sans que personne ne s'en aperçoive. Le message donne la feuille, la ligne et la correction attendue :
 
 ```
 Import refusé : 1 ligne(s) à corriger dans Corpus_evaluation_RAG.xlsx.

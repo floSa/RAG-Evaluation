@@ -84,13 +84,13 @@ Elle est déjà lancée par `kit evaluer`. Pour la relancer seule, sur les derni
 uv run kit evaluer-reponse
 ```
 
-Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluation_recherche.md), et de `reponses.jsonl` ([endpoints du RAG, ④ répondre](0b_endpoints_du_rag.md)). Elle prend environ 3 minutes, le temps que le juge lise chaque réponse.
+Elle a besoin des évaluations [1. Évaluation de l'ingestion](1_evaluation_ingestion.md) et [2. Évaluation de la recherche](2_evaluation_recherche.md), et de `reponses.jsonl` ([endpoints du RAG, ④ répondre](0b_endpoints_du_rag.md)). Elle prend environ 3 minutes, le temps que le juge lise chaque réponse.
 
 ## Comment le kit tranche
 
 | Qui | Ce qu'il vérifie |
 | --- | --- |
-| le **LLM juge** ([prompt](methode_et_contrat/prompt_du_juge.md)) | chaque point clé attendu : présent, absent ou contredit. Le verdict en découle : juste, partielle ou fausse |
+| le **LLM juge** ([Le LLM juge du kit — version 1.0](methode_et_contrat/prompt_du_juge.md)) | chaque point clé attendu : présent, absent ou contredit. Le verdict en découle : juste, partielle ou fausse |
 | **Ragas** | la fidélité : chaque affirmation de la réponse est-elle appuyée par les chunks donnés au modèle ? Et la note des synthèses, sur la grille du prompt du juge |
 | un **script** | l'abstention (champ `abstention` du RAG), les citations, les valeurs chiffrées et leur unité |
 
@@ -125,9 +125,9 @@ Verdict : **partielle**. La réponse donne le courant de réglage, mais oublie l
 
 ## Le croisement recherche × réponse : où est la faute ?
 
-Pour chaque question dont la réponse est dans les documents, le kit croise deux faits : le bon passage a-t-il été retrouvé ([évaluation 2](2_evaluation_recherche.md)) ? la réponse est-elle juste ? Le résultat est dans `croisement.jsonl` et dans le rapport.
+Pour chaque question dont la réponse est dans les documents, le kit croise deux faits : le bon passage a-t-il été retrouvé ([2. Évaluation de la recherche](2_evaluation_recherche.md)) ? la réponse est-elle juste ? Le résultat est dans `croisement.jsonl` et dans le rapport.
 
-| Bon passage retrouvé ? | Réponse | Diagnostic | Où agir ([document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md)) |
+| Bon passage retrouvé ? | Réponse | Diagnostic | Où agir ([Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](../../service-rag-exemple/documentation/reference/techniques_rag.md)) |
 | --- | --- | --- | --- |
 | oui | juste | **ok** | — |
 | oui | fausse, partielle ou abstention | **génération** : le RAG avait la bonne information et l'a mal utilisée | prompt, citations obligatoires, modèle, calcul délégué |
@@ -189,7 +189,7 @@ On refait la vérification à chaque changement de modèle juge ou de prompt. Le
 
 ## Si c'est mauvais
 
-Regarder d'abord le croisement. « Recherche » : revenir à l'[évaluation 2](2_evaluation_recherche.md). « Génération » : prompt, citations, abstention, modèle, dans le [document 2](../../service-rag-exemple/documentation/reference/techniques_rag.md), section 7.
+Regarder d'abord le croisement. « Recherche » : revenir au guide [2. Évaluation de la recherche](2_evaluation_recherche.md). « Génération » : prompt, citations, abstention, modèle, dans le document [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](../../service-rag-exemple/documentation/reference/techniques_rag.md), section 7.
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 

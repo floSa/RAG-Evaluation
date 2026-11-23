@@ -1,6 +1,6 @@
 # Décisions et écarts
 
-Les documents de référence décrivent la méthode : le [document 1](service-evaluation/documentation/methode_et_contrat/methode_corpus_annote.md) (le corpus annoté), le [document 2](service-rag-exemple/documentation/reference/techniques_rag.md) (les techniques d'un RAG), le [document 3](service-evaluation/documentation/methode_et_contrat/methode_evaluation.md) (l'évaluation), le [contrat](service-evaluation/documentation/methode_et_contrat/contrat_des_fichiers.md) et le [prompt du juge](service-evaluation/documentation/methode_et_contrat/prompt_du_juge.md).
+Les documents de référence décrivent la méthode : le document [Constituer le corpus d'évaluation d'un RAG](service-evaluation/documentation/methode_et_contrat/methode_corpus_annote.md) (le corpus annoté), le document [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](service-rag-exemple/documentation/reference/techniques_rag.md) (les techniques d'un RAG), le document [Évaluer le RAG avec le corpus](service-evaluation/documentation/methode_et_contrat/methode_evaluation.md) (l'évaluation), le [Contrat entre un RAG et le kit d'évaluation — version 1.0](service-evaluation/documentation/methode_et_contrat/contrat_des_fichiers.md) et [Le LLM juge du kit — version 1.0](service-evaluation/documentation/methode_et_contrat/prompt_du_juge.md).
 
 Quand une décision prise ensemble change la façon de faire, ils sont mis à jour pour la dire : c'est le cas de les endpoints d'évaluation, qui a remplacé le connecteur.
 

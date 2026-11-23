@@ -9,4 +9,4 @@
 | [`etape_5_recherche.py`](etape_5_recherche.py) | retrouver les k morceaux les plus utiles, en écartant les documents interdits |
 | [`etape_6_generation.py`](etape_6_generation.py) | faire écrire la réponse, avec ses sources |
 
-Comment chaque étape est construite : [guide du RAG](../../../documentation/guide_du_rag.md).
+Comment chaque étape est construite : [Guide du RAG d'exemple](../../../documentation/guide_du_rag.md).

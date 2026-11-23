@@ -5,4 +5,4 @@ Une évaluation par configuration du RAG, dans un dossier `<version du corpus>_<
 - **`RAPPORT.md`** : à lire en premier. La configuration évaluée, les scores clés à présenter au métier, chaque score expliqué en une phrase claire, les questions à regarder.
 - `fichiers_techniques/` : les fichiers dont le rapport est tiré, pour creuser.
 
-Comment lire un rapport : [guide 5](../../documentation/5_resultats_et_comparaison.md). Exemple rempli : [`service-evaluation-exemple/resultats/evaluations/`](../../../service-evaluation-exemple/resultats/evaluations/).
+Comment lire un rapport : [5. Résultats et comparaison](../../documentation/5_resultats_et_comparaison.md). Exemple rempli : [`service-evaluation-exemple/resultats/evaluations/`](../../../service-evaluation-exemple/resultats/evaluations/).

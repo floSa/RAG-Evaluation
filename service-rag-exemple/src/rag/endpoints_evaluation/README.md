@@ -10,4 +10,4 @@ Les quatre adresses web que le service d'évaluation appelle. Si on supprime ce 
 | [`rechercher.py`](rechercher.py) | ③ rend les k morceaux retrouvés pour une question |
 | [`repondre.py`](repondre.py) | ④ rend la réponse, ses sources, et s'il s'abstient |
 
-La règle que chaque RAG doit suivre : [guide 0b](../../../../service-evaluation/documentation/0b_endpoints_du_rag.md).
+La règle que chaque RAG doit suivre : [0b. Les endpoints du RAG : ce que chaque RAG doit fournir](../../../../service-evaluation/documentation/0b_endpoints_du_rag.md).

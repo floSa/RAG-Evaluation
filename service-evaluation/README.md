@@ -114,16 +114,16 @@ Vos chiffres peuvent différer de quelques points de ceux de l'exemple : le mod�
 
 | Commande | Ce qu'elle fait | Guide |
 | --- | --- | --- |
-| `kit verifier-modeles` | vérifie que le juge, les embeddings et Langfuse répondent | [3](documentation/3_evaluation_reponse.md) |
-| `kit importer <fichier.xlsx>` | contrôle le fichier du métier, le range dans `resultats/corpus/`, crée le jeu de questions dans Langfuse | [0a](documentation/0a_construction_du_corpus.md) |
-| `kit evaluer` | appelle les endpoints du RAG, puis enchaîne les évaluations 1 à 4 | [4](documentation/4_evaluation_bout_en_bout.md) |
-| `kit appeler-rag` | appelle seulement les endpoints du RAG, et range ses réponses dans `resultats/reponses_du_rag/` | [0b](documentation/0b_endpoints_du_rag.md) |
-| `kit verifier-contrat <dossier>` | dit précisément ce qui manque dans ce qu'un RAG a rendu | [0b](documentation/0b_endpoints_du_rag.md) |
-| `kit evaluer-ingestion`, `evaluer-recherche`, `evaluer-reponse`, `evaluer-bout-en-bout` | une évaluation à la fois, sur des réponses déjà rangées | [1](documentation/1_evaluation_ingestion.md) à [4](documentation/4_evaluation_bout_en_bout.md) |
-| `kit verifier-juge [--envoyer]` | fait noter 30 réponses par le métier, puis mesure son accord avec le juge | [3](documentation/3_evaluation_reponse.md) |
-| `kit verifier-graphe [--envoyer]` | fait juger 50 relations du graphe par le métier, puis mesure leur justesse | [1](documentation/1_evaluation_ingestion.md) |
-| `kit comparer <évaluation A> <évaluation B>` | compare deux configurations déjà évaluées ; écrit son rapport dans `resultats/comparaisons_de_configurations/` | [5](documentation/5_resultats_et_comparaison.md) |
-| `kit init-base` | crée la base de données du service (fait aussi par `importer`) | [0a](documentation/0a_construction_du_corpus.md) |
+| `kit verifier-modeles` | vérifie que le juge, les embeddings et Langfuse répondent | [3. Évaluation de la réponse](documentation/3_evaluation_reponse.md) |
+| `kit importer <fichier.xlsx>` | contrôle le fichier du métier, le range dans `resultats/corpus/`, crée le jeu de questions dans Langfuse | [0a. Construction du corpus](documentation/0a_construction_du_corpus.md) |
+| `kit evaluer` | appelle les endpoints du RAG, puis enchaîne les évaluations 1 à 4 | [4. Évaluation de bout en bout](documentation/4_evaluation_bout_en_bout.md) |
+| `kit appeler-rag` | appelle seulement les endpoints du RAG, et range ses réponses dans `resultats/reponses_du_rag/` | [0b. Les endpoints du RAG : ce que chaque RAG doit fournir](documentation/0b_endpoints_du_rag.md) |
+| `kit verifier-contrat <dossier>` | dit précisément ce qui manque dans ce qu'un RAG a rendu | [0b. Les endpoints du RAG : ce que chaque RAG doit fournir](documentation/0b_endpoints_du_rag.md) |
+| `kit evaluer-ingestion`, `evaluer-recherche`, `evaluer-reponse`, `evaluer-bout-en-bout` | une évaluation à la fois, sur des réponses déjà rangées | [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md) à [4. Évaluation de bout en bout](documentation/4_evaluation_bout_en_bout.md) |
+| `kit verifier-juge [--envoyer]` | fait noter 30 réponses par le métier, puis mesure son accord avec le juge | [3. Évaluation de la réponse](documentation/3_evaluation_reponse.md) |
+| `kit verifier-graphe [--envoyer]` | fait juger 50 relations du graphe par le métier, puis mesure leur justesse | [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md) |
+| `kit comparer <évaluation A> <évaluation B>` | compare deux configurations déjà évaluées ; écrit son rapport dans `resultats/comparaisons_de_configurations/` | [5. Résultats et comparaison](documentation/5_resultats_et_comparaison.md) |
+| `kit init-base` | crée la base de données du service (fait aussi par `importer`) | [0a. Construction du corpus](documentation/0a_construction_du_corpus.md) |
 
 Trois options valent pour toutes les commandes :
 

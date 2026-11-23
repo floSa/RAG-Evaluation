@@ -11,4 +11,4 @@ Le corpus de l'exemple : la maintenance électrique d'une entreprise **entièrem
 | [`notes_du_metier_simulees/`](notes_du_metier_simulees/) | banc d'essai seulement : ce que le métier aurait noté, joué par Claude |
 | [`fabrication_du_corpus/`](fabrication_du_corpus/) | banc d'essai seulement : de quoi refabriquer les documents fictifs et le fichier Excel |
 
-Ce que couvre ce corpus, et comment il a été annoté : [guide 0a](../../service-evaluation/documentation/0a_construction_du_corpus.md#2-le-corpus-dexemple-prêt-à-lemploi).
+Ce que couvre ce corpus, et comment il a été annoté : [0a. Construction du corpus](../../service-evaluation/documentation/0a_construction_du_corpus.md#2-le-corpus-dexemple-prêt-à-lemploi).

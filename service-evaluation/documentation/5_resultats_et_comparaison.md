@@ -30,8 +30,8 @@ Pour voir à quoi ils ressemblent sans rien lancer : [les résultats d'exemple](
 | `rapport.html` | le métier, dans un navigateur | la même chose, en page web |
 | `scores.json` | l'équipe technique | chaque score : valeur, marge d'erreur, nombre de questions, ventilation ; puis les scores clés |
 | `resultats_par_question.csv` | les deux, dans un tableur | une ligne par question et par score, avec le détail (verdict et justification du juge, chunks en cause…) |
-| `passages_non_rattaches.jsonl` | l'équipe technique | les passages du métier introuvables dans l'index, avec leur **cause probable** ([évaluation 1](1_evaluation_ingestion.md)) |
-| `croisement.jsonl` | les deux | pour chaque question : bon passage retrouvé ou non, réponse juste ou non, et le diagnostic ([évaluation 3](3_evaluation_reponse.md#le-croisement-recherche--réponse--où-est-la-faute-)) |
+| `passages_non_rattaches.jsonl` | l'équipe technique | les passages du métier introuvables dans l'index, avec leur **cause probable** ([1. Évaluation de l'ingestion](1_evaluation_ingestion.md)) |
+| `croisement.jsonl` | les deux | pour chaque question : bon passage retrouvé ou non, réponse juste ou non, et le diagnostic ([3. Évaluation de la réponse](3_evaluation_reponse.md#le-croisement-recherche--réponse--où-est-la-faute-)) |
 | `relecture.jsonl` | le métier | les réponses à relire, et pourquoi |
 | `liens_index.jsonl` | l'équipe technique | chaque lien passage du métier ↔ chunk du RAG, avec son mode (exact, approché, image, coupé) |
 | `evaluation.json` | archive | ce qui a été évalué : versions du corpus, du kit et du RAG, modèle et prompt du juge |
@@ -52,9 +52,9 @@ Pour voir à quoi ils ressemblent sans rien lancer : [les résultats d'exemple](
 
 ## 2. Lire le rapport, dans l'ordre
 
-**Les scores clés d'abord** : c'est le tableau en haut du rapport, celui que lit le métier pour décider. Ce qu'ils sont : [évaluation 4, les scores clés](4_evaluation_bout_en_bout.md#les-scores-clés-et-la-décision-du-métier).
+**Les scores clés d'abord** : c'est le tableau en haut du rapport, celui que lit le métier pour décider. Ce qu'ils sont : [4. Évaluation de bout en bout](4_evaluation_bout_en_bout.md#les-scores-clés-et-la-décision-du-métier), les scores clés.
 
-**Puis tous les scores, évaluation par évaluation, et dans l'ordre.** Une réponse fausse vient souvent d'un passage perdu à l'ingestion ou mal retrouvé : changer le prompt n'y changera rien. Ce que mesure chaque score, et quoi faire s'il est mauvais, est dans le guide de son évaluation : [1. ingestion](1_evaluation_ingestion.md#les-scores), [2. recherche](2_evaluation_recherche.md#les-scores), [3. réponse](3_evaluation_reponse.md#les-scores), [4. bout en bout](4_evaluation_bout_en_bout.md#les-scores).
+**Puis tous les scores, évaluation par évaluation, et dans l'ordre.** Une réponse fausse vient souvent d'un passage perdu à l'ingestion ou mal retrouvé : changer le prompt n'y changera rien. Ce que mesure chaque score, et quoi faire s'il est mauvais, est dans le guide de son évaluation : [1. Évaluation de l'ingestion](1_evaluation_ingestion.md#les-scores), [2. Évaluation de la recherche](2_evaluation_recherche.md#les-scores), [3. Évaluation de la réponse](3_evaluation_reponse.md#les-scores), [4. Évaluation de bout en bout](4_evaluation_bout_en_bout.md#les-scores).
 
 Chaque score est donné avec :
 
@@ -74,7 +74,7 @@ Pourquoi le nombre de questions change d'un score à l'autre, sur le corpus d'ex
 
 Pour chacune, le rapport donne la justification du juge, les chunks en cause, la cause probable.
 
-**Enfin, le croisement recherche × réponse**, qui dit où chercher la cause : [évaluation 3, le croisement](3_evaluation_reponse.md#le-croisement-recherche--réponse--où-est-la-faute-).
+**Enfin, le croisement recherche × réponse**, qui dit où chercher la cause : [3. Évaluation de la réponse](3_evaluation_reponse.md#le-croisement-recherche--réponse--où-est-la-faute-), le croisement.
 
 ## 3. Le parcours de correction, en résumé
 
@@ -88,7 +88,7 @@ Fuite, erreur grave ?  → fuite : filtre des droits pendant la recherche ; erre
 Puis                   → nouvelle version du RAG, kit evaluer, kit comparer avec la précédente
 ```
 
-Le document 2 : [techniques d'un RAG](../../service-rag-exemple/documentation/reference/techniques_rag.md).
+Le document [Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](../../service-rag-exemple/documentation/reference/techniques_rag.md).
 
 ## 4. Les marges d'erreur : ne pas sur-interpréter
 
@@ -148,7 +148,7 @@ uv run kit comparer resultats/evaluations/<corpus>_graphrag-vectoriel-k5-5954e82
 | Score | vectoriel | hybride | Lecture |
 | --- | --- | --- | --- |
 | violations de l'ontologie (`n1_graphe_violations`) | — | 25 | le graphe existe, avec des erreurs d'extraction : des personnes « situées sur » un site, un onduleur qui « secourt » un site |
-| justesse des relations (`n1_graphe_justesse`) | — | 66 % (n = 50) | une relation sur trois est fausse d'après son passage source ([évaluation 1](1_evaluation_ingestion.md)) |
+| justesse des relations (`n1_graphe_justesse`) | — | 66 % (n = 50) | une relation sur trois est fausse d'après son passage source ([1. Évaluation de l'ingestion](1_evaluation_ingestion.md)) |
 | bon passage retrouvé (`n2_reussite_k`) | 86 % | 82 % | les éléments du graphe prennent des places parmi les k : 1 question perdue (Q-031) |
 | bon passage en tête (`n2_reussite_1`) | 54 % | 39 % | un élément du graphe passe souvent devant le bon passage |
 | réponses justes (`n3_exactitude`) | 79 % (n = 28) | 90 % (n = 25) | 2 questions gagnées (Q-012, Q-043), mais sur 3 questions de moins : le RAG hybride s'abstient plus souvent à tort (9 % contre 6 %) |
@@ -173,6 +173,6 @@ uv run kit comparer resultats/evaluations/<corpus>_graphrag-vectoriel-k5-5954e82
 | score pondéré (`n4_score_pondere`) | 80 % | 77 % | McNemar p = 0,45 : l'écart peut être dû au hasard |
 | temps médian, temps à 95 % | 7,4 s et 12,8 s | 0,9 s et 2,6 s | 9 fois plus rapide |
 
-**Conclusion** : les deux corrections suppriment la coupure. On garde la réflexion : elle rend les calculs justes, et une réponse en 7 secondes reste acceptable pour l'utilisateur. Si le temps devenait le problème, la version sans réflexion serait le bon compromis, et ce tableau dirait ce qu'elle coûte. Avant la correction, la version avec 800 tokens avait un score pondéré de 81 % : la coupure ne coûtait presque rien dans les scores. Les réponses coupées étaient déjà fausses ou partielles pour d'autres raisons, et Q-043, devenue complète, est restée « fausse » pour le juge ([évaluation 3](3_evaluation_reponse.md#vérifier-le-juge-avant-de-lui-faire-confiance)). Relire les réponses trouve des défauts que les moyennes ne montrent pas.
+**Conclusion** : les deux corrections suppriment la coupure. On garde la réflexion : elle rend les calculs justes, et une réponse en 7 secondes reste acceptable pour l'utilisateur. Si le temps devenait le problème, la version sans réflexion serait le bon compromis, et ce tableau dirait ce qu'elle coûte. Avant la correction, la version avec 800 tokens avait un score pondéré de 81 % : la coupure ne coûtait presque rien dans les scores. Les réponses coupées étaient déjà fausses ou partielles pour d'autres raisons, et Q-043, devenue complète, est restée « fausse » pour le juge ([3. Évaluation de la réponse](3_evaluation_reponse.md#vérifier-le-juge-avant-de-lui-faire-confiance)). Relire les réponses trouve des défauts que les moyennes ne montrent pas.
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#4-lire-le-rapport-comparer-faire-décider-le-métier), étape 4.
