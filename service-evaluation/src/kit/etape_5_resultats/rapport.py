@@ -158,6 +158,7 @@ def configuration(rag: dict) -> str:
                      ("prompt", "prompt"), ("reranker", "reranker")):
         if cle in v:
             reglages.append(f"{nom} {v[cle]}")
+    reglages += [f"{cle.replace('_', ' ')} {valeur_reglage(x)}" for cle, x in rag.get("reglages", {}).items()]
     return ", ".join(reglages)
 
 
@@ -174,7 +175,14 @@ def reglages(rag: dict) -> list[list[str]]:
     lignes = [[nom, str(valeurs[cle])] for cle, nom in REGLAGES if valeurs.get(cle) is not None]
     connus = {cle for cle, _ in REGLAGES} | {"index"}
     lignes += [[cle, str(v)] for cle, v in valeurs.items() if cle not in connus and v is not None]
+    # les autres réglages, déclarés librement par le RAG (champ « reglages » de rag.json)
+    lignes += [[(cle[:1].upper() + cle[1:]).replace("_", " "), valeur_reglage(v)] for cle, v in rag.get("reglages", {}).items()]
     return lignes
+
+
+def valeur_reglage(v) -> str:
+    """Une valeur de réglage en clair : oui ou non pour un booléen."""
+    return {True: "oui", False: "non"}.get(v, str(v)) if isinstance(v, bool) else str(v)
 
 
 # --- Le contenu, commun aux deux rapports ------------------------------------------------------

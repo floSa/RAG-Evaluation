@@ -134,6 +134,7 @@ Les endpoints d'évaluation du RAG (fin de cette section) rend ces objets ; le k
 | k | entier | oui | nombre de chunks donnés au modèle |
 | versions | objet | oui | `index`, `decoupage`, `embedding`, `generation`, `prompt`, `reranker` (texte ; `aucun` si absent) |
 | filtre_droits | booléen | oui | le RAG filtre-t-il les droits ? |
+| reglages | objet | non | les autres réglages du RAG, autant qu'il en a : nom du réglage → valeur (texte, nombre ou booléen). Par exemple `{"réflexion du modèle": false, "seuil de pertinence": 0.3, "recherche par mots-clés": true}` : le nom s'écrit tel qu'on veut le lire dans le rapport. Plus le RAG a de fonctionnalités, plus la liste est longue. Le rapport les affiche tous |
 
 ### chunks.jsonl — un chunk ou un élément du graphe
 

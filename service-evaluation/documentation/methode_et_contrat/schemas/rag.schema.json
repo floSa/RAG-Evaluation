@@ -73,6 +73,17 @@
     },
     "filtre_droits": {
       "type": "boolean"
+    },
+    "reglages": {
+      "type": "object",
+      "description": "Les autres réglages du RAG, autant qu'il en a : nom du réglage → sa valeur (texte, nombre, oui/non).",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean"
+        ]
+      }
     }
   },
   "required": [
