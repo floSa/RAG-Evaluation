@@ -44,10 +44,10 @@ class Document(BaseModel):
     titre: str
     type_document: str
     version: str
-    format: str             # pdf_natif, pdf_scanne, word, excel, fiche_base
+    format: str             # pdf_natif, pdf_scanne, word, excel, fiche_base (une fiche de GED)
     droits_acces: str       # le profil qui peut le voir, ou « tous »
-    fichier: str            # le nom du fichier
-    contenu: str            # le fichier lui-même, en base64
+    fichier: str | None = None   # le nom du fichier ; absent pour une fiche de GED à lire dans la GED
+    contenu: str | None = None   # le fichier lui-même, en base64 ; absent pour une fiche de GED
 
 
 class Documents(BaseModel):
@@ -72,6 +72,10 @@ def ingerer(demande: Documents) -> dict:
     """À REMPLACER : indexer ces documents avec votre RAG, dans un espace à part de la production."""
     chunks, pages = [], []
     for d in demande.documents:
+        if d.contenu is None:
+            # Une fiche de GED sans fichier : votre RAG la lit dans sa GED, par sa référence, avec son connecteur
+            # habituel. Chaque chunk garde la référence, et en « page » le nom du champ affiché (« Résolution »).
+            raise HTTPException(400, f"{d.reference_source} : ce RAG jouet ne lit pas de GED.")
         lecteur = PdfReader(io.BytesIO(base64.b64decode(d.contenu)))
         for numero, page in enumerate(lecteur.pages, start=1):
             texte = page.extract_text() or ""
