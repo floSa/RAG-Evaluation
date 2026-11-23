@@ -55,7 +55,7 @@ service-evaluation/
 ├── docker-compose.yml           Langfuse
 ├── initialiser.sh               écrit les secrets de Langfuse dans .env
 ├── modele_porte/                le modèle des quatre portes, à copier dans votre RAG
-├── resultats_exemple/           les résultats des 4 évaluations citées dans les guides, à ouvrir sans rien lancer
+├── resultats_exemple/           nos résultats : README.md, le rapport à lire ; donnees/, les fichiers produits par le kit
 ├── sorties/                     ce que le kit produit chez vous (vide dans le dépôt) : corpus importé, sorties du RAG, résultats
 ├── config/                      le modèle juge et l'adresse du RAG (kit.yaml), les seuils du métier (seuils.json)
 ├── corpus_exemple/
