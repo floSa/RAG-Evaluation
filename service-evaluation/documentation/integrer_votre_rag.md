@@ -1,18 +1,17 @@
 # Évaluer votre RAG : la marche à suivre
 
-Ce guide s'adresse à la personne qui prend en charge l'évaluation : data scientist, chef de projet technique, quelqu'un qui sait lire un dépôt et lancer des commandes. C'est elle qui fait toutes les étapes. Le métier n'intervient qu'à l'étape 1 et à l'étape 3 : il fournit le corpus annoté, selon les règles que vous lui transmettez, et il fixe avec vous les seuils.
+Ce guide s'adresse à la personne qui prend en charge l'évaluation : data scientist, chef de projet technique, quelqu'un qui sait lire un dépôt et lancer des commandes. C'est elle qui fait toutes les étapes. Le métier n'intervient qu'aux étapes 1 et 2 : il fournit le corpus annoté, selon les règles que vous lui transmettez, et il fixe avec vous les seuils.
 
 Un exemple complet, où toutes ces étapes ont été faites : [`service-evaluation-exemple/`](../../service-evaluation-exemple/README.md#ce-quon-a-fait-dans-lordre).
 
 | Étape | Ce que vous faites | Fini quand |
 | --- | --- | --- |
 | [0. Installer le service](#0-installer-le-service) | copier `service-evaluation/`, démarrer Langfuse, brancher le modèle juge | `kit verifier-modeles` répond |
-| [1. Construire le corpus d'évaluation](#1-construire-le-corpus-dévaluation) | c'est le métier qui le remplit : lui donner le fichier Excel vierge et les règles pour le remplir | le métier vous rend les documents et le fichier rempli |
-| [2. Ranger et importer le corpus](#2-ranger-et-importer-le-corpus) | mettre les documents et le fichier à leur place, puis `kit importer` | l'import ne signale plus d'erreur |
-| [3. Fixer les seuils avec le métier](#3-fixer-les-seuils-avec-le-métier) | écrire dans `config/seuils.json` ce que le RAG doit atteindre | les seuils sont fixés **avant** toute évaluation |
-| [4. Brancher votre RAG](#4-brancher-votre-rag) | ouvrir dans votre RAG les quatre endpoints, à partir de `endpoints_a_copier/` | `kit appeler-rag` finit par « règle : respectée » |
-| [5. Lancer l'évaluation](#5-lancer-lévaluation) | `kit evaluer` | un `RAPPORT.md` est écrit |
-| [6. Lire, corriger, comparer](#6-lire-corriger-comparer) | lire le rapport ; changer un réglage du RAG, réévaluer, comparer | la décision est prise |
+| [1. Construire et importer le corpus d'évaluation](#1-construire-et-importer-le-corpus-dévaluation) | c'est le métier qui le construit : lui donner le fichier Excel vierge et les règles pour le remplir ; ranger ce qu'il rend, puis `kit importer` | l'import ne signale plus d'erreur |
+| [2. Fixer les seuils avec le métier](#2-fixer-les-seuils-avec-le-métier) | écrire dans `config/seuils.json` ce que le RAG doit atteindre | les seuils sont fixés **avant** toute évaluation |
+| [3. Brancher votre RAG](#3-brancher-votre-rag) | ouvrir dans votre RAG les quatre endpoints, à partir de `endpoints_a_copier/` | `kit appeler-rag` finit par « règle : respectée » |
+| [4. Lancer l'évaluation](#4-lancer-lévaluation) | `kit evaluer` | un `RAPPORT.md` est écrit |
+| [5. Lire, corriger, comparer](#5-lire-corriger-comparer) | lire le rapport ; changer un réglage du RAG, réévaluer, comparer | la décision est prise |
 
 ## 0. Installer le service
 
@@ -38,7 +37,7 @@ uv run kit verifier-modeles
 
 Choisissez de préférence pour juge **un autre modèle que celui de votre RAG** : un modèle tend à favoriser ses propres réponses.
 
-## 1. Construire le corpus d'évaluation
+## 1. Construire et importer le corpus d'évaluation
 
 Le corpus annoté est ce qui permet de juger le RAG : des questions réelles, leur bonne réponse, et l'endroit exact des documents où elle se trouve. Le RAG ne le voit jamais ; il ne reçoit que les documents.
 
@@ -54,7 +53,7 @@ Il vous rend :
 
 Un fichier rempli, pour montrer au métier ce qu'on attend : [celui de l'exemple](../../service-evaluation-exemple/corpus_annote/Corpus_evaluation_RAG.xlsx).
 
-## 2. Ranger et importer le corpus
+### Ranger et importer le corpus
 
 | Ce que le métier a rendu | Où vous le mettez |
 | --- | --- |
@@ -69,7 +68,7 @@ uv run kit importer corpus_annote/Corpus_evaluation_RAG.xlsx
 
 Le service contrôle tout le fichier. Si une seule ligne est fausse, rien n'est importé, et chaque erreur est listée avec sa feuille, sa ligne et la correction attendue : c'est la liste à renvoyer au métier. On corrige, on relance. Le service signale aussi ce qui manque pour atteindre la taille minimale (10 documents par type, 50 questions, 20 pages scannées retapées).
 
-## 3. Fixer les seuils avec le métier
+## 2. Fixer les seuils avec le métier
 
 Il y a **un seuil par score** : le niveau minimal que ce score doit atteindre, par exemple « au moins 80 % de réponses justes ». Il n'y a pas de seuil unique, parce que chaque score mesure une chose différente : une moyenne de tous les scores laisserait un bon score cacher un mauvais, par exemple d'excellentes réponses qui cachent une fuite de droits. Le RAG part en production seulement si **chaque** score atteint son seuil, sur les 20 questions réservées à la décision, et s'il n'y a aucune erreur grave ni aucune fuite de droits.
 
@@ -91,7 +90,7 @@ Les autres seuils sont techniques : la lecture des documents, la recherche du bo
 
 Les seuils se fixent **avant** de voir le moindre score : sinon, on finit par les choisir pour faire passer le RAG.
 
-## 4. Brancher votre RAG
+## 3. Brancher votre RAG
 
 Le service n'entre jamais dans votre RAG : il appelle **quatre endpoints**, quatre adresses web de forme fixe que votre RAG ouvre. Vous les ajoutez dans un dossier à part, écrit pour l'évaluation et pour rien d'autre. La règle complète : [guide 0b](0b_endpoints_du_rag.md).
 
@@ -106,7 +105,7 @@ Le service n'entre jamais dans votre RAG : il appelle **quatre endpoints**, quat
 
 [`endpoints_a_copier/endpoints_evaluation.py`](../endpoints_a_copier/endpoints_evaluation.py) est un modèle complet, à copier dans votre RAG. Tel quel, il marche déjà : c'est un « RAG » jouet, qui fait un morceau par page et cherche par mots communs. Vous remplacez le contenu des quatre fonctions marquées **À REMPLACER** par l'appel à votre RAG ; les formes d'entrée et de sortie ne changent pas.
 
-Avant de toucher à votre RAG, lancez le modèle tel quel, depuis `endpoints_a_copier/`, puis faites les étapes 5 et 6 : vous verrez le service évaluer le RAG jouet de bout en bout (score pondéré d'environ 24 % : c'est un jouet).
+Avant de toucher à votre RAG, lancez le modèle tel quel, depuis `endpoints_a_copier/`, puis faites les étapes 4 et 5 : vous verrez le service évaluer le RAG jouet de bout en bout (score pondéré d'environ 24 % : c'est un jouet).
 
 ```bash
 uv run --with fastapi --with uvicorn --with pypdf uvicorn endpoints_evaluation:app --host 127.0.0.1 --port 8100
@@ -190,7 +189,7 @@ On corrige les endpoints, on relance, jusqu'à « règle : respectée ».
 | l'abstention devinée dans le texte, au lieu d'être dite par le RAG | des abstentions mal comptées |
 | les documents de l'évaluation indexés avec ceux de la production | une évaluation faussée, et une production polluée |
 
-## 5. Lancer l'évaluation
+## 4. Lancer l'évaluation
 
 C'est vous qui lancez l'évaluation ; votre RAG n'a qu'à rester allumé.
 
@@ -202,7 +201,7 @@ uv run kit evaluer
 
 Le service appelle les quatre endpoints, puis enchaîne les quatre évaluations : l'ingestion, la recherche, la réponse, et de bout en bout. Il affiche à la fin la décision et le chemin du rapport.
 
-## 6. Lire, corriger, comparer
+## 5. Lire, corriger, comparer
 
 Le rapport est dans `resultats/evaluations/<version du corpus>_<version du RAG>/RAPPORT.md`. Il donne la décision, puis chaque score avec son seuil, les questions à regarder en premier, et si la faute vient de la recherche ou de la réponse. Comment le lire : [guide 5](5_resultats_et_comparaison.md).
 
