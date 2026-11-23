@@ -45,7 +45,6 @@ Pour voir à quoi ils ressemblent sans rien lancer : [les résultats d'exemple](
 | Expérience `<évaluation>` | une ligne par question, reliée au jeu de données, avec la réponse du RAG, ses scores et sa trace | le kit, à la première évaluation publiée |
 | Scores | sur chaque question de l'expérience (hors questions réservées), et les scores globaux | chaque évaluation |
 | File `relecture-reponses` | les réponses que le métier doit relire | `kit evaluer-reponse` |
-| File `verification-juge` | 30 réponses à noter par le métier, pour vérifier le juge | `kit verifier-juge --envoyer` |
 | File `justesse-graphe` | 50 relations du graphe à juger par le métier, avec leur passage source | `kit verifier-graphe --envoyer` |
 
 **Dans la base** (`resultats/base.sqlite`) : tout, y compris le détail des questions réservées, qui n'apparaît nulle part ailleurs.

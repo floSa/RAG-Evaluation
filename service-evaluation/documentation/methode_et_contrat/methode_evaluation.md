@@ -207,9 +207,9 @@ Le juge utilise un prompt fourni par le kit ([`prompt_du_juge.md`](prompt_du_jug
 
 **Vérifier le LLM juge avant de s'en servir :**
 
-1. Le métier note 30 réponses dans Langfuse (50 en configuration recommandée), sans voir la note du juge.
+1. Le métier note 30 réponses (50 en configuration recommandée) dans un fichier Excel, juste, partielle ou fausse, avec le même critère que le juge, sans voir sa note.
 2. Le juge note les mêmes réponses.
-3. S'ils sont d'accord sur au moins 9 réponses sur 10, le juge est utilisé ; sinon, on précise sa consigne et on recommence.
+3. S'ils sont d'accord sur au moins 9 réponses sur 10, le juge est validé ; sinon, lire les réponses où le juge et le métier ne sont pas d'accord, préciser la consigne du juge (son prompt, dont on change alors la version) ou changer de modèle juge, puis refaire la vérification.
 4. On refait cette vérification à chaque changement du modèle juge ou de son prompt.
 
 ## 9. Niveau 4 — Bout en bout

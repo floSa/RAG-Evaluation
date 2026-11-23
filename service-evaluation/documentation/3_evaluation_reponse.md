@@ -143,23 +143,24 @@ La commande remplit la file **`relecture-reponses`** de Langfuse (http://127.0.0
 
 ## Vérifier le juge, avant de lui faire confiance
 
-Le juge est un modèle de langage : il peut se tromper. Avant de s'en servir pour décider, on vérifie qu'il note comme le métier.
+Le juge est un modèle de langage : il peut se tromper. Après la première évaluation, et avant de croire ses notes, on vérifie qu'il note comme le métier. Le métier ne touche à aucun outil : comme pour le corpus, on lui remet un fichier Excel.
 
 ```mermaid
 flowchart LR
-    A["kit verifier-juge --envoyer<br/>30 réponses au hasard"] --> B["Langfuse, file verification-juge<br/>le métier note sans voir le juge"]
+    A["kit verifier-juge --preparer<br/>30 réponses au hasard<br/>dans un fichier Excel"] --> B["Le métier note chaque réponse<br/>juste, partielle ou fausse,<br/>sans voir la note du juge"]
     B --> C["kit verifier-juge<br/>accord et kappa"]
     C -- "accord ≥ 90 %" --> V["Juge validé"]
-    C -- "sinon" --> P["Lire les désaccords,<br/>préciser le prompt du juge,<br/>changer version_prompt"] --> A
+    C -- "sinon" --> P["Lire les désaccords,<br/>préciser la consigne du juge<br/>ou changer de modèle juge"] --> A
 ```
 
-1. Envoyer 30 réponses au métier, tirées au hasard parmi celles notées par le juge, hors questions réservées (le corpus d'exemple n'en a que 28) :
+1. Écrire le fichier à faire remplir par le métier : 30 réponses tirées au hasard parmi celles notées par le juge, hors questions réservées (le corpus d'exemple n'en a que 28) :
    ```bash
-   uv run kit verifier-juge --envoyer
+   uv run kit verifier-juge --preparer
    ```
-2. Dans Langfuse, **Annotation Queues → `verification-juge`** : le métier lit chaque réponse avec sa question, et choisit `verdict_metier`, **sans regarder la note du juge**.
+   Le fichier, `verification_juge.xlsx`, est écrit dans le dossier de l'évaluation, à côté du `RAPPORT.md`. Sa première feuille donne le critère de notation. La seconde a une ligne par réponse : la question, la bonne réponse et ses points clés, tels que le métier les a écrits, et la réponse du RAG. La note du juge n'y est pas.
+2. Le remettre au métier. Pour chaque réponse, il regarde chacun des points clés : la réponse le dit, ne le dit pas, ou dit le contraire. Puis il choisit sa note dans la colonne « Votre note » : **juste** (tous les points clés, rien de contredit), **partielle** (au moins un point clé, rien de contredit) ou **fausse** (une contradiction, ou aucun point clé). C'est exactement le critère du juge ([Le LLM juge du kit — version 1.0](methode_et_contrat/prompt_du_juge.md)). Il peut ajouter un commentaire, puis il rend le fichier, qu'on remet à la même place.
 
-   Dans le banc d'essai, il n'y a pas de métier : cette commande inscrit les notes simulées (voir l'encadré plus bas) :
+   Dans le banc d'essai, il n'y a pas de métier : cette commande remplit le fichier avec les notes simulées (voir l'encadré plus bas) :
    ```bash
    uv run python ../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py
    ```
@@ -170,20 +171,21 @@ flowchart LR
    Le résultat sur le corpus d'exemple :
    ```
    Notes du métier : 28 sur 28.
-   Accord juge / métier : 89% (seuil 90%) ; kappa de Cohen : 0.75. Juge NON validé.
+   Accord juge / métier : 89% (il en faut 90%) ; kappa de Cohen : 0.75. Juge NON validé.
      - Q-030 : juge « fausse », métier « partielle »
      - Q-041 : juge « fausse », métier « partielle »
      - Q-043 : juge « fausse », métier « juste »
    ```
+   La commande écrit aussi l'état du juge en tête du rapport de chaque évaluation notée par ce même juge.
 
-**Ce que dit ce résultat.** Le juge n'est pas validé, à une réponse près. Ses trois désaccords vont dans le même sens : il est **trop sévère**. Il dit « fausse » des réponses justes ou en partie justes, parce qu'il voit une contradiction là où il n'y en a pas :
+**Ce que dit ce résultat.** Le juge n'est pas validé : il donne la même note que le métier dans 89 % des cas, il en faut 90 %. Il manque une réponse. Ses trois désaccords vont dans le même sens : il est **trop sévère**. Il dit « fausse » des réponses justes ou en partie justes, parce qu'il voit une contradiction là où il n'y en a pas :
 - sur Q-043, la réponse donne les quatre enseignements attendus ; le juge lit « depuis 2023 », qui vient de la question, comme une date de la réponse attendue, et compte la périodicité « passée à 12 mois en 2025 » comme contredite ;
 - sur Q-030, la fiche dit « Suite à donner : aucune » ; le juge y voit une contradiction avec le remplacement du différentiel ;
 - sur Q-041, la réponse ne donne qu'un problème sur cinq : elle est incomplète, pas fausse.
 
-Dans un vrai projet, on lirait ces désaccords, on préciserait le prompt du juge (par exemple : « contredit veut dire que la réponse affirme le contraire de la référence ; un détail que la référence ne dit pas n'est pas une contradiction »), on changerait `version_prompt`, puis on referait la vérification. Ici, le prompt est un document de référence du dépôt, qu'on ne modifie pas : le juge reste non validé, et ses verdicts se lisent avec prudence, surtout pour les réponses partielles.
+Dans un vrai projet, on lirait ces réponses où le juge et le métier ne sont pas d'accord, on préciserait la consigne du juge (par exemple : « contredit veut dire que la réponse affirme le contraire de la référence ; un détail que la référence ne dit pas n'est pas une contradiction »), dont on changerait la version, ou on changerait de modèle juge, puis on referait la vérification. Ici, le prompt est un document de référence du dépôt, qu'on ne modifie pas : le juge reste non validé, et ses notes se lisent avec prudence, surtout pour les réponses partielles.
 
-> **Dans le banc d'essai, le métier est simulé.** L'entreprise et le corpus sont fictifs : c'est Claude qui a joué le rôle du métier, en notant chaque réponse à partir de la question, de la réponse attendue et des points clés, sans voir la note du juge. Ses notes et leur raison sont dans [`../corpus_annote/notes_du_metier_simulees/verdicts_metier.json`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/verdicts_metier.json) ; le script [`publier.py`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py) les inscrit dans Langfuse comme le ferait le métier dans l'interface. Ces notes visent les réponses obtenues par l'auteur, avec le RAG `graphrag-vectoriel-k5-5954e822` : si le vôtre a répondu autrement, certaines notes ne vont plus avec la réponse notée, et l'accord mesuré perd son sens. Dans un vrai projet, ce dossier n'existe pas : le métier note lui-même.
+> **Dans le banc d'essai, le métier est simulé.** L'entreprise et le corpus sont fictifs : c'est Claude qui a joué le rôle du métier, en notant chaque réponse à partir de la question, de la réponse attendue et des points clés, sans voir la note du juge. Ses notes et leur raison sont dans [`../corpus_annote/notes_du_metier_simulees/verdicts_metier.json`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/verdicts_metier.json) ; le script [`publier.py`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py) les écrit dans le fichier `verification_juge.xlsx`, comme le métier l'aurait rempli. Ces notes visent les réponses obtenues par l'auteur, avec le RAG `graphrag-vectoriel-k5-5954e822` : si le vôtre a répondu autrement, certaines notes ne vont plus avec la réponse notée, et l'accord mesuré perd son sens. Dans un vrai projet, ce dossier n'existe pas : le métier remplit lui-même le fichier.
 
 On refait la vérification à chaque changement de modèle juge ou de prompt. Le **kappa de Cohen** est l'accord corrigé du hasard : il révèle un juge qui dit presque toujours « juste », et qui peut atteindre 90 % d'accord sans rien distinguer. Au-dessus de 0,8, l'accord est très bon ; sous 0,6, il faut se méfier, même si le taux d'accord passe.
 
