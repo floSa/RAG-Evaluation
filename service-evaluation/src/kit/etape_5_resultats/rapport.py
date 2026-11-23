@@ -212,6 +212,19 @@ def etat_juge(ev: Evaluation) -> str:
             f"Le score « Réponses justes » est à prendre avec prudence")
 
 
+def relecture_metier(ev: Evaluation) -> dict | None:
+    """Où en est la relecture des réponses par le métier (kit lire-relecture) : None s'il n'y a rien à relire."""
+    import json
+
+    chemin = ev.fichiers / "relecture_resultat.json"
+    if chemin.exists():
+        return {"faite": True, **json.loads(chemin.read_text(encoding="utf-8"))}
+    a_relire = ev.fichiers / "relecture.jsonl"
+    if not a_relire.exists():
+        return None
+    return {"faite": False, "a_relire": len(contrat.lire_jsonl(a_relire))}
+
+
 # --- Le contenu, commun aux deux rapports ------------------------------------------------------
 
 def questions_a_voir(ev: Evaluation, lignes_base) -> list[tuple]:
@@ -294,6 +307,7 @@ def contenu(ev: Evaluation, resultat: dict, lignes_base) -> dict:
         "reservees": sum(q["reservee_decision"] for q in ev.questions.values()),
         "juge": f"{ev.config['modeles']['juge']['modele']}, prompt {ev.config['modeles']['juge']['version_prompt']}",
         "etat_juge": etat_juge(ev),
+        "relecture": relecture_metier(ev),
         "cles": cles,
         "niveaux": niveaux,
         "a_voir": [(qid, ev.questions[qid]["question"], quoi, (detail or "")[:400])
@@ -346,6 +360,16 @@ def markdown(c: dict) -> str:
     m += tableau(["Question", "Problème", "Détail"],
                  [[f"**{qid}** : {question}", quoi, detail] for qid, question, quoi, detail in c["a_voir"]]) \
         if c["a_voir"] else ["Rien à signaler."]
+    r = c.get("relecture")
+    if r and not r["faite"]:
+        m += ["", f"**Relecture du métier** : pas encore faite. {r['a_relire']} réponses sont à relire dans "
+                  f"`relecture_reponses.xlsx`, à côté de ce rapport ; puis `kit lire-relecture`."]
+    elif r:
+        m += ["", f"**Relecture du métier** : {len(r['relues'])} réponses relues ; le métier n'est pas d'accord avec la "
+                  f"note du juge sur {len(r['desaccords'])}" + (" :" if r["desaccords"] else ".")]
+        if r["desaccords"]:
+            m += ["", *tableau(["Question", "Note du juge", "Note du métier", "Son commentaire"],
+                               [[d["question_id"], d["juge"], d["metier"], d["commentaire"]] for d in r["desaccords"]])]
     if c["croisement"]:
         m += ["", "## 4. La faute est-elle dans la recherche ou dans la réponse ?", "",
               "Pour chaque question qui a une réponse dans les documents : le bon passage a-t-il été ramené, et la "

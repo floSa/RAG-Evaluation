@@ -2,8 +2,9 @@
 
 - Conformité : le graphe du RAG (graphe.ttl) contrôlé par les règles SHACL de l'ontologie du projet, avec pySHACL.
   Chaque règle non respectée est une violation (score n1_graphe_violations, un nombre).
-- Justesse : 50 relations tirées au hasard, chacune avec son passage source, envoyées au métier dans la file
-  Langfuse « justesse-graphe ». Il juge chaque relation juste ou fausse (score n1_graphe_justesse, une part).
+- Justesse : 50 relations tirées au hasard, chacune avec son passage source, que le métier juge juste ou fausse
+  (score n1_graphe_justesse, une part). Il les juge dans un fichier Excel, justesse_graphe.xlsx, ou, s'il préfère,
+  dans la file Langfuse « justesse-graphe ». Le service relit les jugements là où ils ont été mis.
 """
 
 import json
@@ -22,6 +23,7 @@ KIT = Namespace("https://kit-eval-rag/ns#")       # la provenance, fixée par le
 FILE = "justesse-graphe"
 CONFIG_JUSTESSE = "justesse_relation"
 CATEGORIES = {"juste": 1.0, "fausse": 0.0}
+FICHIER = "justesse_graphe.xlsx"                  # dans resultats/evaluations/<évaluation>/ : le fichier que le métier remplit
 ECHANTILLON = "justesse_graphe.json"              # dans resultats/evaluations/<évaluation>/fichiers_techniques/ : les relations envoyées au métier
 
 
@@ -80,8 +82,8 @@ def config_justesse(langfuse) -> str:
         description="Une relation du graphe est-elle juste, d'après son passage source ?").id
 
 
-def envoyer(ev: Evaluation, langfuse) -> int:
-    """Tire les relations, crée une trace par relation (la relation et son passage source) et les met dans la file."""
+def tirer(ev: Evaluation) -> list[dict]:
+    """Tire les relations à juger, chacune avec le passage d'où elle vient, et garde le tirage."""
     toutes = relations(ev.dossier_rag / "graphe.ttl")
     tirees = sorted(random.Random(0).sample(toutes, min(ev.config["graphe"]["taille_echantillon"], len(toutes))),
                     key=lambda x: x["relation_id"])
@@ -90,26 +92,49 @@ def envoyer(ev: Evaluation, langfuse) -> int:
         if c.get("type_objet") == "chunk":
             pages.setdefault((c["reference_source"], str(c["page"])), []).append(c["texte"])
     for r in tirees:
+        r["passage"] = "\n\n".join(pages.get((r["reference_source"], r["page"]), []))
+    ecrire_tirage(ev, tirees)
+    return tirees
+
+
+def ecrire_tirage(ev: Evaluation, tirees: list[dict]) -> None:
+    (ev.fichiers / ECHANTILLON).parent.mkdir(parents=True, exist_ok=True)
+    (ev.fichiers / ECHANTILLON).write_text(json.dumps(tirees, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def envoyer(ev: Evaluation, langfuse, tirees: list[dict]) -> int:
+    """Pour un métier qui préfère Langfuse : une trace par relation (la relation et son passage), dans la file."""
+    for r in tirees:
         with langfuse.start_as_current_observation(name="relation-graphe", input={
-                "relation": r["texte"], "source": f"{r['reference_source']}, page {r['page']}",
-                "passage": "\n\n".join(pages.get((r["reference_source"], r["page"]), []))},
+                "relation": r["texte"], "source": f"{r['reference_source']}, page {r['page']}", "passage": r["passage"]},
                 metadata={"evaluation": ev.evaluation_id, "relation_id": r["relation_id"]}):
             r["trace_id"] = langfuse.get_current_trace_id()
     langfuse.flush()
-    (ev.fichiers / ECHANTILLON).parent.mkdir(parents=True, exist_ok=True)
-    (ev.fichiers / ECHANTILLON).write_text(json.dumps(tirees, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    ecrire_tirage(ev, tirees)
     return relecture.envoyer(langfuse, FILE, "Justesse du graphe : chaque relation est-elle juste, d'après son passage "
                              "source ? (document 3, section 6)", [r["trace_id"] for r in tirees],
                              score_config_id=config_justesse(langfuse))
 
 
-def lignes_justesse(ev: Evaluation, langfuse) -> list[Ligne]:
-    """Une ligne par relation déjà jugée par le métier ; aucune tant que rien n'est jugé."""
+def lignes_justesse(ev: Evaluation, langfuse=None) -> list[Ligne]:
+    """Une ligne par relation jugée par le métier, dans le fichier Excel, ou dans Langfuse s'il y a jugé."""
+    from kit.etape_3_evaluation_reponse import fichier_metier
+
     chemin = ev.fichiers / ECHANTILLON
-    if langfuse is None or not chemin.exists():
+    if not chemin.exists():
         return []
     tirees = json.loads(chemin.read_text(encoding="utf-8"))
-    notes = relecture.notes_metier(langfuse, [r["trace_id"] for r in tirees], CONFIG_JUSTESSE, CATEGORIES)
-    return [Ligne("n1_graphe_justesse", CATEGORIES[notes[r["trace_id"]]], objet=r["texte"],
-                  verdict=notes[r["trace_id"]], detail=f"{r['reference_source']}, page {r['page']}")
-            for r in tirees if r["trace_id"] in notes]
+    jugements = {}
+    fichier = ev.dossier / FICHIER
+    if fichier.exists():
+        for l in fichier_metier.lire_graphe(fichier):
+            jugements[(l["relation"], str(l["reference_source"]), str(l["page"]))] = l["jugement"]
+    if langfuse is not None and any(r.get("trace_id") for r in tirees):
+        notes = relecture.notes_metier(langfuse, [r["trace_id"] for r in tirees if r.get("trace_id")],
+                                       CONFIG_JUSTESSE, CATEGORIES)
+        for r in tirees:
+            if r.get("trace_id") in notes:
+                jugements.setdefault((r["texte"], r["reference_source"], r["page"]), notes[r["trace_id"]])
+    return [Ligne("n1_graphe_justesse", CATEGORIES[j], objet=r["texte"], verdict=j,
+                  detail=f"{r['reference_source']}, page {r['page']}")
+            for r in tirees if (j := jugements.get((r["texte"], r["reference_source"], r["page"])))]
