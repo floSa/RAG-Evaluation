@@ -84,6 +84,7 @@ flowchart LR
 
 | Je veux… | Aller à |
 | --- | --- |
+| comprendre comment fonctionne l'évaluation, et ce qu'il faut faire dans l'ordre | [le fil conducteur](FIL_CONDUCTEUR.md) |
 | voir à quoi ressemblent les résultats, sans rien installer | [`service-evaluation-exemple/`](service-evaluation-exemple/README.md) |
 | faire tourner le service sur le RAG d'exemple | lancer le [RAG d'exemple](service-rag-exemple/README.md#le-lancer), puis suivre [le service d'évaluation](service-evaluation/README.md#essayer-avec-le-corpus-dexemple) |
 | évaluer mon RAG, sur mes documents | [la marche à suivre](service-evaluation/documentation/integrer_votre_rag.md) |
