@@ -33,7 +33,7 @@ Il s'adresse à la personne qui prend en charge l'évaluation : data scientist, 
 | Étape | Ce que vous faites | Où |
 | --- | --- | --- |
 | 0. Installer le service | copier `service-evaluation/` dans votre projet, démarrer Langfuse, brancher le modèle juge | [README du service](service-evaluation/README.md) |
-| 1. Demander le corpus au métier | lui donner le fichier Excel vierge et les règles pour le remplir ; il vous rend les documents et le fichier rempli | `corpus_annote/Corpus_evaluation_RAG.xlsx`, [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md) |
+| 1. Construire le corpus d'évaluation | c'est le métier qui le remplit : vous lui donnez le fichier Excel vierge et les règles pour le remplir ; il vous rend les documents et le fichier rempli | `corpus_annote/Corpus_evaluation_RAG.xlsx`, [guide 0a](service-evaluation/documentation/0a_construction_du_corpus.md) |
 | 2. Ranger et importer le corpus | les documents dans `corpus_annote/corpus_documentaire/`, le fichier dans `corpus_annote/`, puis `kit importer` : il dit ligne par ligne ce que le métier doit corriger | `service-evaluation/corpus_annote/` |
 | 3. Fixer les seuils avec le métier | ce que le RAG doit atteindre pour partir en production, **avant** toute évaluation | `config/seuils.json` |
 | 4. Brancher votre RAG | copier le modèle des quatre endpoints dans votre RAG, y brancher ses fonctions, mettre l'adresse du RAG dans `config/kit.yaml` ; `kit appeler-rag` vérifie | `endpoints_a_copier/`, [guide 0b](service-evaluation/documentation/0b_endpoints_du_rag.md) |
