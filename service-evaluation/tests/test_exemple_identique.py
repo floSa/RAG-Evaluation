@@ -8,7 +8,7 @@ from pathlib import Path
 
 RACINE = Path(__file__).resolve().parents[2]
 SERVICE, EXEMPLE = RACINE / "service-evaluation", RACINE / "service-evaluation-exemple"
-COMMUNS = ["src", "tests", "documentation", "endpoints_a_copier", ".env.example", ".python-version",
+COMMUNS = ["FIL_CONDUCTEUR.md", "src", "tests", "documentation", "endpoints_a_copier", ".env.example", ".python-version",
            "docker-compose.yml", "initialiser.sh", "pyproject.toml", "uv.lock"]
 IGNORES = {"__pycache__", ".pytest_cache"}
 
