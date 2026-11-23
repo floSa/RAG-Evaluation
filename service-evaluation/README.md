@@ -52,7 +52,7 @@ Les commandes :
 cp .env.example .env
 ```
 
-Mettre dans `.env` la clé de l'API du modèle juge (`KIT_LLM_CLE`) ; n'importe quel fournisseur compatible OpenAI convient (OpenAI, Mistral, ou un serveur local). Mettre ensuite dans [`config/kit.yaml`](config/kit.yaml) son adresse, le nom des modèles (`modeles`) et le nom du projet (`projet`). Choisir de préférence pour juge **un autre modèle que celui du RAG** : un modèle tend à favoriser ses propres réponses. Puis écrire les secrets de Langfuse et le démarrer :
+Mettre dans `.env` la clé de l'API du modèle juge (`KIT_LLM_CLE`) ; n'importe quel fournisseur compatible OpenAI convient (OpenAI, Mistral, ou un serveur local). Mettre ensuite dans [`config/kit.yaml`](config/kit.yaml) son adresse, le nom des modèles (`modeles`) et le nom du projet (`projet`). Choisir de préférence pour juge **un autre modèle que celui du RAG** : un modèle tend à favoriser ses propres réponses. Le réglage `sans_reflexion` du juge vaut `false` : l'appel reste standard et marche chez tout fournisseur. Ne le mettre à `true` qu'avec un serveur vLLM ou LiteLLM et un modèle qui raisonne avant de répondre, pour qu'il réponde plus vite ; ailleurs, l'appel serait refusé ([pourquoi](config/README.md)). Puis écrire les secrets de Langfuse et le démarrer :
 
 ```bash
 ./initialiser.sh

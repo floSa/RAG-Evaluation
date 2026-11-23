@@ -22,7 +22,7 @@ modeles:
     modele: chat                 # qwen3.5-4b ; différent du modèle de génération du RAG (prompt du juge)
     temperature: 0
     version_prompt: "1.0"        # version du prompt de documentation/methode_et_contrat/prompt_du_juge.md
-    sans_reflexion: true         # chat_template_kwargs.enable_thinking = false
+    sans_reflexion: true         # le serveur de l'exemple est LiteLLM : il comprend chat_template_kwargs (voir service-evaluation/config/kit.yaml)
     max_tokens: 2048
   embeddings:
     modele: embed                # bge-m3, utile aux scores Ragas qui en demandent

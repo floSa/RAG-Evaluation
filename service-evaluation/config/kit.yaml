@@ -22,7 +22,10 @@ modeles:
     modele: chat                 # qwen3.5-4b ; différent du modèle de génération du RAG (prompt du juge)
     temperature: 0
     version_prompt: "1.0"        # version du prompt de documentation/methode_et_contrat/prompt_du_juge.md
-    sans_reflexion: true         # chat_template_kwargs.enable_thinking = false
+    # true seulement avec un serveur vLLM ou LiteLLM et un modèle juge qui raisonne avant de répondre (Qwen…) :
+    # le service ajoute alors à l'appel chat_template_kwargs.enable_thinking = false, pour qu'il réponde plus vite.
+    # Les autres fournisseurs (OpenAI, Mistral…) ne connaissent pas ce paramètre et peuvent refuser l'appel : false.
+    sans_reflexion: false
     max_tokens: 2048
   embeddings:
     modele: embed                # bge-m3, utile aux scores Ragas qui en demandent
