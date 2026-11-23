@@ -1,6 +1,6 @@
 # Comparaison de deux configurations
 
-Ce rapport compare deux configurations du RAG, évaluées sur le même corpus, avec les mêmes questions. Il répond à une question : **la configuration B fait-elle mieux que la configuration A ?** Il ne dit pas si l'une ou l'autre peut partir en production : c'est le rapport d'évaluation de chacune qui le dit.
+Ce rapport compare deux configurations du RAG, évaluées sur le même corpus, avec les mêmes questions. Il répond à une question : **la configuration B fait-elle mieux que la configuration A ?** Il ne dit pas si l'une ou l'autre peut partir en production : c'est le métier qui le décide, à la lecture du rapport d'évaluation de chacune.
 
 |  | A | B |
 | --- | --- | --- |

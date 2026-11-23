@@ -104,7 +104,8 @@ def markdown(r: dict, questions: dict) -> str:
     m = ["# Comparaison de deux configurations", "",
          "Ce rapport compare deux configurations du RAG, évaluées sur le même corpus, avec les mêmes questions. Il "
          "répond à une question : **la configuration B fait-elle mieux que la configuration A ?** Il ne dit pas si "
-         "l'une ou l'autre peut partir en production : c'est le rapport d'évaluation de chacune qui le dit.", "",
+         "l'une ou l'autre peut partir en production : c'est le métier qui le décide, à la lecture du rapport "
+         "d'évaluation de chacune.", "",
          *tableau(["", "A", "B"], [["Configuration", f"`{r['rag_a']['version_rag']}`", f"`{r['rag_b']['version_rag']}`"],
                                    ["Réglages", configuration(r["rag_a"]), configuration(r["rag_b"])]]), "",
          "**Ce qui change de A à B** : " + ("; ".join(diff) if diff else

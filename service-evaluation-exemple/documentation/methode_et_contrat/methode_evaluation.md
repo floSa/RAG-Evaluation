@@ -243,7 +243,7 @@ Le poids d'une question = fréquence × gravité d'une erreur.
 
 Le kit ne fixe pas de seuil et ne décide pas de la mise en production. Il rend les **scores clés**, chacun écrit en une phrase compréhensible par le métier : « pour 9 questions sur 13, la recherche ramène le passage qui contient la réponse ». **Le métier décide**, à leur lecture et à celle des questions ratées : un seuil fixé à l'avance se discute mal, le métier juge mieux devant les chiffres.
 
-Les repères ci-dessous sont des ordres de grandeur, pour aider le métier à lire les scores. Ils ne décident pas.
+Les repères ci-dessous sont des ordres de grandeur, pour aider le métier à lire les scores. Ils ne décident pas. Comment les lire, avec l'intervalle de confiance de chaque score : [6. Aide à la décision : lire les scores](../6_aide_a_la_decision.md).
 
 | Niveau | Score | Ordre de grandeur |
 | --- | --- | --- |
