@@ -18,7 +18,13 @@
       "prompt": "1.0",
       "reranker": "aucun"
     },
-    "filtre_droits": true
+    "filtre_droits": true,
+    "reglages": {
+      "réflexion du modèle": true,
+      "recherche par mots-clés": true,
+      "graphe": false,
+      "candidats avant fusion": 30
+    }
   },
   "juge": {
     "modele": "chat",

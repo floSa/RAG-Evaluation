@@ -74,7 +74,11 @@ def differences(rag_a: dict, rag_b: dict) -> list[str]:
     champs = [("type_rag", "type", rag_a.get("type_rag"), rag_b.get("type_rag")), ("k", "k", rag_a.get("k"), rag_b.get("k"))]
     va, vb = rag_a.get("versions", {}), rag_b.get("versions", {})
     champs += [(c, c, va.get(c), vb.get(c)) for c in sorted(set(va) | set(vb)) if c != "index"]
-    return [f"{nom} : {a} → {b}" for _, nom, a, b in champs if a != b]
+    ra, rb = rag_a.get("reglages", {}), rag_b.get("reglages", {})
+    champs += [(c, c.replace("_", " "), ra.get(c), rb.get(c)) for c in sorted(set(ra) | set(rb))]
+    from kit.etape_5_resultats.rapport import valeur_reglage
+
+    return [f"{nom} : {valeur_reglage(a)} → {valeur_reglage(b)}" for _, nom, a, b in champs if a != b]
 
 
 def ecart(score: str, a: float, b: float) -> str:

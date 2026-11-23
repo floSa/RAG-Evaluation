@@ -65,3 +65,12 @@ def test_comparaison_dit_ce_qui_change_et_si_c_est_le_hasard():
 
 def test_comparaison_sans_reglage_declare_different():
     assert comparaison.differences(REFERENCE, {**REFERENCE, "version_rag": "graphrag-vectoriel-k5-94d362c8"}) == []
+
+
+def test_autres_reglages_affiches_et_compares():
+    # Les réglages sans champ à eux dans le contrat (« reglages ») s'affichent et se comparent comme les autres
+    sans_reflexion = {**REFERENCE, "version_rag": "graphrag-vectoriel-k5-94d362c8", "reglages": {"réflexion du modèle": False}}
+    assert ["Réflexion du modèle", "non"] in rapport.reglages(sans_reflexion)
+    assert "réflexion du modèle non" in rapport.configuration(sans_reflexion)
+    assert comparaison.differences({**REFERENCE, "reglages": {"réflexion du modèle": True}}, sans_reflexion) == \
+        ["réflexion du modèle : oui → non"]

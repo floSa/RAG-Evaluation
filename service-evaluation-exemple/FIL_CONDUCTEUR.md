@@ -130,7 +130,7 @@ Il s'agit d'ajouter au RAG les quatre adresses web que le service appelle (voir 
 
 **Le juge n'est pas un réglage du RAG.** Le juge, le modèle de langage qui note les réponses (en anglais, *LLM as a judge*), appartient au service d'évaluation et se règle dans son `config/kit.yaml`. Il reste le même pour toutes les configurations : sinon, leurs scores ne se compareraient pas.
 
-**Ce qui ne change pas.** Les réglages qu'on ne fait pas varier restent les mêmes d'une configuration à l'autre. Le rapport les note quand même, pour qu'on sache toujours exactement ce qui a été évalué.
+**Ce qui ne change pas.** Les réglages qu'on ne fait pas varier restent les mêmes d'une configuration à l'autre. Le rapport les note quand même, pour qu'on sache toujours exactement ce qui a été évalué. Le RAG peut déclarer autant de réglages qu'il en a : plus il a de fonctionnalités, plus la liste est longue ([comment](documentation/0b_endpoints_du_rag.md#3-côté-rag--où-ranger-les-endpoints), au point « ② Montrer l'index »).
 
 **Où se remplissent les réglages.** Dans le RAG, pas dans le service d'évaluation. Chaque RAG a sa façon de les fixer : un fichier de réglages, souvent au format YAML ou `.env`, des options données au lancement, ou les deux. C'est l'équipe qui a construit le RAG qui sait où ils sont. Pour chaque configuration de la grille, fixer ses réglages dans le RAG, puis relancer le RAG pour qu'il les prenne en compte. Le détail : [0c. Les configurations du RAG : fixer les réglages, puis lancer l'évaluation](documentation/0c_configurations_du_rag.md#1-où-se-remplissent-les-réglages).
 

@@ -116,12 +116,20 @@ Le point qui compte : chaque morceau de votre index doit garder **la référence
 
 | Partie | Ce qu'on y met |
 | --- | --- |
-| `rag` | le nom du RAG, sa **version** (`version_rag`), son type (`vectoriel`, `graphe`, `hybride`, `agent`), k, les versions de ses briques |
+| `rag` | le nom du RAG, sa **version** (`version_rag`), son type (`vectoriel`, `graphe`, `hybride`, `agent`), k, les versions de ses briques, et ses **autres réglages** (`reglages`) |
 | `chunks` | chaque morceau de l'index : `chunk_id`, `reference_source`, `version_document`, `page`, `type_element`, `droits_acces`, `ordre`, `texte`, `version_index` |
 | `pages` | le texte de chaque page lue, avant découpage : il sert à mesurer la lecture des scans |
 | `graphe` | le graphe en Turtle, si votre RAG en a un ; sinon `null` |
 
-La version doit **changer dès que l'index, un modèle, le prompt ou k changent** : c'est ce qui permet de comparer deux configurations sans ambiguïté.
+**Les autres réglages.** Les réglages qui n'ont pas de champ à eux (seuil de pertinence, réflexion du modèle, recherche par mots-clés, réécriture de la question…) se déclarent dans `reglages`, un par ligne, avec leur valeur. On peut en ajouter autant que le RAG en a : plus il a de fonctionnalités, plus la liste est longue. Le nom s'écrit tel qu'on veut le lire dans le rapport :
+
+```json
+"reglages": {"réflexion du modèle": false, "seuil de pertinence": 0.3, "recherche par mots-clés": true}
+```
+
+Le rapport affiche chacun de ces réglages, et la comparaison de deux configurations dit lesquels ont changé.
+
+La version doit **changer dès que l'index, un modèle, le prompt, k ou un autre réglage changent** : c'est ce qui permet de comparer deux configurations sans ambiguïté, et d'éviter qu'une évaluation en écrase une autre.
 
 ### ③ Rechercher
 

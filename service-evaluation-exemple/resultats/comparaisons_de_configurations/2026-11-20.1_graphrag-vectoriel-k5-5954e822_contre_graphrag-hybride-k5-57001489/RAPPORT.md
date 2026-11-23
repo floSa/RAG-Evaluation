@@ -5,9 +5,9 @@ Ce rapport compare deux configurations du RAG, évaluées sur le même corpus, a
 |  | A | B |
 | --- | --- | --- |
 | Configuration | `graphrag-vectoriel-k5-5954e822` | `graphrag-hybride-k5-57001489` |
-| Réglages | RAG vectoriel, k = 5, découpage sections-1, embeddings embed, génération gemma-4-e4b, prompt 1.0, reranker aucun | RAG hybride, k = 5, découpage sections-1, embeddings embed, génération gemma-4-e4b, prompt 1.0, reranker aucun |
+| Réglages | RAG vectoriel, k = 5, découpage sections-1, embeddings embed, génération gemma-4-e4b, prompt 1.0, reranker aucun, réflexion du modèle oui, recherche par mots-clés oui, graphe non, candidats avant fusion 30 | RAG hybride, k = 5, découpage sections-1, embeddings embed, génération gemma-4-e4b, prompt 1.0, reranker aucun, réflexion du modèle oui, recherche par mots-clés oui, graphe oui, candidats avant fusion 30 |
 
-**Ce qui change de A à B** : type : vectoriel → hybride.
+**Ce qui change de A à B** : type : vectoriel → hybride; graphe : non → oui.
 
 ## 1. Les scores
 

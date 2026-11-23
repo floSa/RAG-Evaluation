@@ -6,7 +6,7 @@ Ce guide donne le côté pratique de l'étape 3 du [fil conducteur](../FIL_CONDU
 
 Dans le RAG, pas dans le service d'évaluation. Chaque RAG a sa façon de les fixer : un fichier de réglages, souvent au format YAML ou `.env`, des options données au lancement, ou les deux. C'est l'équipe qui a construit le RAG qui sait où ils sont.
 
-Pour chaque configuration de la grille : fixer ses réglages dans le RAG, puis relancer le RAG pour qu'il les prenne en compte. Le RAG déclare ensuite sa configuration au service, par son endpoint ② ([0b. Les endpoints du RAG : ce que chaque RAG doit fournir](0b_endpoints_du_rag.md)).
+Pour chaque configuration de la grille : fixer ses réglages dans le RAG, puis relancer le RAG pour qu'il les prenne en compte. Le RAG déclare ensuite sa configuration au service, par son endpoint ② : chaque réglage, y compris ceux qui n'ont pas de champ à eux, qu'on ajoute dans `reglages`, autant que le RAG en a ([0b. Les endpoints du RAG : ce que chaque RAG doit fournir](0b_endpoints_du_rag.md)).
 
 Dans le RAG d'exemple, les réglages sont dans son fichier [`config/config.yaml`](../../service-rag-exemple/config/config.yaml), et deux d'entre eux se changent aussi au lancement : [changer de configuration](../../service-rag-exemple/README.md#changer-de-configuration).
 

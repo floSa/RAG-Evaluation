@@ -17,6 +17,10 @@ Les réglages du RAG pendant cette évaluation, tels qu'il les a déclarés.
 | Modèle qui écrit la réponse | gemma-4-e4b |
 | Version du prompt | 1.0 |
 | Reclassement des morceaux (reranker) | aucun |
+| Réflexion du modèle | oui |
+| Recherche par mots-clés | oui |
+| Graphe | oui |
+| Candidats avant fusion | 30 |
 
 ## 1. Les scores clés
 

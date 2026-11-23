@@ -32,6 +32,9 @@ from pypdf import PdfReader
 NOM = "mon-rag"
 K = 5
 REGLAGES = {"decoupage": "une-page", "embedding": "aucun", "generation": "aucune", "prompt": "aucun", "reranker": "aucun"}
+# Les autres réglages de votre RAG, autant qu'il en a (un par fonctionnalité qu'on peut changer) : le rapport les affiche
+# Le nom s'écrit tel qu'on veut le lire dans le rapport.
+AUTRES_REGLAGES = {"seuil de pertinence": 0.0, "réflexion du modèle": False}
 
 app = FastAPI(title="Porte d'évaluation", description="Les quatre endpoints que le service d'évaluation appelle.")
 index: dict = {"chunks": [], "pages": [], "version_index": None}   # À REMPLACER : l'index de votre RAG
@@ -108,13 +111,15 @@ def montrer_index() -> dict:
     if not index["chunks"]:
         raise HTTPException(409, "Aucun document ingéré : appeler d'abord POST /ingerer.")
     versions = {"index": index["version_index"], **REGLAGES}
-    empreinte = hashlib.sha256(repr(sorted(versions.items()) + [K]).encode()).hexdigest()[:8]
+    # tous les réglages entrent dans l'empreinte : la version change dès que l'un d'eux change
+    empreinte = hashlib.sha256(repr(sorted(versions.items()) + [K] + sorted(AUTRES_REGLAGES.items())).encode()).hexdigest()[:8]
     return {
         "rag": {"contrat": "1.0", "nom": NOM,
-                "version_rag": f"{NOM}-k{K}-{empreinte}",   # change dès que l'index, un modèle, le prompt ou k change
+                "version_rag": f"{NOM}-k{K}-{empreinte}",   # change dès qu'un réglage change
                 "type_rag": "vectoriel",                     # vectoriel, graphe, hybride ou agent
                 "date": time.strftime("%Y-%m-%d"), "k": K, "versions": versions,
-                "filtre_droits": True},
+                "filtre_droits": True,
+                "reglages": AUTRES_REGLAGES},                # les autres réglages : le rapport les affiche
         "chunks": index["chunks"],
         "pages": index["pages"],    # le texte de chaque page, avant découpage : sert à mesurer l'OCR
         "graphe": None,             # le graphe en Turtle, si votre RAG en a un
