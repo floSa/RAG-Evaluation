@@ -20,7 +20,8 @@ Arborescence :
 | --- | --- | --- |
 | `corpus/<version_corpus>/` | corpus.json, documents.jsonl, questions.jsonl, passages.jsonl, pages_ocr.jsonl | le module d'import du kit |
 | `sorties_rag/<version_rag>/` | rag.json, chunks.jsonl, pages_extraites.jsonl, graphe.ttl, recherches.jsonl, reponses.jsonl | le kit, avec ce que rend la porte d'évaluation du RAG ; ou le RAG lui-même, par fichiers |
-| `resultats/<evaluation_id>/` | evaluation.json, liens_index.jsonl, resultats_par_question.csv, scores.json, rapport.html | le kit |
+| `resultats/<evaluation_id>/` | RAPPORT.md, rapport.html, evaluation.json, liens_index.jsonl, resultats_par_question.csv, scores.json | le kit |
+| `comparaisons/<A>_contre_<B>/` | RAPPORT.md, comparaison.json | le kit (`kit comparer`) |
 | `config/` | seuils.json, kit.yaml | l'équipe du projet |
 
 ## 2. Le corpus (écrit par l'import, depuis le fichier Excel du document 1)
