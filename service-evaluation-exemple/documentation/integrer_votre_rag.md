@@ -7,7 +7,7 @@ Un exemple complet, où toutes ces étapes ont été faites : [`service-evaluati
 | Étape | Ce que vous faites | Fini quand |
 | --- | --- | --- |
 | [0. Installer le service](#0-installer-le-service) | copier `service-evaluation/`, démarrer Langfuse, brancher le modèle juge | `kit verifier-modeles` répond |
-| [1. Demander le corpus au métier](#1-demander-le-corpus-au-métier) | lui donner le fichier Excel vierge et les règles pour le remplir | le métier vous rend les documents et le fichier rempli |
+| [1. Construire le corpus d'évaluation](#1-construire-le-corpus-dévaluation) | c'est le métier qui le remplit : lui donner le fichier Excel vierge et les règles pour le remplir | le métier vous rend les documents et le fichier rempli |
 | [2. Ranger et importer le corpus](#2-ranger-et-importer-le-corpus) | mettre les documents et le fichier à leur place, puis `kit importer` | l'import ne signale plus d'erreur |
 | [3. Fixer les seuils avec le métier](#3-fixer-les-seuils-avec-le-métier) | écrire dans `config/seuils.json` ce que le RAG doit atteindre | les seuils sont fixés **avant** toute évaluation |
 | [4. Brancher votre RAG](#4-brancher-votre-rag) | ouvrir dans votre RAG les quatre endpoints, à partir de `endpoints_a_copier/` | `kit appeler-rag` finit par « règle : respectée » |
@@ -16,7 +16,7 @@ Un exemple complet, où toutes ces étapes ont été faites : [`service-evaluati
 
 ## 0. Installer le service
 
-Copiez le dossier `service-evaluation/` dans votre projet : c'est le service, vierge. Il faut Docker, [uv](https://docs.astral.sh/uv/), et un accès à des modèles de langage par une API compatible OpenAI, pour le modèle juge. Depuis `service-evaluation/` :
+Copiez le dossier `service-evaluation/` dans votre projet : c'est le service, vierge. Ce que l'installation met en place, et à quoi sert chaque chose (la commande `kit`, Langfuse et ses bases de données, l'accès au modèle juge) : [README du service, étape 0](../../service-evaluation/README.md#la-marche-à-suivre). Il faut Docker, [uv](https://docs.astral.sh/uv/), et un accès à des modèles de langage par une API compatible OpenAI, pour le modèle juge. Depuis `service-evaluation/` :
 
 ```bash
 cp .env.example .env
@@ -38,7 +38,7 @@ uv run kit verifier-modeles
 
 Choisissez de préférence pour juge **un autre modèle que celui de votre RAG** : un modèle tend à favoriser ses propres réponses.
 
-## 1. Demander le corpus au métier
+## 1. Construire le corpus d'évaluation
 
 Le corpus annoté est ce qui permet de juger le RAG : des questions réelles, leur bonne réponse, et l'endroit exact des documents où elle se trouve. Le RAG ne le voit jamais ; il ne reçoit que les documents.
 
