@@ -51,11 +51,7 @@ Le point à vérifier en premier est le 1. Si l'ingestion de votre RAG est une c
 
 ```mermaid
 flowchart LR
-    E0["<b>0. Installer</b><br/>le service"] --> E1["<b>1. Construire</b><br/>le corpus"]
-    E1 -- "erreurs à<br/>corriger" --> E1
-    E1 --> E2["<b>2. Ouvrir</b><br/>les endpoints du RAG"] --> E3["<b>3. Évaluer</b><br/>une configuration"]
-    E3 -- "configuration<br/>suivante" --> E3
-    E3 --> E4["<b>4. Lire, comparer,</b><br/>faire décider"]
+    E0["<b>0. Installer</b><br/>le service"] --> E1["<b>1. Construire</b><br/>le corpus<br/><i>jusqu'à zéro erreur</i>"] --> E2["<b>2. Ouvrir</b><br/>les endpoints<br/>du RAG"] --> E3["<b>3. Évaluer</b><br/>une configuration<br/><i>une fois par configuration</i>"] --> E4["<b>4. Lire, comparer,</b><br/>faire décider<br/>le métier"]
 ```
 
 ## 0. Installer le service d'évaluation
@@ -99,26 +95,29 @@ Il s'agit d'ajouter au RAG les quatre adresses web que le service appelle (voir 
 
 ## 3. Évaluer une configuration du RAG
 
-**Ce qu'est une configuration.** Un RAG a des réglages : combien de morceaux de texte la recherche ramène, quel modèle écrit la réponse, avec quelle consigne… Une configuration, c'est une valeur pour chacun de ces réglages. Pour savoir ce qui améliore le RAG, on évalue plusieurs configurations qui ne diffèrent que par un réglage, puis on les compare (étape 4). Les configurations à tester forment une grille : une ligne par configuration, une colonne par réglage qu'on fait varier.
+**Ce qu'est une configuration.** Une configuration est un ensemble de réglages du RAG. On en évalue plusieurs, qui ne diffèrent que par un réglage, pour savoir lequel améliore le RAG.
 
-**Les réglages que tout RAG possède.** Ce sont ceux à tester en premier.
+**Les réglages que tout RAG possède**, à tester en premier :
 
-| Réglage | Ce que c'est | Ce qu'on cherche en le changeant |
-| --- | --- | --- |
-| Nombre de morceaux ramenés (k) | combien de morceaux de texte la recherche donne au modèle, pour chaque question | plus de morceaux : plus de chances d'avoir le bon, mais plus de bruit et une réponse plus lente |
-| Taille des morceaux | la longueur des morceaux découpés dans les documents | trop petits, ils coupent une réponse en deux ; trop grands, ils la noient |
-| Modèle qui écrit la réponse | le modèle de langage qui rédige la réponse à partir des morceaux | un modèle plus gros répond plus juste, mais plus lentement et plus cher |
-| Consigne du modèle (prompt) | le texte qui dit au modèle comment répondre : citer ses sources, dire « je ne sais pas » | moins d'inventions, plus de « je ne sais pas » quand il le faut |
+| Réglage | Ce que c'est, et ce qu'il change |
+| --- | --- |
+| Nombre de morceaux ramenés (k) | le nombre de morceaux de texte que la recherche renvoie pour une question, et que le modèle lit pour répondre. Plus il y en a, plus le bon morceau a de chances d'y être, mais plus la réponse est lente et noyée dans des morceaux inutiles |
+| Seuil de pertinence | la ressemblance minimale avec la question qu'un morceau doit avoir pour être ramené, même s'il fait partie des k premiers. Trop bas, le modèle lit des morceaux hors sujet ; trop haut, il ne lit plus rien et répond « je ne sais pas » |
+| Taille des morceaux | la longueur des morceaux découpés dans les documents, en caractères ou en tokens (un token vaut environ 4 caractères), et leur chevauchement. Trop petits, ils coupent une réponse en deux ; trop grands, ils la noient dans le reste du texte |
+| Modèle qui écrit la réponse | le modèle de langage qui rédige la réponse à partir des morceaux. Un modèle plus gros répond plus juste, mais plus lentement et plus cher |
+| Consigne du modèle (prompt) | le texte qui dit au modèle comment répondre : s'en tenir aux morceaux, citer ses sources, dire « je ne sais pas ». Elle joue sur les inventions et sur les abstentions |
 
-**Les réglages pour aller plus loin**, seulement si le RAG les possède. Un RAG qui n'en a aucun n'a rien à faire de plus.
+**Les réglages pour aller plus loin**, seulement si le RAG les possède :
 
-| Réglage | Ce que c'est | Ce qu'on cherche en le changeant |
-| --- | --- | --- |
-| Modèle de vectorisation | le modèle qui transforme chaque morceau en vecteur, pour que la recherche trouve les morceaux proches de la question | une recherche qui comprend mieux la langue et le vocabulaire du métier |
-| Recherche par mots-clés | une recherche classique, par les mots, en plus de la recherche par vecteurs | retrouver les références et les codes, que les vecteurs saisissent mal |
-| Reclassement (reranker) | un second modèle qui reclasse les morceaux ramenés | le bon morceau en tête de liste |
-| Réflexion du modèle | le modèle raisonne avant de répondre | des réponses plus justes, surtout pour les calculs, mais plus lentes |
-| Graphe (GraphRAG) | une carte des liens entre les éléments des documents (équipements, sites, personnes), consultée en plus de la recherche | répondre aux questions qui croisent plusieurs documents |
+| Réglage | Ce que c'est, et ce qu'il change |
+| --- | --- |
+| Modèle de vectorisation (embedding) | le modèle qui transforme chaque morceau et chaque question en vecteur, pour que la recherche trouve les morceaux de même sens. Un modèle adapté à la langue et au vocabulaire du métier retrouve plus de bons passages. Le changer oblige à refaire l'ingestion |
+| Recherche par mots-clés | une recherche classique, par les mots, ajoutée à la recherche par vecteurs. Elle retrouve les références et les codes, que les vecteurs saisissent mal |
+| Reclassement (reranker) | l'ajout ou non d'un second modèle, et lequel, qui relit les morceaux ramenés et les reclasse, pour mettre le meilleur en tête. Plus juste, mais plus lent |
+| Réflexion du modèle | le modèle raisonne avant de répondre. Des réponses plus justes, surtout pour les calculs, mais plus lentes |
+| Graphe (GraphRAG) | l'ajout ou non d'une carte des liens entre les éléments des documents (équipements, sites, personnes), et le modèle qui l'extrait des documents. La recherche la consulte en plus des morceaux ; elle aide pour les questions qui croisent plusieurs documents |
+
+**Le juge n'est pas un réglage du RAG.** Le juge, le modèle de langage qui note les réponses (en anglais, *LLM as a judge*), appartient au service d'évaluation et se règle dans son `config/kit.yaml`. Il reste le même pour toutes les configurations : sinon, leurs scores ne se compareraient pas.
 
 **Ce qui ne change pas.** Les réglages qu'on ne fait pas varier restent les mêmes d'une configuration à l'autre. Le rapport les note quand même, pour qu'on sache toujours exactement ce qui a été évalué.
 
