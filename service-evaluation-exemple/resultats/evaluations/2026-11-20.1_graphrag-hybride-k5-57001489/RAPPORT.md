@@ -2,11 +2,21 @@
 
 Ce rapport donne les scores d'**une configuration** du RAG sur le corpus du métier. Il ne décide pas : c'est au métier de dire, à leur lecture, si cette configuration peut partir en production.
 
-|  |  |
+Corpus : version 2026-11-20.1, 60 questions, dont 20 réservées aux scores clés. Juge : chat, prompt 1.0.
+
+## La configuration évaluée
+
+Les réglages du RAG pendant cette évaluation, tels qu'il les a déclarés.
+
+| Réglage | Valeur |
 | --- | --- |
-| Configuration évaluée | RAG hybride, k = 5, découpage sections-1, embeddings embed, génération gemma-4-e4b, prompt 1.0, reranker aucun |
-| Corpus | version 2026-11-20.1 : 60 questions, dont 20 réservées aux scores clés |
-| Juge | chat, prompt 1.0 |
+| Type de recherche | hybride |
+| Morceaux de texte ramenés par question (k) | 5 |
+| Découpage des documents | sections-1 |
+| Modèle qui vectorise le texte | embed |
+| Modèle qui écrit la réponse | gemma-4-e4b |
+| Version du prompt | 1.0 |
+| Reclassement des morceaux (reranker) | aucun |
 
 ## 1. Les scores clés
 
