@@ -1,6 +1,26 @@
 # 4. Évaluation de bout en bout
 
-**La question** : le RAG est-il utile et sûr pour ses utilisateurs, à un temps et un coût acceptables ? Peut-il partir en production ?
+## Ce que vérifie cette évaluation
+
+On regarde le RAG comme l'utilisateur le voit : une question, une réponse, au bout d'un certain temps et pour un certain coût. L'évaluation de bout en bout vérifie que le RAG est bon là où ça compte, assez rapide et pas trop cher. Elle vérifie **quatre choses**.
+
+**1. Le RAG est bon sur les questions qui comptent** (seuil : 80 %)
+
+Le métier a donné à chaque question une fréquence (rare 1, occasionnelle 2, fréquente 3) et une gravité (faible 1, moyenne 2, forte 3). Le poids de la question est fréquence × gravité, de 1 à 9. Chaque question reçoit sa note de l'[évaluation de la réponse](3_evaluation_reponse.md) : juste 1, partielle 0,5, fausse 0. Une abstention compte juste si la question n'a pas de réponse, et fausse si elle en a une. Le score est la moyenne des notes, pondérée par les poids. Une erreur sur une question fréquente et grave coûte 9 fois plus qu'une erreur sur une question rare et sans risque.
+
+**2. Aucune erreur grave** (seuil : 0, bloquant)
+
+Le même compte qu'à l'évaluation de la réponse, repris ici parce qu'il décide à lui seul.
+
+**3. Le RAG répond assez vite** (seuils : 15 s et 30 s)
+
+Le service mesure le temps de chaque réponse. Le temps médian, celui sous lequel répond la moitié des questions, doit rester sous 15 s. Le temps sous lequel répondent 95 % des questions doit rester sous 30 s.
+
+**4. Le RAG ne coûte pas trop cher** (seuil : 0,05 € par question)
+
+Le RAG indique le coût de chaque réponse ; le score est la moyenne par question. Il vaut 0 avec des modèles qui tournent en local.
+
+Ces scores, avec ceux des évaluations 1 à 3, mènent à [la décision](#la-décision), plus bas.
 
 C'est la dernière évaluation. Elle reprend les précédentes, pèse chaque question selon son importance, et rend la **décision**.
 
@@ -14,7 +34,7 @@ flowchart LR
     P --> D{"<b>Décision</b><br/>seuils du métier,<br/>sur les questions<br/>réservées"}
     T --> D
     B --> D
-    D --> H["rapport.html"]
+    D --> H["RAPPORT.md<br/>rapport.html"]
 ```
 
 | Où | Quoi |
