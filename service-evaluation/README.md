@@ -32,15 +32,25 @@ Les fichiers à la racine servent à l'installer : `docker-compose.yml` démarre
 
 ## La marche à suivre
 
-Elle s'adresse à la personne qui prend en charge l'évaluation et sait lancer des commandes : c'est elle qui fait toutes les étapes. Le métier fournit le corpus annoté (étape 1) et fixe avec elle les seuils (étape 3). Le détail de chaque étape : [la marche à suivre](documentation/integrer_votre_rag.md). Toutes les commandes se lancent depuis ce dossier.
+Elle s'adresse à la personne qui prend en charge l'évaluation et sait lancer des commandes : c'est elle qui fait toutes les étapes. Le métier remplit le corpus d'évaluation (étape 1) et fixe avec elle les seuils (étape 3). Le détail de chaque étape : [la marche à suivre](documentation/integrer_votre_rag.md). Toutes les commandes se lancent depuis ce dossier.
 
-**0. Installer.** Il faut Docker, [uv](https://docs.astral.sh/uv/), et un accès à des modèles de langage par une API compatible OpenAI, pour le modèle juge.
+**0. Installer le service.** Il faut Docker, [uv](https://docs.astral.sh/uv/), et un accès à des modèles de langage par une API compatible OpenAI. L'installation met en place :
+
+| Ce qui s'installe | À quoi ça sert | Comment |
+| --- | --- | --- |
+| la commande `kit` | le service lui-même : importer le corpus, appeler le RAG, calculer les scores, écrire les rapports | `uv` installe ses bibliothèques Python dans `.venv/` au premier `uv run` |
+| Langfuse | l'outil web où l'on suit chaque évaluation, et où le métier relit les réponses et note celles qui servent à vérifier le juge | `docker compose up -d` démarre 6 conteneurs : l'interface (http://127.0.0.1:3100), son moteur, et ses bases de données (Postgres, ClickHouse, Redis, MinIO) |
+| les secrets de Langfuse | ses mots de passe et ses clés d'accès | `./initialiser.sh` les tire au hasard et les écrit dans `.env` |
+| l'accès au modèle juge | le juge est un modèle de langage qui compare chaque réponse du RAG à la bonne réponse du métier ; rien ne s'installe, on s'y connecte | sa clé dans `.env` (`KIT_LLM_CLE`), son adresse et son nom dans `config/kit.yaml` |
+| la base de données du service | garde tous les résultats, y compris le détail des questions réservées à la décision | `resultats/base.sqlite`, créée au premier import |
+
+Les commandes :
 
 ```bash
 cp .env.example .env
 ```
 
-Mettre dans `.env` la clé de l'API des modèles (`KIT_LLM_CLE`). Le service en a besoin parce qu'il utilise un modèle de langage, le **juge**, qui compare chaque réponse du RAG à la bonne réponse du métier. N'importe quel fournisseur compatible OpenAI convient (OpenAI, Mistral, ou un serveur local) : son adresse et le nom du modèle sont dans `config/kit.yaml`. Puis démarrer Langfuse :
+Mettre dans `.env` la clé de l'API du modèle juge (`KIT_LLM_CLE`) ; n'importe quel fournisseur compatible OpenAI convient (OpenAI, Mistral, ou un serveur local). Puis écrire les secrets de Langfuse et le démarrer :
 
 ```bash
 ./initialiser.sh
@@ -56,7 +66,7 @@ Langfuse est à http://127.0.0.1:3100. L'identifiant est `evaluation@valtera.exa
 uv run kit verifier-modeles
 ```
 
-**1. Demander le corpus au métier.** Lui donner le fichier vierge [`corpus_annote/Corpus_evaluation_RAG.xlsx`](corpus_annote/Corpus_evaluation_RAG.xlsx) et les règles pour le remplir ([guide 0a](documentation/0a_construction_du_corpus.md)). Il rend les documents, un fichier par document nommé par sa référence, et le fichier rempli.
+**1. Construire le corpus d'évaluation.** C'est le métier qui le remplit : vous lui donnez le fichier vierge [`corpus_annote/Corpus_evaluation_RAG.xlsx`](corpus_annote/Corpus_evaluation_RAG.xlsx) et les règles pour le remplir ([guide 0a](documentation/0a_construction_du_corpus.md)). Il rend les documents, un fichier par document nommé par sa référence, et le fichier rempli.
 
 **2. Ranger et importer le corpus.** Les documents dans [`corpus_annote/corpus_documentaire/`](corpus_annote/corpus_documentaire/), le fichier rempli à la place du fichier vierge, puis :
 
