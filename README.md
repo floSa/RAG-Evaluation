@@ -18,6 +18,8 @@ Ce dépôt donne un **service qui évalue n'importe quel RAG** à partir d'un **
 
 Il s'adresse à la personne qui prend en charge l'évaluation : data scientist, chef de projet technique, quelqu'un qui sait lire un dépôt et lancer des commandes. C'est elle qui fait tout. Le métier ne fait que fournir le corpus annoté, selon les règles qu'elle lui transmet, et fixer avec elle les seuils.
 
+**Commencez ici : [le fil conducteur](FIL_CONDUCTEUR.md)**, qui dit dans l'ordre ce qu'on fait, pourquoi, et ce que ça a donné sur l'exemple, de l'installation à la lecture des résultats.
+
 ## Les trois dossiers
 
 | Dossier | Ce que c'est | Pour qui |
