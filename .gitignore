@@ -7,8 +7,12 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
-# Sorties produites par chaque service (index du RAG ; corpus exporté, réponses du RAG, résultats)
-sorties/
+# Sorties produites par chaque service (index du RAG ; corpus exporté, réponses du RAG, résultats) :
+# non versionnées. Seuls restent dans git les dossiers vides (.gitkeep) et le README de sorties/.
+**/sorties/**
+!**/sorties/**/
+!**/sorties/README.md
+!**/sorties/**/.gitkeep
 
 # Base SQLite du bac à sable
 *.db
