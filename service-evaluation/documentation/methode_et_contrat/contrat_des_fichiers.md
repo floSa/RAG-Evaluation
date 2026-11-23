@@ -22,7 +22,7 @@ Arborescence :
 | `reponses_du_rag/<version_rag>/` | rag.json, chunks.jsonl, pages_extraites.jsonl, graphe.ttl, recherches.jsonl, reponses.jsonl | le kit, avec ce que rend les endpoints d'évaluation du RAG ; ou le RAG lui-même, par fichiers |
 | `resultats/<evaluation_id>/` | RAPPORT.md, rapport.html, evaluation.json, liens_index.jsonl, resultats_par_question.csv, scores.json | le kit |
 | `comparaisons/<A>_contre_<B>/` | RAPPORT.md, comparaison.json | le kit (`kit comparer`) |
-| `config/` | seuils.json, kit.yaml | l'équipe du projet |
+| `config/` | kit.yaml | l'équipe du projet |
 
 ## 2. Le corpus (écrit par l'import, depuis le fichier Excel du document 1)
 
@@ -72,7 +72,7 @@ Arborescence :
 | difficulte | code | oui | Difficulté | `facile`, `moyenne`, `difficile` |
 | frequence | code | oui | Fréquence | `frequente`, `occasionnelle`, `rare` |
 | gravite | code | oui | Gravité d'une erreur | `faible`, `moyenne`, `forte` |
-| reservee_decision | booléen | oui | Réservée à la décision | |
+| reservee_decision | booléen | oui | Réservée à la décision | `true` : jamais utilisée pour régler le RAG ; les scores clés sont calculés dessus |
 | question_precedente | texte | non | Question précédente | un question_id |
 | variante_de | texte | non | Variante de | un question_id |
 | annotateur, date | texte, date | non | Annotateur, Date | |
@@ -197,7 +197,7 @@ Le graphe exporté en RDF (Turtle). Chaque nœud et chaque relation réifiée po
 | Historique | une question avec `question_precedente` reçoit `[{"question": <question précédente>, "reponse": <sa reponse_attendue>}]` |
 | Même k | pour toutes les questions d'une évaluation |
 | Isolement | le RAG ne reçoit jamais reponse_attendue, points_cles ni passages, sauf l'historique ci-dessus |
-| Toutes les questions | y compris réservées à la décision ; seul l'affichage des résultats diffère |
+| Toutes les questions | y compris les réservées ; seul l'affichage des résultats diffère |
 
 ### Les endpoints d'évaluation
 
@@ -224,7 +224,7 @@ Le RAG range les documents reçus à part de ceux de la production. Il ne reçoi
 
 ### evaluation.json
 
-`evaluation_id`, date, `version_corpus`, `version_kit`, contenu de rag.json, configuration du juge (modèle, version du prompt), seuils utilisés.
+`evaluation_id`, date, `version_corpus`, `version_kit`, contenu de rag.json, configuration du juge (modèle, version du prompt).
 
 ### resultats_par_question.csv — une ligne par question et par score
 
@@ -238,7 +238,15 @@ Le RAG range les documents reçus à part de ceux de la production. Il ne reçoi
 
 ### scores.json
 
-Pour chaque score : `score`, `niveau`, `valeur`, `marge` (± à 95 %), `n` (nombre de questions ou de passages), `ventilation` (par type de document, difficulté, type d'élément, type de réponse, profil, colonne libre), `seuil`, `atteint`, `bloquant`. Puis `decision` : liste des critères bloquants déclenchés, seuils atteints ou non.
+`evaluation_id`, puis trois blocs :
+
+| Bloc | Contenu |
+| --- | --- |
+| `scores` | tous les scores, sur les questions non réservées. Pour chacun : `score`, `niveau`, `valeur`, `marge` (± à 95 %), `n` (nombre de questions ou de passages), `ventilation` (par type de document, difficulté, type d'élément, type de réponse, profil, colonne libre) |
+| `scores_cles` | les scores clés présentés au métier, calculés sur les questions réservées ; les fuites de droits et les erreurs graves, sur toutes les questions ; les scores de documents, de chunks et de pages, sur tout le corpus. Pour chacun : `score`, `valeur`, `marge`, `n` |
+| `remarque` | une phrase qui rappelle sur quelles questions sont calculés les scores clés, et que le métier décide à leur lecture |
+
+Il n'y a ni seuil ni décision : c'est le métier qui décide, à la lecture des scores clés.
 
 ### Identifiants standard des scores
 
@@ -264,7 +272,3 @@ Pour chaque score : `score`, `niveau`, `valeur`, `marge` (± à 95 %), `n` (nomb
 | Expérience (dataset run) | nom = `evaluation_id` ; chaque élément relié à la trace de la réponse du RAG |
 | Scores | sur chaque trace, avec les identifiants standard ci-dessus |
 | Files de relecture | `relecture-reponses` (réponses à relire par le métier), `verification-juge` (30 à 50 réponses), `justesse-graphe` (50 relations) |
-
-### config/seuils.json
-
-Pour chaque identifiant de score : `seuil`, `sens` (`min` : le score doit être au moins égal ; `max` : au plus égal), `bloquant` (booléen). Valeurs par défaut : celles du document 3, section 9.

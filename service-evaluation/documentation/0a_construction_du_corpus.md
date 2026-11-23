@@ -43,10 +43,12 @@ Chaque feuille du fichier Excel porte ses définitions et ses listes de valeurs.
 | Feuille | Une ligne = | L'essentiel |
 | --- | --- | --- |
 | Documents | un document retenu | sa référence dans la source, sa version, son format, ses **droits d'accès**, s'il est **en vigueur** |
-| Questions | une question | écrite avec les mots des utilisateurs ; le **profil** qui la pose ; la **réponse attendue** et ses **points clés** ; si la réponse est dans les documents (oui, non, non accessible à ce profil) ; la **fréquence** et la **gravité** d'une erreur ; **réservée à la décision** ou non |
+| Questions | une question | écrite avec les mots des utilisateurs ; le **profil** qui la pose ; la **réponse attendue** et ses **points clés** ; si la réponse est dans les documents (oui, non, non accessible à ce profil) ; la **fréquence** et la **gravité** d'une erreur ; **réservée** ou non (colonne « Réservée à la décision ») |
 | Passages | un endroit où se trouve la réponse | le document, la **page**, le type d'élément (texte, tableau, texte scanné, image), le passage **copié-collé**, s'il répond entièrement, en partie, ou si c'est un **piège** |
 | Pages OCR | une page scannée de référence | le texte retapé à la main : sert à mesurer la qualité de la lecture des scans |
 | Tableau de bord | — | se calcule tout seul ; doit être « OK » partout avant de transmettre le fichier |
+
+Une source n'est pas toujours un fichier. Pour un enregistrement d'une application (une fiche, un ticket, une ligne de base), on l'exporte en fiche « champ : valeur », de format « Fiche de base de données ». Sa référence est l'identifiant de l'enregistrement, et sa « page » est le nom du champ qui contient la réponse.
 
 ### Les règles qui comptent le plus
 
@@ -58,7 +60,7 @@ Chaque feuille du fichier Excel porte ses définitions et ses listes de valeurs.
 | Des questions **sans réponse** dans les documents | vérifier que le RAG sait dire « je ne sais pas » au lieu d'inventer |
 | Des questions posées avec un **profil restreint** sur un document qui lui est interdit | vérifier que le RAG ne montre jamais un document interdit |
 | Des **passages pièges** : une ancienne version, un autre ouvrage | vérifier que le RAG ne se trompe pas de document |
-| Un tiers des questions **réservées à la décision** | elles ne servent jamais à régler le RAG ; l'équipe technique n'en voit que les scores globaux. Cela évite de régler le RAG « pour le test » |
+| Un tiers des questions **réservées** | elles ne servent jamais à régler le RAG. Les scores présentés au métier, les scores clés, sont calculés sur elles ; l'équipe technique n'en voit que ces scores globaux. Cela évite de régler le RAG « pour le test » |
 | **Fréquence** et **gravité** sur chaque question | une erreur sur une question fréquente et grave pèse 9 fois plus qu'une erreur rare et sans gravité |
 
 La configuration minimale du document 1 : 10 documents par type, 50 questions, 20 pages OCR. En dessous, les scores sont trop imprécis pour décider (voir [les marges d'erreur](5_resultats_et_comparaison.md#4-les-marges-derreur--ne-pas-sur-interpréter)).
@@ -84,7 +86,7 @@ Ce qu'il couvre :
 | Éléments | texte, tableaux, schémas avec figure numérotée (PR-1101, PR-1111, NT-057, NT-058), texte scanné |
 | Droits | 4 documents réservés au profil « Maintenance » (PR-1102, NT-051, OT-24109, OT-24114) |
 | Versions | PR-1104-B (2021) remplacée par PR-1104-C (2025), avec des valeurs différentes |
-| Questions | 60 : 10 sans réponse, 19 à plusieurs passages, 6 synthèses, 7 avec un profil restreint dont 3 « non accessible », 6 questions de suite, 6 variantes, 6 avec passage piège, 20 réservées à la décision |
+| Questions | 60 : 10 sans réponse, 19 à plusieurs passages, 6 synthèses, 7 avec un profil restreint dont 3 « non accessible », 6 questions de suite, 6 variantes, 6 avec passage piège, 20 réservées |
 
 Les conventions retenues pour l'annoter :
 

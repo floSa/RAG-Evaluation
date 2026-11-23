@@ -11,7 +11,7 @@ Règles à suivre pour tout projet RAG : base vectorielle, graphe, ou agent. On 
 | Le RAG | équipe technique du projet | produit les fichiers du contrat : chunks exportés, résultats de recherche, réponses |
 | Le corpus | équipe métier (document 1) | questions, passages, réponses attendues, au format standard |
 | Le kit d'évaluation | le même pour tous les projets | lit le contrat et le corpus, calcule les scores des quatre niveaux, les publie dans la base relationnelle et dans Langfuse |
-| La décision | équipe métier et équipe technique | corriger le RAG avec le document 2, ou le mettre en production |
+| La décision | équipe métier, à la lecture des scores, avec l'équipe technique | corriger le RAG avec le document 2, ou le mettre en production |
 
 **Le kit ne connaît pas le RAG** : il ne lit que les fichiers du contrat. Un RAG vectoriel, un GraphRAG ou un agent s'évaluent de la même façon.
 
@@ -50,7 +50,7 @@ Règles à suivre pour tout projet RAG : base vectorielle, graphe, ou agent. On 
 | Résultats par question | table resultats ; fichier resultats_par_question.csv | une ligne par question : chaque score de chaque niveau |
 | Scores globaux | table evaluations ; fichier scores.json | chaque score avec sa marge d'erreur, au total et par type de document, difficulté, type d'élément, profil et colonne ajoutée par le projet |
 | Langfuse | une « expérience » par évaluation, sur le jeu de questions du corpus | les scores attachés à chaque question ; les files de relecture du métier ; la comparaison de deux évaluations |
-| Rapport | RAPPORT.md (et rapport.html) | une page : seuils atteints ou non, critères bloquants, questions à regarder en premier |
+| Rapport | RAPPORT.md (et rapport.html) | une page : les scores clés, chacun en une phrase claire, puis tous les scores, et les questions à regarder en premier |
 
 Chaque évaluation enregistre `rag.json`, la version du corpus et la version du kit : deux évaluations ne se comparent que si le corpus est le même.
 
@@ -66,14 +66,13 @@ Chaque évaluation enregistre `rag.json`, la version du corpus et la version du 
 | **Réponse** | exactitude par le LLM juge, fidélité (Ragas), abstention, citations, erreurs graves | second avis sur l'exactitude ; questions de suite ; variantes |
 | **Notation** | LLM juge vérifié sur 30 réponses notées par le métier ; le métier relit les réponses fausses ou partielles, toutes les questions de gravité forte, et 10 au hasard | vérification du juge sur 50 réponses ; double relecture |
 | **Suivi** | Langfuse : expériences, scores, files de relecture, temps et coût | Langfuse en production : traces, retours utilisateurs, juge en ligne |
-| **Lancement** | à la main, à chaque nouvelle version du RAG | automatique, à chaque changement d'index, de prompt ou de modèle ; échec si un seuil n'est pas atteint |
+| **Lancement** | à la main, à chaque nouvelle version du RAG | automatique, à chaque changement d'index, de prompt ou de modèle ; alerte si un score baisse par rapport à la version précédente |
 | **Comparer deux versions** | écart des scores, et question par question | en plus, test statistique apparié |
 
 ### Les actions de départ
 
 | Action | Qui | Résultat |
 | --- | --- | --- |
-| Écrire le seuil de chaque score (section 9) | équipe métier, avec l'équipe technique | des seuils validés avant la première évaluation |
 | Installer Langfuse et le kit d'évaluation | équipe technique | le jeu de questions du corpus est chargé dans Langfuse |
 | Faire produire au RAG les fichiers du contrat | équipe technique | le RAG ouvre ses endpoints au kit |
 | Fixer k, le nombre de chunks donnés au modèle | équipe technique | inscrit dans `rag.json` |
@@ -148,7 +147,7 @@ Les seuils de ressemblance sont réglables dans le kit. Chaque passage non ratta
 | Taux de réussite à k (Hit@k) | part des questions réussies (règle ci-dessous) | minimale |
 | Rappel à k (Recall@k) | part des passages attendus dont un chunk lié est dans les k premiers | minimale |
 | Rang du premier bon chunk (MRR) | 1 si le premier bon chunk est 1er, 1/2 s'il est 2e, 1/3 s'il est 3e… ; 0 s'il est absent ; moyenne sur les questions | minimale |
-| Fuite de droits | nombre de questions dont un chunk retrouvé vient d'un document interdit au profil | minimale si le RAG filtre les droits ; critère bloquant |
+| Fuite de droits | nombre de questions dont un chunk retrouvé vient d'un document interdit au profil | minimale si le RAG filtre les droits ; une seule est grave |
 | nDCG | comme le rang, mais un passage qui répond « entièrement » compte double ; calculé par ranx | recommandée |
 | Réussite à 1, 3, 5, 10 | le taux de réussite pour plusieurs k : aide à choisir k | recommandée |
 | Avant et après reranker | le taux de réussite sur la liste avant reclassement, puis après | recommandée |
@@ -187,7 +186,7 @@ Avec un graphe : les éléments retrouvés (nœuds, relations, extraits de texte
 | Fidélité | Ragas `Faithfulness` : le juge découpe la réponse en affirmations et vérifie chacune dans les chunks donnés au modèle ; part d'affirmations appuyées | minimale |
 | Citations correctes | part des réponses dont au moins un chunk cité est lié à un passage de la question, sans citer de piège ni de document interdit | minimale |
 | Synthèse | Ragas `RubricsScore` : note de 1 à 5 sur une grille (couverture des thèmes attendus, exactitude, appui sur les sources) | minimale si graphe |
-| Erreurs graves | nombre de réponses fausses, ou non fidèles, à une question de gravité forte ; chacune est relue par le métier | minimale ; critère bloquant |
+| Erreurs graves | nombre de réponses fausses, ou non fidèles, à une question de gravité forte ; chacune est relue par le métier | minimale ; une seule est grave |
 | Second avis | Ragas `FactualCorrectness`, comparé au verdict du juge du kit ; les désaccords vont en relecture | recommandée |
 | Questions de suite | exactitude calculée à part sur ces questions | recommandée |
 | Variantes | part des groupes de variantes dont les verdicts diffèrent | recommandée |
@@ -219,9 +218,9 @@ Le juge utilise un prompt fourni par le kit ([`prompt_du_juge.md`](prompt_du_jug
 | --- | --- |
 | Ce qu'on évalue | le RAG est-il utile et sûr pour le métier, à un coût et un temps de réponse acceptables ? |
 | Entrée du RAG | reponses.jsonl (durée, coût) ; résultats du niveau 3 |
-| Dans le corpus | fréquence ; gravité d'une erreur ; questions réservées à la décision |
+| Dans le corpus | fréquence ; gravité d'une erreur ; questions réservées |
 | Ce qu'on met en place | le script du kit ; Langfuse pour le temps et le coût |
-| Sortie | score pondéré, erreurs graves, temps et coût, décision par rapport aux seuils |
+| Sortie | score pondéré, erreurs graves, temps et coût ; les scores clés, calculés sur les questions réservées |
 
 Le poids d'une question = fréquence × gravité d'une erreur.
 
@@ -234,34 +233,36 @@ Le poids d'une question = fréquence × gravité d'une erreur.
 | Score | Comment il est calculé | Configuration |
 | --- | --- | --- |
 | Score pondéré | somme des poids des réponses justes (une partielle compte pour moitié) ÷ somme des poids de toutes les questions | minimale |
-| Erreurs graves | repris du niveau 3 | minimale ; critère bloquant |
+| Erreurs graves | repris du niveau 3 | minimale ; une seule est grave |
 | Temps de réponse | médiane, et temps sous lequel répondent 95 % des questions | minimale |
 | Coût par question | moyenne | minimale |
 | Marge d'erreur de chaque score | ± 1,96 × √(p × (1 − p) ÷ n), où p est le score et n le nombre de questions | minimale |
 | Marge par rééchantillonnage | les questions tirées 1 000 fois au hasard ; on garde l'intervalle qui contient 95 % des scores | recommandée |
 
-### Décider
+### Les scores clés et la décision du métier
 
-**Les seuils** sont fixés par le métier avant la première évaluation. Les valeurs ci-dessous sont des repères à adapter.
+Le kit ne fixe pas de seuil et ne décide pas de la mise en production. Il rend les **scores clés**, chacun écrit en une phrase compréhensible par le métier : « pour 9 questions sur 13, la recherche ramène le passage qui contient la réponse ». **Le métier décide**, à leur lecture et à celle des questions ratées : un seuil fixé à l'avance se discute mal, le métier juge mieux devant les chiffres.
 
-| Niveau | Score | Repère |
+Les repères ci-dessous sont des ordres de grandeur, pour aider le métier à lire les scores. Ils ne décident pas.
+
+| Niveau | Score | Ordre de grandeur |
 | --- | --- | --- |
 | Ingestion | passages rattachés | 95 % |
 | Ingestion | métadonnées complètes | 100 % |
 | Ingestion | taux d'erreur de caractères | 2 % au plus |
 | Recherche | taux de réussite à k | 90 % |
-| Recherche | fuite de droits | 0 : critère bloquant |
+| Recherche | fuite de droits | 0 : une seule est grave |
 | Réponse | réponses justes | 80 % |
 | Réponse | abstentions correctes | 80 % |
 | Réponse | fidélité | 90 % |
-| Réponse | erreurs graves | 0 : critère bloquant |
-| Bout en bout | score pondéré, temps de réponse, coût | fixés par le métier |
+| Réponse | erreurs graves | 0 : chacune est relue par le métier |
+| Bout en bout | score pondéré, temps de réponse, coût | selon ce que les utilisateurs acceptent |
 
-**Les règles de décision :**
+**Les règles :**
 
 - L'équipe technique règle le RAG sur les questions non réservées.
-- La mise en production se décide sur les questions réservées à la décision ; l'équipe technique n'en voit que les scores globaux.
-- Une fuite de droits ou une erreur grave bloque, quel que soit le score.
+- Les scores clés sont calculés sur les questions réservées ; l'équipe technique n'en voit que les scores globaux.
+- Les fuites de droits et les erreurs graves se comptent sur toutes les questions. Une seule se regarde avant tout le reste, quel que soit le score.
 
 **Comparer deux versions du RAG :**
 
@@ -325,7 +326,7 @@ En configuration recommandée, le métier note chaque mois 20 à 50 vraies quest
 
 ## 13. Les outils
 
-On prend sur étagère ce qui existe. On code ce qu'aucun outil ne fait : le rattachement au corpus du métier, les règles de réussite, la pondération, les critères bloquants.
+On prend sur étagère ce qui existe. On code ce qu'aucun outil ne fait : le rattachement au corpus du métier, les règles de réussite, la pondération, les scores clés.
 
 | Outil | Ce qu'il fait dans le kit | Licence |
 | --- | --- | --- |
@@ -348,7 +349,7 @@ On prend sur étagère ce qui existe. On code ce qu'aucun outil ne fait : le rat
 | Appel du RAG | corpus et ses documents ; les quatre endpoints du RAG | rag.json, chunks.jsonl, pages_extraites.jsonl, graphe.ttl, recherches.jsonl, reponses.jsonl |
 | Niveau 2 | recherches ; liens | scores du niveau 2 |
 | Niveau 3 | réponses ; recherches ; corpus | verdicts du juge ; scores du niveau 3 ; files de relecture |
-| Niveau 4 et décision | scores des niveaux 1 à 3 ; seuils | score pondéré, marges, décision |
+| Niveau 4 et scores clés | scores des niveaux 1 à 3 | score pondéré, marges, scores clés |
 | Publication | tous les scores | base relationnelle, Langfuse, RAPPORT.md et rapport.html |
 | Vérification du juge | notes du métier et du juge | taux d'accord |
 
@@ -358,9 +359,9 @@ Le bac à sable met en œuvre ce kit avec un RAG très simple, séparé du kit, 
 
 1. Le RAG ne parle au kit que par le contrat ; le kit ne connaît pas le RAG.
 2. On lit les niveaux dans l'ordre : ingestion, recherche, réponse.
-3. Les seuils sont écrits avant la première évaluation.
-4. Une fuite de droits ou une erreur grave bloque la mise en production.
-5. Les questions réservées à la décision ne servent jamais à régler le RAG.
+3. Le kit donne les scores ; le métier décide.
+4. Une seule fuite de droits ou une seule erreur grave se regarde avant tout le reste.
+5. Les questions réservées ne servent jamais à régler le RAG.
 
 ## Sources
 

@@ -4,27 +4,27 @@
 
 Le RAG reçoit la question, ramène ses k morceaux, et demande au modèle de langage d'écrire une réponse à partir de ces morceaux, en citant ses sources. L'évaluation de la réponse vérifie que cette réponse est juste, fondée sur les documents, et prudente quand il le faut. Elle vérifie **six choses**.
 
-**1. La réponse est juste** (seuil : 80 %)
+**1. La réponse est juste**
 
 Pour chaque question, le métier a écrit la bonne réponse et l'a découpée en points clés, par exemple « 72 A » et « temporisation de 500 ms ». Un modèle de langage, le juge, lit la réponse du RAG et classe chaque point clé : présent, absent ou contredit. La réponse est juste si tous les points sont présents sans contradiction, partielle s'il en manque sans qu'aucun soit contredit, fausse sinon. Juste compte 1, partielle 0,5, fausse 0. Le score est la moyenne sur les questions qui ont une réponse dans les documents.
 
-**2. La réponse ne dit que ce que disent les documents** (seuil : 90 %)
+**2. La réponse ne dit que ce que disent les documents**
 
 On découpe la réponse en affirmations, puis on vérifie chacune dans les morceaux que le modèle avait sous les yeux. Le score est le nombre d'affirmations appuyées par un morceau divisé par le nombre d'affirmations. Une réponse peut être juste par chance tout en inventant une partie : ce score le voit.
 
-**3. Le RAG sait dire « je ne sais pas »** (seuil : 80 %)
+**3. Le RAG sait dire « je ne sais pas »**
 
-Certaines questions n'ont pas de réponse dans les documents, ou portent sur un document interdit au profil qui la pose. Le RAG doit alors s'abstenir. Le score est le nombre d'abstentions divisé par le nombre de ces questions. À l'inverse, un second score (sans seuil) compte les questions où le RAG s'est abstenu alors qu'il avait le bon passage : l'excès de prudence.
+Certaines questions n'ont pas de réponse dans les documents, ou portent sur un document interdit au profil qui la pose. Le RAG doit alors s'abstenir. Le score est le nombre d'abstentions divisé par le nombre de ces questions. À l'inverse, un second score compte les questions où le RAG s'est abstenu alors qu'il avait le bon passage : l'excès de prudence.
 
-**4. Les sources citées sont les bonnes** (sans seuil)
+**4. Les sources citées sont les bonnes**
 
 Une question compte 1 si au moins une source citée par le RAG contient le passage du métier, et si aucune n'est un piège ni un document interdit. Le score est la part de questions qui comptent 1.
 
-**5. Aucune erreur grave** (seuil : 0, bloquant)
+**5. Aucune erreur grave**
 
-Le métier a donné à chaque question une gravité : forte, moyenne ou faible. Une erreur grave, c'est, sur une question de gravité forte, une réponse fausse, une réponse qui invente, ou une réponse donnée là où il fallait s'abstenir. Le service les compte. Une seule suffit à refuser la mise en production, et chacune est relue par le métier.
+Le métier a donné à chaque question une gravité : forte, moyenne ou faible. Une erreur grave, c'est, sur une question de gravité forte, une réponse fausse, une réponse qui invente, ou une réponse donnée là où il fallait s'abstenir. Le service les compte. Une seule est grave, quels que soient les autres scores, et chacune est relue par le métier.
 
-**6. La justesse sur les questions difficiles** (sans seuil)
+**6. La justesse sur les questions difficiles**
 
 Les mêmes réponses, regardées par type de question :
 - pour une liste : la part des éléments attendus présents dans la réponse ;
@@ -96,14 +96,14 @@ Elle a besoin des évaluations [1](1_evaluation_ingestion.md) et [2](2_evaluatio
 
 | Score | Ce qu'il mesure | Exemple | Si c'est mauvais |
 | --- | --- | --- | --- |
-| `n3_exactitude` | juste = 1, partielle = 0,5, fausse = 0, selon le juge. Les abstentions ne sont pas notées ici | **79 %** ± 15 % (seuil 80 %) | lire la justification du juge dans le CSV ; regarder le croisement ci-dessous |
+| `n3_exactitude` | juste = 1, partielle = 0,5, fausse = 0, selon le juge. Les abstentions ne sont pas notées ici | **79 %** ± 15 % | lire la justification du juge dans le CSV ; regarder le croisement ci-dessous |
 | `n3_completude_listes` | pour une question « liste » : part des éléments attendus présents | 100 % | graphe et ontologie pour les listes |
 | `n3_valeurs` | les valeurs chiffrées attendues sont-elles dans la réponse, avec la bonne unité et dans la tolérance ? | 91 % | calcul délégué à un outil plutôt qu'au modèle |
 | `n3_abstention_correcte` | sur les questions sans réponse ou interdites au profil : part des fois où le RAG dit ne pas savoir | 100 % | consigne d'abstention ; vérifier que le contexte suffit avant de répondre |
 | `n3_abstention_a_tort` | part des questions où le RAG ne répond pas alors qu'il avait le bon passage | 6 % | consigne d'abstention trop stricte |
 | `n3_fidelite` | (Ragas) part des affirmations de la réponse appuyées par les chunks donnés au modèle | 95 % | citations obligatoires ; LLM juge garde-fou |
 | `n3_citations` | au moins une source citée est la bonne, sans piège ni document interdit | 93 % | — |
-| **`n3_erreurs_graves`** | réponses fausses, non fidèles (une seule affirmation non appuyée suffit), ou données au lieu de s'abstenir, **sur une question de gravité forte** | **1** | **bloquant** ; chaque cas est relu par le métier |
+| **`n3_erreurs_graves`** | réponses fausses, non fidèles (une seule affirmation non appuyée suffit), ou données au lieu de s'abstenir, **sur une question de gravité forte** | **1** | **une seule est grave** ; chaque cas est relu par le métier |
 | `n3_synthese` | (Ragas) note de 1 à 5 sur la grille du prompt du juge, ramenée sur 100 % | 65 % | un RAG vectoriel synthétise mal : graphe |
 | `n3_questions_suite` | exactitude des questions de suite | 100 % | — |
 | `n3_variantes` | part des groupes de reformulations dont les réponses diffèrent | 0 % | robustesse aux reformulations |

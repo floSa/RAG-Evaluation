@@ -1,10 +1,10 @@
 # 5. Résultats et comparaison
 
-Le service fait deux choses différentes. Il **évalue une configuration** du RAG (le RAG avec tous ses réglages fixés) : cette configuration peut-elle partir en production ? Et il **compare deux configurations** déjà évaluées : laquelle fait mieux, et l'écart est-il réel ? Ce guide dit **où sont les résultats** de chacune, **dans quel ordre les lire**, et **comment comparer**. Il s'appuie sur une vraie évaluation : celle du RAG d'exemple (k = 5) sur le corpus d'exemple.
+Le service fait deux choses différentes. Il **évalue une configuration** du RAG (le RAG avec tous ses réglages fixés) : il en donne les scores, et le métier dit, à leur lecture, si elle peut partir en production. Et il **compare deux configurations** déjà évaluées : laquelle fait mieux, et l'écart est-il réel ? Ce guide dit **où sont les résultats** de chacune, **dans quel ordre les lire**, et **comment comparer**. Il s'appuie sur une vraie évaluation : celle du RAG d'exemple (k = 5) sur le corpus d'exemple.
 
 ```mermaid
 flowchart TD
-    D["<b>1. La décision</b><br/>mise en production possible ?<br/>critères bloquants ?"] --> S["<b>2. Les scores, évaluation par évaluation</b><br/>la première sous son seuil<br/>est souvent la cause des suivantes"]
+    D["<b>1. Les scores clés</b><br/>ceux que lit le métier<br/>pour décider"] --> S["<b>2. Tous les scores, évaluation par évaluation</b><br/>la première qui faiblit<br/>est souvent la cause des suivantes"]
     S --> Q["<b>3. Les questions à regarder</b><br/>erreurs graves, réponses fausses"]
     Q --> C["<b>4. Le croisement recherche × réponse</b><br/>la faute est-elle à la recherche<br/>ou à la génération ?"]
     C --> F["<b>5. Corriger</b>, nouvelle version,<br/>puis kit comparer"]
@@ -20,19 +20,19 @@ Une évaluation, c'est une configuration du RAG évaluée sur un corpus. Son ide
 
 Pour voir à quoi ils ressemblent sans rien lancer : [les résultats d'exemple](../../service-evaluation-exemple/README.md), les quatre évaluations et les trois comparaisons citées dans ce guide.
 
-**Dans un dossier**, `resultats/evaluations/<évaluation>/` :
+**Dans un dossier**, `resultats/evaluations/<évaluation>/` : le `RAPPORT.md`, et les autres fichiers dans `fichiers_techniques/` :
 
 | Fichier | Pour qui | Contenu |
 | --- | --- | --- |
-| **`RAPPORT.md`** | **tout le monde** : à ouvrir en premier, il se lit directement sur GitHub | la configuration évaluée, la décision, chaque score expliqué en clair avec son seuil, les questions à regarder, la cause probable des erreurs |
+| **`RAPPORT.md`** | **tout le monde** : à ouvrir en premier, il se lit directement sur GitHub | la configuration évaluée, les scores clés, chaque score expliqué en une phrase claire, les questions à regarder, la cause probable des erreurs |
 | `rapport.html` | le métier, dans un navigateur | la même chose, en page web |
-| `scores.json` | l'équipe technique | chaque score : valeur, marge d'erreur, nombre de questions, ventilation, seuil ; puis la décision |
+| `scores.json` | l'équipe technique | chaque score : valeur, marge d'erreur, nombre de questions, ventilation ; puis les scores clés |
 | `resultats_par_question.csv` | les deux, dans un tableur | une ligne par question et par score, avec le détail (verdict et justification du juge, chunks en cause…) |
 | `passages_non_rattaches.jsonl` | l'équipe technique | les passages du métier introuvables dans l'index, avec leur **cause probable** ([évaluation 1](1_evaluation_ingestion.md)) |
 | `croisement.jsonl` | les deux | pour chaque question : bon passage retrouvé ou non, réponse juste ou non, et le diagnostic ([évaluation 3](3_evaluation_reponse.md#le-croisement-recherche--réponse--où-est-la-faute-)) |
 | `relecture.jsonl` | le métier | les réponses à relire, et pourquoi |
 | `liens_index.jsonl` | l'équipe technique | chaque lien passage du métier ↔ chunk du RAG, avec son mode (exact, approché, image, coupé) |
-| `evaluation.json` | archive | ce qui a été évalué : versions du corpus, du kit et du RAG, modèle et prompt du juge, seuils |
+| `evaluation.json` | archive | ce qui a été évalué : versions du corpus, du kit et du RAG, modèle et prompt du juge |
 
 **Dans Langfuse** (http://127.0.0.1:3100), l'interface partagée avec le métier :
 
@@ -50,20 +50,19 @@ Pour voir à quoi ils ressemblent sans rien lancer : [les résultats d'exemple](
 
 ## 2. Lire le rapport, dans l'ordre
 
-**La décision d'abord** : c'est l'encadré en haut du rapport. Comment elle est prise : [évaluation 4, la décision](4_evaluation_bout_en_bout.md#la-décision).
+**Les scores clés d'abord** : c'est le tableau en haut du rapport, celui que lit le métier pour décider. Ce qu'ils sont : [évaluation 4, les scores clés](4_evaluation_bout_en_bout.md#les-scores-clés-et-la-décision-du-métier).
 
-**Puis les scores, évaluation par évaluation, et dans l'ordre.** Une réponse fausse vient souvent d'un passage perdu à l'ingestion ou mal retrouvé : changer le prompt n'y changera rien. Ce que mesure chaque score, et quoi faire s'il est mauvais, est dans le guide de son évaluation : [1. ingestion](1_evaluation_ingestion.md#les-scores), [2. recherche](2_evaluation_recherche.md#les-scores), [3. réponse](3_evaluation_reponse.md#les-scores), [4. bout en bout](4_evaluation_bout_en_bout.md#les-scores).
+**Puis tous les scores, évaluation par évaluation, et dans l'ordre.** Une réponse fausse vient souvent d'un passage perdu à l'ingestion ou mal retrouvé : changer le prompt n'y changera rien. Ce que mesure chaque score, et quoi faire s'il est mauvais, est dans le guide de son évaluation : [1. ingestion](1_evaluation_ingestion.md#les-scores), [2. recherche](2_evaluation_recherche.md#les-scores), [3. réponse](3_evaluation_reponse.md#les-scores), [4. bout en bout](4_evaluation_bout_en_bout.md#les-scores).
 
 Chaque score est donné avec :
 
 | Colonne | Ce qu'elle veut dire |
 | --- | --- |
-| Valeur | le score, sur les questions non réservées |
-| ± (marge) | l'incertitude à 95 % : avec 28 questions, « 86 % ± 13 % » veut dire « quelque part entre 73 % et 99 % ». **Un score sur moins de 10 questions est une tendance, pas une mesure** |
-| n | le nombre de questions (ou de passages, de pages, de chunks) sur lequel il est calculé |
+| Résultat | le score, sur les questions non réservées. Entre parenthèses, la fourchette où se trouve le vrai résultat, à 95 % : avec 28 questions, « 86 % (entre 73 et 99 %) ». **Un score sur moins de 10 questions est une tendance, pas une mesure** |
+| Ce que ça veut dire | le score en une phrase, avec le nombre de questions (ou de passages, de pages, de chunks) sur lequel il est calculé : « Pour 24 questions sur 28, la recherche ramène le passage qui contient la réponse. » |
+| Code | l'identifiant du score, pour le retrouver dans les fichiers techniques |
 
-Pourquoi n change d'un score à l'autre, sur le corpus d'exemple : 60 questions = 40 de réglage + 20 réservées à la décision, jamais détaillées. Parmi les 40, 32 ont leur réponse dans les documents ; l'exactitude ne note que les réponses données à celles-ci, pas les abstentions (28 chez l'auteur : le RAG s'est abstenu sur 4).
-| Seuil, état | le seuil du métier, et s'il est atteint |
+Pourquoi le nombre de questions change d'un score à l'autre, sur le corpus d'exemple : 60 questions = 40 de réglage + 20 réservées, jamais détaillées. Parmi les 40, 32 ont leur réponse dans les documents ; l'exactitude ne note que les réponses données à celles-ci, pas les abstentions (28 chez l'auteur : le RAG s'est abstenu sur 4).
 
 **Puis les questions à regarder**, dans cet ordre :
 1. les erreurs graves et les fuites ;
@@ -83,7 +82,7 @@ Recherche mauvaise ?   → recherche hybride, reranker, filtres, k           (do
 Réponse mauvaise ?     → regarder d'abord le croisement :
                           « recherche »  → revenir à la recherche
                           « génération » → prompt, citations, abstention, modèle (document 2, section 7)
-Bloquant ?             → fuite : filtre des droits pendant la recherche ; erreur grave : relecture métier, garde-fou
+Fuite, erreur grave ?  → fuite : filtre des droits pendant la recherche ; erreur grave : relecture métier, garde-fou
 Puis                   → nouvelle version du RAG, kit evaluer, kit comparer avec la précédente
 ```
 
@@ -104,7 +103,7 @@ Après un changement (k, prompt, modèle, découpage), on évalue la nouvelle co
 2. **Écart et marge** : un écart plus petit que la marge **ne prouve rien seul**.
 3. **Question par question** : les questions gagnées et perdues sont plus parlantes que les moyennes.
 4. **Test de McNemar** : il ne regarde que les questions qui ont changé. Une valeur p au-dessus de 0,05 veut dire que l'écart peut être dû au hasard.
-5. **Régression** : une question de gravité forte perdue est signalée, même si la moyenne monte. Elle se regarde avant toute décision.
+5. **Régression** : une question de gravité forte perdue est signalée, même si la moyenne monte. Elle se regarde avant que le métier décide.
 
 **Exemple : le RAG d'exemple avec k = 5 (A), puis k = 3 (B).** Une autre version du RAG, c'est le RAG relancé avec un autre réglage, puis évalué de nouveau :
 
@@ -172,6 +171,6 @@ uv run kit comparer resultats/evaluations/<corpus>_graphrag-vectoriel-k5-5954e82
 | score pondéré (`n4_score_pondere`) | 80 % | 77 % | McNemar p = 0,45 : l'écart peut être dû au hasard |
 | temps médian, temps à 95 % | 7,4 s et 12,8 s | 0,9 s et 2,6 s | 9 fois plus rapide |
 
-**Conclusion** : les deux corrections suppriment la coupure. On garde la réflexion : elle rend les calculs justes, et 7 secondes restent sous le seuil de 15 secondes. Si le temps devenait le problème, la version sans réflexion serait le bon compromis, et ce tableau dirait ce qu'elle coûte. Avant la correction, la version avec 800 tokens avait un score pondéré de 81 % : la coupure ne coûtait presque rien dans les scores. Les réponses coupées étaient déjà fausses ou partielles pour d'autres raisons, et Q-043, devenue complète, est restée « fausse » pour le juge ([évaluation 3](3_evaluation_reponse.md#vérifier-le-juge-avant-de-lui-faire-confiance)). Relire les réponses trouve des défauts que les moyennes ne montrent pas.
+**Conclusion** : les deux corrections suppriment la coupure. On garde la réflexion : elle rend les calculs justes, et une réponse en 7 secondes reste acceptable pour l'utilisateur. Si le temps devenait le problème, la version sans réflexion serait le bon compromis, et ce tableau dirait ce qu'elle coûte. Avant la correction, la version avec 800 tokens avait un score pondéré de 81 % : la coupure ne coûtait presque rien dans les scores. Les réponses coupées étaient déjà fausses ou partielles pour d'autres raisons, et Q-043, devenue complète, est restée « fausse » pour le juge ([évaluation 3](3_evaluation_reponse.md#vérifier-le-juge-avant-de-lui-faire-confiance)). Relire les réponses trouve des défauts que les moyennes ne montrent pas.
 
 Retour au [README](../../README.md).
