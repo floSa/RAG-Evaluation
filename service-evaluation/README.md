@@ -2,6 +2,13 @@
 
 Il évalue **n'importe quel RAG**, à partir d'un corpus annoté par le métier : des documents, des questions, la réponse attendue et l'endroit exact où elle se trouve. Il dit si le RAG lit bien les documents, s'il retrouve les bons passages, s'il répond juste, et s'il peut partir en production.
 
+Il fait **deux choses différentes** :
+
+- **évaluer une configuration** du RAG, c'est-à-dire le RAG avec tous ses réglages fixés (nombre de morceaux ramenés, modèles, prompt…) : *cette configuration peut-elle partir en production ?* C'est l'objet principal ;
+- **comparer deux configurations** déjà évaluées : *laquelle fait mieux, et l'écart est-il réel ou dû au hasard ?*
+
+Chaque évaluation et chaque comparaison produit un `RAPPORT.md`, lisible directement sur GitHub. Pour voir ce que cela donne sans rien lancer : [les résultats d'exemple](resultats_exemple/README.md).
+
 Il demande à chaque RAG **quatre portes de forme fixe**, à une adresse web : [la porte du RAG](documentation/0b_porte_du_rag.md). On lance donc **d'abord le RAG**, puis l'évaluation.
 
 ## Lancer le service
@@ -46,7 +53,7 @@ uv run kit importer corpus_exemple/Corpus_evaluation_RAG.xlsx
 uv run kit evaluer
 ```
 
-Le RAG est appelé à l'adresse de [`config/kit.yaml`](config/kit.yaml) (`rag.adresse`, http://127.0.0.1:8100) ; pour un autre RAG : `--rag http://…` (voir [les options](#les-options---corpus-et---rag)). À la fin, la commande affiche le chemin de `rapport.html`, à ouvrir dans un navigateur ([guide 5](documentation/5_resultats_et_comparaison.md)).
+Le RAG est appelé à l'adresse de [`config/kit.yaml`](config/kit.yaml) (`rag.adresse`, http://127.0.0.1:8100) ; pour un autre RAG : `--rag http://…` (voir [les options](#les-options---corpus-et---rag)). À la fin, la commande affiche le chemin du rapport, `RAPPORT.md` ([guide 5](documentation/5_resultats_et_comparaison.md)).
 
 ## Ce qu'il y a dans le service
 
@@ -55,8 +62,8 @@ service-evaluation/
 ├── docker-compose.yml           Langfuse
 ├── initialiser.sh               écrit les secrets de Langfuse dans .env
 ├── modele_porte/                le modèle des quatre portes, à copier dans votre RAG
-├── resultats_exemple/           nos résultats : README.md, le rapport à lire ; donnees/, les fichiers produits par le kit
-├── sorties/                     ce que le kit produit chez vous (vide dans le dépôt) : corpus importé, sorties du RAG, résultats
+├── resultats_exemple/           nos résultats, à lire sans rien lancer : 4 évaluations et 3 comparaisons, chacune avec son RAPPORT.md
+├── sorties/                     ce que le kit produit chez vous (vide dans le dépôt) : corpus importé, sorties du RAG, évaluations, comparaisons
 ├── config/                      le modèle juge et l'adresse du RAG (kit.yaml), les seuils du métier (seuils.json)
 ├── corpus_exemple/
 │   ├── documents/               les 50 documents fictifs : c'est eux que le kit envoie au RAG
@@ -78,18 +85,18 @@ service-evaluation/
 
 ## Les guides, dans l'ordre
 
-Les quatre évaluations sont les niveaux 1 à 4 de la méthode (document 3) : d'où les préfixes `n1_` à `n4_` des scores. Une **évaluation**, au sens d'un dossier de résultats (`sorties/resultats/<…>/`), c'est un corpus évalué avec une version du RAG.
+Les quatre évaluations sont les niveaux 1 à 4 de la méthode (document 3) : d'où les préfixes `n1_` à `n4_` des scores. Une **évaluation**, au sens d'un dossier de résultats (`sorties/resultats/<…>/`), c'est une configuration du RAG évaluée sur un corpus.
 
 | Guide | La question |
 | --- | --- |
 | [Intégrer votre RAG](documentation/integrer_votre_rag.md) | **par où commencer pour votre projet** : les étapes, du corpus à la décision |
 | [0a. Construction du corpus](documentation/0a_construction_du_corpus.md) | comment annoter le corpus, et l'importer |
 | [0b. La porte du RAG](documentation/0b_porte_du_rag.md) | ce que chaque RAG doit fournir |
-| [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md) | le passage est-il dans l'index ? |
-| [2. Évaluation de la recherche](documentation/2_evaluation_recherche.md) | est-il retrouvé ? |
+| [1. Évaluation de l'ingestion](documentation/1_evaluation_ingestion.md) | rien ne s'est-il perdu en rangeant les documents dans la base vectorielle ? |
+| [2. Évaluation de la recherche](documentation/2_evaluation_recherche.md) | la recherche ramène-t-elle les morceaux qui contiennent la réponse ? |
 | [3. Évaluation de la réponse](documentation/3_evaluation_reponse.md) | la réponse est-elle juste ? (juge, relecture du métier) |
 | [4. Évaluation de bout en bout](documentation/4_evaluation_bout_en_bout.md) | utile, sûr, rapide, pas cher ? la décision |
-| [5. Résultats et comparaison](documentation/5_resultats_et_comparaison.md) | lire les résultats, comparer deux versions du RAG |
+| [5. Résultats et comparaison](documentation/5_resultats_et_comparaison.md) | lire le rapport d'une évaluation, comparer deux configurations |
 
 ## Toutes les commandes
 
@@ -104,7 +111,7 @@ Les quatre évaluations sont les niveaux 1 à 4 de la méthode (document 3) : d'
 | `kit verifier-juge [--envoyer]` | fait noter 30 réponses par le métier, puis mesure l'accord avec le juge | [3](documentation/3_evaluation_reponse.md) |
 | `kit verifier-graphe [--envoyer]` | fait juger 50 relations du graphe par le métier, puis mesure leur justesse | [1](documentation/1_evaluation_ingestion.md) |
 | `python corpus_exemple/relecture_simulee/publier.py` | banc d'essai seulement : inscrit dans Langfuse les notes du métier, jouées par Claude | [1](documentation/1_evaluation_ingestion.md), [3](documentation/3_evaluation_reponse.md) |
-| `kit comparer <résultats A> <résultats B>` | compare deux versions du RAG | [5](documentation/5_resultats_et_comparaison.md) |
+| `kit comparer <résultats A> <résultats B>` | compare deux configurations déjà évaluées ; écrit `sorties/comparaisons/<A>_contre_<B>/RAPPORT.md` | [5](documentation/5_resultats_et_comparaison.md) |
 | `kit init-base` | crée les tables de la base (fait aussi par `importer`) | [0a](documentation/0a_construction_du_corpus.md) |
 
 ### Les options `--corpus` et `--rag`
