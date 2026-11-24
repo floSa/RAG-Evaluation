@@ -1,4 +1,4 @@
-"""Tests de les endpoints d'évaluation : ingérer à part de la production, et les quatre endpoints à l'adresse web."""
+"""Tests des endpoints d'évaluation : ingérer à part de la production, et les quatre endpoints à l'adresse web."""
 
 import base64
 

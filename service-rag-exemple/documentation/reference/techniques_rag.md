@@ -1,8 +1,8 @@
 # Construire le pipeline d'un RAG : ce qu'on met en place selon les cas
 
-Règles à suivre pour tout projet RAG. Ce document dit quelle technique mettre en place à chaque étape du pipeline, dans quel cas, et quel score de l'évaluation (document 3) montre qu'elle marche. Il s'appuie sur le corpus d'évaluation (document 1).
+Règles à suivre pour tout projet RAG. Ce document dit quelle technique mettre en place à chaque étape du pipeline, dans quel cas, et quel score de l'évaluation (document « Évaluer le RAG avec le corpus ») montre qu'elle marche. Il s'appuie sur le corpus d'évaluation (document « Constituer le corpus d'évaluation d'un RAG »).
 
-**La règle :** une technique ajoutée doit améliorer un score du document 3. Sinon, on la retire : elle coûte en temps de réponse, en argent et en maintenance.
+**La règle :** une technique ajoutée doit améliorer un score du document « Évaluer le RAG avec le corpus ». Sinon, on la retire : elle coûte en temps de réponse, en argent et en maintenance.
 
 ## 1. Le pipeline en un schéma
 
@@ -22,7 +22,7 @@ Règles à suivre pour tout projet RAG. Ce document dit quelle technique mettre 
 | Étape | Configuration minimale | Configuration recommandée |
 | --- | --- | --- |
 | Extraction | outil d'analyse de mise en page ; OCR sur les scans | traitement dédié des tableaux, des images et des fiches de base de données |
-| Découpage | par section, avec le chemin de titres ; métadonnées du document 1 | phrase de contexte devant chaque chunk |
+| Découpage | par section, avec le chemin de titres ; métadonnées du document « Constituer le corpus d'évaluation d'un RAG » | phrase de contexte devant chaque chunk |
 | Indexation | une base vectorielle qui sait filtrer par métadonnées | graphe et ontologie si l'évaluation montre des échecs sur les questions relationnelles |
 | Recherche | recherche hybride (mots-clés et sens), filtre des droits | reranker ; réécriture des questions de conversation |
 | Génération | réponse citée ; abstention si le contexte ne suffit pas | LLM juge garde-fou avant l'envoi |
@@ -32,7 +32,7 @@ Règles à suivre pour tout projet RAG. Ce document dit quelle technique mettre 
 
 Ce que l'extraction perd est perdu pour tout le reste : aucune étape suivante ne le rattrape.
 
-| Si | On met en place | Ce que ça fait | Le score qui le montre (document 3) |
+| Si | On met en place | Ce que ça fait | Le score qui le montre (document « Évaluer le RAG avec le corpus ») |
 | --- | --- | --- | --- |
 | PDF avec du texte | lecture du texte natif et analyse de mise en page (Docling, Marker) | garde l'ordre de lecture, les titres, les colonnes et les tableaux | part de passages perdus au rattachement |
 | PDF scanné | OCR rapide sur toutes les pages, modèle de vision seulement sur les pages difficiles | rend le texte lisible sans payer le modèle partout | passages perdus, sur les documents scannés |
@@ -77,7 +77,7 @@ Ce que l'extraction perd est perdu pour tout le reste : aucune étape suivante n
 | Une synthèse de tout le corpus (« quels thèmes reviennent dans les retours d'expérience ») | GraphRAG : regroupement des entités en communautés et résumés | répond sur l'ensemble, pas sur quelques passages | réponse, sur les questions de type explication |
 | Des faits simples | rien de plus : la recherche hybride suffit | — | — |
 
-Chaque élément du graphe garde la même provenance qu'un chunk (référence, version, page) : le rattachement du document 1 s'applique.
+Chaque élément du graphe garde la même provenance qu'un chunk (référence, version, page) : le rattachement du document « Constituer le corpus d'évaluation d'un RAG » s'applique.
 
 État de l'art : sur une base métier, un LLM répond juste à 16,7 % en SQL généré, 54,2 % en SPARQL avec ontologie, 72,55 % avec contrôle et correction par l'ontologie (Sequeda et al., 2023 ; Allemang et Sequeda, 2024). GraphRAG gagne 72 à 79 % des comparaisons sur la synthèse globale, mais recule sur les faits simples et coûte cher à indexer (Edge et al., 2024).
 
@@ -113,8 +113,8 @@ Chaque élément du graphe garde la même provenance qu'un chunk (référence, v
 | Les sources changent | synchronisation des changements, plus une passe complète régulière ; suppression des chunks des documents supprimés ; puis rattachement et évaluation relancés | le RAG ne cite pas un document supprimé ou périmé |
 | Les mêmes questions reviennent souvent | cache des réponses avec un seuil de similarité strict | répond sans tout recalculer |
 | On change de modèle, de prompt ou de découpage | numéro de version pour chacun ; évaluation relancée avant la bascule | on sait si le changement améliore ou dégrade |
-| En production | traces par question (chunks retrouvés, chunks cités, abstention, versions, durée, coût) envoyées à Langfuse | alimente les signaux de production du document 3 |
-| Toujours | ouvrir les quatre endpoints d'évaluation (document 3, section 2), ou produire les fichiers du contrat | le RAG s'ouvre au service d'évaluation, quel que soit son type |
+| En production | traces par question (chunks retrouvés, chunks cités, abstention, versions, durée, coût) envoyées à Langfuse | alimente les signaux de production du document « Évaluer le RAG avec le corpus » |
+| Toujours | ouvrir les quatre endpoints d'évaluation (document « Évaluer le RAG avec le corpus », section 2), ou produire les fichiers du contrat | le RAG s'ouvre au service d'évaluation, quel que soit son type |
 
 ## 9. Ce qu'on ne fait pas
 

@@ -64,7 +64,7 @@ Je ne trouve pas cette information dans les documents.
 
 Avec `--profil maintenance`, la même question reçoit la réponse : « Seuil 72 A, Temporisation 500 ms [5] ».
 
-En production, on met ses documents et leur liste dans `documents/`, puis `uv run rag indexer`, et `rag demander` sans `--espace`.
+En production, on met ses documents et leur liste dans `corpus_documentaire/`, puis `uv run rag indexer`, et `rag demander` sans `--espace`.
 
 ## Les étapes, une par une
 
@@ -78,7 +78,7 @@ Lire chaque document et en sortir le texte, page par page.
 | PDF scanné | Docling, OCR forcé | les pages ne sont que des images |
 | Fiche de GED | pypdf, mode « mise en page » | il garde les deux colonnes « champ : valeur » |
 
-Chaque document arrive avec ses métadonnées : sa référence, son titre, son type, sa version, son format, ses droits d'accès et le nom de son fichier. En production, elles viennent de l'export de la gestion documentaire (`documents/liste_des_documents.csv`) :
+Chaque document arrive avec ses métadonnées : sa référence, son titre, son type, sa version, son format, ses droits d'accès et le nom de son fichier. En production, elles viennent de l'export de la gestion documentaire (`corpus_documentaire/liste_des_documents.csv`) :
 
 ```
 reference;titre;type_document;version;format;droits_acces;fichier
@@ -114,7 +114,7 @@ Trouver les k chunks les plus utiles. Deux recherches, par le sens et par les mo
 
 Rédiger la réponse à partir des chunks retrouvés, et d'eux seuls. Chaque phrase cite son extrait, [1], [2]… Si les extraits ne suffisent pas, le modèle répond une phrase fixe, « Je ne trouve pas cette information dans les documents. », au lieu d'inventer.
 
-Le modèle « réfléchit » avant d'écrire, et cette réflexion compte dans `max_tokens`. Avec 800, les réponses longues revenaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046) ; avec 4 000, la plus longue en prend 1 265. Couper la réflexion (`sans_reflexion: true`) corrige aussi la coupure, et répond 9 fois plus vite, mais l'évaluation montre qu'elle fait perdre des calculs : [5. Résultats et comparaison](../../service-evaluation/documentation/5_resultats_et_comparaison.md#5-comparer-deux-versions).
+Le modèle « réfléchit » avant d'écrire, et cette réflexion compte dans `max_tokens`. Avec 800, les réponses longues revenaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046) ; avec 4 000, la plus longue en prend 1 265. Couper la réflexion (`sans_reflexion: true`) corrige aussi la coupure, et répond 8 fois plus vite, mais l'évaluation montre qu'elle fait perdre des calculs : [5. Résultats et comparaison](../../service-evaluation/documentation/5_resultats_et_comparaison.md#5-comparer-deux-versions).
 
 ## Le régler : un seul fichier
 
@@ -125,11 +125,11 @@ Tout est dans [`config/config.yaml`](../config/config.yaml) ; seule la clé est 
 | `modeles.adresse` | `http://127.0.0.1:8080/v1` (LiteLLM local) | n'importe quel point d'accès compatible OpenAI |
 | `modeles.generation.modele` | `gemma-4-e4b` | un autre modèle ; prix au million de tokens pour le coût |
 | `modeles.generation.max_tokens` | 4 000 | la réflexion du modèle compte dedans : trop bas, la réponse est coupée |
-| `modeles.generation.sans_reflexion` | `false` | `true` : 9 fois plus rapide, moins juste sur les calculs |
+| `modeles.generation.sans_reflexion` | `false` | `true` : 8 fois plus rapide, moins juste sur les calculs |
 | `modeles.embeddings.modele` | `embed` (bge-m3) | les documents sont réindexés à la prochaine ingestion |
 | `recherche.k` | 5 | ou `RAG_K=3 docker compose up -d` (ou `--k 3` sur la ligne de commande) |
 | `documents` | `corpus_documentaire/`, vide | le dossier du corpus documentaire que le RAG sert à ses utilisateurs |
-| `liste_des_documents` | `documents/liste_des_documents.csv` | l'export de votre gestion documentaire, avec les mêmes colonnes |
+| `liste_des_documents` | `corpus_documentaire/liste_des_documents.csv` | l'export de votre gestion documentaire, avec les mêmes colonnes |
 | `endpoints_evaluation` | `127.0.0.1`, port 8100 | l'adresse des endpoints d'évaluation |
 
 ## Ses endpoints d'évaluation — [`endpoints_evaluation/`](../src/rag/endpoints_evaluation/)

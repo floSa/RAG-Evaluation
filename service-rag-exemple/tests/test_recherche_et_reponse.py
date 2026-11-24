@@ -1,4 +1,4 @@
-"""Tests des étapes 5 (recherche) et 6 (génération), et de les endpoints d'évaluation, avec un faux modèle."""
+"""Tests des étapes 4 (recherche) et 5 (génération), et des endpoints d'évaluation, avec un faux modèle."""
 
 import numpy as np
 from rank_bm25 import BM25Okapi
