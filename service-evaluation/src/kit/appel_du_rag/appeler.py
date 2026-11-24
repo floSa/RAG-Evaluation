@@ -94,7 +94,7 @@ def _appel(methode, chemin: str, **arguments) -> dict:
     try:
         r = methode(chemin, **arguments)
     except httpx.ConnectError:
-        raise RuntimeError(f"Le RAG ne répond pas ({chemin}) : est-il lancé ? (temps 1 du README)") from None
+        raise RuntimeError(f"Le RAG ne répond pas ({chemin}) : est-il lancé ? (étape 2 du fil conducteur)") from None
     if r.status_code >= 400:
         raise RuntimeError(f"L'endpoint {chemin} du RAG a refusé ({r.status_code}) : {r.text[:300]}")
     return r.json()
