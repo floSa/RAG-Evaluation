@@ -62,7 +62,7 @@ Mettre dans `.env` la clé de l'API du modèle juge (`KIT_LLM_CLE`) ; n'importe 
 docker compose up -d
 ```
 
-Langfuse est à http://127.0.0.1:3100. L'identifiant est `evaluation@valtera.example`, et le mot de passe est la ligne `LANGFUSE_USER_PASSWORD` de `.env`. Pour vérifier que le juge, le modèle d'embeddings et Langfuse répondent :
+Langfuse est à http://127.0.0.1:3100. L'identifiant est `evaluation@service-evaluation.example`, et le mot de passe est la ligne `LANGFUSE_USER_PASSWORD` de `.env`. Pour vérifier que le juge, le modèle d'embeddings et Langfuse répondent :
 
 ```bash
 uv run kit verifier-modeles

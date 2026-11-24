@@ -26,7 +26,7 @@ ENCRYPTION_KEY=$(openssl rand -hex 32)
 LANGFUSE_BASE_URL=http://127.0.0.1:3100
 LANGFUSE_PUBLIC_KEY=pk-lf-$(hasard)
 LANGFUSE_SECRET_KEY=sk-lf-$(hasard)
-LANGFUSE_USER_EMAIL=evaluation@valtera.example
+LANGFUSE_USER_EMAIL=evaluation@service-evaluation.example
 LANGFUSE_USER_PASSWORD=$(hasard)
 FIN
-echo "Secrets de Langfuse ajoutés à .env. Compte : evaluation@valtera.example (mot de passe : LANGFUSE_USER_PASSWORD dans .env)."
+echo "Secrets de Langfuse ajoutés à .env. Compte : evaluation@service-evaluation.example (mot de passe : LANGFUSE_USER_PASSWORD dans .env)."
