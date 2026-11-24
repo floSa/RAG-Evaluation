@@ -74,4 +74,4 @@ Les mêmes dossiers et les mêmes fichiers que dans `service-evaluation/`. Trois
 
 On peut donc aussi le faire tourner tel quel, depuis ce dossier, comme `service-evaluation/` : les étapes sont dans le [fil conducteur](../service-evaluation/FIL_CONDUCTEUR.md), et les commandes dans [le README du service](../service-evaluation/README.md#toutes-les-commandes).
 
-Chaque évaluation et chaque comparaison est un dossier nommé d'après la version du RAG évaluée. Exemple : `2026-11-20.1_rag-exemple-vectoriel-k5-5954e822` = le corpus du 20 novembre, le RAG « graphrag » en recherche vectorielle, avec k = 5, et une empreinte de ses autres réglages. Le tableau de la partie 1 dit à quelle configuration chacun correspond.
+Chaque évaluation et chaque comparaison est un dossier nommé d'après la version du RAG évaluée. Exemple : `2026-11-20.1_rag-exemple-vectoriel-k5-5954e822` = le corpus du 20 novembre, le RAG « rag-exemple » en recherche vectorielle, avec k = 5, et une empreinte de ses autres réglages. Le tableau de la partie 1 dit à quelle configuration chacun correspond.
