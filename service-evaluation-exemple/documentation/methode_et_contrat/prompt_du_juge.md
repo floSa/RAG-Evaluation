@@ -1,6 +1,6 @@
 # Le LLM juge du kit — version 1.0
 
-Le juge note l'exactitude des réponses (niveau 3). Le prompt ci-dessous est le même pour tous les projets ; toute modification change sa version, et le juge doit être vérifié à nouveau (document « Évaluer le RAG avec le corpus », section 8).
+Le juge note l'exactitude des réponses (niveau 3). Le prompt ci-dessous est le même pour tous les projets ; toute modification change sa version, et le juge doit être vérifié à nouveau (document « Évaluer le RAG avec le corpus », niveau 3, vérification du juge).
 
 ## Réglages
 

@@ -16,4 +16,6 @@ Après chaque modification d'un de ces documents, refaire les fichiers Word, dep
 ./documents_word/generer.sh
 ```
 
+La mise en forme (tableaux à bordures, titres colorés) est faite par `mise_en_forme.py`, lancé par `generer.sh`.
+
 Les schémas en Mermaid ne sont pas dessinés dans Word : ils y restent sous forme de texte. Ces cinq documents n'en ont pas.

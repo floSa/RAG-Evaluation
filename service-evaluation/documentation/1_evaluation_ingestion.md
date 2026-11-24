@@ -45,7 +45,7 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document « Évaluer le RAG avec le corpus »), section 6 pour le rattachement |
+| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document « Évaluer le RAG avec le corpus »), étape 3 (niveau 1) pour le rattachement |
 | [`../src/kit/etape_1_evaluation_ingestion/rattachement.py`](../src/kit/etape_1_evaluation_ingestion/rattachement.py) | le rattachement d'un passage à un chunk, et la cause probable d'un échec |
 | [`../src/kit/etape_1_evaluation_ingestion/scores.py`](../src/kit/etape_1_evaluation_ingestion/scores.py) | les scores de l'ingestion |
 

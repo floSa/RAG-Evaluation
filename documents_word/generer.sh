@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 # Refait les versions Word des documents de méthode, à partir des fichiers Markdown du dépôt (qui font foi).
 # À lancer depuis la racine du dépôt, après chaque modification de ces documents : ./documents_word/generer.sh
-# Pandoc est pris par uv, sans rien installer.
+# Pandoc et python-docx sont pris par uv, sans rien installer.
 set -euo pipefail
 M=service-evaluation/documentation/methode_et_contrat
 R=service-rag-exemple/documentation/reference
 convertir() {   # $1 : le document Markdown ; $2 : le fichier Word à écrire
     uvx --from pypandoc-binary python -c "import pypandoc, sys; pypandoc.convert_file(sys.argv[1], 'docx', format='gfm', outputfile=sys.argv[2], extra_args=['--resource-path', sys.argv[3]])" \
         "$1" "documents_word/$2" "$(dirname "$1")"
+    # tableaux à bordures, titres colorés : voir mise_en_forme.py
+    uvx --with python-docx python documents_word/mise_en_forme.py "documents_word/$2"
     echo "documents_word/$2"
 }
 convertir "$M/methode_corpus_annote.md" RAG_1_Constituer_le_corpus_d_evaluation.docx

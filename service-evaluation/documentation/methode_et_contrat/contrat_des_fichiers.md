@@ -261,7 +261,7 @@ Il n'y a ni seuil ni décision : c'est le métier qui décide, à la lecture des
 | 2 | `n2_fuite_droits` | minimale si filtre des droits |
 | 2 | `n2_ndcg_k`, `n2_reussite_1`, `n2_reussite_3`, `n2_reussite_5`, `n2_reussite_10`, `n2_reussite_avant_reranking`, `n2_perimes_pieges` | recommandée |
 | 3 | `n3_exactitude`, `n3_completude_listes`, `n3_valeurs`, `n3_abstention_correcte`, `n3_abstention_a_tort`, `n3_fidelite`, `n3_citations`, `n3_erreurs_graves` | minimale |
-| 3 | `n3_synthese` | minimale si graphe |
+| 3 | `n3_synthese` | minimale, s'il y a des questions de synthèse |
 | 3 | `n3_second_avis`, `n3_questions_suite`, `n3_variantes` | recommandée |
 | 4 | `n4_score_pondere`, `n4_erreurs_graves`, `n4_temps_median`, `n4_temps_p95`, `n4_cout_moyen` | minimale |
 

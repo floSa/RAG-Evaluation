@@ -52,7 +52,7 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document « Évaluer le RAG avec le corpus »), section 8 |
+| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document « Évaluer le RAG avec le corpus »), étape 3 (niveau 3) |
 | [`methode_et_contrat/prompt_du_juge.md`](methode_et_contrat/prompt_du_juge.md) | le prompt du juge, sa sortie, sa vérification |
 | [`../config/kit.yaml`](../config/kit.yaml) | le modèle juge |
 | [`../src/kit/etape_3_evaluation_reponse/`](../src/kit/etape_3_evaluation_reponse/) | `juge.py` (le juge), `scores.py` (les scores), `relecture.py` (les files Langfuse) |
