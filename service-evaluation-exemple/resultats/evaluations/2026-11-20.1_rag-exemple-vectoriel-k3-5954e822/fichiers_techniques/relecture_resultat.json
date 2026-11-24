@@ -1,0 +1,100 @@
+{
+  "relues": [
+    "Q-001",
+    "Q-004",
+    "Q-005",
+    "Q-007",
+    "Q-008",
+    "Q-010",
+    "Q-012",
+    "Q-016",
+    "Q-017",
+    "Q-027",
+    "Q-028",
+    "Q-031",
+    "Q-032",
+    "Q-034",
+    "Q-037",
+    "Q-038",
+    "Q-041",
+    "Q-043",
+    "Q-044",
+    "Q-046",
+    "Q-049",
+    "Q-050",
+    "Q-056",
+    "Q-059",
+    "Q-060"
+  ],
+  "desaccords": [
+    {
+      "question_id": "Q-041",
+      "juge": "fausse",
+      "metier": "partielle",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : il cite les échauffements de connexions (desserrage, cosses), un des cinq problèmes ; il ne contredit rien"
+    },
+    {
+      "question_id": "Q-043",
+      "juge": "fausse",
+      "metier": "partielle",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : la thermographie à 12 mois est dite, sans contradiction ; la première cause, les points chauds récurrents et le resserrage annuel manquent"
+    },
+    {
+      "question_id": "Q-044",
+      "juge": "fausse",
+      "metier": "partielle",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : une différence est juste (pas d'onduleur centralisé sur B) ; les petits onduleurs locaux sont dans le document, ce n'est pas une contradiction"
+    }
+  ],
+  "sans_reponse": [],
+  "autres_commentaires": [
+    {
+      "question_id": "Q-007",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG ne donne pas l'information, réservée au profil Maintenance : c'est ce qu'on attend"
+    },
+    {
+      "question_id": "Q-010",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+    },
+    {
+      "question_id": "Q-028",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+    },
+    {
+      "question_id": "Q-031",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+    },
+    {
+      "question_id": "Q-032",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+    },
+    {
+      "question_id": "Q-034",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+    },
+    {
+      "question_id": "Q-037",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+    },
+    {
+      "question_id": "Q-038",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+    },
+    {
+      "question_id": "Q-046",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+    },
+    {
+      "question_id": "Q-049",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+    },
+    {
+      "question_id": "Q-050",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+    },
+    {
+      "question_id": "Q-059",
+      "commentaire": "Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+    }
+  ]
+}

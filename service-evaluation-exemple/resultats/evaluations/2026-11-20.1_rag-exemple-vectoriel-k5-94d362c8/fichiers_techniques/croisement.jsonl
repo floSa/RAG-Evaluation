@@ -20,7 +20,7 @@
 {"question_id": "Q-032", "bon_chunk_retrouve": false, "reponse": "fausse", "diagnostic": "recherche : le bon chunk n'est pas retrouvé"}
 {"question_id": "Q-034", "bon_chunk_retrouve": true, "reponse": "abstention", "diagnostic": "génération : le bon chunk était retrouvé (abstention à tort)"}
 {"question_id": "Q-035", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
-{"question_id": "Q-037", "bon_chunk_retrouve": true, "reponse": "partielle", "diagnostic": "génération : le bon chunk était retrouvé"}
+{"question_id": "Q-037", "bon_chunk_retrouve": false, "reponse": "partielle", "diagnostic": "recherche : le bon chunk n'est pas retrouvé"}
 {"question_id": "Q-038", "bon_chunk_retrouve": true, "reponse": "fausse", "diagnostic": "génération : le bon chunk était retrouvé"}
 {"question_id": "Q-040", "bon_chunk_retrouve": true, "reponse": "juste", "diagnostic": "ok"}
 {"question_id": "Q-041", "bon_chunk_retrouve": true, "reponse": "fausse", "diagnostic": "génération : le bon chunk était retrouvé"}

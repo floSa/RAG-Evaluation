@@ -121,17 +121,22 @@ Erreurs graves et fuites d'abord, puis réponses fausses, puis passages perdus �
 | **Q-044** : quelles sont les grandes différences entre les installations électriques du site A et du site B ? | Réponse fausse | 1. absent : La réponse ne mentionne ni le système TN-S pour le site A, ni le système IT pour le site B. ; 2. absent : La réponse ne précise pas le nombre de transformateurs (deux sur A, un seul sur B). ; 3. contredit : L'assistant affirme que le site B n'a pas d'onduleur centralisé mais possède des onduleurs locaux, alors que la référence indique simplement l'absence d'onduleur centralisé sans men |
 | **Q-055** : tous les combien faut-il nettoyer les filtres d'aération des variateurs de vitesse ? | A répondu au lieu de s'abstenir | le RAG a répondu au lieu de s'abstenir |
 
-**Relecture du métier** : pas encore faite. 30 réponses sont à relire dans `relecture_reponses.xlsx`, à côté de ce rapport ; puis `kit lire-relecture`.
+**Relecture du métier** : 30 réponses relues ; le métier n'est pas d'accord avec la note du juge sur 2 :
+
+| Question | Note du juge | Note du métier | Son commentaire |
+| --- | --- | --- | --- |
+| Q-041 | fausse | partielle | Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : il cite les échauffements de connexions (desserrage, cosses), un des cinq problèmes ; il ne contredit rien |
+| Q-044 | fausse | partielle | Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : une différence est juste (pas d'onduleur centralisé sur B) ; les petits onduleurs locaux sont dans le document, ce n'est pas une contradiction |
 
 ## 4. La faute est-elle dans la recherche ou dans la réponse ?
 
-Pour chaque question qui a une réponse dans les documents : le bon passage a-t-il été ramené, et la réponse est-elle juste ?
+Pour chaque question qui a une réponse dans les documents : le bon passage a-t-il été ramené, et la réponse est-elle juste ? Le bon passage est compté comme pour le score « Bon passage ramené » : dans les k premiers morceaux, et un morceau de chaque passage pour une question qui en combine plusieurs ; une question de synthèse, que ce score ne compte pas, compte ici si un de ses passages est ramené.
 
 | Diagnostic | Questions | Que corriger |
 | --- | --- | --- |
 | tout va bien | 19 | — |
-| génération : le bon morceau était retrouvé | 8 | le prompt ou le modèle de génération |
-| recherche : le bon morceau n'est pas retrouvé | 4 | la lecture des documents, le découpage ou la recherche |
+| génération : le bon morceau était retrouvé | 7 | le prompt ou le modèle de génération |
+| recherche : le bon morceau n'est pas retrouvé | 5 | la lecture des documents, le découpage ou la recherche |
 | génération : le bon morceau était retrouvé (abstention à tort) | 1 | le prompt ou le modèle de génération |
 
 ## 5. Par type de document

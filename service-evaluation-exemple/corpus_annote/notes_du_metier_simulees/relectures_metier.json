@@ -1,0 +1,349 @@
+{
+  "role": "relecture simulée par Claude pour le banc d'essai : aucune donnée réelle, aucun avis métier réel",
+  "fichier": "relecture_reponses.xlsx",
+  "consigne": "pour chaque réponse, dire si la note du juge est la bonne ; sinon, donner sa note, avec le critère des points clés",
+  "relectures": {
+    "rag-exemple-vectoriel-k5-5954e822": {
+      "Q-001": {
+        "accord": "oui"
+      },
+      "Q-004": {
+        "accord": "oui"
+      },
+      "Q-005": {
+        "accord": "oui"
+      },
+      "Q-007": {
+        "accord": "oui",
+        "commentaire": "le RAG ne donne pas l'information, réservée au profil Maintenance : c'est ce qu'on attend"
+      },
+      "Q-008": {
+        "accord": "oui"
+      },
+      "Q-012": {
+        "accord": "oui"
+      },
+      "Q-016": {
+        "accord": "oui"
+      },
+      "Q-017": {
+        "accord": "oui"
+      },
+      "Q-019": {
+        "accord": "oui"
+      },
+      "Q-020": {
+        "accord": "oui"
+      },
+      "Q-023": {
+        "accord": "oui"
+      },
+      "Q-027": {
+        "accord": "oui"
+      },
+      "Q-035": {
+        "accord": "oui"
+      },
+      "Q-037": {
+        "accord": "oui"
+      },
+      "Q-040": {
+        "accord": "oui"
+      },
+      "Q-047": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-049": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-050": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-052": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-056": {
+        "accord": "oui"
+      },
+      "Q-059": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-060": {
+        "accord": "oui"
+      },
+      "Q-046": {
+        "accord": "oui"
+      },
+      "Q-010": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-028": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-034": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-030": {
+        "accord": "non",
+        "note": "partielle",
+        "commentaire": "les deux interventions sont trouvées, avec leur symptôme, mais pas ce qui a été fait ; « suite donnée : aucune » est un champ de la fiche, pas une contradiction"
+      },
+      "Q-041": {
+        "accord": "non",
+        "note": "partielle",
+        "commentaire": "il cite les échauffements de connexions (le desserrage), un des cinq problèmes ; il ne contredit rien"
+      },
+      "Q-043": {
+        "accord": "non",
+        "note": "juste",
+        "commentaire": "les quatre points y sont ; « à partir de 2025 » est exact, la bonne réponse ne dit pas quand la périodicité a changé"
+      },
+      "Q-044": {
+        "accord": "oui"
+      }
+    },
+    "rag-exemple-vectoriel-k3-5954e822": {
+      "Q-001": {
+        "accord": "oui"
+      },
+      "Q-004": {
+        "accord": "oui"
+      },
+      "Q-005": {
+        "accord": "oui"
+      },
+      "Q-007": {
+        "accord": "oui",
+        "commentaire": "le RAG ne donne pas l'information, réservée au profil Maintenance : c'est ce qu'on attend"
+      },
+      "Q-008": {
+        "accord": "oui"
+      },
+      "Q-012": {
+        "accord": "oui"
+      },
+      "Q-016": {
+        "accord": "oui"
+      },
+      "Q-017": {
+        "accord": "oui"
+      },
+      "Q-019": {
+        "accord": "oui"
+      },
+      "Q-020": {
+        "accord": "oui"
+      },
+      "Q-023": {
+        "accord": "oui"
+      },
+      "Q-027": {
+        "accord": "oui"
+      },
+      "Q-035": {
+        "accord": "oui"
+      },
+      "Q-037": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-040": {
+        "accord": "oui"
+      },
+      "Q-047": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-049": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-050": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-052": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-056": {
+        "accord": "oui"
+      },
+      "Q-059": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-060": {
+        "accord": "oui"
+      },
+      "Q-046": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-010": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-028": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-031": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-032": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-034": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-038": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-041": {
+        "accord": "non",
+        "note": "partielle",
+        "commentaire": "il cite les échauffements de connexions (desserrage, cosses), un des cinq problèmes ; il ne contredit rien"
+      },
+      "Q-043": {
+        "accord": "non",
+        "note": "partielle",
+        "commentaire": "la thermographie à 12 mois est dite, sans contradiction ; la première cause, les points chauds récurrents et le resserrage annuel manquent"
+      },
+      "Q-044": {
+        "accord": "non",
+        "note": "partielle",
+        "commentaire": "une différence est juste (pas d'onduleur centralisé sur B) ; les petits onduleurs locaux sont dans le document, ce n'est pas une contradiction"
+      }
+    },
+    "rag-exemple-vectoriel-k5-94d362c8": {
+      "Q-001": {
+        "accord": "oui"
+      },
+      "Q-004": {
+        "accord": "oui"
+      },
+      "Q-005": {
+        "accord": "oui"
+      },
+      "Q-007": {
+        "accord": "oui",
+        "commentaire": "le RAG ne donne pas l'information, réservée au profil Maintenance : c'est ce qu'on attend"
+      },
+      "Q-008": {
+        "accord": "oui"
+      },
+      "Q-012": {
+        "accord": "oui"
+      },
+      "Q-016": {
+        "accord": "oui"
+      },
+      "Q-017": {
+        "accord": "oui"
+      },
+      "Q-019": {
+        "accord": "oui"
+      },
+      "Q-020": {
+        "accord": "oui"
+      },
+      "Q-023": {
+        "accord": "oui"
+      },
+      "Q-027": {
+        "accord": "oui"
+      },
+      "Q-035": {
+        "accord": "oui"
+      },
+      "Q-037": {
+        "accord": "oui"
+      },
+      "Q-040": {
+        "accord": "oui"
+      },
+      "Q-047": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-049": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-050": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-052": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-056": {
+        "accord": "oui"
+      },
+      "Q-059": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir, et c'est la bonne réponse : rien dans les documents"
+      },
+      "Q-060": {
+        "accord": "oui"
+      },
+      "Q-046": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-010": {
+        "accord": "oui"
+      },
+      "Q-022": {
+        "accord": "oui"
+      },
+      "Q-030": {
+        "accord": "oui"
+      },
+      "Q-031": {
+        "accord": "oui"
+      },
+      "Q-032": {
+        "accord": "oui"
+      },
+      "Q-038": {
+        "accord": "oui"
+      },
+      "Q-043": {
+        "accord": "oui"
+      },
+      "Q-028": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-034": {
+        "accord": "oui",
+        "commentaire": "le RAG dit ne pas savoir alors que la réponse est dans les documents : réponse fausse, que le juge ne note pas ; elle est comptée dans « Sait dire je ne sais pas »"
+      },
+      "Q-041": {
+        "accord": "non",
+        "note": "partielle",
+        "commentaire": "il cite les échauffements de connexions (desserrage, cosses), un des cinq problèmes ; il ne contredit rien"
+      },
+      "Q-044": {
+        "accord": "non",
+        "note": "partielle",
+        "commentaire": "une différence est juste (pas d'onduleur centralisé sur B) ; les petits onduleurs locaux sont dans le document, ce n'est pas une contradiction"
+      }
+    }
+  }
+}

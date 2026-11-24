@@ -1,13 +1,14 @@
-"""Inscrit la relecture simulée du métier, pour le banc d'essai.
+"""Inscrit les notes simulées du métier, pour le banc d'essai.
 
-Dans un vrai projet, le métier note lui-même les réponses du RAG, dans le fichier Excel verification_juge.xlsx que le
-service lui prépare (ou, s'il préfère, dans Langfuse). Ici, le corpus et l'entreprise sont fictifs : Claude a joué le
-rôle du métier, et ses notes sont écrites dans verdicts_metier.json, chacune avec sa raison. Ce script les écrit dans
-le fichier verification_juge.xlsx, comme le métier l'aurait rempli.
+Dans un vrai projet, le métier remplit lui-même les fichiers Excel que le service lui prépare (ou, s'il préfère,
+Langfuse). Ici, le corpus et l'entreprise sont fictifs : Claude a joué le rôle du métier. Ce script écrit ses notes
+dans les fichiers, comme le métier les aurait remplis :
+- verdicts_metier.json → verification_juge.xlsx : les réponses notées sans voir le juge, pour vérifier le juge ;
+- relectures_metier.json → relecture_reponses.xlsx de chaque évaluation : d'accord ou non avec la note du juge.
 
-Usage, depuis service-evaluation/, après « kit verifier-juge --preparer » :
-    uv run python ../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py
-puis « kit verifier-juge » calcule l'accord du juge.
+Usage, depuis le dossier du service, après « kit verifier-juge --preparer » et « kit evaluer » :
+    uv run python corpus_annote/notes_du_metier_simulees/publier.py
+puis « kit verifier-juge » calcule l'accord du juge, et « kit lire-relecture » reporte la relecture dans chaque rapport.
 
 Par défaut : le dernier corpus importé (--corpus pour un autre), et la version du RAG notée dans verdicts_metier.json
 (--rag-juge pour une autre). Les notes correspondent aux réponses du RAG d'exemple obtenues par l'auteur : si votre RAG
@@ -58,6 +59,33 @@ def main() -> None:
             notees += 1
     classeur.save(fichier)
     print(f"verification_juge.xlsx : {notees} réponses notées.")
+    relire(config, corpus)
+
+
+def relire(config: dict, corpus: Path) -> None:
+    """Écrit la relecture simulée dans relecture_reponses.xlsx, pour chaque évaluation relue."""
+    relectures = json.loads((ICI / "relectures_metier.json").read_text(encoding="utf-8"))["relectures"]
+    colonnes = [cle for _, cle, _ in fichier_metier.COLONNES_RELECTURE]
+    for version_rag, notes in relectures.items():
+        dossier_rag = Path(config["chemins"]["resultats"]) / "reponses_du_rag" / version_rag
+        if not dossier_rag.is_dir():
+            continue
+        fichier = publication.Evaluation(config, corpus, dossier_rag).dossier / "relecture_reponses.xlsx"
+        if not fichier.exists():
+            continue
+        classeur = openpyxl.load_workbook(fichier)
+        feuille = classeur[fichier_metier.FEUILLE_RELECTURE]
+        relues = 0
+        for ligne in feuille.iter_rows(min_row=2):
+            n = notes.get(ligne[0].value)
+            if n:
+                ligne[colonnes.index("accord")].value = n["accord"]
+                ligne[colonnes.index("note")].value = n.get("note")
+                if n.get("commentaire"):
+                    ligne[colonnes.index("commentaire")].value = COMMENTAIRE + n["commentaire"]
+                relues += 1
+        classeur.save(fichier)
+        print(f"{version_rag} : relecture_reponses.xlsx, {relues} réponses relues.")
 
 
 if __name__ == "__main__":

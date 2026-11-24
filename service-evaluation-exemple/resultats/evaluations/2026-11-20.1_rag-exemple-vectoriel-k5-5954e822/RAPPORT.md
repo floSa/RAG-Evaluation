@@ -117,17 +117,23 @@ Erreurs graves et fuites d'abord, puis réponses fausses, puis passages perdus �
 | **Q-041** : quels problèmes électriques reviennent le plus souvent dans les interventions des deux usines ? | Réponse fausse | 1. absent : L'assistant mentionne le desserrage des connexions (cause racine) mais ne cite pas explicitement l'échauffement de connexions comme problème électrique récurrent tel que défini dans les points clés. ; 2. absent : L'information concernant les défauts d'isolement sur le site B n'est pas mentionnée. ; 3. absent : L'information concernant les déclenchements intempestifs de différentiels n' |
 | **Q-043** : quels enseignements tirer des campagnes de thermographie depuis 2023 ? | Réponse fausse | 1. present : L'assistant identifie le desserrage des connexions comme la première cause d'échauffement. ; 2. present : Les points chauds récurrents sur les arrivées du TGBT-A et l'armoire AD-B04 sont mentionnés. ; 3. contredit : L'assistant indique que la périodicité est passée de 24 à 12 mois 'à partir de 2025', alors que la référence précise que le changement s'est produit depuis 2023. ; 4. pres |
 
-**Relecture du métier** : pas encore faite. 27 réponses sont à relire dans `relecture_reponses.xlsx`, à côté de ce rapport ; puis `kit lire-relecture`.
+**Relecture du métier** : 27 réponses relues ; le métier n'est pas d'accord avec la note du juge sur 3 :
+
+| Question | Note du juge | Note du métier | Son commentaire |
+| --- | --- | --- | --- |
+| Q-030 | fausse | partielle | Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : les deux interventions sont trouvées, avec leur symptôme, mais pas ce qui a été fait ; « suite donnée : aucune » est un champ de la fiche, pas une contradiction |
+| Q-041 | fausse | partielle | Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : il cite les échauffements de connexions (le desserrage), un des cinq problèmes ; il ne contredit rien |
+| Q-043 | fausse | juste | Relecture simulée par Claude (banc d'essai, aucun avis métier réel) : les quatre points y sont ; « à partir de 2025 » est exact, la bonne réponse ne dit pas quand la périodicité a changé |
 
 ## 4. La faute est-elle dans la recherche ou dans la réponse ?
 
-Pour chaque question qui a une réponse dans les documents : le bon passage a-t-il été ramené, et la réponse est-elle juste ?
+Pour chaque question qui a une réponse dans les documents : le bon passage a-t-il été ramené, et la réponse est-elle juste ? Le bon passage est compté comme pour le score « Bon passage ramené » : dans les k premiers morceaux, et un morceau de chaque passage pour une question qui en combine plusieurs ; une question de synthèse, que ce score ne compte pas, compte ici si un de ses passages est ramené.
 
 | Diagnostic | Questions | Que corriger |
 | --- | --- | --- |
 | tout va bien | 20 | — |
-| génération : le bon morceau était retrouvé | 6 | le prompt ou le modèle de génération |
-| recherche : le bon morceau n'est pas retrouvé | 4 | la lecture des documents, le découpage ou la recherche |
+| génération : le bon morceau était retrouvé | 5 | le prompt ou le modèle de génération |
+| recherche : le bon morceau n'est pas retrouvé | 5 | la lecture des documents, le découpage ou la recherche |
 | génération : le bon morceau était retrouvé (abstention à tort) | 2 | le prompt ou le modèle de génération |
 
 ## 5. Par type de document
