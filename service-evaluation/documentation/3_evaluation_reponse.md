@@ -127,6 +127,8 @@ Verdict : **partielle**. La réponse donne le courant de réglage, mais oublie l
 
 Pour chaque question dont la réponse est dans les documents, le kit croise deux faits : le bon passage a-t-il été retrouvé ([2. Évaluation de la recherche](2_evaluation_recherche.md)) ? la réponse est-elle juste ? Le résultat est dans `croisement.jsonl` et dans le rapport.
 
+Le bon passage est compté exactement comme pour le score « Bon passage ramené » : dans les k premiers morceaux, et, pour une question qui combine plusieurs passages, un morceau de chacun. Une question de synthèse, que ce score ne compte pas, compte ici si un de ses passages est ramené.
+
 | Bon passage retrouvé ? | Réponse | Diagnostic | Où agir ([Construire le pipeline d'un RAG : ce qu'on met en place selon les cas](../../service-rag-exemple/documentation/reference/techniques_rag.md)) |
 | --- | --- | --- | --- |
 | oui | juste | **ok** | — |
@@ -135,7 +137,7 @@ Pour chaque question dont la réponse est dans les documents, le kit croise deux
 | non, et aucun passage rattaché | — | **ingestion** : l'information n'est même pas dans l'index | extraction, OCR, tableaux, images |
 | non | juste | juste **sans le bon passage** : le modèle sait de lui-même, ou le corpus a oublié un passage | vérifier l'annotation |
 
-Pour le RAG d'exemple, sur 32 questions : 20 ok, 6 « génération » (le bon chunk était retrouvé), 4 « recherche », 2 « abstention à tort ». Les deux tiers des erreurs (8 sur 12) viennent de la génération : on commence donc par le prompt et le modèle, pas par la recherche.
+Pour le RAG d'exemple, sur 32 questions : 20 ok, 5 « génération » (le bon chunk était retrouvé), 5 « recherche », 2 « abstention à tort ». Plus de la moitié des erreurs (7 sur 12) viennent de la génération : on commence donc par le prompt et le modèle, pas par la recherche.
 
 ## La relecture par le métier
 
@@ -197,7 +199,7 @@ flowchart LR
 
 Dans un vrai projet, on lirait ces réponses où le juge et le métier ne sont pas d'accord, on préciserait la consigne du juge (par exemple : « contredit veut dire que la réponse affirme le contraire de la référence ; un détail que la référence ne dit pas n'est pas une contradiction »), dont on changerait la version, ou on changerait de modèle juge, puis on referait la vérification. Ici, le prompt est un document de référence du dépôt, qu'on ne modifie pas : le juge reste non validé, et ses notes se lisent avec prudence, surtout pour les réponses partielles.
 
-> **Dans le banc d'essai, le métier est simulé.** L'entreprise et le corpus sont fictifs : c'est Claude qui a joué le rôle du métier, en notant chaque réponse à partir de la question, de la réponse attendue et des points clés, sans voir la note du juge. Ses notes et leur raison sont dans [`../corpus_annote/notes_du_metier_simulees/verdicts_metier.json`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/verdicts_metier.json) ; le script [`publier.py`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py) les écrit dans le fichier `verification_juge.xlsx`, comme le métier l'aurait rempli. Ces notes visent les réponses obtenues par l'auteur, avec le RAG `rag-exemple-vectoriel-k5-5954e822` : si le vôtre a répondu autrement, certaines notes ne vont plus avec la réponse notée, et l'accord mesuré perd son sens. Dans un vrai projet, ce dossier n'existe pas : le métier remplit lui-même le fichier.
+> **Dans le banc d'essai, le métier est simulé.** L'entreprise et le corpus sont fictifs : c'est Claude qui a joué le rôle du métier, en notant chaque réponse à partir de la question, de la réponse attendue et des points clés, sans voir la note du juge. Ses notes et leur raison sont dans [`../corpus_annote/notes_du_metier_simulees/verdicts_metier.json`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/verdicts_metier.json) ; le script [`publier.py`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/publier.py) les écrit dans le fichier `verification_juge.xlsx`, comme le métier l'aurait rempli. Ces notes visent les réponses obtenues par l'auteur, avec le RAG `rag-exemple-vectoriel-k5-5954e822` : si le vôtre a répondu autrement, certaines notes ne vont plus avec la réponse notée, et l'accord mesuré perd son sens. Claude a aussi relu les réponses des trois évaluations, dans [`relectures_metier.json`](../../service-evaluation-exemple/corpus_annote/notes_du_metier_simulees/relectures_metier.json), que le même script écrit dans chaque `relecture_reponses.xlsx` ; chaque rapport donne les réponses où il n'est pas d'accord avec le juge. Dans un vrai projet, ce dossier n'existe pas : le métier remplit lui-même les fichiers.
 
 On refait la vérification à chaque changement de modèle juge ou de prompt. Le **kappa de Cohen** est l'accord corrigé du hasard : il révèle un juge qui dit presque toujours « juste », et qui peut atteindre 90 % d'accord sans rien distinguer. Au-dessus de 0,8, l'accord est très bon ; sous 0,6, il faut se méfier, même si le taux d'accord passe.
 

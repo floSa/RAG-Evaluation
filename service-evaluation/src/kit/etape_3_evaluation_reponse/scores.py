@@ -14,7 +14,7 @@ import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 
 from kit import contrat
-from kit.etape_2_evaluation_recherche.scores import liens_par_passage
+from kit.etape_2_evaluation_recherche.scores import REGLES_COMPTEES, liens_par_passage, reussie
 from kit.etape_3_evaluation_reponse import juge
 from kit.etape_5_resultats.publication import Evaluation, Ligne
 
@@ -105,6 +105,13 @@ def evaluer(ev: Evaluation, liens: list[dict], graine: int = 0) -> tuple[list[Li
     reponses = {r["question_id"]: r for r in ev.fichier_rag("reponses.jsonl")}
     recherches = {r["question_id"]: r for r in ev.fichier_rag("recherches.jsonl")}
 
+    def bon_passage_ramene(qid, q):
+        retrouves = [x["chunk_id"] for x in sorted(recherches[qid]["resultats"], key=lambda x: x["rang"])][:ev.rag["k"]]
+        attendus = [par_passage.get(p["passage_id"], set()) for p in ev.corpus["passages"]
+                    if p["question_id"] == qid and p["repond"] != "piege"]
+        regle = q.get("reponse_est_dans")
+        return reussie(regle if regle in REGLES_COMPTEES else "un_passage", attendus, retrouves)
+
     def bons_et_pieges(qid):
         ps = [p for p in ev.corpus["passages"] if p["question_id"] == qid]
         bons = set().union(*[par_passage.get(p["passage_id"], set()) for p in ps if p["repond"] != "piege"])
@@ -182,9 +189,10 @@ def evaluer(ev: Evaluation, liens: list[dict], graine: int = 0) -> tuple[list[Li
                                     "aucun chunk cité n'est lié à un passage" if not bon_cite else
                                     f"cite un piège ({', '.join(piege_cite)})" if piege_cite else
                                     f"cite un document interdit ({', '.join(interdits)})"))
-            # croisement recherche × réponse (document 3, section 8)
-            retrouves = {x["chunk_id"] for x in recherches[qid]["resultats"]}
-            trouve = bool(bons & retrouves)
+            # croisement recherche × réponse (document 3, section 8) : le bon passage est compté comme pour le score
+            # « Bon passage ramené » (évaluation 2), même règle, dans les k premiers ; une synthèse, que ce score ne
+            # compte pas, compte ici si un de ses passages est ramené
+            trouve = bon_passage_ramene(qid, q)
             issue = "abstention" if abstention else verdict or "non notée"
             croisement.append({"question_id": qid, "bon_chunk_retrouve": trouve, "reponse": issue,
                                "diagnostic": diagnostic(trouve, issue, bool(bons))})

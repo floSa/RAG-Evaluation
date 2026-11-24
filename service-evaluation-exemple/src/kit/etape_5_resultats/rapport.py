@@ -262,6 +262,11 @@ def que_corriger(diagnostic: str) -> str:
     return "—"
 
 
+NOTE_CROISEMENT = ("Le bon passage est compté comme pour le score « Bon passage ramené » : dans les k premiers "
+                   "morceaux, et un morceau de chaque passage pour une question qui en combine plusieurs ; une question "
+                   "de synthèse, que ce score ne compte pas, compte ici si un de ses passages est ramené.")
+
+
 def croisement(ev: Evaluation) -> list[tuple[str, int]]:
     chemin = ev.fichiers / "croisement.jsonl"
     if not chemin.exists():
@@ -373,7 +378,7 @@ def markdown(c: dict) -> str:
     if c["croisement"]:
         m += ["", "## 4. La faute est-elle dans la recherche ou dans la réponse ?", "",
               "Pour chaque question qui a une réponse dans les documents : le bon passage a-t-il été ramené, et la "
-              "réponse est-elle juste ?", "",
+              "réponse est-elle juste ? " + NOTE_CROISEMENT, "",
               *tableau(["Diagnostic", "Questions", "Que corriger"], [list(x) for x in c["croisement"]])]
     if c["lignes_types"]:
         m += ["", "## 5. Par type de document", "",
@@ -429,6 +434,8 @@ def page_html(c: dict) -> str:
              if c["a_voir"] else "<p>Rien à signaler.</p>")
     if c["croisement"]:
         p.append("<h2>4. La faute est-elle dans la recherche ou dans la réponse ?</h2>")
+        p.append(f"<p>Pour chaque question qui a une réponse dans les documents : le bon passage a-t-il été ramené, et "
+                 f"la réponse est-elle juste ? {html.escape(NOTE_CROISEMENT)}</p>")
         p.append(table_html(["Diagnostic", "Questions", "Que corriger"], [list(x) for x in c["croisement"]]))
     if c["lignes_types"]:
         p.append("<h2>5. Par type de document</h2>")
