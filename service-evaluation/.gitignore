@@ -1,0 +1,19 @@
+# Ce qui ne doit jamais être versionné, une fois ce dossier copié dans votre projet.
+
+# Les clés (modèles de langage, Langfuse) : seul .env.example est versionné.
+.env
+
+# L'environnement Python, refait par « uv sync ».
+.venv/
+__pycache__/
+.pytest_cache/
+
+# Les documents de votre projet : ils peuvent être confidentiels.
+corpus_annote/corpus_documentaire/*
+!corpus_annote/corpus_documentaire/README.md
+
+# Ce que produit le service : base, réponses du RAG, rapports. Seuls les dossiers et leurs README sont versionnés.
+resultats/**
+!resultats/**/
+!resultats/**/README.md
+!resultats/**/.gitkeep
