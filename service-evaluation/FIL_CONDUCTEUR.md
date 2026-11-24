@@ -189,7 +189,7 @@ Pour un score faible, la partie « Si c'est mauvais » du guide de son évaluati
 **Dans l'exemple.**
 - Le [rapport de la référence](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822/RAPPORT.md) montre 1 erreur grave, 15 caractères sur 100 mal lus sur les pages scannées, et le bon passage ramené pour 9 questions sur 13 seulement.
 - Le juge n'est pas validé : il donne la même note que le métier dans 89 % des cas, il en faut 90 %.
-- Les comparaisons avec la référence : [k = 3](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822_contre_rag-exemple-vectoriel-k3-5954e822/RAPPORT.md) n'est pas meilleure ; [sans réflexion](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822_contre_rag-exemple-vectoriel-k5-94d362c8/RAPPORT.md) est 8 fois plus rapide mais calcule moins bien (trois calculs perdus ; l'écart reste dans la marge).
+- Les comparaisons avec la référence : [k = 3](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_k5-5954e822_contre_k3-5954e822/RAPPORT.md) n'est pas meilleure ; [sans réflexion](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_k5-5954e822_contre_k5-94d362c8/RAPPORT.md) est 8 fois plus rapide mais calcule moins bien (trois calculs perdus ; l'écart reste dans la marge).
 - Ce qu'on présenterait au métier : l'erreur grave, les pages scannées mal lues, et la recherche qui ne ramène pas assez souvent le bon passage. C'est là qu'il faudrait corriger le RAG avant de lui demander de décider.
 
 ## Récapitulatif

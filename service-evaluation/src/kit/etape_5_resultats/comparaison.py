@@ -7,6 +7,7 @@ Une question de gravité forte perdue est une régression, même si la moyenne m
 
 import json
 import math
+import os
 from pathlib import Path
 
 from sqlalchemy import select
@@ -59,6 +60,20 @@ def comparer(config: dict, dossier_a: Path, dossier_b: Path) -> dict:
                             "mcnemar_p": mcnemar_exact(len(gagnees), len(perdues))}
     return {"a": a["evaluation_id"], "b": b["evaluation_id"], "rag_a": a["rag"], "rag_b": b["rag"],
             "ecarts": ecarts, "questions": questions}
+
+
+def nom_dossier(r: dict) -> str:
+    """Le nom du dossier d'une comparaison : <version du corpus>_<A>_contre_<B>.
+
+    A et B sont les versions du RAG, sans leur début commun (« rag-exemple-vectoriel- »), pour que le chemin reste court :
+    Windows refuse les chemins de plus de 260 caractères, et un zip du dépôt ne s'ouvre plus."""
+    va, vb = r["rag_a"]["version_rag"], r["rag_b"]["version_rag"]
+    corpus = r["a"][: -len(va)].rstrip("_") if r["a"].endswith(va) else r["a"]
+    commun = os.path.commonprefix([va, vb])
+    if commun.endswith("-"):                     # on garde le dernier élément avant la différence (« k5- »)
+        commun = commun[:-1]
+    coupe = commun.rfind("-") + 1                # on ne coupe qu'à la frontière d'un élément du nom
+    return f"{corpus}_{va[coupe:]}_contre_{vb[coupe:]}"
 
 
 # --- RAPPORT.md de la comparaison -------------------------------------------------------------

@@ -98,7 +98,7 @@ La marge est `± 1,96 × √(p × (1 − p) ÷ n)` (document « Évaluer le RAG 
 
 ## 5. Comparer deux versions
 
-Après un changement (k, prompt, modèle, découpage), on évalue la nouvelle configuration, puis on la compare à l'ancienne. `kit comparer A B` répond à la question : « la configuration B fait-elle mieux que A ? » Il écrit son propre dossier, `resultats/comparaisons_de_configurations/<A>_contre_<B>/`, avec un `RAPPORT.md` qui dit ce qui change de A à B, les écarts, s'ils sont réels, et les questions gagnées ou perdues. Les trois comparaisons ci-dessous sont dans les [résultats d'exemple](../../service-evaluation-exemple/README.md#2-les-deux-comparaisons-avec-la-référence).
+Après un changement (k, prompt, modèle, découpage), on évalue la nouvelle configuration, puis on la compare à l'ancienne. `kit comparer A B` répond à la question : « la configuration B fait-elle mieux que A ? » Il écrit son propre dossier, `resultats/comparaisons_de_configurations/<corpus>_<A>_contre_<B>/` (A et B sans leur début commun, pour garder un chemin court : Windows refuse au-delà de 260 caractères), avec un `RAPPORT.md` qui dit ce qui change de A à B, les écarts, s'ils sont réels, et les questions gagnées ou perdues. Les trois comparaisons ci-dessous sont dans les [résultats d'exemple](../../service-evaluation-exemple/README.md#2-les-deux-comparaisons-avec-la-référence).
 
 1. **Même corpus** : sinon la comparaison est refusée.
 2. **Écart et marge** : un écart plus petit que la marge **ne prouve rien seul**.

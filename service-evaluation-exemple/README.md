@@ -58,8 +58,8 @@ Il vaut mieux corriger ces deux points avant de lui demander de décider.
 
 | Comparaison | Ce qu'on en conclut | Rapport |
 | --- | --- | --- |
-| Référence contre **k = 3** | **Pas meilleure.** Avec 3 morceaux, la recherche ramène moins souvent le bon passage (75 % contre 86 %) : 3 questions perdues (Q-031, Q-038, Q-057), aucune gagnée. Elle n'a plus d'erreur grave, mais seulement parce qu'elle ne répond pas à la question en cause (Q-046). | [lire](resultats/comparaisons_de_configurations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822_contre_rag-exemple-vectoriel-k3-5954e822/RAPPORT.md) |
-| Référence contre **sans réflexion** | **On garde la réflexion.** Sans elle, le RAG répond 8 fois plus vite (0,9 s contre 7,4 s), mais calcule moins bien : 75 % de chiffres exacts contre 91 %. L'écart reste dans la marge, donc non prouvé à lui seul, mais trois calculs sont perdus (Q-022, Q-023, Q-038). Avec la réflexion, une réponse prend 7,4 s. | [lire](resultats/comparaisons_de_configurations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822_contre_rag-exemple-vectoriel-k5-94d362c8/RAPPORT.md) |
+| Référence contre **k = 3** | **Pas meilleure.** Avec 3 morceaux, la recherche ramène moins souvent le bon passage (75 % contre 86 %) : 3 questions perdues (Q-031, Q-038, Q-057), aucune gagnée. Elle n'a plus d'erreur grave, mais seulement parce qu'elle ne répond pas à la question en cause (Q-046). | [lire](resultats/comparaisons_de_configurations/2026-11-20.1_k5-5954e822_contre_k3-5954e822/RAPPORT.md) |
+| Référence contre **sans réflexion** | **On garde la réflexion.** Sans elle, le RAG répond 8 fois plus vite (0,9 s contre 7,4 s), mais calcule moins bien : 75 % de chiffres exacts contre 91 %. L'écart reste dans la marge, donc non prouvé à lui seul, mais trois calculs sont perdus (Q-022, Q-023, Q-038). Avec la réflexion, une réponse prend 7,4 s. | [lire](resultats/comparaisons_de_configurations/2026-11-20.1_k5-5954e822_contre_k5-94d362c8/RAPPORT.md) |
 
 ## Ce qu'il y a dans ce dossier
 

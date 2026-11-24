@@ -481,7 +481,7 @@ def evaluer(corpus: Path = OPTION_CORPUS,
 def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=False, help="resultats/evaluations/<evaluation_a>/"),
              evaluation_b: Path = typer.Argument(..., exists=True, file_okay=False, help="resultats/evaluations/<evaluation_b>/")):
     """Compare deux configurations déjà évaluées sur le même corpus : écarts de scores, questions gagnées et perdues,
-    test de McNemar. Écrit resultats/comparaisons_de_configurations/<A>_contre_<B>/ : RAPPORT.md, et comparaison.json."""
+    test de McNemar. Écrit resultats/comparaisons_de_configurations/<corpus>_<A>_contre_<B>/ : RAPPORT.md, et comparaison.json."""
     import json
 
     config = charger_config()
@@ -514,8 +514,7 @@ def comparer(evaluation_a: Path = typer.Argument(..., exists=True, file_okay=Fal
             typer.echo(f"    perdues : {', '.join(q['perdues'])}"
                        + (f"  — RÉGRESSION sur une question grave : {', '.join(graves)}" if graves else ""))
     # Une comparaison n'appartient à aucune des deux évaluations : elle a son propre dossier.
-    dossier = (Path(config["chemins"]["resultats"]) / "comparaisons_de_configurations" /
-               f"{evaluation_a.name}_contre_{r['rag_b']['version_rag']}")
+    dossier = Path(config["chemins"]["resultats"]) / "comparaisons_de_configurations" / comparaison.nom_dossier(r)
     dossier.mkdir(parents=True, exist_ok=True)
     (dossier / "fichiers_techniques").mkdir(exist_ok=True)
     (dossier / "fichiers_techniques" / "comparaison.json").write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
