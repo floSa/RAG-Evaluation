@@ -1,6 +1,6 @@
 # Questions du corpus d'exemple — liste pour relecture
 
-Générée par `remplir_excel.py` depuis `fabrication/questions.yaml`. R = réservée à la décision ; S = question de suite de ; V = variante de ; P = avec passage piège.
+Générée par `remplir_excel.py` depuis `fabrication_du_corpus/questions.yaml`. R = réservée ; S = question de suite de ; V = variante de ; P = avec passage piège.
 
 | Id | Question | Profil | Type | Dans les docs ? | La réponse est dans | Réponse attendue | Gravité | Marques |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |

@@ -225,8 +225,8 @@ def tableau_de_bord(docs: dict, questions: list[dict]) -> list[tuple[str, object
 def liste_pour_relecture(questions: list[dict]) -> str:
     """La liste des questions en Markdown, pour la relecture par le métier."""
     lignes = ["# Questions du corpus d'exemple — liste pour relecture", "",
-              "Générée par `remplir_excel.py` depuis `fabrication/questions.yaml`. "
-              "R = réservée à la décision ; S = question de suite de ; V = variante de ; P = avec passage piège.", "",
+              "Générée par `remplir_excel.py` depuis `fabrication_du_corpus/questions.yaml`. "
+              "R = réservée ; S = question de suite de ; V = variante de ; P = avec passage piège.", "",
               "| Id | Question | Profil | Type | Dans les docs ? | La réponse est dans | Réponse attendue | Gravité | Marques |",
               "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
     for q in questions:

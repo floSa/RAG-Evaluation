@@ -1,6 +1,6 @@
 # Contrat entre un RAG et le kit d'évaluation — version 1.0
 
-Ce document fixe les fichiers échangés entre le corpus, le RAG évalué et le kit d'évaluation. Il complète les documents 1 et 3. Il fait foi pour le code : un champ absent de ce document n'existe pas ; un champ obligatoire manquant est une erreur.
+Ce document fixe les fichiers échangés entre le corpus, le RAG évalué et le kit d'évaluation. Il complète les documents « Constituer le corpus d'évaluation d'un RAG » et « Évaluer le RAG avec le corpus ». Il fait foi pour le code : un champ absent de ce document n'existe pas ; un champ obligatoire manquant est une erreur.
 
 ## 1. Conventions
 
@@ -24,7 +24,7 @@ Arborescence :
 | `resultats/comparaisons_de_configurations/<A>_contre_<B>/` | RAPPORT.md ; dans `fichiers_techniques/` : comparaison.json | le kit (`kit comparer`) |
 | `config/` | kit.yaml | l'équipe du projet |
 
-## 2. Le corpus (écrit par l'import, depuis le fichier Excel du document 1)
+## 2. Le corpus (écrit par l'import, depuis le fichier Excel du document « Constituer le corpus d'évaluation d'un RAG »)
 
 ### corpus.json
 
@@ -116,7 +116,7 @@ L'import découpe la colonne « Points clés attendus » sur « ; » et reconna�
 - `reference_source` d'un passage absente de documents.
 - `question_id` en double ; `question_precedente` ou `variante_de` qui ne renvoie à aucune question.
 - Question `oui` sans passage (hors pièges) ; question `non_accessible` dont aucun passage ne vient d'un document interdit au profil.
-- Avertissement (sans rejet) : configuration minimale du document 1 non atteinte.
+- Avertissement (sans rejet) : configuration minimale du document « Constituer le corpus d'évaluation d'un RAG » non atteinte.
 
 ## 3. Ce que le RAG rend
 

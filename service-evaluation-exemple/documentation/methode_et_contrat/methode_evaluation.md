@@ -1,6 +1,6 @@
 # Évaluer le RAG avec le corpus
 
-Règles à suivre pour tout projet RAG : base vectorielle, graphe, ou agent. On part du corpus du document 1. Le RAG et l'évaluation sont séparés : le RAG fournit ses sorties dans un format standard, le contrat ; le kit d'évaluation les compare au corpus et rend des scores standard, niveau par niveau. Le détail des champs est dans [`contrat_des_fichiers.md`](contrat_des_fichiers.md).
+Règles à suivre pour tout projet RAG : base vectorielle, graphe, ou agent. On part du corpus du document « Constituer le corpus d'évaluation d'un RAG ». Le RAG et l'évaluation sont séparés : le RAG fournit ses sorties dans un format standard, le contrat ; le kit d'évaluation les compare au corpus et rend des scores standard, niveau par niveau. Le détail des champs est dans [`contrat_des_fichiers.md`](contrat_des_fichiers.md).
 
 ## 1. Le principe : le RAG et le kit sont séparés
 
@@ -9,9 +9,9 @@ Règles à suivre pour tout projet RAG : base vectorielle, graphe, ou agent. On 
 | Partie | Qui | Ce qu'elle fait |
 | --- | --- | --- |
 | Le RAG | équipe technique du projet | produit les fichiers du contrat : chunks exportés, résultats de recherche, réponses |
-| Le corpus | équipe métier (document 1) | questions, passages, réponses attendues, au format standard |
+| Le corpus | équipe métier (document « Constituer le corpus d'évaluation d'un RAG ») | questions, passages, réponses attendues, au format standard |
 | Le kit d'évaluation | le même pour tous les projets | lit le contrat et le corpus, calcule les scores des quatre niveaux, les publie dans la base relationnelle et dans Langfuse |
-| La décision | équipe métier, à la lecture des scores, avec l'équipe technique | corriger le RAG avec le document 2, ou le mettre en production |
+| La décision | équipe métier, à la lecture des scores, avec l'équipe technique | corriger le RAG avec le document « Construire le pipeline d'un RAG : ce qu'on met en place selon les cas », ou le mettre en production |
 
 **Le kit ne connaît pas le RAG** : il ne lit que les fichiers du contrat. Un RAG vectoriel, un GraphRAG ou un agent s'évaluent de la même façon.
 
@@ -104,7 +104,7 @@ Chaque niveau est décrit ci-dessous selon la même fiche : ce qu'on évalue, ce
 | Ce qu'on met en place | le script de rattachement du kit ; jiwer pour l'OCR ; pySHACL pour le graphe |
 | Sortie | par passage : rattaché ou non, mode de rattachement, coupé ou non, chunks liés ; par page OCR : taux d'erreur ; les scores ci-dessous |
 | Quand | après chaque ingestion, sans poser de question au RAG |
-| Si le score est mauvais | document 2, extraction et découpage (section 11) |
+| Si le score est mauvais | document « Construire le pipeline d'un RAG : ce qu'on met en place selon les cas », extraction et découpage (section 11) |
 
 | Score | Comment il est calculé | Configuration |
 | --- | --- | --- |
@@ -138,7 +138,7 @@ Les seuils de ressemblance sont réglables dans le kit. Chaque passage non ratta
 | Ce qu'on met en place | le script de recherche du kit ; ranx pour le nDCG (recommandé) |
 | Sortie | par question : réussie ou non, rappel, rang du premier bon chunk, fuite, piège retrouvé ; les scores ci-dessous |
 | Quand | à chaque version du RAG |
-| Si le score est mauvais | document 2, recherche (section 11) |
+| Si le score est mauvais | document « Construire le pipeline d'un RAG : ce qu'on met en place selon les cas », recherche (section 11) |
 
 ![Exemple : la recherche rend 5 chunks, le bon est en 3e position](images/e3_recherche.png)
 
@@ -174,7 +174,7 @@ Avec un graphe : les éléments retrouvés (nœuds, relations, extraits de texte
 | Ce qu'on met en place | le script du kit (abstention, citations, valeurs) ; le LLM juge du kit (exactitude) ; Ragas (fidélité, synthèse) ; les files de relecture de Langfuse |
 | Sortie | par question : verdict juste, partielle ou fausse, avec la justification du juge ; chaque score ci-dessous |
 | Quand | à chaque version du RAG |
-| Si le score est mauvais | croiser avec la recherche (schéma ci-dessous), puis document 2, génération |
+| Si le score est mauvais | croiser avec la recherche (schéma ci-dessous), puis document « Construire le pipeline d'un RAG : ce qu'on met en place selon les cas », génération |
 
 | Score | Comment il est calculé | Configuration |
 | --- | --- | --- |
@@ -266,7 +266,7 @@ Les repères ci-dessous sont des ordres de grandeur, pour aider le métier à li
 
 **Comparer deux versions du RAG :**
 
-- Même version du corpus, mêmes questions, même k.
+- Même version du corpus, mêmes questions. Seul le réglage qu'on veut tester change, par exemple k.
 - Un écart plus petit que la marge d'erreur ne prouve rien seul.
 - On regarde alors question par question : questions gagnées, questions perdues. Une question grave perdue est une régression, même si la moyenne monte.
 - Recommandé : test de McNemar sur les questions gagnées et perdues ; il dit si l'écart est dû au hasard.
@@ -289,11 +289,11 @@ Ils ne forment pas un niveau à part : ils s'appuient sur des colonnes du corpus
 
 Langfuse et le rapport donnent chaque score par type de document, type d'élément, difficulté, type de réponse, profil, et par colonne ajoutée par le projet (service, site…). Un score calculé sur moins de 10 questions est une tendance, pas une mesure.
 
-| Ce qu'on observe | Où ça casse | Ce qu'on met en place (document 2) |
+| Ce qu'on observe | Où ça casse | Ce qu'on met en place (document « Construire le pipeline d'un RAG : ce qu'on met en place selon les cas ») |
 | --- | --- | --- |
 | Taux d'erreur de caractères élevé ; passages non rattachés sur les scans | extraction | OCR, modèle de vision sur les pages difficiles |
 | Passages non rattachés sur les tableaux | extraction | traitement dédié des tableaux |
-| Métadonnées manquantes | découpage | métadonnées du document 1 sur chaque chunk |
+| Métadonnées manquantes | découpage | métadonnées du document « Constituer le corpus d'évaluation d'un RAG » sur chaque chunk |
 | Passages coupés | découpage | découpage par section, chevauchement |
 | Violations de l'ontologie dans le graphe | indexation | extraction des entités contrainte par l'ontologie |
 | Bon chunk absent ; la question emploie d'autres mots que le document | recherche | recherche hybride, phrase de contexte devant le chunk |
@@ -353,7 +353,7 @@ On prend sur étagère ce qui existe. On code ce qu'aucun outil ne fait : le rat
 | Publication | tous les scores | base relationnelle, Langfuse, RAPPORT.md et rapport.html |
 | Vérification du juge | notes du métier et du juge | taux d'accord |
 
-Le bac à sable met en œuvre ce kit avec un RAG très simple, séparé du kit, et un petit corpus annoté selon le document 1 (consignes : `CLAUDE.md`).
+Le bac à sable met en œuvre ce kit avec un RAG très simple, séparé du kit, et un petit corpus annoté selon le document « Constituer le corpus d'évaluation d'un RAG ».
 
 ## 15. Cinq règles à ne jamais oublier
 

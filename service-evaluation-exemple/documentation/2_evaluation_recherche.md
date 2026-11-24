@@ -42,7 +42,7 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document 3), section 7 |
+| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document « Évaluer le RAG avec le corpus »), section 7 |
 | [`../src/kit/etape_2_evaluation_recherche/scores.py`](../src/kit/etape_2_evaluation_recherche/scores.py) | les règles de réussite et les scores de la recherche |
 
 ## La commande
@@ -93,4 +93,4 @@ Recherche par vecteurs et par mots-clés, reranker, filtres, choix de k : le doc
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 
-**Étape suivante** : [3. Évaluation de la réponse](3_evaluation_reponse.md).
+**Guide suivant** : [3. Évaluation de la réponse](3_evaluation_reponse.md).

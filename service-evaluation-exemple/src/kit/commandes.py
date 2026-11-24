@@ -124,7 +124,7 @@ def appeler_le_rag(config: dict, corpus: Path, adresse: str) -> Path:
 
 
 @app.command()
-def appeler_rag(rag: str = typer.Option(None, help="l'adresse de les endpoints du RAG (http://…) ; par défaut, celle de config/kit.yaml"),
+def appeler_rag(rag: str = typer.Option(None, help="l'adresse des endpoints du RAG (http://…) ; par défaut, celle de config/kit.yaml"),
                 corpus: Path = typer.Option(None, exists=True, file_okay=False,
                                             help="le dossier corpus/<version>/ ; par défaut, le dernier importé")):
     """Appelle les quatre endpoints du RAG : lui envoie les documents, lui pose les questions, range ce qu'il rend."""
@@ -462,7 +462,7 @@ def evaluer_bout_en_bout(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, s
 
 @app.command()
 def evaluer(corpus: Path = OPTION_CORPUS,
-            rag: str = typer.Option(None, help="l'adresse de les endpoints du RAG (http://…), ou un dossier reponses_du_rag/<version>/ "
+            rag: str = typer.Option(None, help="l'adresse des endpoints du RAG (http://…), ou un dossier reponses_du_rag/<version>/ "
                                                "déjà rempli ; par défaut, l'adresse de config/kit.yaml"),
             sans_langfuse: bool = OPTION_LANGFUSE):
     """Évalue un RAG de bout en bout : appelle ses quatre endpoints, puis enchaîne les évaluations 1 à 4 ; écrit les scores
