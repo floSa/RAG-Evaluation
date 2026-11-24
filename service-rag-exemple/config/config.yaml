@@ -25,7 +25,7 @@ modeles:
     modele: gemma-4-e4b
     temperature: 0
     max_tokens: 4000                 # la réflexion du modèle compte dedans : 800 coupait les réponses longues
-    sans_reflexion: false            # true : 9 fois plus rapide, mais 8 points d'exactitude en moins (guide 5)
+    sans_reflexion: false            # true : 8 fois plus rapide, mais 8 points d'exactitude en moins (guide 5)
     prix_entree_eur_par_million: 0   # coût des tokens ; 0 pour un modèle local
     prix_sortie_eur_par_million: 0
   embeddings:
