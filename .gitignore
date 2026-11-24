@@ -25,5 +25,5 @@ service-rag-exemple/sorties/
 *.db
 *.sqlite
 
-# Archive d'origine et copies Word (lecture seule, hors dépôt)
+# Archive d'origine, avec ses premières copies Word (lecture seule, hors dépôt) ; les copies Word à jour sont dans documents_word/
 _hors_git/

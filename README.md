@@ -89,6 +89,7 @@ flowchart LR
 | faire tourner le service sur le RAG d'exemple | lancer le [RAG d'exemple](service-rag-exemple/README.md#le-lancer), puis suivre [le service d'évaluation](service-evaluation/README.md#essayer-avec-le-corpus-dexemple) |
 | évaluer mon RAG, sur mes documents | [le fil conducteur](service-evaluation/FIL_CONDUCTEUR.md), étape par étape |
 | comprendre la méthode | [Évaluer le RAG avec le corpus](service-evaluation/documentation/methode_et_contrat/methode_evaluation.md), sections 1 à 5, puis [Constituer le corpus d'évaluation d'un RAG](service-evaluation/documentation/methode_et_contrat/methode_corpus_annote.md) |
+| lire les documents de méthode dans Word | [`documents_word/`](documents_word/README.md) |
 | savoir pourquoi un choix a été fait | [DECISIONS.md](DECISIONS.md) |
 
 Il faut Docker, [uv](https://docs.astral.sh/uv/), et un accès à des modèles de langage par une API compatible OpenAI. Ici, le service LLM-Service, à http://127.0.0.1:8080 ; avec un autre fournisseur, on change l'adresse et les noms des modèles dans [`service-evaluation/config/kit.yaml`](service-evaluation/config/kit.yaml) et [`service-rag-exemple/config/config.yaml`](service-rag-exemple/config/config.yaml), sans toucher au code.
