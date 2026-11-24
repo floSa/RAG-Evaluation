@@ -1,0 +1,1885 @@
+{
+  "evaluation_id": "2026-11-20.1_rag-exemple-vectoriel-k3-5954e822",
+  "scores": [
+    {
+      "score": "n1_documents_indexes",
+      "niveau": 1,
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 50,
+      "ventilation": {
+        "format": {
+          "fiche_base": {
+            "valeur": 1.0,
+            "n": 17
+          },
+          "pdf_natif": {
+            "valeur": 1.0,
+            "n": 28
+          },
+          "pdf_scanne": {
+            "valeur": 1.0,
+            "n": 5
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 1.0,
+            "n": 17
+          },
+          "Note technique": {
+            "valeur": 1.0,
+            "n": 16
+          },
+          "Procédure": {
+            "valeur": 1.0,
+            "n": 17
+          }
+        }
+      }
+    },
+    {
+      "score": "n1_metadonnees_completes",
+      "niveau": 1,
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 534,
+      "ventilation": {
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 1.0,
+            "n": 272
+          },
+          "Note technique": {
+            "valeur": 1.0,
+            "n": 108
+          },
+          "Procédure": {
+            "valeur": 1.0,
+            "n": 154
+          }
+        }
+      }
+    },
+    {
+      "score": "n1_passages_rattaches",
+      "niveau": 1,
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 61,
+      "ventilation": {
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 1.0,
+            "n": 10
+          },
+          "Note technique": {
+            "valeur": 1.0,
+            "n": 27
+          },
+          "Procédure": {
+            "valeur": 1.0,
+            "n": 24
+          }
+        },
+        "type_element": {
+          "image_schema": {
+            "valeur": 1.0,
+            "n": 4
+          },
+          "tableau": {
+            "valeur": 1.0,
+            "n": 16
+          },
+          "texte": {
+            "valeur": 1.0,
+            "n": 33
+          },
+          "texte_scanne": {
+            "valeur": 1.0,
+            "n": 8
+          }
+        }
+      }
+    },
+    {
+      "score": "n1_passages_coupes",
+      "niveau": 1,
+      "valeur": 0.0,
+      "marge": 0.0,
+      "n": 61,
+      "ventilation": {
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.0,
+            "n": 10
+          },
+          "Note technique": {
+            "valeur": 0.0,
+            "n": 27
+          },
+          "Procédure": {
+            "valeur": 0.0,
+            "n": 24
+          }
+        },
+        "type_element": {
+          "image_schema": {
+            "valeur": 0.0,
+            "n": 4
+          },
+          "tableau": {
+            "valeur": 0.0,
+            "n": 16
+          },
+          "texte": {
+            "valeur": 0.0,
+            "n": 33
+          },
+          "texte_scanne": {
+            "valeur": 0.0,
+            "n": 8
+          }
+        }
+      }
+    },
+    {
+      "score": "n1_erreur_caracteres",
+      "niveau": 1,
+      "valeur": 0.1482,
+      "marge": null,
+      "n": 20,
+      "ventilation": {
+        "type_document": {
+          "Note technique": {
+            "valeur": 0.1482,
+            "n": 20
+          }
+        }
+      }
+    },
+    {
+      "score": "n1_erreur_mots",
+      "niveau": 1,
+      "valeur": 0.1982,
+      "marge": null,
+      "n": 20,
+      "ventilation": {
+        "type_document": {
+          "Note technique": {
+            "valeur": 0.1982,
+            "n": 20
+          }
+        }
+      }
+    },
+    {
+      "score": "n2_reussite_k",
+      "niveau": 2,
+      "valeur": 0.75,
+      "marge": 0.1604,
+      "n": 28,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.5,
+            "n": 8
+          },
+          "facile": {
+            "valeur": 0.8333,
+            "n": 12
+          },
+          "moyenne": {
+            "valeur": 0.875,
+            "n": 8
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 0.72,
+            "n": 25
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.75,
+            "n": 28
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.25,
+            "n": 4
+          },
+          "Note technique": {
+            "valeur": 0.75,
+            "n": 16
+          },
+          "Procédure": {
+            "valeur": 0.9286,
+            "n": 14
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 0.6667,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.8421,
+            "n": 19
+          },
+          "liste": {
+            "valeur": 0.75,
+            "n": 4
+          }
+        }
+      }
+    },
+    {
+      "score": "n2_rappel_k",
+      "niveau": 2,
+      "valeur": 0.6429,
+      "marge": 0.1449,
+      "n": 42,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.4167,
+            "n": 12
+          },
+          "facile": {
+            "valeur": 0.7143,
+            "n": 21
+          },
+          "moyenne": {
+            "valeur": 0.7778,
+            "n": 9
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "maintenance": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 0.6053,
+            "n": 38
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.6429,
+            "n": 42
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.2,
+            "n": 5
+          },
+          "Note technique": {
+            "valeur": 0.6,
+            "n": 25
+          },
+          "Procédure": {
+            "valeur": 0.75,
+            "n": 24
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 0.5,
+            "n": 4
+          },
+          "explication": {
+            "valeur": 0.0,
+            "n": 4
+          },
+          "fait": {
+            "valeur": 0.7143,
+            "n": 28
+          },
+          "liste": {
+            "valeur": 0.8333,
+            "n": 6
+          }
+        }
+      }
+    },
+    {
+      "score": "n2_rang_premier",
+      "niveau": 2,
+      "valeur": 0.6488,
+      "marge": 0.1768,
+      "n": 28,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.4167,
+            "n": 8
+          },
+          "facile": {
+            "valeur": 0.75,
+            "n": 12
+          },
+          "moyenne": {
+            "valeur": 0.7292,
+            "n": 8
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 0.6667,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 0.6333,
+            "n": 25
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.6488,
+            "n": 28
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.0833,
+            "n": 4
+          },
+          "Note technique": {
+            "valeur": 0.6771,
+            "n": 16
+          },
+          "Procédure": {
+            "valeur": 0.8214,
+            "n": 14
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 0.4444,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.7544,
+            "n": 19
+          },
+          "liste": {
+            "valeur": 0.625,
+            "n": 4
+          }
+        }
+      }
+    },
+    {
+      "score": "n2_fuite_droits",
+      "niveau": 2,
+      "valeur": 0.0,
+      "marge": null,
+      "n": 40,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.0,
+            "n": 12
+          },
+          "facile": {
+            "valeur": 0.0,
+            "n": 14
+          },
+          "moyenne": {
+            "valeur": 0.0,
+            "n": 14
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "maintenance": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 0.0,
+            "n": 36
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.0,
+            "n": 40
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.0,
+            "n": 6
+          },
+          "Note technique": {
+            "valeur": 0.0,
+            "n": 20
+          },
+          "Procédure": {
+            "valeur": 0.0,
+            "n": 17
+          },
+          "aucun": {
+            "valeur": 0.0,
+            "n": 7
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 0.0,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.0,
+            "n": 26
+          },
+          "liste": {
+            "valeur": 0.0,
+            "n": 5
+          },
+          "synthese": {
+            "valeur": 0.0,
+            "n": 4
+          }
+        }
+      }
+    },
+    {
+      "score": "n2_reussite_1",
+      "niveau": 2,
+      "valeur": 0.5357,
+      "marge": 0.1847,
+      "n": 28,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.25,
+            "n": 8
+          },
+          "facile": {
+            "valeur": 0.6667,
+            "n": 12
+          },
+          "moyenne": {
+            "valeur": 0.625,
+            "n": 8
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 0.5,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 0.52,
+            "n": 25
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.5357,
+            "n": 28
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.0,
+            "n": 4
+          },
+          "Note technique": {
+            "valeur": 0.625,
+            "n": 16
+          },
+          "Procédure": {
+            "valeur": 0.6429,
+            "n": 14
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 0.3333,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.6316,
+            "n": 19
+          },
+          "liste": {
+            "valeur": 0.5,
+            "n": 4
+          }
+        }
+      }
+    },
+    {
+      "score": "n2_reussite_3",
+      "niveau": 2,
+      "valeur": 0.75,
+      "marge": 0.1604,
+      "n": 28,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.5,
+            "n": 8
+          },
+          "facile": {
+            "valeur": 0.8333,
+            "n": 12
+          },
+          "moyenne": {
+            "valeur": 0.875,
+            "n": 8
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 0.72,
+            "n": 25
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.75,
+            "n": 28
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.25,
+            "n": 4
+          },
+          "Note technique": {
+            "valeur": 0.75,
+            "n": 16
+          },
+          "Procédure": {
+            "valeur": 0.9286,
+            "n": 14
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 0.6667,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.8421,
+            "n": 19
+          },
+          "liste": {
+            "valeur": 0.75,
+            "n": 4
+          }
+        }
+      }
+    },
+    {
+      "score": "n2_perimes_pieges",
+      "niveau": 2,
+      "valeur": 0.0,
+      "marge": 0.0,
+      "n": 28,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.0,
+            "n": 8
+          },
+          "facile": {
+            "valeur": 0.0,
+            "n": 12
+          },
+          "moyenne": {
+            "valeur": 0.0,
+            "n": 8
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 0.0,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 0.0,
+            "n": 25
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.0,
+            "n": 28
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.0,
+            "n": 4
+          },
+          "Note technique": {
+            "valeur": 0.0,
+            "n": 16
+          },
+          "Procédure": {
+            "valeur": 0.0,
+            "n": 14
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 0.0,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.0,
+            "n": 19
+          },
+          "liste": {
+            "valeur": 0.0,
+            "n": 4
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_exactitude",
+      "niveau": 3,
+      "valeur": 0.8261,
+      "marge": 0.1549,
+      "n": 23,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.5,
+            "n": 6
+          },
+          "facile": {
+            "valeur": 0.9545,
+            "n": 11
+          },
+          "moyenne": {
+            "valeur": 0.9167,
+            "n": 6
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 0.5,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 0.5,
+            "n": 1
+          },
+          "tous": {
+            "valeur": 0.8571,
+            "n": 21
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.8261,
+            "n": 23
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "Note technique": {
+            "valeur": 0.7333,
+            "n": 15
+          },
+          "Procédure": {
+            "valeur": 0.875,
+            "n": 16
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.9333,
+            "n": 15
+          },
+          "liste": {
+            "valeur": 1.0,
+            "n": 3
+          },
+          "synthese": {
+            "valeur": 0.0,
+            "n": 3
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_completude_listes",
+      "niveau": 3,
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 3,
+      "ventilation": {
+        "difficulte": {
+          "facile": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "moyenne": {
+            "valeur": 1.0,
+            "n": 1
+          }
+        },
+        "profil": {
+          "tous": {
+            "valeur": 1.0,
+            "n": 3
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 1.0,
+            "n": 3
+          }
+        },
+        "type_document": {
+          "Note technique": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "Procédure": {
+            "valeur": 1.0,
+            "n": 2
+          }
+        },
+        "type_reponse": {
+          "liste": {
+            "valeur": 1.0,
+            "n": 3
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_valeurs",
+      "niveau": 3,
+      "valeur": 0.9667,
+      "marge": 0.0908,
+      "n": 15,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 1.0,
+            "n": 3
+          },
+          "facile": {
+            "valeur": 1.0,
+            "n": 7
+          },
+          "moyenne": {
+            "valeur": 0.9,
+            "n": 5
+          }
+        },
+        "profil": {
+          "maintenance": {
+            "valeur": 0.5,
+            "n": 1
+          },
+          "tous": {
+            "valeur": 1.0,
+            "n": 14
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.9667,
+            "n": 15
+          }
+        },
+        "type_document": {
+          "Note technique": {
+            "valeur": 0.9444,
+            "n": 9
+          },
+          "Procédure": {
+            "valeur": 1.0,
+            "n": 11
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.9615,
+            "n": 13
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_abstention_correcte",
+      "niveau": 3,
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 8,
+      "ventilation": {
+        "difficulte": {
+          "facile": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "moyenne": {
+            "valeur": 1.0,
+            "n": 6
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "tous": {
+            "valeur": 1.0,
+            "n": 7
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 1.0,
+            "n": 8
+          }
+        },
+        "type_document": {
+          "Note technique": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "aucun": {
+            "valeur": 1.0,
+            "n": 7
+          }
+        },
+        "type_reponse": {
+          "fait": {
+            "valeur": 1.0,
+            "n": 7
+          },
+          "liste": {
+            "valeur": 1.0,
+            "n": 1
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_abstention_a_tort",
+      "niveau": 3,
+      "valeur": 0.0625,
+      "marge": 0.0839,
+      "n": 32,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.0833,
+            "n": 12
+          },
+          "facile": {
+            "valeur": 0.0,
+            "n": 12
+          },
+          "moyenne": {
+            "valeur": 0.125,
+            "n": 8
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 0.0,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 0.5,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 0.0345,
+            "n": 29
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.0625,
+            "n": 32
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.1667,
+            "n": 6
+          },
+          "Note technique": {
+            "valeur": 0.0526,
+            "n": 19
+          },
+          "Procédure": {
+            "valeur": 0.0,
+            "n": 17
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 0.0,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.1053,
+            "n": 19
+          },
+          "liste": {
+            "valeur": 0.0,
+            "n": 4
+          },
+          "synthese": {
+            "valeur": 0.0,
+            "n": 4
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_fidelite",
+      "niveau": 3,
+      "valeur": 0.971,
+      "marge": 0.0686,
+      "n": 23,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.9722,
+            "n": 6
+          },
+          "facile": {
+            "valeur": 0.9545,
+            "n": 11
+          },
+          "moyenne": {
+            "valeur": 1.0,
+            "n": 6
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "tous": {
+            "valeur": 0.9683,
+            "n": 21
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.971,
+            "n": 23
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.9167,
+            "n": 2
+          },
+          "Note technique": {
+            "valeur": 0.9556,
+            "n": 15
+          },
+          "Procédure": {
+            "valeur": 0.9688,
+            "n": 16
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.9667,
+            "n": 15
+          },
+          "liste": {
+            "valeur": 1.0,
+            "n": 3
+          },
+          "synthese": {
+            "valeur": 0.9444,
+            "n": 3
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_citations",
+      "niveau": 3,
+      "valeur": 0.913,
+      "marge": 0.1152,
+      "n": 23,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 1.0,
+            "n": 6
+          },
+          "facile": {
+            "valeur": 0.8182,
+            "n": 11
+          },
+          "moyenne": {
+            "valeur": 1.0,
+            "n": 6
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "tous": {
+            "valeur": 0.9048,
+            "n": 21
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.913,
+            "n": 23
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "Note technique": {
+            "valeur": 0.9333,
+            "n": 15
+          },
+          "Procédure": {
+            "valeur": 0.875,
+            "n": 16
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.8667,
+            "n": 15
+          },
+          "liste": {
+            "valeur": 1.0,
+            "n": 3
+          },
+          "synthese": {
+            "valeur": 1.0,
+            "n": 3
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_erreurs_graves",
+      "niveau": 3,
+      "valeur": 0.0,
+      "marge": null,
+      "n": 11,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.0,
+            "n": 1
+          },
+          "facile": {
+            "valeur": 0.0,
+            "n": 4
+          },
+          "moyenne": {
+            "valeur": 0.0,
+            "n": 6
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 0.0,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 0.0,
+            "n": 1
+          },
+          "tous": {
+            "valeur": 0.0,
+            "n": 9
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.0,
+            "n": 11
+          }
+        },
+        "type_document": {
+          "Note technique": {
+            "valeur": 0.0,
+            "n": 5
+          },
+          "Procédure": {
+            "valeur": 0.0,
+            "n": 8
+          },
+          "aucun": {
+            "valeur": 0.0,
+            "n": 1
+          }
+        },
+        "type_reponse": {
+          "fait": {
+            "valeur": 0.0,
+            "n": 7
+          },
+          "liste": {
+            "valeur": 0.0,
+            "n": 3
+          },
+          "synthese": {
+            "valeur": 0.0,
+            "n": 1
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_synthese",
+      "niveau": 3,
+      "valeur": 0.6667,
+      "marge": null,
+      "n": 3,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.6667,
+            "n": 3
+          }
+        },
+        "profil": {
+          "tous": {
+            "valeur": 0.6667,
+            "n": 3
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.6667,
+            "n": 3
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.7,
+            "n": 2
+          },
+          "Note technique": {
+            "valeur": 0.6667,
+            "n": 3
+          },
+          "Procédure": {
+            "valeur": 0.7,
+            "n": 2
+          }
+        },
+        "type_reponse": {
+          "synthese": {
+            "valeur": 0.6667,
+            "n": 3
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_questions_suite",
+      "niveau": 3,
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 3,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 1.0,
+            "n": 2
+          },
+          "moyenne": {
+            "valeur": 1.0,
+            "n": 1
+          }
+        },
+        "profil": {
+          "tous": {
+            "valeur": 1.0,
+            "n": 3
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 1.0,
+            "n": 3
+          }
+        },
+        "type_document": {
+          "Note technique": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "Procédure": {
+            "valeur": 1.0,
+            "n": 2
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 1.0,
+            "n": 1
+          },
+          "fait": {
+            "valeur": 1.0,
+            "n": 2
+          }
+        }
+      }
+    },
+    {
+      "score": "n3_variantes",
+      "niveau": 3,
+      "valeur": 0.0,
+      "marge": 0.0,
+      "n": 6,
+      "ventilation": {
+        "difficulte": {
+          "facile": {
+            "valeur": 0.0,
+            "n": 6
+          }
+        },
+        "profil": {
+          "tous": {
+            "valeur": 0.0,
+            "n": 6
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.0,
+            "n": 6
+          }
+        },
+        "type_document": {
+          "Note technique": {
+            "valeur": 0.0,
+            "n": 3
+          },
+          "Procédure": {
+            "valeur": 0.0,
+            "n": 5
+          },
+          "aucun": {
+            "valeur": 0.0,
+            "n": 1
+          }
+        },
+        "type_reponse": {
+          "fait": {
+            "valeur": 0.0,
+            "n": 5
+          },
+          "liste": {
+            "valeur": 0.0,
+            "n": 1
+          }
+        }
+      }
+    },
+    {
+      "score": "n4_score_pondere",
+      "niveau": 4,
+      "valeur": 0.7704,
+      "marge": 0.1303,
+      "n": 40,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.1935,
+            "n": 12
+          },
+          "facile": {
+            "valeur": 0.9609,
+            "n": 14
+          },
+          "moyenne": {
+            "valeur": 0.9125,
+            "n": 14
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 0.75,
+            "n": 2
+          },
+          "maintenance": {
+            "valeur": 0.375,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 0.784,
+            "n": 36
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.7704,
+            "n": 40
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.0,
+            "n": 6
+          },
+          "Note technique": {
+            "valeur": 0.6875,
+            "n": 20
+          },
+          "Procédure": {
+            "valeur": 0.8621,
+            "n": 17
+          },
+          "aucun": {
+            "valeur": 1.0,
+            "n": 7
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 0.6667,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.8851,
+            "n": 26
+          },
+          "liste": {
+            "valeur": 0.9615,
+            "n": 5
+          },
+          "synthese": {
+            "valeur": 0.0,
+            "n": 4
+          }
+        }
+      }
+    },
+    {
+      "score": "n4_erreurs_graves",
+      "niveau": 4,
+      "valeur": 0.0,
+      "marge": null,
+      "n": 11,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.0,
+            "n": 1
+          },
+          "facile": {
+            "valeur": 0.0,
+            "n": 4
+          },
+          "moyenne": {
+            "valeur": 0.0,
+            "n": 6
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 0.0,
+            "n": 1
+          },
+          "maintenance": {
+            "valeur": 0.0,
+            "n": 1
+          },
+          "tous": {
+            "valeur": 0.0,
+            "n": 9
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.0,
+            "n": 11
+          }
+        },
+        "type_document": {
+          "Note technique": {
+            "valeur": 0.0,
+            "n": 5
+          },
+          "Procédure": {
+            "valeur": 0.0,
+            "n": 8
+          },
+          "aucun": {
+            "valeur": 0.0,
+            "n": 1
+          }
+        },
+        "type_reponse": {
+          "fait": {
+            "valeur": 0.0,
+            "n": 7
+          },
+          "liste": {
+            "valeur": 0.0,
+            "n": 3
+          },
+          "synthese": {
+            "valeur": 0.0,
+            "n": 1
+          }
+        }
+      }
+    },
+    {
+      "score": "n4_temps_median",
+      "niveau": 4,
+      "valeur": 6683.5,
+      "marge": null,
+      "n": 40,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 7508.0,
+            "n": 12
+          },
+          "facile": {
+            "valeur": 6599.0,
+            "n": 14
+          },
+          "moyenne": {
+            "valeur": 5826.5,
+            "n": 14
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 5741.5,
+            "n": 2
+          },
+          "maintenance": {
+            "valeur": 7681.5,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 6757.5,
+            "n": 36
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 6683.5,
+            "n": 40
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 9318.5,
+            "n": 6
+          },
+          "Note technique": {
+            "valeur": 7063.0,
+            "n": 20
+          },
+          "Procédure": {
+            "valeur": 7288.0,
+            "n": 17
+          },
+          "aucun": {
+            "valeur": 5168.0,
+            "n": 7
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 6731.0,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 7951.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 6425.0,
+            "n": 26
+          },
+          "liste": {
+            "valeur": 7354.0,
+            "n": 5
+          },
+          "synthese": {
+            "valeur": 10286.5,
+            "n": 4
+          }
+        }
+      }
+    },
+    {
+      "score": "n4_temps_p95",
+      "niveau": 4,
+      "valeur": 10882.0,
+      "marge": null,
+      "n": 40,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 21340.0,
+            "n": 12
+          },
+          "facile": {
+            "valeur": 11143.0,
+            "n": 14
+          },
+          "moyenne": {
+            "valeur": 9737.0,
+            "n": 14
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 6058.0,
+            "n": 2
+          },
+          "maintenance": {
+            "valeur": 9737.0,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 11143.0,
+            "n": 36
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 10882.0,
+            "n": 40
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 21340.0,
+            "n": 6
+          },
+          "Note technique": {
+            "valeur": 10576.0,
+            "n": 20
+          },
+          "Procédure": {
+            "valeur": 21340.0,
+            "n": 17
+          },
+          "aucun": {
+            "valeur": 5959.0,
+            "n": 7
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 7927.0,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 8900.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 9737.0,
+            "n": 26
+          },
+          "liste": {
+            "valeur": 10882.0,
+            "n": 5
+          },
+          "synthese": {
+            "valeur": 21340.0,
+            "n": 4
+          }
+        }
+      }
+    },
+    {
+      "score": "n4_cout_moyen",
+      "niveau": 4,
+      "valeur": 0.0,
+      "marge": null,
+      "n": 40,
+      "ventilation": {
+        "difficulte": {
+          "difficile": {
+            "valeur": 0.0,
+            "n": 12
+          },
+          "facile": {
+            "valeur": 0.0,
+            "n": 14
+          },
+          "moyenne": {
+            "valeur": 0.0,
+            "n": 14
+          }
+        },
+        "profil": {
+          "exploitation": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "maintenance": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "tous": {
+            "valeur": 0.0,
+            "n": 36
+          }
+        },
+        "service": {
+          "Maintenance électrique": {
+            "valeur": 0.0,
+            "n": 40
+          }
+        },
+        "type_document": {
+          "Compte rendu d'intervention": {
+            "valeur": 0.0,
+            "n": 6
+          },
+          "Note technique": {
+            "valeur": 0.0,
+            "n": 20
+          },
+          "Procédure": {
+            "valeur": 0.0,
+            "n": 17
+          },
+          "aucun": {
+            "valeur": 0.0,
+            "n": 7
+          }
+        },
+        "type_reponse": {
+          "calcul": {
+            "valeur": 0.0,
+            "n": 3
+          },
+          "explication": {
+            "valeur": 0.0,
+            "n": 2
+          },
+          "fait": {
+            "valeur": 0.0,
+            "n": 26
+          },
+          "liste": {
+            "valeur": 0.0,
+            "n": 5
+          },
+          "synthese": {
+            "valeur": 0.0,
+            "n": 4
+          }
+        }
+      }
+    }
+  ],
+  "scores_cles": [
+    {
+      "score": "n1_documents_indexes",
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 50
+    },
+    {
+      "score": "n1_metadonnees_completes",
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 534
+    },
+    {
+      "score": "n1_passages_rattaches",
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 30
+    },
+    {
+      "score": "n1_erreur_caracteres",
+      "valeur": 0.1482,
+      "marge": null,
+      "n": 20
+    },
+    {
+      "score": "n2_reussite_k",
+      "valeur": 0.6154,
+      "marge": 0.2645,
+      "n": 13
+    },
+    {
+      "score": "n2_fuite_droits",
+      "valeur": 0.0,
+      "marge": null,
+      "n": 60
+    },
+    {
+      "score": "n3_exactitude",
+      "valeur": 0.8182,
+      "marge": 0.2279,
+      "n": 11
+    },
+    {
+      "score": "n3_abstention_correcte",
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 5
+    },
+    {
+      "score": "n3_fidelite",
+      "valeur": 1.0,
+      "marge": 0.0,
+      "n": 11
+    },
+    {
+      "score": "n3_erreurs_graves",
+      "valeur": 0.0,
+      "marge": null,
+      "n": 12
+    },
+    {
+      "score": "n4_score_pondere",
+      "valeur": 0.7391,
+      "marge": 0.1924,
+      "n": 20
+    },
+    {
+      "score": "n4_temps_median",
+      "valeur": 6757.0,
+      "marge": null,
+      "n": 20
+    },
+    {
+      "score": "n4_temps_p95",
+      "valeur": 10997.0,
+      "marge": null,
+      "n": 20
+    },
+    {
+      "score": "n4_cout_moyen",
+      "valeur": 0.0,
+      "marge": null,
+      "n": 20
+    }
+  ],
+  "remarque": "scores clés calculés sur les questions réservées (fuites de droits et erreurs graves : sur toutes les questions) ; c'est au métier de décider à leur lecture"
+}

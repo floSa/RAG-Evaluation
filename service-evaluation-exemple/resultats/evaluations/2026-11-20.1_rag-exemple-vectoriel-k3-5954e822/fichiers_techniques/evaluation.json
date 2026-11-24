@@ -1,0 +1,32 @@
+{
+  "evaluation_id": "2026-11-20.1_rag-exemple-vectoriel-k3-5954e822",
+  "date": "2026-11-21T12:57:32",
+  "version_corpus": "2026-11-20.1",
+  "version_kit": "0.1.0",
+  "rag": {
+    "contrat": "1.0",
+    "nom": "rag-exemple",
+    "version_rag": "rag-exemple-vectoriel-k3-5954e822",
+    "type_rag": "vectoriel",
+    "date": "2026-11-21",
+    "k": 3,
+    "versions": {
+      "index": "sections-1-embed-3fc47199",
+      "decoupage": "sections-1",
+      "embedding": "embed",
+      "generation": "gemma-4-e4b",
+      "prompt": "1.0",
+      "reranker": "aucun"
+    },
+    "filtre_droits": true,
+    "reglages": {
+      "réflexion du modèle": true,
+      "recherche par mots-clés": true,
+      "candidats avant fusion": 30
+    }
+  },
+  "juge": {
+    "modele": "chat",
+    "version_prompt": "1.0"
+  }
+}

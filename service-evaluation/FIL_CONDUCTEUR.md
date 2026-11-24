@@ -152,7 +152,7 @@ Il s'agit d'ajouter au RAG les quatre adresses web que le service appelle (voir 
 
 La commande, et où la taper : [0c. Les configurations du RAG : fixer les réglages, puis lancer l'évaluation](documentation/0c_configurations_du_rag.md#2-lancer-lévaluation).
 
-**Le rapport.** Chaque évaluation écrit un rapport, `RAPPORT.md`, dans un dossier à son nom sous `resultats/evaluations/`. Il commence par la configuration évaluée, réglage par réglage. Il donne ensuite chaque score en une phrase, avec ses chiffres, pour que le métier comme l'équipe du projet le comprennent sans explication. Chaque pourcentage est donné avec son intervalle de confiance : la fourchette où se trouve le vrai résultat, large quand il y a peu de questions. Le service ne décide pas : c'est le métier qui tranche à la lecture des scores. Exemple : [le rapport de la configuration de référence du RAG d'exemple](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md).
+**Le rapport.** Chaque évaluation écrit un rapport, `RAPPORT.md`, dans un dossier à son nom sous `resultats/evaluations/`. Il commence par la configuration évaluée, réglage par réglage. Il donne ensuite chaque score en une phrase, avec ses chiffres, pour que le métier comme l'équipe du projet le comprennent sans explication. Chaque pourcentage est donné avec son intervalle de confiance : la fourchette où se trouve le vrai résultat, large quand il y a peu de questions. Le service ne décide pas : c'est le métier qui tranche à la lecture des scores. Exemple : [le rapport de la configuration de référence du RAG d'exemple](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822/RAPPORT.md).
 
 **À faire.**
 - Écrire la grille des configurations à tester, en commençant par les réglages que tout RAG possède, et en n'en changeant qu'un à la fois.
@@ -162,9 +162,9 @@ La commande, et où la taper : [0c. Les configurations du RAG : fixer les régla
 
 | Configuration | Nombre de morceaux ramenés (k) | Réflexion du modèle | Rapport |
 | --- | --- | --- | --- |
-| Référence | 5 | oui | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) |
-| k = 3 | **3** (`RAG_K=3` au lancement) | oui | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k3-5954e822/RAPPORT.md) |
-| Sans réflexion | 5 | **non** (`sans_reflexion: true` dans `config.yaml`) | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) |
+| Référence | 5 | oui | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822/RAPPORT.md) |
+| k = 3 | **3** (`RAG_K=3` au lancement) | oui | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_rag-exemple-vectoriel-k3-5954e822/RAPPORT.md) |
+| Sans réflexion | 5 | **non** (`sans_reflexion: true` dans `config.yaml`) | [RAPPORT.md](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_rag-exemple-vectoriel-k5-94d362c8/RAPPORT.md) |
 
 En gras, le réglage changé par rapport à la référence. Les autres réglages sont restés fixes : des morceaux découpés par section, d'au plus 1 500 caractères ; le modèle gemma-4-e4b pour écrire la réponse ; la consigne 1.0 ; le modèle embed pour la vectorisation ; une recherche par mots-clés en plus des vecteurs ; pas de reclassement.
 
@@ -187,9 +187,9 @@ Pour un score faible, la partie « Si c'est mauvais » du guide de son évaluati
 **Faire décider le métier.** Lui présenter les scores clés et les questions ratées de la meilleure configuration. Pour l'aider à les lire, des repères score par score, et la façon de lire l'intervalle de confiance : [6. Aide à la décision : lire les scores](documentation/6_aide_a_la_decision.md). C'est lui qui dit si elle peut partir en production, ou ce qu'il faut corriger d'abord ; dans ce cas, corriger le RAG là où le rapport l'indique, puis évaluer la nouvelle configuration (étape 3).
 
 **Dans l'exemple.**
-- Le [rapport de la référence](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) montre 1 erreur grave, 15 caractères sur 100 mal lus sur les pages scannées, et le bon passage ramené pour 9 questions sur 13 seulement.
+- Le [rapport de la référence](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822/RAPPORT.md) montre 1 erreur grave, 15 caractères sur 100 mal lus sur les pages scannées, et le bon passage ramené pour 9 questions sur 13 seulement.
 - Le juge n'est pas validé : il donne la même note que le métier dans 89 % des cas, il en faut 90 %.
-- Les comparaisons avec la référence : [k = 3](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k3-5954e822/RAPPORT.md) n'est pas meilleure ; [sans réflexion](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) est 8 fois plus rapide mais calcule moins bien (trois calculs perdus ; l'écart reste dans la marge).
+- Les comparaisons avec la référence : [k = 3](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822_contre_rag-exemple-vectoriel-k3-5954e822/RAPPORT.md) n'est pas meilleure ; [sans réflexion](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822_contre_rag-exemple-vectoriel-k5-94d362c8/RAPPORT.md) est 8 fois plus rapide mais calcule moins bien (trois calculs perdus ; l'écart reste dans la marge).
 - Ce qu'on présenterait au métier : l'erreur grave, les pages scannées mal lues, et la recherche qui ne ramène pas assez souvent le bon passage. C'est là qu'il faudrait corriger le RAG avant de lui demander de décider.
 
 ## Récapitulatif

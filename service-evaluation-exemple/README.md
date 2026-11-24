@@ -40,9 +40,9 @@ Chaque rapport donne les scores, chacun en une phrase. Le service ne décide pas
 
 | Configuration | Réponses justes | Score pondéré | Erreurs graves | Rapport |
 | --- | --- | --- | --- | --- |
-| **Référence** | 79 % | 80 % | 1 | [lire](resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) |
-| k = 3 | 83 % | 77 % | 0 | [lire](resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k3-5954e822/RAPPORT.md) |
-| Sans réflexion | 71 % | 77 % | 0 | [lire](resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) |
+| **Référence** | 79 % | 80 % | 1 | [lire](resultats/evaluations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822/RAPPORT.md) |
+| k = 3 | 83 % | 77 % | 0 | [lire](resultats/evaluations/2026-11-20.1_rag-exemple-vectoriel-k3-5954e822/RAPPORT.md) |
+| Sans réflexion | 71 % | 77 % | 0 | [lire](resultats/evaluations/2026-11-20.1_rag-exemple-vectoriel-k5-94d362c8/RAPPORT.md) |
 
 - **Réponses justes** : un modèle juge compare chaque réponse à la bonne réponse du métier. Une réponse juste compte 1, une réponse partielle 0,5, une réponse fausse 0.
 - **Score pondéré** : la même note, mais chaque question compte selon sa fréquence et sa gravité, fixées par le métier. C'est le chiffre le plus proche de ce que vivront les utilisateurs.
@@ -58,8 +58,8 @@ Il vaut mieux corriger ces deux points avant de lui demander de décider.
 
 | Comparaison | Ce qu'on en conclut | Rapport |
 | --- | --- | --- |
-| Référence contre **k = 3** | **Pas meilleure.** Avec 3 morceaux, la recherche ramène moins souvent le bon passage (75 % contre 86 %) : 3 questions perdues (Q-031, Q-038, Q-057), aucune gagnée. Elle n'a plus d'erreur grave, mais seulement parce qu'elle ne répond pas à la question en cause (Q-046). | [lire](resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k3-5954e822/RAPPORT.md) |
-| Référence contre **sans réflexion** | **On garde la réflexion.** Sans elle, le RAG répond 8 fois plus vite (0,9 s contre 7,4 s), mais calcule moins bien : 75 % de chiffres exacts contre 91 %. L'écart reste dans la marge, donc non prouvé à lui seul, mais trois calculs sont perdus (Q-022, Q-023, Q-038). Avec la réflexion, une réponse prend 7,4 s. | [lire](resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) |
+| Référence contre **k = 3** | **Pas meilleure.** Avec 3 morceaux, la recherche ramène moins souvent le bon passage (75 % contre 86 %) : 3 questions perdues (Q-031, Q-038, Q-057), aucune gagnée. Elle n'a plus d'erreur grave, mais seulement parce qu'elle ne répond pas à la question en cause (Q-046). | [lire](resultats/comparaisons_de_configurations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822_contre_rag-exemple-vectoriel-k3-5954e822/RAPPORT.md) |
+| Référence contre **sans réflexion** | **On garde la réflexion.** Sans elle, le RAG répond 8 fois plus vite (0,9 s contre 7,4 s), mais calcule moins bien : 75 % de chiffres exacts contre 91 %. L'écart reste dans la marge, donc non prouvé à lui seul, mais trois calculs sont perdus (Q-022, Q-023, Q-038). Avec la réflexion, une réponse prend 7,4 s. | [lire](resultats/comparaisons_de_configurations/2026-11-20.1_rag-exemple-vectoriel-k5-5954e822_contre_rag-exemple-vectoriel-k5-94d362c8/RAPPORT.md) |
 
 ## Ce qu'il y a dans ce dossier
 
@@ -74,4 +74,4 @@ Les mêmes dossiers et les mêmes fichiers que dans `service-evaluation/`. Trois
 
 On peut donc aussi le faire tourner tel quel, depuis ce dossier, comme `service-evaluation/` : les étapes sont dans le [fil conducteur](../service-evaluation/FIL_CONDUCTEUR.md), et les commandes dans [le README du service](../service-evaluation/README.md#toutes-les-commandes).
 
-Chaque évaluation et chaque comparaison est un dossier nommé d'après la version du RAG évaluée. Exemple : `2026-11-20.1_graphrag-vectoriel-k5-5954e822` = le corpus du 20 novembre, le RAG « graphrag » en recherche vectorielle, avec k = 5, et une empreinte de ses autres réglages. Le tableau de la partie 1 dit à quelle configuration chacun correspond.
+Chaque évaluation et chaque comparaison est un dossier nommé d'après la version du RAG évaluée. Exemple : `2026-11-20.1_rag-exemple-vectoriel-k5-5954e822` = le corpus du 20 novembre, le RAG « graphrag » en recherche vectorielle, avec k = 5, et une empreinte de ses autres réglages. Le tableau de la partie 1 dit à quelle configuration chacun correspond.

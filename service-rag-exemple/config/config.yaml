@@ -2,7 +2,7 @@
 # Aucune clé ici : elles sont lues dans .env.
 # Changer de fournisseur = changer « adresse » et les noms de modèles, sans toucher au code.
 
-nom: graphrag                       # la version évaluée s'appelle graphrag-vectoriel-k<k>-<empreinte>
+nom: rag-exemple                    # la version évaluée s'appelle rag-exemple-vectoriel-k<k>-<empreinte>
 
 # Le corpus documentaire que le RAG sert à ses utilisateurs, et la liste des documents avec leurs métadonnées (référence, version, format, droits d'accès),
 # telle que l'exporte la gestion documentaire. Vide dans le banc d'essai : le RAG n'a que les documents

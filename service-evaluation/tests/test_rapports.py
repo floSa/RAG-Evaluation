@@ -3,10 +3,10 @@
 from kit.etape_5_resultats import comparaison, rapport
 
 # La configuration de référence du RAG d'exemple, et sa variante k = 3 (service-evaluation-exemple/resultats/).
-REFERENCE = {"version_rag": "graphrag-vectoriel-k5-5954e822", "type_rag": "vectoriel", "k": 5,
+REFERENCE = {"version_rag": "rag-exemple-vectoriel-k5-5954e822", "type_rag": "vectoriel", "k": 5,
              "versions": {"index": "sections-1-embed-3fc47199", "decoupage": "sections-1", "embedding": "embed",
                           "generation": "gemma-4-e4b", "prompt": "1.0", "reranker": "aucun"}}
-K3 = {**REFERENCE, "version_rag": "graphrag-vectoriel-k3-5954e822", "k": 3}
+K3 = {**REFERENCE, "version_rag": "rag-exemple-vectoriel-k3-5954e822", "k": 3}
 
 
 def test_valeurs_en_clair():
@@ -38,7 +38,7 @@ def test_configuration_en_grille():
 
 
 def test_rapport_evaluation_commence_par_les_scores_cles_sans_decider():
-    c = {"titre": "graphrag-vectoriel-k5-5954e822", "configuration": rapport.configuration(REFERENCE),
+    c = {"titre": "rag-exemple-vectoriel-k5-5954e822", "configuration": rapport.configuration(REFERENCE),
          "corpus": "2026-11-20.1", "questions": 60, "reservees": 20, "juge": "chat, prompt 1.0",
          "cles": [["Score pondéré", "76 % (entre 57 et 95 %)", "76 réponses justes sur 100…"]], "niveaux": [],
          "a_voir": [("Q-046", "quelles règles | de sécurité ?", "Erreur grave", "réponse fausse")],
@@ -64,12 +64,12 @@ def test_comparaison_dit_ce_qui_change_et_si_c_est_le_hasard():
 
 
 def test_comparaison_sans_reglage_declare_different():
-    assert comparaison.differences(REFERENCE, {**REFERENCE, "version_rag": "graphrag-vectoriel-k5-94d362c8"}) == []
+    assert comparaison.differences(REFERENCE, {**REFERENCE, "version_rag": "rag-exemple-vectoriel-k5-94d362c8"}) == []
 
 
 def test_autres_reglages_affiches_et_compares():
     # Les réglages sans champ à eux dans le contrat (« reglages ») s'affichent et se comparent comme les autres
-    sans_reflexion = {**REFERENCE, "version_rag": "graphrag-vectoriel-k5-94d362c8", "reglages": {"réflexion du modèle": False}}
+    sans_reflexion = {**REFERENCE, "version_rag": "rag-exemple-vectoriel-k5-94d362c8", "reglages": {"réflexion du modèle": False}}
     assert ["Réflexion du modèle", "non"] in rapport.reglages(sans_reflexion)
     assert "réflexion du modèle non" in rapport.configuration(sans_reflexion)
     assert comparaison.differences({**REFERENCE, "reglages": {"réflexion du modèle": True}}, sans_reflexion) == \

@@ -163,7 +163,7 @@ flowchart LR
 
 La règle complète, pour ouvrir les endpoints de **votre** RAG : [les endpoints du RAG](../../service-evaluation/documentation/0b_endpoints_du_rag.md).
 
-La **version du RAG** (`graphrag-vectoriel-k5-5954e822`) se calcule à partir de k, des modèles, du prompt et de l'index. Le préfixe `graphrag` n'est que le `nom` donné dans `config/config.yaml` : le RAG n'a pas de graphe. Changer un réglage donne une nouvelle version, que le service d'évaluation range à part. Deux versions se comparent avec `kit comparer`.
+La **version du RAG** (`rag-exemple-vectoriel-k5-5954e822`) se calcule à partir de k, des modèles, du prompt et de l'index. Le préfixe `rag-exemple` est le `nom` donné dans `config/config.yaml`. Changer un réglage donne une nouvelle version, que le service d'évaluation range à part. Deux versions se comparent avec `kit comparer`.
 
 ## Ses limites connues, et ce que l'évaluation en dit
 

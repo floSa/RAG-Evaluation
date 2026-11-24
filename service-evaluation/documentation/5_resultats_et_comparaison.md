@@ -18,7 +18,7 @@ flowchart TD
 
 ## 1. Où sont les résultats
 
-Une évaluation, c'est une configuration du RAG évaluée sur un corpus. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_graphrag-vectoriel-k5-5954e822` chez l'auteur ; chez vous, la version du corpus est la date de votre import. `kit evaluer` affiche le dossier à la fin ; sinon : `ls resultats/evaluations/`. Ses résultats sont à trois endroits.
+Une évaluation, c'est une configuration du RAG évaluée sur un corpus. Son identifiant est `<version du corpus>_<version du RAG>`, par exemple `2026-11-20.1_rag-exemple-vectoriel-k5-5954e822` chez l'auteur ; chez vous, la version du corpus est la date de votre import. `kit evaluer` affiche le dossier à la fin ; sinon : `ls resultats/evaluations/`. Ses résultats sont à trois endroits.
 
 Pour voir à quoi ils ressemblent sans rien lancer : [les résultats d'exemple](../../service-evaluation-exemple/README.md), les quatre évaluations et les trois comparaisons citées dans ce guide.
 
@@ -119,7 +119,7 @@ uv run kit evaluer
 Puis on compare les deux dossiers de résultats (`<corpus>` : la version de votre corpus) :
 
 ```bash
-uv run kit comparer resultats/evaluations/<corpus>_graphrag-vectoriel-k5-5954e822 resultats/evaluations/<corpus>_graphrag-vectoriel-k3-5954e822
+uv run kit comparer resultats/evaluations/<corpus>_rag-exemple-vectoriel-k5-5954e822 resultats/evaluations/<corpus>_rag-exemple-vectoriel-k3-5954e822
 ```
 
 | Score | k = 5 | k = 3 | Lecture |
@@ -141,7 +141,7 @@ C'est tout l'intérêt de lire **plusieurs scores ensemble**. Une exactitude qui
 **Exemple : corriger un défaut, et choisir entre deux corrections.** En relisant les réponses, on a vu que trois d'entre elles étaient vides ou coupées en cours de phrase (Q-043, Q-030, Q-046). Le modèle de génération « réfléchit » avant d'écrire, et cette réflexion consommait les 800 tokens de `max_tokens`. Deux corrections étaient possibles : laisser plus de place (`max_tokens` à 4 000), ou couper la réflexion (`sans_reflexion: true`). Le kit les départage. La version sans réflexion s'obtient avec `sans_reflexion: true` dans [`service-rag-exemple/config/config.yaml`](../../service-rag-exemple/config/config.yaml), puis `docker compose restart rag` (dans `service-rag-exemple/`) et `uv run kit evaluer` ; remettre ensuite `false`.
 
 ```bash
-uv run kit comparer resultats/evaluations/<corpus>_graphrag-vectoriel-k5-5954e822 resultats/evaluations/<corpus>_graphrag-vectoriel-k5-94d362c8
+uv run kit comparer resultats/evaluations/<corpus>_rag-exemple-vectoriel-k5-5954e822 resultats/evaluations/<corpus>_rag-exemple-vectoriel-k5-94d362c8
 ```
 
 | Score | avec réflexion, 4 000 tokens | sans réflexion | Lecture |
