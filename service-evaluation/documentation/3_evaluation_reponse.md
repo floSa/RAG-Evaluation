@@ -52,7 +52,7 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document 3), section 8 |
+| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document « Évaluer le RAG avec le corpus »), section 8 |
 | [`methode_et_contrat/prompt_du_juge.md`](methode_et_contrat/prompt_du_juge.md) | le prompt du juge, sa sortie, sa vérification |
 | [`../config/kit.yaml`](../config/kit.yaml) | le modèle juge |
 | [`../src/kit/etape_3_evaluation_reponse/`](../src/kit/etape_3_evaluation_reponse/) | `juge.py` (le juge), `scores.py` (les scores), `relecture.py` (les files Langfuse) |
@@ -135,7 +135,7 @@ Pour chaque question dont la réponse est dans les documents, le kit croise deux
 | non, et aucun passage rattaché | — | **ingestion** : l'information n'est même pas dans l'index | extraction, OCR, tableaux, images |
 | non | juste | juste **sans le bon passage** : le modèle sait de lui-même, ou le corpus a oublié un passage | vérifier l'annotation |
 
-Pour le RAG d'exemple, sur 32 questions : 20 ok, 6 « génération » (le bon chunk était retrouvé), 4 « recherche », 2 « abstention à tort ». La moitié des erreurs vient de la génération : on commence donc par le prompt et le modèle, pas par la recherche.
+Pour le RAG d'exemple, sur 32 questions : 20 ok, 6 « génération » (le bon chunk était retrouvé), 4 « recherche », 2 « abstention à tort ». Les deux tiers des erreurs (8 sur 12) viennent de la génération : on commence donc par le prompt et le modèle, pas par la recherche.
 
 ## La relecture par le métier
 
@@ -207,4 +207,4 @@ Regarder d'abord le croisement. « Recherche » : revenir au guide [2. Évaluati
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 
-**Étape suivante** : [4. Évaluation de bout en bout](4_evaluation_bout_en_bout.md).
+**Guide suivant** : [4. Évaluation de bout en bout](4_evaluation_bout_en_bout.md).

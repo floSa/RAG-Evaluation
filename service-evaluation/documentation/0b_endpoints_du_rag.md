@@ -201,4 +201,4 @@ uv run kit evaluer --rag <dossier>
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#2-ouvrir-les-quatre-endpoints-du-rag-au-service), étape 2.
 
-**Étape suivante** : [0c. Les configurations du RAG](0c_configurations_du_rag.md).
+**Guide suivant** : [0c. Les configurations du RAG](0c_configurations_du_rag.md).

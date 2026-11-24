@@ -1,6 +1,6 @@
 # 0c. Les configurations du RAG : fixer les réglages, puis lancer l'évaluation
 
-Ce guide donne le côté pratique de l'étape 3 du [fil conducteur](../FIL_CONDUCTEUR.md#3-évaluer-une-configuration-du-rag) : où fixer les réglages du RAG, et comment lancer l'évaluation. Ce qu'est une configuration, et quels réglages évaluer, sont expliqués dans le fil conducteur.
+Ce guide détaille le côté pratique de l'étape 3 du [fil conducteur](../FIL_CONDUCTEUR.md#3-évaluer-une-configuration-du-rag) : où fixer les réglages du RAG, et comment lancer l'évaluation. Ce qu'est une configuration, et quels réglages évaluer, sont expliqués dans le fil conducteur.
 
 ## 1. Où se remplissent les réglages
 
@@ -30,4 +30,4 @@ Comment lire le rapport : [5. Résultats et comparaison](5_resultats_et_comparai
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#3-évaluer-une-configuration-du-rag), étape 3.
 
-**Étape suivante** : [1. Évaluation de l'ingestion](1_evaluation_ingestion.md).
+**Guide suivant** : [1. Évaluation de l'ingestion](1_evaluation_ingestion.md).

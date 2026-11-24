@@ -85,7 +85,7 @@ Le service se compose :
 
 **À faire.**
 - Copier le dossier `service-evaluation/` dans le projet.
-- L'installer en suivant [le README du service](../service-evaluation/README.md#installer-le-service), qui dit ce qui s'installe et à quoi ça sert. L'installation est finie quand le service confirme que le juge et Langfuse répondent.
+- L'installer en suivant [le README du service](../service-evaluation/README.md#installer-le-service), qui dit ce qui s'installe et à quoi ça sert. L'installation est finie quand le service confirme que le juge, le modèle d'embeddings et Langfuse répondent.
 
 **Dans l'exemple.** Le juge est un autre modèle que celui qui écrit les réponses du RAG.
 
@@ -96,7 +96,7 @@ Le corpus d'évaluation se compose des **documents** que le RAG doit lire, et d'
 Les documents sont de deux sortes, mélangeables dans un même corpus. Ce sont des **fichiers** (PDF, Word, Excel), repérés par leur référence et leur page. Ou ce sont des **fiches de GED** : les fiches, tickets ou comptes rendus d'une base documentaire, qui s'affichent à l'écran sans être des fichiers. Le métier les repère par leur numéro dans la GED et le nom du champ où se trouve la réponse (« Résolution »…) ; le RAG les lit lui-même dans la GED. Les règles : [0a. Construction du corpus](documentation/0a_construction_du_corpus.md#les-sources--fichiers-et-fiches-de-ged).
 
 **À faire.**
-- Transmettre au métier [le fichier Excel vierge](corpus_annote/Corpus_evaluation_RAG.xlsx) et [les règles pour le remplir](documentation/0a_construction_du_corpus.md#1-ce-que-le-métier-annote) : c'est lui qui construit le corpus, car il connaît les documents et les questions des utilisateurs.
+- Transmettre au métier [le fichier Excel vierge](../service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx) et [les règles pour le remplir](documentation/0a_construction_du_corpus.md#1-ce-que-le-métier-annote) : c'est lui qui construit le corpus, car il connaît les documents et les questions des utilisateurs.
 - Récupérer les documents, un fichier par document nommé par sa référence, et le fichier rempli.
 - Ranger les documents dans `corpus_annote/corpus_documentaire/`, et le fichier dans `corpus_annote/`.
 - [Importer le corpus](documentation/0a_construction_du_corpus.md#3-importer-le-corpus). Le service contrôle chaque ligne : s'il trouve une erreur, il n'importe rien et donne la liste des corrections à demander au métier.
@@ -189,12 +189,12 @@ Pour un score faible, la partie « Si c'est mauvais » du guide de son évaluati
 **Dans l'exemple.**
 - Le [rapport de la référence](../service-evaluation-exemple/resultats/evaluations/2026-11-20.1_graphrag-vectoriel-k5-5954e822/RAPPORT.md) montre 1 erreur grave, 15 caractères sur 100 mal lus sur les pages scannées, et le bon passage ramené pour 9 questions sur 13 seulement.
 - Le juge n'est pas validé : il donne la même note que le métier dans 89 % des cas, il en faut 90 %.
-- Les comparaisons avec la référence : [k = 3](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k3-5954e822/RAPPORT.md) n'est pas meilleure ; [sans réflexion](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) est 9 fois plus rapide mais calcule mal.
+- Les comparaisons avec la référence : [k = 3](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k3-5954e822/RAPPORT.md) n'est pas meilleure ; [sans réflexion](../service-evaluation-exemple/resultats/comparaisons_de_configurations/2026-11-20.1_graphrag-vectoriel-k5-5954e822_contre_graphrag-vectoriel-k5-94d362c8/RAPPORT.md) est 8 fois plus rapide mais calcule moins bien (trois calculs perdus ; l'écart reste dans la marge).
 - Ce qu'on présenterait au métier : l'erreur grave, les pages scannées mal lues, et la recherche qui ne ramène pas assez souvent le bon passage. C'est là qu'il faudrait corriger le RAG avant de lui demander de décider.
 
 ## Récapitulatif
 
-- [ ] le service est installé, et il confirme que le juge et Langfuse répondent ;
+- [ ] le service est installé, et il confirme que le juge, le modèle d'embeddings et Langfuse répondent ;
 - [ ] le métier a rendu les documents et le fichier rempli, et l'import l'accepte ;
 - [ ] le RAG ouvre ses quatre endpoints, range les documents de l'évaluation à part, et la vérification du branchement finit par « règle : respectée » ;
 - [ ] chaque configuration de la grille est évaluée, avec son rapport, et le juge est vérifié ;

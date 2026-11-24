@@ -78,11 +78,11 @@ Pour chacune, le rapport donne la justification du juge, les chunks en cause, la
 ## 3. Le parcours de correction, en résumé
 
 ```
-Ingestion mauvaise ?   → extraction, OCR, tableaux, images, découpage      (document 2, sections 3 et 4)
-Recherche mauvaise ?   → mots-clés + vecteurs, reranker, filtres, k          (document 2, section 6)
+Ingestion mauvaise ?   → extraction, OCR, tableaux, images, découpage      (document « Construire le pipeline d'un RAG : ce qu'on met en place selon les cas », sections 3 et 4)
+Recherche mauvaise ?   → mots-clés + vecteurs, reranker, filtres, k          (document « Construire le pipeline d'un RAG : ce qu'on met en place selon les cas », section 6)
 Réponse mauvaise ?     → regarder d'abord le croisement :
                           « recherche »  → revenir à la recherche
-                          « génération » → prompt, citations, abstention, modèle (document 2, section 7)
+                          « génération » → prompt, citations, abstention, modèle (document « Construire le pipeline d'un RAG : ce qu'on met en place selon les cas », section 7)
 Fuite, erreur grave ?  → fuite : filtre des droits pendant la recherche ; erreur grave : relecture métier, garde-fou
 Puis                   → nouvelle version du RAG, kit evaluer, kit comparer avec la précédente
 ```
@@ -91,7 +91,7 @@ Le document [Construire le pipeline d'un RAG : ce qu'on met en place selon les c
 
 ## 4. Les marges d'erreur : ne pas sur-interpréter
 
-La marge est `± 1,96 × √(p × (1 − p) ÷ n)` (document 3). Ce qu'il faut retenir :
+La marge est `± 1,96 × √(p × (1 − p) ÷ n)` (document « Évaluer le RAG avec le corpus »). Ce qu'il faut retenir :
 - avec 50 questions, un score est précis à ± 11 points environ ; avec 200, à ± 5,5 ;
 - une marge de « ± 0 % » sur un score de 100 % ou de 0 % ne veut pas dire « certain » : la formule ne sait pas estimer l'incertitude aux extrêmes ;
 - un score sur moins de 10 questions (une case de la ventilation, par exemple) est une tendance.
@@ -147,13 +147,13 @@ uv run kit comparer resultats/evaluations/<corpus>_graphrag-vectoriel-k5-5954e82
 | Score | avec réflexion, 4 000 tokens | sans réflexion | Lecture |
 | --- | --- | --- | --- |
 | réponses justes (`n3_exactitude`) | 79 % | 71 % | 4 questions perdues, dont 3 calculs (Q-022, Q-023, Q-038) ; 1 gagnée (Q-043) |
-| valeurs chiffrées (`n3_valeurs`) | 91 % | 75 % | sans réflexion, le petit modèle calcule mal |
+| valeurs chiffrées (`n3_valeurs`) | 91 % | 75 % | sans réflexion, le petit modèle calcule moins bien ; l'écart reste dans la marge, mais trois calculs sont perdus |
 | erreurs graves | 1 | 0 | sans réflexion, le RAG s'abstient sur Q-046 |
 | score pondéré (`n4_score_pondere`) | 80 % | 77 % | McNemar p = 0,45 : l'écart peut être dû au hasard |
-| temps médian, temps à 95 % | 7,4 s et 12,8 s | 0,9 s et 2,6 s | 9 fois plus rapide |
+| temps médian, temps à 95 % | 7,4 s et 12,8 s | 0,9 s et 2,6 s | 8 fois plus rapide |
 
 **Conclusion** : les deux corrections suppriment la coupure. On garde la réflexion : elle rend les calculs justes, et une réponse en 7 secondes reste acceptable pour l'utilisateur. Si le temps devenait le problème, la version sans réflexion serait le bon compromis, et ce tableau dirait ce qu'elle coûte. Avant la correction, la version avec 800 tokens avait un score pondéré de 81 % : la coupure ne coûtait presque rien dans les scores. Les réponses coupées étaient déjà fausses ou partielles pour d'autres raisons, et Q-043, devenue complète, est restée « fausse » pour le juge ([3. Évaluation de la réponse](3_evaluation_reponse.md#vérifier-le-juge-avant-de-lui-faire-confiance)). Relire les réponses trouve des défauts que les moyennes ne montrent pas.
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#4-lire-le-rapport-comparer-faire-décider-le-métier), étape 4.
 
-**Étape suivante** : [6. Aide à la décision : lire les scores](6_aide_a_la_decision.md).
+**Guide suivant** : [6. Aide à la décision : lire les scores](6_aide_a_la_decision.md).

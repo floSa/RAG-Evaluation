@@ -16,8 +16,8 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`methode_et_contrat/methode_corpus_annote.md`](methode_et_contrat/methode_corpus_annote.md) | la méthode complète (document 1) ; ce guide en donne l'essentiel |
-| [`corpus_annote/Corpus_evaluation_RAG.xlsx`](../corpus_annote/Corpus_evaluation_RAG.xlsx) | le fichier Excel vierge, à remplir par le métier |
+| [`methode_et_contrat/methode_corpus_annote.md`](methode_et_contrat/methode_corpus_annote.md) | la méthode complète (document « Constituer le corpus d'évaluation d'un RAG ») ; ce guide en donne l'essentiel |
+| [`corpus_annote/Corpus_evaluation_RAG.xlsx`](../../service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx) | le fichier Excel vierge, à remplir par le métier |
 | [`service-evaluation-exemple/corpus_annote/`](../../service-evaluation-exemple/corpus_annote/) | un corpus complet, déjà rempli |
 | [`../src/kit/etape_0a_corpus/importer.py`](../src/kit/etape_0a_corpus/importer.py) | le code de l'import |
 
@@ -86,11 +86,11 @@ Trois règles pour les fiches de GED :
 | Un tiers des questions **réservées** | elles ne servent jamais à régler le RAG. Les scores présentés au métier, les scores clés, sont calculés sur elles ; l'équipe technique n'en voit que ces scores globaux. Cela évite de régler le RAG « pour le test » |
 | **Fréquence** et **gravité** sur chaque question | une erreur sur une question fréquente et grave pèse 9 fois plus qu'une erreur rare et sans gravité |
 
-La configuration minimale du document 1 : 10 documents par type, 50 questions, 20 pages OCR. En dessous, les scores sont trop imprécis pour décider (voir [les marges d'erreur](5_resultats_et_comparaison.md#4-les-marges-derreur--ne-pas-sur-interpréter)).
+La configuration minimale du document « Constituer le corpus d'évaluation d'un RAG » : 10 documents par type, 50 questions, 20 pages OCR. En dessous, les scores sont trop imprécis pour décider (voir [les marges d'erreur](5_resultats_et_comparaison.md#4-les-marges-derreur--ne-pas-sur-interpréter)).
 
 ## 2. Le corpus d'exemple, prêt à l'emploi
 
-Le dossier [`service-evaluation-exemple/corpus_annote/`](../../service-evaluation-exemple/corpus_annote/) contient un corpus complet sur la maintenance électrique d'une entreprise **entièrement fictive**, Valtéra Industries. Il atteint la configuration minimale du document 1.
+Le dossier [`service-evaluation-exemple/corpus_annote/`](../../service-evaluation-exemple/corpus_annote/) contient un corpus complet sur la maintenance électrique d'une entreprise **entièrement fictive**, Valtéra Industries. Il atteint la configuration minimale du document « Constituer le corpus d'évaluation d'un RAG ».
 
 | Élément | Contenu |
 | --- | --- |
@@ -102,7 +102,7 @@ Le dossier [`service-evaluation-exemple/corpus_annote/`](../../service-evaluatio
 
 Ce qu'il couvre :
 
-| Cas du document 1 | Dans le corpus d'exemple |
+| Cas du document « Constituer le corpus d'évaluation d'un RAG » | Dans le corpus d'exemple |
 | --- | --- |
 | Formats | PDF natif, PDF scanné (5 notes de 4 pages), fiche de GED |
 | Éléments | texte, tableaux, schémas avec figure numérotée (PR-1101, PR-1111, NT-057, NT-058), texte scanné |
@@ -128,7 +128,7 @@ uv run --group fabrication python ../service-evaluation-exemple/corpus_annote/fa
 uv run python ../service-evaluation-exemple/corpus_annote/fabrication_du_corpus/remplir_excel.py
 ```
 
-Le premier script dessine les PDF à partir de `fabrication/contenus/*.json`. Le second vérifie chaque passage de `fabrication/questions.yaml` contre sa source, remplit le fichier Excel et recalcule le tableau de bord.
+Le premier script dessine les PDF à partir de `fabrication_du_corpus/contenus/*.json`. Le second vérifie chaque passage de `fabrication_du_corpus/questions.yaml` contre sa source, remplit le fichier Excel et recalcule le tableau de bord.
 
 ## 3. Importer le corpus
 
@@ -136,8 +136,8 @@ Le premier script dessine les PDF à partir de `fabrication/contenus/*.json`. Le
 
 Donnez au métier deux choses :
 
-1. **Le fichier Excel vierge**, [`corpus_annote/Corpus_evaluation_RAG.xlsx`](../corpus_annote/Corpus_evaluation_RAG.xlsx). Chaque feuille porte ses définitions et ses listes de valeurs.
-2. **Les règles pour le remplir** : le [section 1 de ce guide](#1-ce-que-le-métier-annote). Elles disent quels documents choisir, combien de questions écrire et de quels types, comment copier-coller le passage qui contient la réponse, comment noter la fréquence et la gravité de chaque question, et quelles questions garder de côté, pour qu'elles ne servent jamais à régler le RAG.
+1. **Le fichier Excel vierge**, [`corpus_annote/Corpus_evaluation_RAG.xlsx`](../../service-evaluation/corpus_annote/Corpus_evaluation_RAG.xlsx). Chaque feuille porte ses définitions et ses listes de valeurs.
+2. **Les règles pour le remplir** : la [section 1 de ce guide](#1-ce-que-le-métier-annote). Elles disent quels documents choisir, combien de questions écrire et de quels types, comment copier-coller le passage qui contient la réponse, comment noter la fréquence et la gravité de chaque question, et quelles questions garder de côté, pour qu'elles ne servent jamais à régler le RAG.
 
 Il vous rend :
 
@@ -174,7 +174,7 @@ Import refusé : 1 ligne(s) à corriger dans Corpus_evaluation_RAG.xlsx.
   - feuille Questions, ligne 2 (Q-001) : « Exploit » n'est pas dans la colonne « Profils d'accès » de la feuille Listes (Tous les utilisateurs, Maintenance, Exploitation).
 ```
 
-Si la configuration minimale du document 1 n'est pas atteinte (moins de 50 questions…), l'import passe, avec un avertissement.
+Si la configuration minimale du document « Constituer le corpus d'évaluation d'un RAG » n'est pas atteinte (moins de 50 questions…), l'import passe, avec un avertissement.
 
 **2. La conversion** des libellés du métier en codes : « PDF scanné » devient `pdf_scanne`, « Tous les utilisateurs » devient `tous`.
 
@@ -202,4 +202,4 @@ Un passage garde son identifiant d'une version à l'autre tant que sa ligne ne c
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#1-construire-et-importer-le-corpus-dévaluation), étape 1.
 
-**Étape suivante** : [0b. Les endpoints du RAG](0b_endpoints_du_rag.md).
+**Guide suivant** : [0b. Les endpoints du RAG](0b_endpoints_du_rag.md).

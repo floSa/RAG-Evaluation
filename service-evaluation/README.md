@@ -52,7 +52,7 @@ Les commandes :
 cp .env.example .env
 ```
 
-Mettre dans `.env` la clé de l'API du modèle juge (`KIT_LLM_CLE`) ; n'importe quel fournisseur compatible OpenAI convient (OpenAI, Mistral, ou un serveur local). Mettre ensuite dans [`config/kit.yaml`](config/kit.yaml) son adresse, le nom des modèles (`modeles`) et le nom du projet (`projet`). Choisir de préférence pour juge **un autre modèle que celui du RAG** : un modèle tend à favoriser ses propres réponses. Le réglage `sans_reflexion` du juge vaut `false` : l'appel reste standard et marche chez tout fournisseur. Ne le mettre à `true` qu'avec un serveur vLLM ou LiteLLM et un modèle qui raisonne avant de répondre, pour qu'il réponde plus vite ; ailleurs, l'appel serait refusé ([pourquoi](config/README.md)). Puis écrire les secrets de Langfuse et le démarrer :
+Mettre dans `.env` la clé de l'API du modèle juge (`KIT_LLM_CLE`) ; n'importe quel fournisseur compatible OpenAI convient (OpenAI, Mistral, ou un serveur local). Mettre ensuite dans [`config/kit.yaml`](config/kit.yaml) son adresse, le nom des modèles (`modeles` : le juge, et un modèle d'embeddings, dont se servent certains scores de la réponse) et le nom du projet (`projet`). Choisir de préférence pour juge **un autre modèle que celui du RAG** : un modèle tend à favoriser ses propres réponses. Le réglage `sans_reflexion` du juge vaut `false` : l'appel reste standard et marche chez tout fournisseur. Ne le mettre à `true` qu'avec un serveur vLLM ou LiteLLM et un modèle qui raisonne avant de répondre, pour qu'il réponde plus vite ; ailleurs, l'appel serait refusé ([pourquoi](config/README.md)). Puis écrire les secrets de Langfuse et le démarrer :
 
 ```bash
 ./initialiser.sh
@@ -62,7 +62,7 @@ Mettre dans `.env` la clé de l'API du modèle juge (`KIT_LLM_CLE`) ; n'importe 
 docker compose up -d
 ```
 
-Langfuse est à http://127.0.0.1:3100. L'identifiant est `evaluation@valtera.example`, et le mot de passe est la ligne `LANGFUSE_USER_PASSWORD` de `.env`. Pour vérifier que le juge et Langfuse répondent :
+Langfuse est à http://127.0.0.1:3100. L'identifiant est `evaluation@valtera.example`, et le mot de passe est la ligne `LANGFUSE_USER_PASSWORD` de `.env`. Pour vérifier que le juge, le modèle d'embeddings et Langfuse répondent :
 
 ```bash
 uv run kit verifier-modeles
@@ -124,7 +124,7 @@ Vos chiffres peuvent différer de quelques points de ceux de l'exemple : le mod�
 | `kit comparer <évaluation A> <évaluation B>` | compare deux configurations déjà évaluées ; écrit son rapport dans `resultats/comparaisons_de_configurations/` | [5. Résultats et comparaison](documentation/5_resultats_et_comparaison.md) |
 | `kit init-base` | crée la base de données du service (fait aussi par `importer`) | [0a. Construction du corpus](documentation/0a_construction_du_corpus.md) |
 
-Trois options valent pour toutes les commandes :
+Trois options valent pour les commandes qui évaluent ; `--dossier` vaut pour toutes :
 
 | Option | Ce qu'elle désigne | Sans elle |
 | --- | --- | --- |

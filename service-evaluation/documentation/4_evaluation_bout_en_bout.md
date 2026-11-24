@@ -41,7 +41,7 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document 3), section 9 |
+| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document « Évaluer le RAG avec le corpus »), section 9 |
 | [`../src/kit/etape_4_evaluation_bout_en_bout/scores.py`](../src/kit/etape_4_evaluation_bout_en_bout/scores.py) | les scores de bout en bout |
 | [`../src/kit/etape_5_resultats/`](../src/kit/etape_5_resultats/) | les scores clés, le rapport, la publication dans Langfuse |
 
@@ -93,4 +93,4 @@ Pour le RAG d'exemple, le métier lit notamment :
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 
-**Étape suivante** : [5. Résultats et comparaison](5_resultats_et_comparaison.md).
+**Guide suivant** : [5. Résultats et comparaison](5_resultats_et_comparaison.md).

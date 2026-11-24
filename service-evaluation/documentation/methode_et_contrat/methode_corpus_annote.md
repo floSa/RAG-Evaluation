@@ -1,6 +1,6 @@
 # Constituer le corpus d'évaluation d'un RAG
 
-Règles à suivre pour tout projet RAG, quel qu'il soit : base vectorielle, graphe, ou les deux. Le métier remplit le fichier `Corpus_evaluation_RAG.xlsx` ; l'équipe technique le charge dans une base relationnelle reliée au RAG, puis l'exporte au format standard que lit le kit d'évaluation (document 3).
+Règles à suivre pour tout projet RAG, quel qu'il soit : base vectorielle, graphe, ou les deux. Le métier remplit le fichier `Corpus_evaluation_RAG.xlsx` ; l'équipe technique le charge dans une base relationnelle reliée au RAG, puis l'exporte au format standard que lit le kit d'évaluation (document « Évaluer le RAG avec le corpus »).
 
 ## 1. Pourquoi ce corpus
 
@@ -24,7 +24,7 @@ En parallèle du développement du RAG, et avant la première évaluation. Le m�
 | 2. Script d'import | équipe technique | contrôle le fichier, le charge dans la base relationnelle, et l'exporte au format standard |
 | Ingestion du RAG | équipe technique | indexe les sources dans la base vectorielle ou le graphe ; chaque chunk garde la référence du document, la page et le type d'élément |
 | 3. Script de rattachement | équipe technique | relie chaque passage du métier aux chunks qui le contiennent, et écrit ces liens dans la base relationnelle |
-| 4. Kit d'évaluation | équipe technique | pose les questions au RAG, compare ce qu'il retrouve et répond au corpus, enregistre les scores (document 3) |
+| 4. Kit d'évaluation | équipe technique | pose les questions au RAG, compare ce qu'il retrouve et répond au corpus, enregistre les scores (document « Évaluer le RAG avec le corpus ») |
 
 Le lien entre le corpus et le RAG, c'est **la référence du document dans sa source, la page et le texte du passage**. Le métier les connaît ; l'ingestion les garde sur chaque chunk.
 
@@ -42,7 +42,7 @@ Chaque colonne est expliquée dans le fichier : en survolant son en-tête, et da
 
 | Colonne | Ce qu'on écrit |
 | --- | --- |
-| Référence dans la source | l'identifiant du document dans sa source : numéro dans la base EDF, référence Caméléon, chemin du fichier |
+| Référence dans la source | l'identifiant du document dans sa source : la référence du document, ou le numéro de la fiche affiché dans la GED |
 | Titre, type de document, source | le titre ; un type de la feuille Listes ; le système d'où vient le document |
 | Version, date | la version annotée et sa date |
 | Format, nombre de pages | PDF natif, PDF scanné, Word, Excel, fiche de GED ; nombre de pages |
@@ -102,7 +102,7 @@ Chaque colonne est expliquée dans le fichier : en survolant son en-tête, et da
 
 ### Feuille Pages OCR : les pages de référence
 
-Si des documents sont scannés, on retape à la main quelques pages entières : texte et tableaux, ligne par ligne. Comparées au texte que lit l'ingestion, elles mesurent la qualité de l'OCR (document 3, niveau ingestion).
+Si des documents sont scannés, on retape à la main quelques pages entières : texte et tableaux, ligne par ligne. Comparées au texte que lit l'ingestion, elles mesurent la qualité de l'OCR (document « Évaluer le RAG avec le corpus », niveau ingestion).
 
 | Colonne | Ce qu'on écrit |
 | --- | --- |
@@ -198,7 +198,7 @@ Un fichier `corpus.json` donne la version du corpus et sa date. Chaque modificat
 | --- | --- | --- | --- | --- |
 | Import | le fichier Excel | contrôle les lignes (colonnes remplies, références existantes), rejette les erreurs, exporte le format standard | documents, questions, passages, pages_ocr ; les fichiers standard | à chaque nouvelle version du fichier |
 | Rattachement | les passages, et les chunks exportés par le RAG | pour chaque passage, cherche les chunks de même référence et même page, puis garde ceux qui correspondent (tableau ci-dessous) | liens_index, avec la version de l'index ; une alerte pour chaque passage sans lien | après chaque ingestion |
-| Kit d'évaluation | le corpus, les liens et les sorties du RAG | voir le document 3 | evaluations, resultats | à chaque nouvelle version du RAG |
+| Kit d'évaluation | le corpus, les liens et les sorties du RAG | voir le document « Évaluer le RAG avec le corpus » | evaluations, resultats | à chaque nouvelle version du RAG |
 
 Le rattachement selon le type d'élément :
 

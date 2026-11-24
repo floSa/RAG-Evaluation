@@ -22,7 +22,7 @@ Une page scannée est une image : le service d'ingestion doit en reconnaître le
 
 **4. Chaque morceau sait d'où il vient et à qui il est réservé**
 
-Chaque morceau doit porter son document, sa page et ses droits d'accès (« ouvert à tous » ou « réservé à un service »). Le score est le nombre de morceaux qui ont ces trois informations divisé par le nombre de morceaux. Sans le document et la page, le RAG ne peut pas citer sa source. Sans les droits d'accès, il ne peut pas cacher un document réservé à la Maintenance à quelqu'un de l'Exploitation.
+Chaque morceau doit porter son document, sa version, sa page, son type d'élément (texte, tableau, texte scanné, image) et ses droits d'accès (« ouvert à tous » ou « réservé à un service »). Le score est le nombre de morceaux qui ont ces cinq informations divisé par le nombre de morceaux. Sans le document et la page, le RAG ne peut pas citer sa source. Sans les droits d'accès, il ne peut pas cacher un document réservé à la Maintenance à quelqu'un de l'Exploitation.
 
 **5. Le découpage n'a pas coupé de réponse en deux**
 
@@ -45,7 +45,7 @@ flowchart LR
 
 | Où | Quoi |
 | --- | --- |
-| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document 3), section 6 pour le rattachement |
+| [`methode_et_contrat/methode_evaluation.md`](methode_et_contrat/methode_evaluation.md) | la méthode (document « Évaluer le RAG avec le corpus »), section 6 pour le rattachement |
 | [`../src/kit/etape_1_evaluation_ingestion/rattachement.py`](../src/kit/etape_1_evaluation_ingestion/rattachement.py) | le rattachement d'un passage à un chunk, et la cause probable d'un échec |
 | [`../src/kit/etape_1_evaluation_ingestion/scores.py`](../src/kit/etape_1_evaluation_ingestion/scores.py) | les scores de l'ingestion |
 
@@ -116,4 +116,4 @@ Extraction, OCR, tableaux, images, découpage : le document [Construire le pipel
 
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#comment-fonctionne-lévaluation).
 
-**Étape suivante** : [2. Évaluation de la recherche](2_evaluation_recherche.md).
+**Guide suivant** : [2. Évaluation de la recherche](2_evaluation_recherche.md).
