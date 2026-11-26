@@ -291,6 +291,11 @@ def par_type(scores: list[dict]) -> tuple[list[str], list[tuple[str, list[str]]]
     return ["questions sans passage" if t == "aucun" else t for t in types], lignes
 
 
+BOITE_NOIRE = ("**RAG évalué en boîte noire** : on n'a que son API compatible OpenAI. On ne voit ni ce qu'il a lu, ni ce "
+               "qu'il a ramené : l'évaluation de l'ingestion et celle de la recherche ne sont pas faites, ni la fidélité "
+               "aux documents ni les citations. Ses abstentions sont reconnues à leurs mots (« je ne sais pas »…).")
+
+
 def contenu(ev: Evaluation, resultat: dict, lignes_base) -> dict:
     """Tout ce que disent les rapports, sans mise en forme."""
     cles = [[libelle(x["score"]), texte_valeur(x["score"], x["valeur"], x.get("marge")),
@@ -321,6 +326,7 @@ def contenu(ev: Evaluation, resultat: dict, lignes_base) -> dict:
         "types": types,
         "lignes_types": lignes_types,
         "evaluation_id": ev.evaluation_id,
+        "boite_noire": ev.boite_noire,
     }
 
 
@@ -342,6 +348,7 @@ def markdown(c: dict) -> str:
          "c'est au métier de dire, à leur lecture, si cette configuration peut partir en production.", "",
          f"Corpus : version {c['corpus']}, {c['questions']} questions, dont {c['reservees']} réservées aux scores "
          f"clés.", "", f"Juge (le modèle qui note les réponses) : {c['juge']} ; {c.get('etat_juge', '')}.", "",
+         *([BOITE_NOIRE, ""] if c.get("boite_noire") else []),
          "## La configuration évaluée", "",
          "Les réglages du RAG pendant cette évaluation, tels qu'il les a déclarés.", "",
          *tableau(["Réglage", "Valeur"], c.get("reglages") or [["Configuration", c["configuration"]]]), "",
@@ -417,7 +424,9 @@ def page_html(c: dict) -> str:
          "c'est au métier de dire, à leur lecture, si cette configuration peut partir en production.</p>",
          f"<p>Corpus : version {e(c['corpus'])}, {c['questions']} questions, dont {c['reservees']} réservées aux "
          f"scores clés.</p><p>Juge (le modèle qui note les réponses) : {e(c['juge'])} ; "
-         f"{e(c.get('etat_juge', '').replace('**', ''))}.</p><h2>La configuration évaluée</h2>",
+         f"{e(c.get('etat_juge', '').replace('**', ''))}.</p>"
+         + (f"<p>{e(BOITE_NOIRE.replace('**', ''))}</p>" if c.get("boite_noire") else "")
+         + "<h2>La configuration évaluée</h2>",
          table_html(["Réglage", "Valeur"], c.get("reglages") or [["Configuration", c["configuration"]]]),
          f"<h2>1. Les scores clés</h2><p><small>Calculés sur les {c['reservees']} questions réservées ; fuites de "
          f"droits et erreurs graves sur toutes les questions. Entre parenthèses, la fourchette où se trouve le vrai "

@@ -51,3 +51,24 @@ reponse:
 verification_juge:
   taille_echantillon: 30
   accord_minimum: 0.9
+
+# Un RAG en boîte noire : un assistant dont on n'a qu'une API compatible OpenAI (un portail, un produit du commerce).
+# « kit evaluer --boite-noire » lui pose les questions, une par une, et fait les évaluations 3 et 4 (documentation/0b_endpoints_du_rag.md).
+boite_noire:
+  nom: mon-assistant                # nomme la version évaluée : mon-assistant-boite-noire-<empreinte>
+  adresse: https://portail.exemple/v1   # l'adresse de son API, jusqu'à /v1
+  variable_cle: BOITE_NOIRE_CLE     # la clé est lue dans .env, sous ce nom
+  modele: assistant                 # le nom du modèle ou de l'assistant dans cette API
+  temperature: 0
+  consigne_systeme: null            # un message « system » à envoyer avant chaque question, s'il en faut un
+  en_tete_profil: null              # le nom d'un en-tête HTTP qui porte le profil de la question (X-Profil…), si l'API filtre les droits
+  phrases_abstention:               # les mots qui disent « je ne sais pas » : la réponse compte alors comme une abstention
+    - je ne sais pas
+    - je ne trouve pas
+    - je n'ai pas trouvé
+    - aucune information
+    - pas d'information
+    - ne figure pas
+    - ne dispose pas
+  prix_entree_eur_par_million: 0    # coût des tokens, pour le score de coût ; 0 si inconnu
+  prix_sortie_eur_par_million: 0

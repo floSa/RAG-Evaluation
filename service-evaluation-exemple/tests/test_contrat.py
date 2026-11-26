@@ -71,7 +71,7 @@ def test_valeur_hors_liste_et_champ_inconnu(reponses_rag):
     ecrire(reponses_rag, "rag.json", rag)
     erreurs = contrat.verifier_dossier(reponses_rag)
     assert "rag.json : champ(s) inconnu(s) du contrat : 'temperature'." in erreurs
-    assert any("« magique » n'est pas une valeur admise (vectoriel, graphe, hybride, agent)" in e for e in erreurs)
+    assert any("« magique » n'est pas une valeur admise (vectoriel, graphe, hybride, agent, boite_noire)" in e for e in erreurs)
 
 
 def test_fichier_obligatoire_absent(reponses_rag):

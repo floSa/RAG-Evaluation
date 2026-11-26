@@ -129,10 +129,10 @@ Les endpoints d'évaluation du RAG (fin de cette section) rend ces objets ; le k
 | contrat | texte | oui | `1.0` |
 | nom | texte | oui | nom du RAG |
 | version_rag | texte | oui | identifiant unique de cette version |
-| type_rag | code | oui | `vectoriel`, `graphe`, `hybride`, `agent` |
+| type_rag | code | oui | `vectoriel`, `graphe`, `hybride`, `agent`, `boite_noire` (un RAG dont on n'a qu'une API compatible OpenAI : [0b. Les endpoints du RAG](../0b_endpoints_du_rag.md#6-un-rag-en-boîte-noire--seulement-une-api-compatible-openai)) |
 | date | date | oui | |
-| k | entier | oui | nombre de chunks donnés au modèle |
-| versions | objet | oui | `index`, `decoupage`, `embedding`, `generation`, `prompt`, `reranker` (texte ; `aucun` si absent) |
+| k | entier | oui, sauf `boite_noire` | nombre de chunks donnés au modèle |
+| versions | objet | oui, sauf `boite_noire` | `index`, `decoupage`, `embedding`, `generation`, `prompt`, `reranker` (texte ; `aucun` si absent) |
 | filtre_droits | booléen | oui | le RAG filtre-t-il les droits ? |
 | reglages | objet | non | les autres réglages du RAG, autant qu'il en a : nom du réglage → valeur (texte, nombre ou booléen). Par exemple `{"réflexion du modèle": false, "seuil de pertinence": 0.3, "recherche par mots-clés": true}` : le nom s'écrit tel qu'on veut le lire dans le rapport. Plus le RAG a de fonctionnalités, plus la liste est longue. Le rapport les affiche tous |
 

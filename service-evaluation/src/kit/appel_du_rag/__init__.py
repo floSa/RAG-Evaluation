@@ -2,6 +2,7 @@
 
     appeler.py   appelle les quatre endpoints du RAG à son adresse web (ingérer, montrer l'index, rechercher, répondre),
                  et range ce qu'il rend dans resultats/reponses_du_rag/<version_rag>/
+    boite_noire.py  pour un RAG dont on n'a qu'une API compatible OpenAI : lui pose les questions, range ses réponses
 
 Ces fichiers sont ensuite vérifiés par kit/contrat.py. La règle que chaque RAG doit suivre : documentation/0b_endpoints_du_rag.md.
 """

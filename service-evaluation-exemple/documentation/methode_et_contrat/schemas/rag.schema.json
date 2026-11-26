@@ -22,8 +22,10 @@
         "vectoriel",
         "graphe",
         "hybride",
-        "agent"
-      ]
+        "agent",
+        "boite_noire"
+      ],
+      "description": "« boite_noire » : un RAG dont on n'a qu'une API compatible OpenAI ; il ne rend que ses réponses, sans k ni versions"
     },
     "date": {
       "type": "string",
@@ -92,9 +94,26 @@
     "version_rag",
     "type_rag",
     "date",
-    "k",
-    "versions",
     "filtre_droits"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type_rag": {
+            "not": {
+              "const": "boite_noire"
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "k",
+          "versions"
+        ]
+      }
+    }
+  ]
 }

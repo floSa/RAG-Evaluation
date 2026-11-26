@@ -19,6 +19,16 @@ FICHIERS_CORPUS = {"corpus.json": "corpus", "documents.jsonl": "documents", "que
 FICHIERS_RAG = {"rag.json": "rag", "chunks.jsonl": "chunks", "pages_extraites.jsonl": "pages_extraites",
                 "recherches.jsonl": "recherches", "reponses.jsonl": "reponses"}
 OBLIGATOIRES_RAG = ["rag.json", "chunks.jsonl", "recherches.jsonl", "reponses.jsonl"]
+# Un RAG en boîte noire (seulement une API compatible OpenAI) ne rend que ses réponses
+OBLIGATOIRES_BOITE_NOIRE = ["rag.json", "reponses.jsonl"]
+
+
+def boite_noire(dossier: Path) -> bool:
+    """Le dossier d'un RAG évalué en boîte noire : on n'a que ses réponses, ni ses chunks ni ses recherches."""
+    try:
+        return lire_json(Path(dossier) / "rag.json").get("type_rag") == "boite_noire"
+    except (OSError, json.JSONDecodeError):
+        return False
 
 
 # --- Règles communes ------------------------------------------------------------------------
@@ -135,7 +145,8 @@ def verifier_dossier(dossier: Path, corpus: Path | None = None, ingestion_seule:
         tete = "corpus.json"
     elif (dossier / "rag.json").exists():
         attendus = FICHIERS_RAG
-        obligatoires = OBLIGATOIRES_RAG[:2] if ingestion_seule else list(OBLIGATOIRES_RAG)
+        obligatoires = OBLIGATOIRES_BOITE_NOIRE if boite_noire(dossier) else \
+            OBLIGATOIRES_RAG[:2] if ingestion_seule else list(OBLIGATOIRES_RAG)
         tete = "rag.json"
     else:
         return [f"{dossier} : ni corpus.json ni rag.json ; ce n'est pas un dossier du contrat."]
@@ -158,7 +169,7 @@ def coherence_rag(dossier: Path, dossier_corpus: Path | None) -> list[str]:
     """Contrôles entre les fichiers rendus par un RAG, et avec le corpus si on le donne."""
     erreurs = []
     rag = lire_json(dossier / "rag.json")
-    chunks = lire_jsonl(dossier / "chunks.jsonl")
+    chunks = lire_jsonl(dossier / "chunks.jsonl") if (dossier / "chunks.jsonl").exists() else []
     ids = [c["chunk_id"] for c in chunks]
     if len(set(ids)) != len(ids):
         doublons = sorted({i for i in ids if ids.count(i) > 1})
@@ -207,6 +218,6 @@ def coherence_rag(dossier: Path, dossier_corpus: Path | None) -> list[str]:
                 erreurs.append(f"{nom}, {l['question_id']} : posée avec le profil « {l['profil']} » au lieu de "
                                f"« {q['profil']} ».")
     scannes = {d["reference_source"] for d in c["documents"] if d["format"] == "pdf_scanne"}
-    if scannes and not (dossier / "pages_extraites.jsonl").exists():
+    if scannes and rag["type_rag"] != "boite_noire" and not (dossier / "pages_extraites.jsonl").exists():
         erreurs.append("pages_extraites.jsonl : obligatoire, le corpus contient des documents scannés.")
     return erreurs

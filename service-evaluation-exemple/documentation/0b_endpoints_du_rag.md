@@ -199,6 +199,33 @@ uv run kit verifier-contrat <dossier>
 uv run kit evaluer --rag <dossier>
 ```
 
+## 6. Un RAG en boîte noire : seulement une API compatible OpenAI
+
+**Exemple.** Votre entreprise a un portail d'assistants. Chaque assistant s'interroge comme ChatGPT, par une API compatible OpenAI (`https://portail…/v1/chat/completions`), avec une clé. On ne peut pas lui ajouter d'endpoints, ni lui envoyer les documents du corpus : il a déjà les siens. C'est un **RAG en boîte noire**.
+
+Le service sait l'évaluer quand même : il lui pose les questions du corpus, une par une, et note ses réponses.
+
+| | RAG à quatre endpoints | RAG en boîte noire |
+| --- | --- | --- |
+| Ce que le service lui envoie | les documents, puis les questions | seulement les questions (et l'historique d'une question de suite) |
+| 1. Évaluation de l'ingestion | oui | **non** : on ne voit pas ce qu'il a lu |
+| 2. Évaluation de la recherche | oui | **non** : on ne voit pas ce qu'il a ramené |
+| 3. Évaluation de la réponse | oui | oui, sauf la fidélité aux documents et les citations |
+| 4. Évaluation de bout en bout | oui | oui : score pondéré, erreurs graves, temps, coût |
+| « Je ne sais pas » | déclaré par le RAG (`abstention`) | reconnu à ses mots : « je ne sais pas », « je ne trouve pas »… |
+
+Le rapport le dit en tête. Deux précautions :
+- **Ses documents doivent être ceux du corpus.** Les bonnes réponses du métier viennent des documents du corpus ; si l'assistant en a d'autres, ou d'autres versions, ses réponses justes peuvent être notées fausses.
+- **Les droits d'accès** : si l'API sait filtrer selon le profil de l'utilisateur par un en-tête HTTP, donner son nom (`en_tete_profil`) ; sinon, les questions « non accessible à ce profil » mesurent seulement s'il refuse de répondre.
+
+**Le brancher.** Dans [`../config/kit.yaml`](../config/kit.yaml), section `boite_noire` : son nom, l'adresse de son API (jusqu'à `/v1`), le nom du modèle ou de l'assistant, et les mots qui disent « je ne sais pas ». Sa clé va dans `.env`, sous le nom donné par `variable_cle` (`BOITE_NOIRE_CLE` par défaut). Puis :
+
+```bash
+uv run kit evaluer --boite-noire
+```
+
+Le service range ses réponses dans `resultats/reponses_du_rag/<nom>-boite-noire-<empreinte>/` (`rag.json` et `reponses.jsonl`), puis fait les évaluations 3 et 4. L'empreinte change avec l'adresse, le modèle ou les réglages d'appel : deux assistants, ou deux réglages, se comparent avec `kit comparer`. Le code : [`../src/kit/appel_du_rag/boite_noire.py`](../src/kit/appel_du_rag/boite_noire.py).
+
 Retour au [fil conducteur](../FIL_CONDUCTEUR.md#2-ouvrir-les-quatre-endpoints-du-rag-au-service), étape 2.
 
 **Guide suivant** : [0c. Les configurations du RAG](0c_configurations_du_rag.md).

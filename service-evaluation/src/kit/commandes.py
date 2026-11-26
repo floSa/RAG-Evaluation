@@ -9,7 +9,8 @@ import typer
 from kit import base
 from kit import contrat
 from kit.appel_du_rag import appeler
-from kit.config import charger_config, client_langfuse
+from kit.appel_du_rag import boite_noire
+from kit.config import charger_config, cle, client_langfuse
 from kit.etape_0a_corpus import importer as import_corpus
 from kit.etape_1_evaluation_ingestion import graphe as graphe_n1
 from kit.etape_1_evaluation_ingestion import scores as scores_ingestion
@@ -66,9 +67,9 @@ def verifier_modeles():
 
 
 @app.command()
-def importer(fichier: Path = typer.Argument(..., exists=True, dir_okay=False, help="le fichier Excel du métier"),
+def importer(fichier: Path = typer.Argument(..., exists=True, dir_okay=False, help="le fichier Excel du métier, ou un fichier .json de même contenu"),
              sans_langfuse: bool = typer.Option(False, help="ne pas créer le jeu de données dans Langfuse")):
-    """Importe le fichier Excel du corpus : contrôles, base, export corpus/<version>/, jeu de données Langfuse."""
+    """Importe le corpus (fichier Excel du métier, ou .json) : contrôles, base, export corpus/<version>/, jeu de données Langfuse."""
     config = charger_config()
     resultat = import_corpus.importer(fichier, config["chemins"]["base"], Path(config["chemins"]["resultats"]),
                                       config["projet"], None if sans_langfuse else client_langfuse(config))
@@ -123,13 +124,44 @@ def appeler_le_rag(config: dict, corpus: Path, adresse: str) -> Path:
     return dossier
 
 
+def appeler_la_boite_noire(config: dict, corpus: Path) -> Path:
+    """Pose les questions à un RAG en boîte noire (API compatible OpenAI, section boite_noire de config/kit.yaml)."""
+    reglages = config.get("boite_noire") or {}
+    if not reglages.get("adresse") or not reglages.get("modele"):
+        typer.echo("La section « boite_noire » de config/kit.yaml n'a pas d'adresse ou de modèle.", err=True)
+        raise typer.Exit(1)
+    try:
+        dossier = boite_noire.appeler(reglages, cle(reglages["variable_cle"]), corpus, Path(config["chemins"]["resultats"]),
+                                      afficher=typer.echo)
+    except RuntimeError as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(1)
+    erreurs = contrat.verifier_dossier(dossier, corpus)
+    typer.echo(f"Réponses du RAG rangées dans {dossier} ; règle : {'respectée' if not erreurs else f'{len(erreurs)} écart(s)'}.")
+    for e in erreurs[:20]:
+        typer.echo(f"  - {e}", err=True)
+    if erreurs:
+        raise typer.Exit(1)
+    return dossier
+
+
+OPTION_BOITE_NOIRE = typer.Option(False, "--boite-noire", help="le RAG n'a qu'une API compatible OpenAI (section "
+                                  "boite_noire de config/kit.yaml) : on lui pose seulement les questions")
+
+
 @app.command()
 def appeler_rag(rag: str = typer.Option(None, help="l'adresse des endpoints du RAG (http://…) ; par défaut, celle de config/kit.yaml"),
                 corpus: Path = typer.Option(None, exists=True, file_okay=False,
-                                            help="le dossier corpus/<version>/ ; par défaut, le dernier importé")):
-    """Appelle les quatre endpoints du RAG : lui envoie les documents, lui pose les questions, range ce qu'il rend."""
+                                            help="le dossier corpus/<version>/ ; par défaut, le dernier importé"),
+                en_boite_noire: bool = OPTION_BOITE_NOIRE):
+    """Appelle les quatre endpoints du RAG : lui envoie les documents, lui pose les questions, range ce qu'il rend.
+    Avec --boite-noire : pose seulement les questions à son API compatible OpenAI."""
     config = charger_config()
-    appeler_le_rag(config, corpus or le_plus_recent(config, "corpus"), rag or config["rag"]["adresse"])
+    corpus = corpus or le_plus_recent(config, "corpus")
+    if en_boite_noire:
+        appeler_la_boite_noire(config, corpus)
+    else:
+        appeler_le_rag(config, corpus, rag or config["rag"]["adresse"])
 
 
 def le_plus_recent(config: dict, sous_dossier: str) -> Path:
@@ -266,7 +298,7 @@ def evaluer_reponse(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_l
     """3. Réponse : juge (exactitude), Ragas (fidélité, synthèse), abstention, citations, valeurs."""
     config, ev = preparer(corpus, rag)
     typer.echo("3. Réponse : le juge et Ragas notent les réponses (quelques minutes)…")
-    lignes, croisement, file = scores_reponse.evaluer(ev, scores_ingestion.lire_liens(ev))
+    lignes, croisement, file = scores_reponse.evaluer(ev, [] if ev.boite_noire else scores_ingestion.lire_liens(ev))
     langfuse = None if sans_langfuse else client_langfuse(config)
     resultat = publication.publier(ev, 3, lignes, langfuse)
     visibles = lambda objets: [o for o in objets if not ev.reservee(o["question_id"])]  # noqa: E731
@@ -277,7 +309,8 @@ def evaluer_reponse(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, sans_l
     diagnostics: dict[str, int] = {}
     for c in visibles(croisement):
         diagnostics[c["diagnostic"]] = diagnostics.get(c["diagnostic"], 0) + 1
-    typer.echo("  Croisement recherche × réponse (questions non réservées) :")
+    if diagnostics:
+        typer.echo("  Croisement recherche × réponse (questions non réservées) :")
     for d, n in sorted(diagnostics.items(), key=lambda x: -x[1]):
         typer.echo(f"    {n:>3}  {d}")
     ecrire_relecture(ev, visibles(file), lignes)
@@ -464,15 +497,23 @@ def evaluer_bout_en_bout(corpus: Path = OPTION_CORPUS, rag: Path = OPTION_RAG, s
 def evaluer(corpus: Path = OPTION_CORPUS,
             rag: str = typer.Option(None, help="l'adresse des endpoints du RAG (http://…), ou un dossier reponses_du_rag/<version>/ "
                                                "déjà rempli ; par défaut, l'adresse de config/kit.yaml"),
-            sans_langfuse: bool = OPTION_LANGFUSE):
+            sans_langfuse: bool = OPTION_LANGFUSE, en_boite_noire: bool = OPTION_BOITE_NOIRE):
     """Évalue un RAG de bout en bout : appelle ses quatre endpoints, puis enchaîne les évaluations 1 à 4 ; écrit les scores
-    et le rapport (RAPPORT.md, rapport.html), et publie dans Langfuse."""
+    et le rapport (RAPPORT.md, rapport.html), et publie dans Langfuse. Avec --boite-noire : pose seulement les questions
+    à son API compatible OpenAI, et fait les évaluations 3 et 4."""
     config = charger_config()
     corpus = corpus or le_plus_recent(config, "corpus")
-    rag = rag or config["rag"]["adresse"]
-    rag = appeler_le_rag(config, corpus, rag) if rag.startswith("http") else Path(rag)
-    evaluer_ingestion(corpus, rag, sans_langfuse)
-    evaluer_recherche(corpus, rag, sans_langfuse)
+    if en_boite_noire:
+        rag = appeler_la_boite_noire(config, corpus)
+    else:
+        rag = rag or config["rag"]["adresse"]
+        rag = appeler_le_rag(config, corpus, rag) if rag.startswith("http") else Path(rag)
+    if contrat.boite_noire(rag):
+        typer.echo("RAG en boîte noire : pas d'évaluation de l'ingestion ni de la recherche (on ne voit ni ce qu'il a lu, "
+                   "ni ce qu'il a ramené).")
+    else:
+        evaluer_ingestion(corpus, rag, sans_langfuse)
+        evaluer_recherche(corpus, rag, sans_langfuse)
     evaluer_reponse(corpus, rag, sans_langfuse)
     evaluer_bout_en_bout(corpus, rag, sans_langfuse)
 

@@ -131,8 +131,9 @@ def evaluer(ev: Evaluation, liens: list[dict], graine: int = 0) -> tuple[list[Li
     for qid, r in reponses.items():
         if not r["abstention"]:
             contexte = [chunks[c]["texte"] for c in r["chunks_contexte"] if c in chunks]
-            travaux.append((qid, "fidelite", {"user_input": ev.questions[qid]["question"], "response": r["reponse"],
-                                              "retrieved_contexts": contexte}))
+            if not ev.boite_noire:   # une boîte noire ne montre pas ce qu'elle a lu : pas de fidélité à mesurer
+                travaux.append((qid, "fidelite", {"user_input": ev.questions[qid]["question"], "response": r["reponse"],
+                                                  "retrieved_contexts": contexte}))
             q = ev.questions[qid]
             if q["type_reponse"] == "synthese":
                 travaux.append((qid, "synthese", {"user_input": q["question"], "response": r["reponse"],
@@ -151,7 +152,7 @@ def evaluer(ev: Evaluation, liens: list[dict], graine: int = 0) -> tuple[list[Li
         if fidelite is not None:
             lignes.append(Ligne("n3_fidelite", float(fidelite), qid, attributs=a,
                                 detail=(raison_fid or None) if non_fidele else None))
-        elif not abstention:
+        elif not abstention and not ev.boite_noire:
             relecture[qid] = raison_fid or "fidélité non calculée"
         j = jugements.get(qid)
         verdict = j and j["verdict"]
@@ -175,27 +176,28 @@ def evaluer(ev: Evaluation, liens: list[dict], graine: int = 0) -> tuple[list[Li
                 lignes.append(Ligne("n3_valeurs", sum(trouvees) / len(trouvees), qid, attributs=a,
                                     detail="; ".join(f"{p['texte']} : {'trouvée' if t else 'absente'}"
                                                      for p, t in zip(a_valeurs, trouvees))))
-            dans_contexte = bool(bons & set(r["chunks_contexte"]))
-            lignes.append(Ligne("n3_abstention_a_tort", float(abstention and dans_contexte), qid, attributs=a,
-                                detail="abstention alors que le bon chunk était dans le contexte"
-                                if abstention and dans_contexte else None))
-            if not abstention:
-                interdits = [c for c in r["chunks_cites"] if c in chunks and not contrat.autorise(
-                    ev.documents.get(chunks[c]["reference_source"], {}).get("droits_acces", "tous"), q["profil"])]
-                bon_cite = bool(bons & set(r["chunks_cites"]))
-                piege_cite = sorted(pieges & set(r["chunks_cites"]))
-                ok = bon_cite and not piege_cite and not interdits
-                lignes.append(Ligne("n3_citations", float(ok), qid, attributs=a, detail=None if ok else
-                                    "aucun chunk cité n'est lié à un passage" if not bon_cite else
-                                    f"cite un piège ({', '.join(piege_cite)})" if piege_cite else
-                                    f"cite un document interdit ({', '.join(interdits)})"))
-            # croisement recherche × réponse (document 3, section 8) : le bon passage est compté comme pour le score
-            # « Bon passage ramené » (évaluation 2), même règle, dans les k premiers ; une synthèse, que ce score ne
-            # compte pas, compte ici si un de ses passages est ramené
-            trouve = bon_passage_ramene(qid, q)
-            issue = "abstention" if abstention else verdict or "non notée"
-            croisement.append({"question_id": qid, "bon_chunk_retrouve": trouve, "reponse": issue,
-                               "diagnostic": diagnostic(trouve, issue, bool(bons))})
+            if not ev.boite_noire:   # une boîte noire n'a ni contexte, ni citations, ni recherche à croiser
+                dans_contexte = bool(bons & set(r["chunks_contexte"]))
+                lignes.append(Ligne("n3_abstention_a_tort", float(abstention and dans_contexte), qid, attributs=a,
+                                    detail="abstention alors que le bon chunk était dans le contexte"
+                                    if abstention and dans_contexte else None))
+                if not abstention:
+                    interdits = [c for c in r["chunks_cites"] if c in chunks and not contrat.autorise(
+                        ev.documents.get(chunks[c]["reference_source"], {}).get("droits_acces", "tous"), q["profil"])]
+                    bon_cite = bool(bons & set(r["chunks_cites"]))
+                    piege_cite = sorted(pieges & set(r["chunks_cites"]))
+                    ok = bon_cite and not piege_cite and not interdits
+                    lignes.append(Ligne("n3_citations", float(ok), qid, attributs=a, detail=None if ok else
+                                        "aucun chunk cité n'est lié à un passage" if not bon_cite else
+                                        f"cite un piège ({', '.join(piege_cite)})" if piege_cite else
+                                        f"cite un document interdit ({', '.join(interdits)})"))
+                # croisement recherche × réponse (document 3, section 8) : le bon passage est compté comme pour le score
+                # « Bon passage ramené » (évaluation 2), même règle, dans les k premiers ; une synthèse, que ce score ne
+                # compte pas, compte ici si un de ses passages est ramené
+                trouve = bon_passage_ramene(qid, q)
+                issue = "abstention" if abstention else verdict or "non notée"
+                croisement.append({"question_id": qid, "bon_chunk_retrouve": trouve, "reponse": issue,
+                                   "diagnostic": diagnostic(trouve, issue, bool(bons))})
         else:
             lignes.append(Ligne("n3_abstention_correcte", float(abstention), qid, attributs=a,
                                 detail=None if abstention else "le RAG a répondu au lieu de s'abstenir"))

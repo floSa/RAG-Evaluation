@@ -82,6 +82,8 @@ class Evaluation:
         self.corpus = contrat.charger_corpus(dossier_corpus)
         self.dossier_corpus, self.dossier_rag = Path(dossier_corpus), Path(dossier_rag)
         self.rag = contrat.lire_json(self.dossier_rag / "rag.json")
+        # un RAG en boîte noire n'a rendu que ses réponses : ni ingestion ni recherche à évaluer
+        self.boite_noire = self.rag.get("type_rag") == "boite_noire"
         self.version_corpus = self.corpus["corpus"]["version_corpus"]
         self.evaluation_id = f"{self.version_corpus}_{self.rag['version_rag']}"
         self.dossier = Path(config["chemins"]["resultats"]) / "evaluations" / self.evaluation_id
