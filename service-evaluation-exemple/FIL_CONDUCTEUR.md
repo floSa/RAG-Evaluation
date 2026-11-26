@@ -202,6 +202,10 @@ Pour un score faible, la partie « Si c'est mauvais » du guide de son évaluati
 
 ## Pour aller plus loin
 
+- **Un RAG dont on n'a qu'une API compatible OpenAI** (un portail, un assistant tout fait) : il s'évalue en boîte noire, sur la réponse et le bout en bout. Voir [0b. Les endpoints du RAG](documentation/0b_endpoints_du_rag.md#6-un-rag-en-boîte-noire--seulement-une-api-compatible-openai).
+- **Des questions qui viennent d'un programme plutôt que d'Excel** : un fichier JSON de même contenu s'importe pareil. Voir [0a. Construction du corpus](documentation/0a_construction_du_corpus.md#sans-excel--un-fichier-json).
+- **Faire travailler un agent de code** : [AGENTS.md](AGENTS.md).
+
 | Document | Ce qu'il contient |
 | --- | --- |
 | [README du service](../service-evaluation/README.md) | l'installation, et toutes les commandes du service |
