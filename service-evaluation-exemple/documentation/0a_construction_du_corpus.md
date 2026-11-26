@@ -192,6 +192,37 @@ Si la configuration minimale du document « Constituer le corpus d'évaluation d
 
 **5. Le jeu de questions dans Langfuse** : `corpus-<projet>-<version>`, un élément par question. C'est sur lui que les évaluations seront rangées.
 
+### Sans Excel : un fichier JSON
+
+Quand les questions et les bonnes réponses ne viennent pas du métier dans Excel, mais d'un programme (un agent, une API qui tient les questions et leurs bonnes réponses), on importe un fichier JSON de même contenu. Mêmes contrôles, même export, même version :
+
+```bash
+uv run kit importer corpus_annote/corpus.json
+```
+
+Le fichier a une liste par feuille du fichier Excel, et les champs ont les noms de [Contrat entre un RAG et le kit d'évaluation — version 1.0](methode_et_contrat/contrat_des_fichiers.md), section 1. Exemple, avec une seule question :
+
+```json
+{
+  "documents": [{"reference_source": "PR-1101", "titre": "Consignation d'une armoire BT", "type_document": "Procédure",
+                 "source": "GED Maintenance", "version": "v3", "format": "pdf_natif", "criticite": "C2",
+                 "droits_acces": "tous", "en_vigueur": true, "selection": "hasard"}],
+  "questions": [{"question_id": "Q-001", "question": "comment on consigne une armoire BT ?", "profil": "tous",
+                 "redigee_par": "metier", "type_reponse": "liste", "reponse_dans_documents": "oui",
+                 "reponse_est_dans": "un_passage", "reponse_attendue": "En cinq étapes : séparation, condamnation…",
+                 "points_cles": "séparation ; condamnation ; identification",
+                 "difficulte": "facile", "frequence": "frequente", "gravite": "forte", "reservee_decision": false}],
+  "passages": [{"question_id": "Q-001", "reference_source": "PR-1101", "page": "2", "type_element": "texte",
+                "passage": "La consignation comporte cinq étapes…", "repond": "entierement"}],
+  "pages_ocr": []
+}
+```
+
+- Les valeurs s'écrivent en codes (`pdf_natif`, `oui`) ou avec les libellés du fichier Excel (« PDF natif », « Oui »).
+- Les points clés s'écrivent comme dans Excel (« a ; b »), ou en liste d'objets `{"texte", "valeur", "unite", "tolerance"}`.
+- Une liste `"listes"` facultative donne les types de documents, les sources et les profils admis (`"types_document"`, `"sources"`, `"profils"`) ; sans elle, toute valeur est admise.
+- Les documents eux-mêmes vont, comme toujours, dans `corpus_annote/corpus_documentaire/`, un fichier par référence.
+
 ### La version du corpus
 
 L'import donne une version au corpus : la date, puis un numéro (`2026-11-20.1`). Elle change à chaque import d'un fichier **modifié**. Réimporter le même fichier ne crée rien.

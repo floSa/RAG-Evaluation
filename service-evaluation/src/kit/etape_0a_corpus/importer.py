@@ -1,4 +1,7 @@
-"""Import du fichier Excel du métier (document 1) dans le kit.
+"""Import du corpus dans le kit : le fichier Excel du métier (document 1), ou un fichier JSON de même contenu.
+
+Le fichier JSON sert quand le corpus est produit par un programme (un agent, une API de questions et de bonnes
+réponses) plutôt que par le métier dans Excel : mêmes données, mêmes contrôles (documentation/0a_construction_du_corpus.md).
 
 Étapes : lire les feuilles, convertir les libellés en codes (documentation/methode_et_contrat/contrat_des_fichiers.md, section 1),
 contrôler chaque ligne (section 2), puis, si aucune ligne n'est rejetée :
@@ -155,15 +158,18 @@ def lire_points_cles(texte: str | None) -> list[dict]:
 
 @dataclass
 class Ligne:
-    """Une ligne d'une feuille : numéro de ligne Excel, champs du contrat, colonnes libres."""
+    """Une ligne d'une feuille : numéro de ligne Excel (ou rang dans le fichier JSON), champs du contrat, colonnes libres."""
     feuille: str
     numero: int
     champs: dict
     libres: dict = field(default_factory=dict)
+    json: bool = False
 
     def ou(self) -> str:
         cle = self.champs.get("question_id") or self.champs.get("reference_source") or ""
-        return f"feuille {self.feuille}, ligne {self.numero}" + (f" ({cle})" if cle else "")
+        lieu = f"« {CLES_JSON[self.feuille]} », élément {self.numero}" if self.json else \
+            f"feuille {self.feuille}, ligne {self.numero}"
+        return lieu + (f" ({cle})" if cle else "")
 
 
 def valeur_cellule(v):
@@ -205,6 +211,55 @@ def lire_listes(classeur) -> dict[str, list[str]]:
     return {e: [valeur_cellule(r[i]) for r in lignes[1:] if valeur_cellule(r[i])] for i, e in enumerate(entetes) if e}
 
 
+# --- Lecture d'un fichier JSON --------------------------------------------------------------
+
+# Les listes du fichier JSON, une par feuille du fichier Excel ; les champs ont les noms du contrat.
+CLES_JSON = {"Documents": "documents", "Questions": "questions", "Passages": "passages", "Pages OCR": "pages_ocr"}
+
+
+def lire_json(chemin: Path) -> tuple[dict[str, list[Ligne]], dict[str, list[str]], list[str]]:
+    """Lit le fichier JSON : {"documents": [...], "questions": [...], "passages": [...], "pages_ocr": [...],
+    "listes": {...}}. Les valeurs sont les codes du contrat (« pdf_natif », « oui »…) ou les libellés du fichier Excel ;
+    les points clés, une liste de {texte, valeur, unite, tolerance} ou un texte « a ; b » comme dans Excel.
+    « listes » (facultatif) : les types de documents, sources et profils admis ; sans elle, toute valeur est admise.
+    Rend (lignes par feuille, listes, erreurs)."""
+    try:
+        donnees = json.loads(Path(chemin).read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        return {}, {}, [f"{Path(chemin).name} : JSON illisible ({e})."]
+    if not isinstance(donnees, dict):
+        return {}, {}, [f"{Path(chemin).name} : un objet JSON est attendu, avec « documents », « questions » et « passages »."]
+    erreurs = [f"{Path(chemin).name} : la liste « {CLES_JSON[f]} » est absente." for f in ("Documents", "Questions", "Passages")
+               if not isinstance(donnees.get(CLES_JSON[f]), list)]
+    if erreurs:
+        return {}, {}, erreurs
+    lignes = {}
+    for feuille, cle in CLES_JSON.items():
+        connus = set(COLONNES[feuille].values())
+        lignes[feuille] = []
+        for n, objet in enumerate(donnees.get(cle) or [], start=1):
+            if not isinstance(objet, dict):
+                erreurs.append(f"« {cle} », élément {n} : un objet JSON est attendu.")
+                continue
+            champs = {c: (v.strip() or None if isinstance(v, str) else v) for c, v in objet.items() if c in connus}
+            libres = objet.get("colonnes_libres") if feuille in FEUILLES_A_COLONNES_LIBRES else None
+            ligne = Ligne(feuille, n, {c: champs.get(c) for c in COLONNES[feuille].values()}, dict(libres or {}), json=True)
+            inconnus = sorted(set(objet) - connus - {"colonnes_libres", "passage_id"})
+            if inconnus:
+                erreurs.append(f"{ligne.ou()} : champ(s) inconnu(s) : {', '.join(inconnus)} (champs admis : "
+                               f"{', '.join(COLONNES[feuille].values())}, colonnes_libres).")
+            lignes[feuille].append(ligne)
+    listes = donnees.get("listes") or {}
+    if not listes:   # pas de listes fermées : celles du fichier sont les valeurs qu'il emploie
+        for champ, colonne in LISTES_PROJET.items():
+            valeurs = {l.champs.get(champ) for f in ("Documents", "Questions") for l in lignes[f] if l.champs.get(champ)}
+            listes[colonne] = sorted(set(listes.get(colonne, [])) | {str(v) for v in valeurs})
+    else:   # « listes » peut être donnée avec les noms de champs du contrat ou les colonnes de la feuille Listes
+        listes = {LISTES_PROJET.get(c, {"types_document": "Types de documents", "sources": "Sources",
+                                        "profils": "Profils d'accès"}.get(c, c)): v for c, v in listes.items()}
+    return lignes, listes, erreurs
+
+
 # --- Conversion et contrôles ---------------------------------------------------------------
 
 def convertir(ligne: Ligne, listes: dict, erreurs: list[str]) -> None:
@@ -217,6 +272,8 @@ def convertir(ligne: Ligne, listes: dict, erreurs: list[str]) -> None:
         if valeur is None:
             continue
         titre = next(t for t, c in COLONNES[ligne.feuille].items() if c == nom)
+        if nom in CODES and isinstance(valeur, bool) and valeur in CODES[nom].values():
+            continue   # un oui/non déjà au format du contrat (fichier JSON)
         if nom in CODES:
             par_cle = {cle_libelle(lib): code for lib, code in CODES[nom].items()}
             par_cle.update({cle_libelle(str(code)): code for code in CODES[nom].values() if isinstance(code, str)})
@@ -437,14 +494,12 @@ class Resultat:
     jeu_langfuse: str | None = None
 
 
-def importer(chemin: Path, adresse_base: str, dossier_resultats: Path, projet: str, langfuse=None,
-             aujourd_hui: str | None = None) -> Resultat:
-    """Importe le fichier Excel. `langfuse` : un client Langfuse, ou None pour ne pas créer le jeu de données."""
-    aujourd_hui = aujourd_hui or dt.date.today().isoformat()
+def lire_excel(chemin: Path) -> tuple[dict[str, list[Ligne]], dict[str, list[str]], list[str], list[str]]:
+    """Lit le fichier Excel : (lignes par feuille, listes, colonnes libres, erreurs)."""
     classeur = openpyxl.load_workbook(chemin, data_only=False)
     manquantes = [f for f in (*COLONNES, "Listes") if f not in classeur.sheetnames]
     if manquantes:
-        return Resultat(None, [f"Feuille(s) absente(s) du fichier : {', '.join(manquantes)}."], [])
+        return {}, {}, [], [f"Feuille(s) absente(s) du fichier : {', '.join(manquantes)}."]
     erreurs = []
     for nom in COLONNES:
         entetes = {valeur_cellule(c.value) for c in classeur[nom][1]}
@@ -452,14 +507,31 @@ def importer(chemin: Path, adresse_base: str, dossier_resultats: Path, projet: s
         if absentes:
             erreurs.append(f"Feuille {nom} : colonne(s) absente(s) : {', '.join(absentes)}.")
     if erreurs:
-        return Resultat(None, erreurs, [])
-    listes = lire_listes(classeur)
+        return {}, {}, [], erreurs
     lus = {nom: lire_feuille(classeur, nom) for nom in COLONNES}
-    documents, questions, passages, pages_ocr = (lus[n][0] for n in COLONNES)
+    libres = [c for nom in ("Documents", "Questions") for c in lus[nom][1]]
+    return {nom: lus[nom][0] for nom in COLONNES}, lire_listes(classeur), libres, []
+
+
+def importer(chemin: Path, adresse_base: str, dossier_resultats: Path, projet: str, langfuse=None,
+             aujourd_hui: str | None = None) -> Resultat:
+    """Importe le fichier Excel du métier, ou un fichier .json de même contenu (lire_json).
+    `langfuse` : un client Langfuse, ou None pour ne pas créer le jeu de données."""
+    aujourd_hui = aujourd_hui or dt.date.today().isoformat()
+    chemin = Path(chemin)
+    if chemin.suffix.lower() == ".json":
+        lus, listes, erreurs = lire_json(chemin)
+        libres = sorted({c for nom in ("Documents", "Questions") for l in lus.get(nom, []) for c in l.libres})
+    else:
+        lus, listes, libres, erreurs = lire_excel(chemin)
+    if not lus:   # fichier illisible ou incomplet : rien à contrôler de plus
+        return Resultat(None, erreurs, [])
+    documents, questions, passages, pages_ocr = (lus[n] for n in COLONNES)
     for ligne in documents + questions + passages + pages_ocr:
         convertir(ligne, listes, erreurs)
     for q in questions:
-        q.champs["points_cles"] = lire_points_cles(q.champs.get("points_cles")) or None
+        points = q.champs.get("points_cles")
+        q.champs["points_cles"] = (points if isinstance(points, list) else lire_points_cles(points)) or None
     if not erreurs:  # les contrôles croisés supposent des valeurs déjà converties
         controler(documents, questions, passages, pages_ocr, erreurs)
     if erreurs:
@@ -483,8 +555,7 @@ def importer(chemin: Path, adresse_base: str, dossier_resultats: Path, projet: s
         ps = numeroter_passages(session, projet, passages)
         corpus = {"contrat": VERSION_CONTRAT, "version_corpus": nouvelle_version(session, aujourd_hui),
                   "projet": projet, "date": aujourd_hui, "fichier_source": signature,
-                  "colonnes_libres": sorted({c for _, libres in (lus["Documents"], lus["Questions"])
-                                             for c in map(code_profil, libres)})}
+                  "colonnes_libres": sorted({code_profil(c) for c in libres})}
         ecrire_base(session, corpus, docs, qs, ps, ocr)
         session.commit()
     dossier = dossier_resultats / "corpus" / corpus["version_corpus"]
